@@ -335,7 +335,7 @@ class PersonSkills extends StrictObject
              * check their sum
              */
             $propertyPayment['firstLevel'][$type]['paymentSum']++;
-            $propertyPayment['firstLevel'][$type]['backgroundSkillPoints'] = $skillPoint->getBackgroundSkills(); // one to one
+            $propertyPayment['firstLevel'][$type]['backgroundSkillPoints'] = $skillPoint->getBackgroundSkillPoints(); // one to one
 
             return $propertyPayment;
         } else if ($skillPoint->isPaidByOtherSkillPoints()) {

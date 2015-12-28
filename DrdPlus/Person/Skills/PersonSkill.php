@@ -19,15 +19,10 @@ abstract class PersonSkill extends StrictObject
 
     public function addSkillRank(PersonSkillRank $skillRank)
     {
-        if (!(count($this->getSkillRanks()) === 0 && $skillRank->getValue() === 0)
-            && (($this->getMaxSkillRankValue() + 1) !== $skillRank->getValue())
-        ) {
-            throw new \LogicException(
-                "New skill rank has to follow ranks sequence, expected "
-                . (count($this->getSkillRanks()) === 0
-                    ? '0'
-                    : ($this->getMaxSkillRankValue() + 1))
-                . ", got {$skillRank->getValue()}"
+        if (($this->getMaxSkillRankValue() + 1) !== $skillRank->getValue()) {
+            throw new Exceptions\UnexpectedRankValue(
+                "New skill rank has to follow rank sequence, expected "
+                . ($this->getMaxSkillRankValue() + 1) . ", got {$skillRank->getValue()}"
             );
         }
 

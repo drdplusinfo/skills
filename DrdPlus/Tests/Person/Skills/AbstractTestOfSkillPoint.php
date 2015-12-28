@@ -2,8 +2,10 @@
 namespace DrdPlus\Tests\Person\Skills;
 
 use DrdPlus\Person\Background\BackgroundSkillPoints;
+use DrdPlus\Person\ProfessionLevels\LevelRank;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\Skills\Combined\CombinedSkillPoint;
+use DrdPlus\Person\Skills\PersonSkillPoint;
 use DrdPlus\Person\Skills\Physical\PhysicalSkillPoint;
 use DrdPlus\Person\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Professions\Profession;
@@ -12,11 +14,106 @@ use DrdPlus\Tools\Tests\TestWithMockery;
 
 abstract class AbstractTestOfSkillPoint extends TestWithMockery
 {
-    abstract public function I_can_create_skill_point_by_first_level_background_skills();
+    protected $paidByFirstLevelBackgroundSkills;
+    protected $isPaidByNextLevelPropertyIncrease;
+    protected $isPaidByOtherSkillPoints;
 
-    abstract public function I_can_create_skill_point_by_cross_type_skill_points();
+    /**
+     * @test
+     */
+    public function I_can_use_skill_point_by_first_level_background_skills()
+    {
+        $skillPointAndLevel = $this->I_can_create_skill_point_by_first_level_background_skills();
 
-    abstract public function I_can_create_skill_point_by_related_property_increase();
+        $this->I_got_null_as_ID_of_non_persisted_skill_point($skillPointAndLevel[0]);
+        $this->I_got_always_number_one_on_to_string_conversion($skillPointAndLevel[0]);
+        $this->I_can_get_profession_level($skillPointAndLevel[0], $skillPointAndLevel[1]);
+        $this->I_can_detect_way_of_payment($skillPointAndLevel[0]);
+    }
+
+    /**
+     * @return array [PersonSkillPoint, PersonLevel]
+     */
+    abstract protected function I_can_create_skill_point_by_first_level_background_skills();
+
+    protected function I_got_null_as_ID_of_non_persisted_skill_point(PersonSkillPoint $skillPoint)
+    {
+        $this->assertNull($skillPoint->getId());
+    }
+
+    protected function I_got_always_number_one_on_to_string_conversion(PersonSkillPoint $skillPoint)
+    {
+        $this->assertSame('1', (string)$skillPoint);
+    }
+
+    protected function I_can_get_profession_level(PersonSkillPoint $skillPoint, ProfessionLevel $expectedLevel)
+    {
+        $this->assertSame($expectedLevel, $skillPoint->getProfessionLevel());
+    }
+
+    protected function I_can_detect_way_of_payment(PersonSkillPoint $skillPoint)
+    {
+        $this->assertSame(
+            $skillPoint->getBackgroundSkillPoints() !== null,
+            $skillPoint->isPaidByFirstLevelBackgroundSkills()
+        );
+        $this->assertSame(
+            !empty($skillPoint->getFirstPaidOtherSkillPoint()) && !empty($skillPoint->getSecondPaidOtherSkillPoint()),
+            $skillPoint->isPaidByOtherSkillPoints()
+        );
+        $this->assertSame(
+            !$skillPoint->isPaidByFirstLevelBackgroundSkills()
+            && !$skillPoint->isPaidByOtherSkillPoints()
+            && $skillPoint->getProfessionLevel()->isNextLevel(),
+            $skillPoint->isPaidByNextLevelPropertyIncrease()
+        );
+        $this->assertSame(
+            1,
+            $skillPoint->isPaidByFirstLevelBackgroundSkills()
+            + $skillPoint->isPaidByNextLevelPropertyIncrease()
+            + $skillPoint->isPaidByOtherSkillPoints()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function I_can_use_skill_point_by_cross_type_skill_points()
+    {
+        $skillPointsAndLevels = $this->I_can_create_skill_point_by_cross_type_skill_points();
+
+        foreach ($skillPointsAndLevels as $skillPointAndLevel) {
+            $this->I_got_null_as_ID_of_non_persisted_skill_point($skillPointAndLevel[0]);
+            $this->I_got_always_number_one_on_to_string_conversion($skillPointAndLevel[0]);
+            $this->I_can_get_profession_level($skillPointAndLevel[0], $skillPointAndLevel[1]);
+            $this->I_can_detect_way_of_payment($skillPointAndLevel[0]);
+        }
+    }
+
+    /**
+     * @return array [PersonSkillPoint, PersonLevel][]
+     */
+    abstract protected function I_can_create_skill_point_by_cross_type_skill_points();
+
+    /**
+     * @test
+     */
+    public function I_can_use_skill_point_by_related_property_increase()
+    {
+        $skillPointsAndLevels = $this->I_can_create_skill_point_by_related_property_increase();
+
+        foreach ($skillPointsAndLevels as $skillPointsAndLevel) {
+            $this->I_got_null_as_ID_of_non_persisted_skill_point($skillPointsAndLevel[0]);
+            $this->I_got_always_number_one_on_to_string_conversion($skillPointsAndLevel[0]);
+            $this->I_can_get_profession_level($skillPointsAndLevel[0], $skillPointsAndLevel[1]);
+            $this->I_can_detect_way_of_payment($skillPointsAndLevel[0]);
+        }
+    }
+
+    /**
+     * @return PersonSkillPoint[]
+     */
+    abstract protected function I_can_create_skill_point_by_related_property_increase();
 
     /**
      * @param string $professionName
@@ -29,6 +126,12 @@ abstract class AbstractTestOfSkillPoint extends TestWithMockery
         $professionLevel->shouldReceive('isFirstLevel')
             ->atLeast()->once()
             ->andReturn(true);
+        $professionLevel->shouldReceive('isNextLevel')
+            ->andReturn(false);
+        $professionLevel->shouldReceive('getLevelRank')
+            ->andReturn($levelRank = $this->mockery(LevelRank::class));
+        $levelRank->shouldReceive('getValue')
+            ->andReturn(1);
         if ($professionName) {
             $professionLevel->shouldReceive('getProfession')
                 ->atLeast()->once()
@@ -139,6 +242,33 @@ abstract class AbstractTestOfSkillPoint extends TestWithMockery
     private function parsePropertyName($propertyClass)
     {
         return basename(str_replace('\\', '/', $propertyClass));
+    }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Person\Skills\Exceptions\UnknownPaymentForSkillPoint
+     */
+    public function I_can_not_create_skill_point_by_invalid_payment()
+    {
+        DeAbstractedPersonSkillPoint::createByRelatedPropertyIncrease(
+            $this->createProfessionFirstLevel('foo'),
+            new Tables()
+        );
+    }
+
+}
+
+/** inner */
+class DeAbstractedPersonSkillPoint extends PersonSkillPoint
+{
+    public function getTypeName()
+    {
+        return 'foo';
+    }
+
+    public function getRelatedProperties()
+    {
+        return [];
     }
 
 }

@@ -19,7 +19,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
     const SKILL_POINT_VALUE = 1;
 
     /**
-     * @var integer
+     * @var integer|null
      *
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -149,8 +149,10 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
         } else if ($professionLevel->isNextLevel()) {
             $this->checkPayByLevelPropertyIncrease($professionLevel);
         } else {
-            throw new \LogicException(
-                'Unknown payment for skill-point of profession level of ID ' . $professionLevel->getId()
+            throw new Exceptions\UnknownPaymentForSkillPoint(
+                'Unknown payment for skill point on level '
+                . $professionLevel->getLevelRank()->getValue()
+                . ' of profession ' . $professionLevel->getProfession()->getValue()
             );
         }
     }
@@ -267,7 +269,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getId()
     {
@@ -301,7 +303,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
     /**
      * @return BackgroundSkillPoints|null
      */
-    public function getBackgroundSkills()
+    public function getBackgroundSkillPoints()
     {
         return $this->backgroundSkillPoints;
     }
@@ -327,7 +329,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
      */
     public function isPaidByFirstLevelBackgroundSkills()
     {
-        return $this->getBackgroundSkills() !== null;
+        return $this->getBackgroundSkillPoints() !== null;
     }
 
     /**
@@ -343,7 +345,9 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
      */
     public function isPaidByNextLevelPropertyIncrease()
     {
-        return !$this->isPaidByFirstLevelBackgroundSkills() && !$this->isPaidByOtherSkillPoints();
+        return !$this->isPaidByFirstLevelBackgroundSkills()
+        && !$this->isPaidByOtherSkillPoints()
+        && $this->getProfessionLevel()->isNextLevel();
     }
 
 }

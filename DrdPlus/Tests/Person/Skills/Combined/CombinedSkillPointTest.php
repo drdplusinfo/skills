@@ -9,13 +9,10 @@ use DrdPlus\Tests\Person\Skills\AbstractTestOfSkillPoint;
 
 class CombinedSkillPointTest extends AbstractTestOfSkillPoint
 {
-    /**
-     * @test
-     */
-    public function I_can_create_skill_point_by_first_level_background_skills()
+    protected function I_can_create_skill_point_by_first_level_background_skills()
     {
         $combinedSkillPoint = CombinedSkillPoint::createByFirstLevelBackgroundSkills(
-            $this->createProfessionFirstLevel(Fighter::FIGHTER),
+            $level = $this->createProfessionFirstLevel(Fighter::FIGHTER),
             $backgroundSkillPoints = $this->createBackgroundSkills(123, 'getCombinedSkillPoints'),
             new Tables()
         );
@@ -23,94 +20,106 @@ class CombinedSkillPointTest extends AbstractTestOfSkillPoint
         $this->assertSame(1, $combinedSkillPoint->getValue());
         $this->assertSame('combined', $combinedSkillPoint->getTypeName());
         $this->assertSame([Knack::KNACK, Charisma::CHARISMA], $combinedSkillPoint->getRelatedProperties());
-        $this->assertSame($backgroundSkillPoints, $combinedSkillPoint->getBackgroundSkills());
+        $this->assertSame($backgroundSkillPoints, $combinedSkillPoint->getBackgroundSkillPoints());
         $this->assertNull($combinedSkillPoint->getFirstPaidOtherSkillPoint());
         $this->assertNull($combinedSkillPoint->getSecondPaidOtherSkillPoint());
+
+        return [$combinedSkillPoint, $level];
     }
 
-    /**
-     * @test
-     */
-    public function I_can_create_skill_point_by_cross_type_skill_points()
+    protected function I_can_create_skill_point_by_cross_type_skill_points()
     {
-        $this->I_can_create_skill_point_from_two_physical_skill_points();
-        $this->I_can_create_skill_point_from_two_psychical_skill_points();
-        $this->I_can_create_skill_point_from_psychical_and_physical_skill_points();
+        $skillPointsAndLevels = [];
+        $skillPointsAndLevels[] = $this->I_can_create_skill_point_from_two_physical_skill_points();
+        $skillPointsAndLevels[] = $this->I_can_create_skill_point_from_two_psychical_skill_points();
+        $skillPointsAndLevels[] = $this->I_can_create_skill_point_from_psychical_and_physical_skill_points();
+
+        return $skillPointsAndLevels;
     }
 
     private function I_can_create_skill_point_from_two_physical_skill_points()
     {
         $combinedSkillPoint = CombinedSkillPoint::createFromCrossTypeSkillPoints(
-            $this->createProfessionFirstLevel(),
+            $level = $this->createProfessionFirstLevel(),
             $firstPaidSkillPoint = $this->createPhysicalSkillPoint(),
             $secondPaidSkillPoint = $this->createPhysicalSkillPoint(),
             new Tables()
         );
         $this->assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
-        $this->assertNull($combinedSkillPoint->getBackgroundSkills());
+        $this->assertNull($combinedSkillPoint->getBackgroundSkillPoints());
         $this->assertSame($firstPaidSkillPoint, $combinedSkillPoint->getFirstPaidOtherSkillPoint());
         $this->assertSame($secondPaidSkillPoint, $combinedSkillPoint->getSecondPaidOtherSkillPoint());
+
+        return [$combinedSkillPoint, $level];
     }
 
     private function I_can_create_skill_point_from_two_psychical_skill_points()
     {
         $combinedSkillPoint = CombinedSkillPoint::createFromCrossTypeSkillPoints(
-            $this->createProfessionFirstLevel(),
+            $level = $this->createProfessionFirstLevel(),
             $firstPaidSkillPoint = $this->createPsychicalSkillPoint(),
             $secondPaidSkillPoint = $this->createPsychicalSkillPoint(),
             new Tables()
         );
         $this->assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
-        $this->assertNull($combinedSkillPoint->getBackgroundSkills());
+        $this->assertNull($combinedSkillPoint->getBackgroundSkillPoints());
         $this->assertSame($firstPaidSkillPoint, $combinedSkillPoint->getFirstPaidOtherSkillPoint());
         $this->assertSame($secondPaidSkillPoint, $combinedSkillPoint->getSecondPaidOtherSkillPoint());
+
+        return [$combinedSkillPoint, $level];
     }
 
     private function I_can_create_skill_point_from_psychical_and_physical_skill_points()
     {
         $combinedSkillPoint = CombinedSkillPoint::createFromCrossTypeSkillPoints(
-            $this->createProfessionFirstLevel(),
+            $level = $this->createProfessionFirstLevel(),
             $firstPaidSkillPoint = $this->createPsychicalSkillPoint(),
             $secondPaidSkillPoint = $this->createPhysicalSkillPoint(),
             new Tables()
         );
         $this->assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
-        $this->assertNull($combinedSkillPoint->getBackgroundSkills());
+        $this->assertNull($combinedSkillPoint->getBackgroundSkillPoints());
         $this->assertSame($firstPaidSkillPoint, $combinedSkillPoint->getFirstPaidOtherSkillPoint());
         $this->assertSame($secondPaidSkillPoint, $combinedSkillPoint->getSecondPaidOtherSkillPoint());
+
+        return [$combinedSkillPoint, $level];
     }
 
-    /**
-     * @test
-     */
-    public function I_can_create_skill_point_by_related_property_increase()
+    protected function I_can_create_skill_point_by_related_property_increase()
     {
-        $this->I_can_create_skill_point_by_level_by_knack_adjustment();
-        $this->I_can_create_skill_point_by_level_by_charisma_adjustment();
+        $skillPointsAndLevels = [];
+        $skillPointsAndLevels[] = $this->I_can_create_skill_point_by_level_knack_adjustment();
+        $skillPointsAndLevels[] = $this->I_can_create_skill_point_by_level_charisma_adjustment();
+
+        return $skillPointsAndLevels;
     }
 
-    private function I_can_create_skill_point_by_level_by_knack_adjustment()
+    private function I_can_create_skill_point_by_level_knack_adjustment()
     {
         $combinedSkillPoint = CombinedSkillPoint::createByRelatedPropertyIncrease(
-            $this->createProfessionNextLevel(Knack::class),
+            $level = $this->createProfessionNextLevel(Knack::class),
             new Tables()
         );
         $this->assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
-        $this->assertNull($combinedSkillPoint->getBackgroundSkills());
+        $this->assertNull($combinedSkillPoint->getBackgroundSkillPoints());
         $this->assertNull($combinedSkillPoint->getFirstPaidOtherSkillPoint());
         $this->assertNull($combinedSkillPoint->getSecondPaidOtherSkillPoint());
+
+        return [$combinedSkillPoint, $level];
     }
 
-    private function I_can_create_skill_point_by_level_by_charisma_adjustment()
+    private function I_can_create_skill_point_by_level_charisma_adjustment()
     {
         $combinedSkillPoint = CombinedSkillPoint::createByRelatedPropertyIncrease(
-            $this->createProfessionNextLevel(Knack::class, Charisma::class),
+            $level = $this->createProfessionNextLevel(Knack::class, Charisma::class),
             new Tables()
         );
         $this->assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
-        $this->assertNull($combinedSkillPoint->getBackgroundSkills());
+        $this->assertNull($combinedSkillPoint->getBackgroundSkillPoints());
         $this->assertNull($combinedSkillPoint->getFirstPaidOtherSkillPoint());
         $this->assertNull($combinedSkillPoint->getSecondPaidOtherSkillPoint());
+
+        return [$combinedSkillPoint, $level];
     }
 
 }
