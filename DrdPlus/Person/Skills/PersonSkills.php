@@ -327,7 +327,7 @@ class PersonSkills extends StrictObject
         $propertyPayment = $this->getPaymentsSkeleton();
 
         $type = $skillPoint->getTypeName();
-        if ($skillPoint->isPaidByFirstLevelBackgroundSkills()) {
+        if ($skillPoint->isPaidByFirstLevelBackgroundSkillPoints()) {
             /**
              * there are limited first level background skills,
              * @see \DrdPlus\Person\Background\BackgroundSkillPoints

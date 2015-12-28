@@ -11,7 +11,7 @@ class PsychicalSkillPointTest extends AbstractTestOfSkillPoint
 {
     protected function I_can_create_skill_point_by_first_level_background_skills()
     {
-        $psychicalSkillPoint = PsychicalSkillPoint::createByFirstLevelBackgroundSkills(
+        $psychicalSkillPoint = PsychicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
             $level = $this->createProfessionFirstLevel(Fighter::FIGHTER),
             $backgroundSkillPoints = $this->createBackgroundSkills(123, 'getPsychicalSkillPoints'),
             new Tables()
@@ -96,7 +96,7 @@ class PsychicalSkillPointTest extends AbstractTestOfSkillPoint
 
     private function I_can_create_skill_point_by_level_by_will_adjustment()
     {
-        $psychicalSkillPoint = PsychicalSkillPoint::createByRelatedPropertyIncrease(
+        $psychicalSkillPoint = PsychicalSkillPoint::createFromRelatedPropertyIncrease(
             $level = $this->createProfessionNextLevel(Will::class),
             new Tables()
         );
@@ -110,7 +110,7 @@ class PsychicalSkillPointTest extends AbstractTestOfSkillPoint
 
     private function I_can_create_skill_point_by_level_by_intelligence_adjustment()
     {
-        $psychicalSkillPoint = PsychicalSkillPoint::createByRelatedPropertyIncrease(
+        $psychicalSkillPoint = PsychicalSkillPoint::createFromRelatedPropertyIncrease(
             $level = $this->createProfessionNextLevel(Will::class, Intelligence::class),
             new Tables()
         );

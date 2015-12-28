@@ -11,7 +11,7 @@ class PhysicalSkillPointTest extends AbstractTestOfSkillPoint
 {
     protected function I_can_create_skill_point_by_first_level_background_skills()
     {
-        $physicalSkillPoint = PhysicalSkillPoint::createByFirstLevelBackgroundSkills(
+        $physicalSkillPoint = PhysicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
             $level = $this->createProfessionFirstLevel(Fighter::FIGHTER),
             $backgroundSkillPoints = $this->createBackgroundSkills(123, 'getPhysicalSkillPoints'),
             new Tables()
@@ -96,7 +96,7 @@ class PhysicalSkillPointTest extends AbstractTestOfSkillPoint
 
     private function I_can_create_skill_point_by_level_by_strength_adjustment()
     {
-        $physicalSkillPoint = PhysicalSkillPoint::createByRelatedPropertyIncrease(
+        $physicalSkillPoint = PhysicalSkillPoint::createFromRelatedPropertyIncrease(
             $level = $this->createProfessionNextLevel(Strength::class),
             new Tables()
         );
@@ -110,7 +110,7 @@ class PhysicalSkillPointTest extends AbstractTestOfSkillPoint
 
     private function I_can_create_skill_point_by_level_by_agility_adjustment()
     {
-        $physicalSkillPoint = PhysicalSkillPoint::createByRelatedPropertyIncrease(
+        $physicalSkillPoint = PhysicalSkillPoint::createFromRelatedPropertyIncrease(
             $level = $this->createProfessionNextLevel(Strength::class, Agility::class),
             new Tables()
         );

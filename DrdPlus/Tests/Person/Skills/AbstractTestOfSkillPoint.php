@@ -9,6 +9,8 @@ use DrdPlus\Person\Skills\PersonSkillPoint;
 use DrdPlus\Person\Skills\Physical\PhysicalSkillPoint;
 use DrdPlus\Person\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Professions\Profession;
+use DrdPlus\Properties\Base\Agility;
+use DrdPlus\Properties\Base\Strength;
 use DrdPlus\Tables\Tables;
 use DrdPlus\Tools\Tests\TestWithMockery;
 
@@ -55,21 +57,21 @@ abstract class AbstractTestOfSkillPoint extends TestWithMockery
     {
         $this->assertSame(
             $skillPoint->getBackgroundSkillPoints() !== null,
-            $skillPoint->isPaidByFirstLevelBackgroundSkills()
+            $skillPoint->isPaidByFirstLevelBackgroundSkillPoints()
         );
         $this->assertSame(
             !empty($skillPoint->getFirstPaidOtherSkillPoint()) && !empty($skillPoint->getSecondPaidOtherSkillPoint()),
             $skillPoint->isPaidByOtherSkillPoints()
         );
         $this->assertSame(
-            !$skillPoint->isPaidByFirstLevelBackgroundSkills()
+            !$skillPoint->isPaidByFirstLevelBackgroundSkillPoints()
             && !$skillPoint->isPaidByOtherSkillPoints()
             && $skillPoint->getProfessionLevel()->isNextLevel(),
             $skillPoint->isPaidByNextLevelPropertyIncrease()
         );
         $this->assertSame(
             1,
-            $skillPoint->isPaidByFirstLevelBackgroundSkills()
+            $skillPoint->isPaidByFirstLevelBackgroundSkillPoints()
             + $skillPoint->isPaidByNextLevelPropertyIncrease()
             + $skillPoint->isPaidByOtherSkillPoints()
         );
@@ -124,7 +126,6 @@ abstract class AbstractTestOfSkillPoint extends TestWithMockery
     {
         $professionLevel = $this->mockery(ProfessionLevel::class);
         $professionLevel->shouldReceive('isFirstLevel')
-            ->atLeast()->once()
             ->andReturn(true);
         $professionLevel->shouldReceive('isNextLevel')
             ->andReturn(false);
@@ -134,7 +135,6 @@ abstract class AbstractTestOfSkillPoint extends TestWithMockery
             ->andReturn(1);
         if ($professionName) {
             $professionLevel->shouldReceive('getProfession')
-                ->atLeast()->once()
                 ->andReturn($profession = $this->mockery(Profession::class));
             $profession->shouldReceive('getValue')
                 ->andReturn($professionName);
@@ -162,49 +162,79 @@ abstract class AbstractTestOfSkillPoint extends TestWithMockery
 
     /**
      * @param bool $paidByBackgroundPoints
+     * @param bool $paidByNextLevelPropertyIncrease
+     * @param bool $paidByOtherSkillPoints
      *
      * @return \Mockery\MockInterface|PhysicalSkillPoint
      */
-    protected function createPhysicalSkillPoint($paidByBackgroundPoints = true)
+    protected function createPhysicalSkillPoint(
+        $paidByBackgroundPoints = true, $paidByNextLevelPropertyIncrease = false, $paidByOtherSkillPoints = false
+    )
     {
-        return $this->createSkillPointMock(PhysicalSkillPoint::class, 'foo physical', $paidByBackgroundPoints);
+        return $this->createSkillPoint(
+            PhysicalSkillPoint::class, 'foo physical', $paidByBackgroundPoints, $paidByNextLevelPropertyIncrease, $paidByOtherSkillPoints
+        );
     }
 
-    private function createSkillPointMock(
+    /**
+     * @param $skillPointClass
+     * @param $typeName
+     * @param $paidByBackgroundPoints
+     * @param bool $isPaidByNextLevelPropertyIncrease
+     * @param bool $isPaidByOtherSkillPoints
+     * @return \Mockery\MockInterface|PersonSkillPoint
+     */
+    private function createSkillPoint(
         $skillPointClass,
         $typeName,
-        $paidByBackgroundPoints
+        $paidByBackgroundPoints,
+        $isPaidByNextLevelPropertyIncrease = false,
+        $isPaidByOtherSkillPoints = false
     )
     {
         $skillPoint = $this->mockery($skillPointClass);
-        $skillPoint->shouldReceive('isPaidByFirstLevelBackgroundSkills')
-            ->atLeast()->once()
+        $skillPoint->shouldReceive('isPaidByFirstLevelBackgroundSkillPoints')
             ->andReturn($paidByBackgroundPoints);
         $skillPoint->shouldReceive('getTypeName')
-            ->atLeast()->once()
             ->andReturn($typeName);
+        $skillPoint->shouldReceive('isPaidByNextLevelPropertyIncrease')
+            ->andReturn($isPaidByNextLevelPropertyIncrease);
+        $skillPoint->shouldReceive('isPaidByOtherSkillPoints')
+            ->andReturn($isPaidByOtherSkillPoints);
 
         return $skillPoint;
     }
 
     /**
      * @param bool $paidByBackgroundPoints
+     * @param bool $paidByNextLevelPropertyIncrease
+     * @param bool $paidByOtherSkillPoints
      *
      * @return \Mockery\MockInterface|CombinedSkillPoint
      */
-    protected function createCombinedSkillPoint($paidByBackgroundPoints = true)
+    protected function createCombinedSkillPoint(
+        $paidByBackgroundPoints = true, $paidByNextLevelPropertyIncrease = false, $paidByOtherSkillPoints = false
+    )
     {
-        return $this->createSkillPointMock(CombinedSkillPoint::class, 'foo combined', $paidByBackgroundPoints);
+        return $this->createSkillPoint(
+            CombinedSkillPoint::class, 'foo combined', $paidByBackgroundPoints, $paidByNextLevelPropertyIncrease, $paidByOtherSkillPoints
+        );
     }
 
     /**
      * @param bool $paidByBackgroundPoints
+     * @param bool $paidByNextLevelPropertyIncrease
+     * @param bool $paidByOtherSkillPoints
      *
      * @return \Mockery\MockInterface|PsychicalSkillPoint
      */
-    protected function createPsychicalSkillPoint($paidByBackgroundPoints = true)
+    protected function createPsychicalSkillPoint(
+        $paidByBackgroundPoints = true, $paidByNextLevelPropertyIncrease = false, $paidByOtherSkillPoints = false
+    )
     {
-        return $this->createSkillPointMock(PsychicalSkillPoint::class, 'foo psychical', $paidByBackgroundPoints);
+        return $this->createSkillPoint(
+            PsychicalSkillPoint::class, 'foo psychical', $paidByBackgroundPoints, $paidByNextLevelPropertyIncrease, $paidByOtherSkillPoints
+        );
     }
 
     /**
@@ -250,8 +280,69 @@ abstract class AbstractTestOfSkillPoint extends TestWithMockery
      */
     public function I_can_not_create_skill_point_by_invalid_payment()
     {
-        DeAbstractedPersonSkillPoint::createByRelatedPropertyIncrease(
+        DeAbstractedPersonSkillPoint::createFromRelatedPropertyIncrease(
             $this->createProfessionFirstLevel('foo'),
+            new Tables()
+        );
+    }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Person\Skills\Exceptions\EmptyFirstLevelBackgroundSkillPoints
+     */
+    public function I_can_not_create_skill_point_by_poor_first_level_background()
+    {
+        DeAbstractedPersonSkillPoint::createFromFirstLevelBackgroundSkillPoints(
+            $this->createProfessionFirstLevel('foo'),
+            $this->createBackgroundSkills(0, 'getPhysicalSkillPoints'),
+            new Tables()
+        );
+    }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Person\Skills\Exceptions\ProhibitedOriginOfPaidBySkillPoint
+     * @dataProvider provideInvalidPayment
+     * @param $firstPaidByBackgroundPoints
+     * @param $secondPaidByBackgroundPoints
+     */
+    public function I_can_not_create_skill_point_by_non_first_level_other_skill_point(
+        $firstPaidByBackgroundPoints, $secondPaidByBackgroundPoints
+    )
+    {
+        DeAbstractedPersonSkillPoint::createFromCrossTypeSkillPoints(
+            $this->createProfessionFirstLevel('foo'),
+            $this->createCombinedSkillPoint($firstPaidByBackgroundPoints, true, true),
+            $this->createCombinedSkillPoint($secondPaidByBackgroundPoints, true, true),
+            new Tables()
+        );
+    }
+
+    public function provideInvalidPayment()
+    {
+        return [
+            [true, false],
+            [true, false],
+        ];
+    }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Person\Skills\Exceptions\NonSensePaymentBySameType
+     */
+    public function I_can_not_pay_for_skill_point_by_same_type_skill_point()
+    {
+        $sameTypeSkillPoint = $this->createSkillPoint(
+            DeAbstractedPersonSkillPoint::class,
+            DeAbstractedPersonSkillPoint::TYPE_NAME,
+            true
+        );
+        $sameTypeSkillPoint->shouldReceive('getProfessionLevel')
+            ->andReturn($this->createProfessionFirstLevel('baz'));
+        DeAbstractedPersonSkillPoint::createFromCrossTypeSkillPoints(
+            $this->createProfessionFirstLevel('bar'),
+            $sameTypeSkillPoint,
+            $this->createPhysicalSkillPoint(),
             new Tables()
         );
     }
@@ -261,14 +352,16 @@ abstract class AbstractTestOfSkillPoint extends TestWithMockery
 /** inner */
 class DeAbstractedPersonSkillPoint extends PersonSkillPoint
 {
+    const TYPE_NAME = 'foo';
+
     public function getTypeName()
     {
-        return 'foo';
+        return self::TYPE_NAME;
     }
 
     public function getRelatedProperties()
     {
-        return [];
+        return [Strength::STRENGTH, Agility::AGILITY];
     }
 
 }

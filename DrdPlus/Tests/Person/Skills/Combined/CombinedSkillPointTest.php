@@ -11,7 +11,7 @@ class CombinedSkillPointTest extends AbstractTestOfSkillPoint
 {
     protected function I_can_create_skill_point_by_first_level_background_skills()
     {
-        $combinedSkillPoint = CombinedSkillPoint::createByFirstLevelBackgroundSkills(
+        $combinedSkillPoint = CombinedSkillPoint::createFromFirstLevelBackgroundSkillPoints(
             $level = $this->createProfessionFirstLevel(Fighter::FIGHTER),
             $backgroundSkillPoints = $this->createBackgroundSkills(123, 'getCombinedSkillPoints'),
             new Tables()
@@ -96,7 +96,7 @@ class CombinedSkillPointTest extends AbstractTestOfSkillPoint
 
     private function I_can_create_skill_point_by_level_knack_adjustment()
     {
-        $combinedSkillPoint = CombinedSkillPoint::createByRelatedPropertyIncrease(
+        $combinedSkillPoint = CombinedSkillPoint::createFromRelatedPropertyIncrease(
             $level = $this->createProfessionNextLevel(Knack::class),
             new Tables()
         );
@@ -110,7 +110,7 @@ class CombinedSkillPointTest extends AbstractTestOfSkillPoint
 
     private function I_can_create_skill_point_by_level_charisma_adjustment()
     {
-        $combinedSkillPoint = CombinedSkillPoint::createByRelatedPropertyIncrease(
+        $combinedSkillPoint = CombinedSkillPoint::createFromRelatedPropertyIncrease(
             $level = $this->createProfessionNextLevel(Knack::class, Charisma::class),
             new Tables()
         );

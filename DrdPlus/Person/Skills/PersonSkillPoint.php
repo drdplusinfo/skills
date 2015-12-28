@@ -52,6 +52,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
      * @return string
      */
     abstract public function getTypeName();
+
     /**
      * @return string[]
      */
@@ -64,7 +65,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
      *
      * @return static
      */
-    public static function createByFirstLevelBackgroundSkills(
+    public static function createFromFirstLevelBackgroundSkillPoints(
         ProfessionLevel $professionLevel,
         BackgroundSkillPoints $backgroundSkillPoints,
         Tables $tables
@@ -99,7 +100,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
      *
      * @return static
      */
-    public static function createByRelatedPropertyIncrease(ProfessionLevel $professionLevel, Tables $tables)
+    public static function createFromRelatedPropertyIncrease(ProfessionLevel $professionLevel, Tables $tables)
     {
         return new static($professionLevel, $tables);
     }
@@ -190,8 +191,9 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
                 break;
         }
         if ($firstLevelSkillPoints < 1) {
-            throw new \LogicException(
-                "First level skill point has to come from the background. No skill point for properties " . implode(',', $relatedProperties) . " is available"
+            throw new Exceptions\EmptyFirstLevelBackgroundSkillPoints(
+                'First level skill point has to come from the background.'
+                . ' No skill point for properties ' . implode(',', $relatedProperties) . ' is available.'
             );
         }
 
@@ -206,20 +208,21 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
 
     private function checkPaidSkillPoint(PersonSkillPoint $paidSkillPoint)
     {
-        if (!$paidSkillPoint->isPaidByFirstLevelBackgroundSkills()) {
-            $message = 'Skill points to pay with has to origin from first level background skills.';
+        if (!$paidSkillPoint->isPaidByFirstLevelBackgroundSkillPoints()) {
+            $message = 'Skill point to-pay-with has to origin from first level background skills.';
             if ($paidSkillPoint->isPaidByNextLevelPropertyIncrease()) {
                 $message .= ' Next level skill point is not allowed to trade.';
             }
             if ($paidSkillPoint->isPaidByOtherSkillPoints()) {
                 $message .= ' There is no sense to trade first level skill point multiple times.';
             }
-            throw new \LogicException($message);
+            throw new Exceptions\ProhibitedOriginOfPaidBySkillPoint($message);
         }
         if ($paidSkillPoint->getTypeName() === $this->getTypeName()) {
-            throw new \LogicException(
+            throw new Exceptions\NonSensePaymentBySameType(
                 "There is no sense to pay for skill point by another one of the very same type ({$this->getTypeName()})."
-                . ' Got paid skill point of ID ' . $paidSkillPoint->getId()
+                . ' Got paid skill point from level ' . $paidSkillPoint->getProfessionLevel()->getLevelRank()->getValue()
+                . ' of profession ' . $paidSkillPoint->getProfessionLevel()->getProfession()->getValue() . '.'
             );
         }
     }
@@ -327,7 +330,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
     /**
      * @return boolean
      */
-    public function isPaidByFirstLevelBackgroundSkills()
+    public function isPaidByFirstLevelBackgroundSkillPoints()
     {
         return $this->getBackgroundSkillPoints() !== null;
     }
@@ -345,7 +348,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
      */
     public function isPaidByNextLevelPropertyIncrease()
     {
-        return !$this->isPaidByFirstLevelBackgroundSkills()
+        return !$this->isPaidByFirstLevelBackgroundSkillPoints()
         && !$this->isPaidByOtherSkillPoints()
         && $this->getProfessionLevel()->isNextLevel();
     }
