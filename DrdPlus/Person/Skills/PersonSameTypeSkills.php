@@ -14,20 +14,8 @@ abstract class PersonSameTypeSkills extends StrictObject implements \Iterator, \
      */
     abstract public function getSkillsGroupName();
 
-    /**
-     * @return int
-     */
-    public function getNextLevelsSkillRankSummary()
-    {
-        return (int)array_sum(
-            array_map(
-                function (PersonSkillRank $skillRank) {
-                    return $skillRank->getValue();
-                },
-                $this->findNextLevelSkillRanks($this->getSkillsIterator()->getArrayCopy())
-            )
-        );
-    }
+    /** @return int|null */
+    abstract public function getId();
 
     /**
      * @return int
@@ -39,8 +27,18 @@ abstract class PersonSameTypeSkills extends StrictObject implements \Iterator, \
                 function (PersonSkillRank $skillRank) {
                     return $skillRank->getValue();
                 },
-                $this->findFirstLevelSkillRanks($this->getSkillsIterator()->getArrayCopy())
+                $this->getFirstLevelSkillRanks()
             )
+        );
+    }
+
+    protected function getFirstLevelSkillRanks()
+    {
+        return array_filter(
+            $this->getSkillRanks(),
+            function (PersonSkillRank $personSkillRank) {
+                return $personSkillRank->getProfessionLevel()->isFirstLevel();
+            }
         );
     }
 
@@ -59,24 +57,50 @@ abstract class PersonSameTypeSkills extends StrictObject implements \Iterator, \
     /** @return \ArrayIterator */
     abstract protected function createSkillsIterator();
 
-    protected function findNextLevelSkillRanks(array $skillRanks)
+    /**
+     * @return int
+     */
+    public function getNextLevelsSkillRankSummary()
+    {
+        return (int)array_sum(
+            array_map(
+                function (PersonSkillRank $skillRank) {
+                    return $skillRank->getValue();
+                },
+                $this->getNextLevelSkillRanks()
+            )
+        );
+    }
+
+    protected function getNextLevelSkillRanks()
     {
         return array_filter(
-            $skillRanks,
-            function (PersonSkillRank $skillRank) {
-                return $skillRank->getProfessionLevel()->isNextLevel();
+            $this->getSkillRanks(),
+            function (PersonSkillRank $personSkillRank) {
+                return $personSkillRank->getProfessionLevel()->isNextLevel();
             }
         );
     }
 
-    protected function findFirstLevelSkillRanks(array $skillRanks)
+
+    /**
+     * @return array|PersonSkillRank[]
+     */
+    protected function getSkillRanks()
     {
-        return array_filter(
-            $skillRanks,
-            function (PersonSkillRank $skillRank) {
-                return $skillRank->getProfessionLevel()->isFirstLevel();
-            }
+        $skillRanksPerSkill = array_map(
+            function (PersonSkill $personSkill) {
+                return $personSkill->getSkillRanks();
+            },
+            $this->toArray()
         );
+
+        $skillRanks = [];
+        foreach ($skillRanksPerSkill as $skillRanksOfSingleSkill) {
+            $skillRanks = array_merge($skillRanks, $skillRanksOfSingleSkill);
+        }
+
+        return $skillRanks;
     }
 
     /**

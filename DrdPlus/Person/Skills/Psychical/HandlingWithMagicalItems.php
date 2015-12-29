@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity()
  */
-class HandlingOfMagicalItems extends PersonPsychicalSkill
+class HandlingWithMagicalItems extends PersonPsychicalSkill
 {
     const HANDLING_OF_MAGICAL_ITEMS = SkillCodes::HANDLING_OF_MAGICAL_ITEMS;
 

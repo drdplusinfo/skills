@@ -44,7 +44,7 @@ class PersonPsychicalSkills extends PersonSameTypeSkills
      * @ORM\OneToOne(targetEntity="GeographyOfACountry")
      */
     private $geographyOfACountry;
-    /** @var HandlingOfMagicalItems|null
+    /** @var HandlingWithMagicalItems|null
      * @ORM\OneToOne(targetEntity="HandlingOfMagicalItems")
      */
     private $handlingWithMagicalItems;
@@ -98,7 +98,7 @@ class PersonPsychicalSkills extends PersonSameTypeSkills
                 $this->getEtiquetteOfUnderworld(),
                 $this->getForeignLanguage(),
                 $this->getGeographyOfACountry(),
-                $this->getHandlingWithMagicalItems(),
+                $this->getHandlingWithMagicalItems(), // TODO handling with animals?
                 $this->getHistoriography(),
                 $this->getKnowledgeOfACity(),
                 $this->getKnowledgeOfWorld(),
@@ -111,6 +111,64 @@ class PersonPsychicalSkills extends PersonSameTypeSkills
                 $this->getZoology()
             ])
         );
+    }
+
+    public function addPsychicalSkill(PersonPsychicalSkill $psychicalSkill)
+    {
+        switch (true) {
+            case is_a($psychicalSkill, Astronomy::class) :
+                $this->astronomy = $psychicalSkill;
+                break;
+            case is_a($psychicalSkill, Botany::class) :
+                $this->botany = $psychicalSkill;
+                break;
+            case is_a($psychicalSkill, EtiquetteOfUnderworld::class) :
+                $this->etiquetteOfUnderworld = $psychicalSkill;
+                break;
+            case is_a($psychicalSkill, ForeignLanguage::class) :
+                $this->foreignLanguage = $psychicalSkill;
+                break;
+            case is_a($psychicalSkill, GeographyOfACountry::class) :
+                $this->geographyOfACountry = $psychicalSkill;
+                break;
+            case is_a($psychicalSkill, HandlingWithMagicalItems::class) :
+                $this->handlingWithMagicalItems = $psychicalSkill;
+                break;
+            case is_a($psychicalSkill, Historiography::class) :
+                $this->historiography = $psychicalSkill;
+                break;
+            case is_a($psychicalSkill, KnowledgeOfACity::class) :
+                $this->knowledgeOfACity = $psychicalSkill;
+                break;
+            case is_a($psychicalSkill, KnowledgeOfWorld::class) :
+                $this->knowledgeOfWorld = $psychicalSkill;
+                break;
+            case is_a($psychicalSkill, MapsDrawing::class) :
+                $this->mapsDrawing = $psychicalSkill;
+                break;
+            case is_a($psychicalSkill, Mythology::class) :
+                $this->mythology = $psychicalSkill;
+                break;
+            case is_a($psychicalSkill, ReadingAndWriting::class) :
+                $this->readingAndWriting = $psychicalSkill;
+                break;
+            case is_a($psychicalSkill, SocialEtiquette::class) :
+                $this->socialEtiquette = $psychicalSkill;
+                break;
+            case is_a($psychicalSkill, Technology::class) :
+                $this->technology = $psychicalSkill;
+                break;
+            case is_a($psychicalSkill, Theology::class) :
+                $this->theology = $psychicalSkill;
+                break;
+            case is_a($psychicalSkill, Zoology::class) :
+                $this->zoology = $psychicalSkill;
+                break;
+            default :
+                throw new Exceptions\UnknownPsychicalSkill(
+                    'Unknown psychical skill ' . get_class($psychicalSkill)
+                );
+        }
     }
 
     /**
@@ -170,7 +228,7 @@ class PersonPsychicalSkills extends PersonSameTypeSkills
     }
 
     /**
-     * @return HandlingOfMagicalItems|null
+     * @return HandlingWithMagicalItems|null
      */
     public function getHandlingWithMagicalItems()
     {

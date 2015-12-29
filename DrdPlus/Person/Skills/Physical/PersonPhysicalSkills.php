@@ -100,7 +100,7 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
                 $this->getCityMoving(),
                 $this->getClimbingAndHillwalking(),
                 $this->getFastMarsh(),
-                $this->getFightWithWeapon(),
+                $this->getFightWithWeapon(), // TODO fight with shooting weapon?
                 $this->getFlying(),
                 $this->getForestMoving(),
                 $this->getMovingInMountains(),
@@ -112,12 +112,70 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
         );
     }
 
+    public function addPhysicalSkill(PersonPhysicalSkill $physicalSkill)
+    {
+        switch (true) {
+            case is_a($physicalSkill, ArmorWearing::class) :
+                $this->armorWearing = $physicalSkill;
+                break;
+            case is_a($physicalSkill, Athletics::class) :
+                $this->athletics = $physicalSkill;
+                break;
+            case is_a($physicalSkill, Blacksmithing::class) :
+                $this->blacksmithing = $physicalSkill;
+                break;
+            case is_a($physicalSkill, BoatDriving::class) :
+                $this->boatDriving = $physicalSkill;
+                break;
+            case is_a($physicalSkill, CartDriving::class) :
+                $this->cartDriving = $physicalSkill;
+                break;
+            case is_a($physicalSkill, CityMoving::class) :
+                $this->cityMoving = $physicalSkill;
+                break;
+            case is_a($physicalSkill, ClimbingAndHillwalking::class) :
+                $this->climbingAndHillwalking = $physicalSkill;
+                break;
+            case is_a($physicalSkill, FastMarsh::class) :
+                $this->fastMarsh = $physicalSkill;
+                break;
+            case is_a($physicalSkill, FightWithWeapon::class) :
+                $this->fightWithWeapon = $physicalSkill;
+                break;
+            case is_a($physicalSkill, Flying::class) :
+                $this->flying = $physicalSkill;
+                break;
+            case is_a($physicalSkill, ForestMoving::class) :
+                $this->forestMoving = $physicalSkill;
+                break;
+            case is_a($physicalSkill, MovingInMountains::class) :
+                $this->movingInMountain = $physicalSkill;
+                break;
+            case is_a($physicalSkill, Riding::class) :
+                $this->riding = $physicalSkill;
+                break;
+            case is_a($physicalSkill, Sailing::class) :
+                $this->sailing = $physicalSkill;
+                break;
+            case is_a($physicalSkill, ShieldUsage::class) :
+                $this->shieldUsage = $physicalSkill;
+                break;
+            case is_a($physicalSkill, Swimming::class) :
+                $this->swimming = $physicalSkill;
+                break;
+            default :
+                throw new Exceptions\UnknownPhysicalSkill(
+                    'Unknown physical skill ' . get_class($physicalSkill)
+                );
+        }
+    }
+
     /**
      * @return string
      */
     public function getSkillsGroupName()
     {
-        self::PHYSICAL;
+        return self::PHYSICAL;
     }
 
     /**
