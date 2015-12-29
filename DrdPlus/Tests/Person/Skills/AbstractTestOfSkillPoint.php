@@ -12,7 +12,7 @@ use DrdPlus\Professions\Profession;
 use DrdPlus\Properties\Base\Agility;
 use DrdPlus\Properties\Base\Strength;
 use DrdPlus\Tables\Tables;
-use DrdPlus\Tools\Tests\TestWithMockery;
+use DrdPlus\Tests\Tools\TestWithMockery;
 
 abstract class AbstractTestOfSkillPoint extends TestWithMockery
 {

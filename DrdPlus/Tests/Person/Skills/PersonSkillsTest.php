@@ -4,7 +4,7 @@ namespace DrdPlus\Person\Skills;
 use DrdPlus\Person\Skills\Combined\PersonCombinedSkills;
 use DrdPlus\Person\Skills\Physical\PersonPhysicalSkills;
 use DrdPlus\Person\Skills\Psychical\PersonPsychicalSkills;
-use DrdPlus\Tools\Tests\TestWithMockery;
+use DrdPlus\Tests\Tools\TestWithMockery;
 
 class PersonSkillsTest extends TestWithMockery
 {

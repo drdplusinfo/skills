@@ -3,7 +3,7 @@ namespace DrdPlus\Tests\Person\Skills;
 
 use DrdPlus\Person\Skills\PersonSkill;
 use DrdPlus\Person\Skills\PersonSkillRank;
-use DrdPlus\Tools\Tests\TestWithMockery;
+use DrdPlus\Tests\Tools\TestWithMockery;
 
 abstract class AbstractTestOfPersonSkill extends TestWithMockery
 {
