@@ -30,6 +30,21 @@ abstract class PersonSameTypeSkills extends StrictObject implements \Iterator, \
     }
 
     /**
+     * @return int
+     */
+    public function getFirstLevelSkillRankSummary()
+    {
+        return (int)array_sum(
+            array_map(
+                function (PersonSkillRank $skillRank) {
+                    return $skillRank->getValue();
+                },
+                $this->findFirstLevelSkillRanks($this->getSkillsIterator()->getArrayCopy())
+            )
+        );
+    }
+
+    /**
      * @return \ArrayIterator
      */
     protected function getSkillsIterator()
@@ -50,6 +65,16 @@ abstract class PersonSameTypeSkills extends StrictObject implements \Iterator, \
             $skillRanks,
             function (PersonSkillRank $skillRank) {
                 return $skillRank->getProfessionLevel()->isNextLevel();
+            }
+        );
+    }
+
+    protected function findFirstLevelSkillRanks(array $skillRanks)
+    {
+        return array_filter(
+            $skillRanks,
+            function (PersonSkillRank $skillRank) {
+                return $skillRank->getProfessionLevel()->isFirstLevel();
             }
         );
     }
