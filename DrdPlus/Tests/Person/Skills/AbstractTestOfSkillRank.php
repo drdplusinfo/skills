@@ -19,14 +19,18 @@ abstract class AbstractTestOfSkillRank extends TestWithMockery
     public function I_can_create_skill_rank($skillRankValue)
     {
         $sutClass = $this->getSutClass();
-        /** @var PersonSkillRank $zeroSkillRank */
-        $zeroSkillRank = new $sutClass(
-            $this->createProfessionLevel(),
-            $this->createPersonSkillPoint(),
+        /** @var PersonSkillRank $personSkillRank */
+        $personSkillRank = new $sutClass(
+            $professionLevel = $this->createProfessionLevel(),
+            $personSkillPoint = $this->createPersonSkillPoint(),
             $this->createRequiredRankValue($skillRankValue)
         );
 
-        $this->assertSame($skillRankValue, $zeroSkillRank->getValue());
+        $this->assertNull($personSkillRank->getId());
+        $this->assertSame($skillRankValue, $personSkillRank->getValue());
+        $this->assertSame("$skillRankValue", (string)$personSkillRank);
+        $this->assertSame($professionLevel, $personSkillRank->getProfessionLevel());
+        $this->assertSame($personSkillPoint, $personSkillRank->getPersonSkillPoint());
     }
 
     public function allowedSkillRankValues()

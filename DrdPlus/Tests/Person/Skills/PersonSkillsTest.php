@@ -14,34 +14,76 @@ class PersonSkillsTest extends TestWithMockery
      */
     public function I_can_create_it()
     {
-        $skills = new PersonSkills(
-            $physicalSKills = $this->createPhysicalSkills(),
-            $psychicalSkills = $this->createPsychicalSkills(),
-            $combinedSkills = $this->createCombinedSkills()
+        $personSkills = new PersonSkills(
+            $physicalSkills = $this->createPhysicalSkills($physical = ['foo']),
+            $psychicalSkills = $this->createPsychicalSkills($psychical = ['bar']),
+            $combinedSkills = $this->createCombinedSkills($combined = ['baz'])
         );
 
-        $this->assertSame($physicalSKills, $skills->getPhysicalSkills());
-        $this->assertSame($psychicalSkills, $skills->getPsychicalSkills());
-        $this->assertSame($combinedSkills, $skills->getCombinedSkills());
+        $this->assertNull($personSkills->getId());
 
-        $this->assertNull($skills->getId());
+        $this->assertSame($physicalSkills, $personSkills->getPhysicalSkills());
+        $this->assertSame($psychicalSkills, $personSkills->getPsychicalSkills());
+        $this->assertSame($combinedSkills, $personSkills->getCombinedSkills());
+        $this->assertEquals(
+            $this->getSortedExpectedSkills($physical, $psychical, $combined),
+            $this->getSortedGivenSkills($personSkills)
+        );
     }
 
-    /** @return PersonPhysicalSkills */
-    private function createPhysicalSkills()
+    private function getSortedExpectedSkills(array $physical, array $psychical, array $combined)
     {
-        return $this->mockery(PersonPhysicalSkills::class);
+        $expectedSkills = array_merge($physical, $psychical, $combined);
+        asort($expectedSkills);
+
+        return $expectedSkills;
     }
 
-    /** @return PersonPsychicalSkills */
-    private function createPsychicalSkills()
+    private function getSortedGivenSkills(PersonSkills $personSkills)
     {
-        return $this->mockery(PersonPsychicalSkills::class);
+        $givenSkills = $personSkills->getSkills();
+        asort($givenSkills);
+
+        return $givenSkills;
     }
-    /** @return PersonCombinedSkills */
-    private function createCombinedSkills()
+
+    /**
+     * @param array $asArray
+     * @return PersonPhysicalSkills
+     * */
+    private function createPhysicalSkills(array $asArray = [])
     {
-        return $this->mockery(PersonCombinedSkills::class);
+        $physicalSkills = $this->mockery(PersonPhysicalSkills::class);
+        $physicalSkills->shouldReceive('toArray')
+            ->andReturn($asArray);
+
+        return $physicalSkills;
+    }
+
+    /**
+     * @param array $asArray
+     * @return PersonPsychicalSkills
+     */
+    private function createPsychicalSkills(array $asArray = [])
+    {
+        $psychicalSkills = $this->mockery(PersonPsychicalSkills::class);
+        $psychicalSkills->shouldReceive('toArray')
+            ->andReturn($asArray);
+
+        return $psychicalSkills;
+    }
+
+    /**
+     * @param array $asArray
+     * @return PersonCombinedSkills
+     */
+    private function createCombinedSkills(array $asArray = [])
+    {
+        $combinedSkills = $this->mockery(PersonCombinedSkills::class);
+        $combinedSkills->shouldReceive('toArray')
+            ->andReturn($asArray);
+
+        return $combinedSkills;
     }
 
 }
