@@ -97,7 +97,7 @@ class CombinedSkillPointTest extends AbstractTestOfSkillPoint
     private function I_can_create_skill_point_by_level_knack_adjustment()
     {
         $combinedSkillPoint = CombinedSkillPoint::createFromRelatedPropertyIncrease(
-            $level = $this->createProfessionNextLevel(Knack::class),
+            $level = $this->createProfessionNextLevel(Knack::class, Charisma::class),
             new Tables()
         );
         $this->assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
@@ -111,7 +111,7 @@ class CombinedSkillPointTest extends AbstractTestOfSkillPoint
     private function I_can_create_skill_point_by_level_charisma_adjustment()
     {
         $combinedSkillPoint = CombinedSkillPoint::createFromRelatedPropertyIncrease(
-            $level = $this->createProfessionNextLevel(Knack::class, Charisma::class),
+            $level = $this->createProfessionNextLevel(Charisma::class, Knack::class),
             new Tables()
         );
         $this->assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);

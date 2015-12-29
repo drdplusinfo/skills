@@ -229,32 +229,28 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
 
     protected function checkPayByLevelPropertyIncrease(ProfessionLevel $professionLevel)
     {
-        if ($professionLevel->isFirstLevel()) {
-            throw new \LogicException(
-                'Skill point can not be obtained by a level property increase for first level.' .
-                ' Did you want to use different creation?'
-            );
-        }
         $relatedProperties = $this->sortAlphabetically($this->getRelatedProperties());
         $missingPropertyAdjustment = false;
         switch ($relatedProperties) {
             case $this->sortAlphabetically([Strength::STRENGTH, Agility::AGILITY]) :
-                $missingPropertyAdjustment = !$professionLevel->getStrengthIncrement()->getValue()
-                    && !$professionLevel->getAgilityIncrement()->getValue();
+                $missingPropertyAdjustment = $professionLevel->getStrengthIncrement()->getValue() === 0
+                    && $professionLevel->getAgilityIncrement()->getValue() === 0;
                 break;
             case $this->sortAlphabetically([Will::WILL, Intelligence::INTELLIGENCE]) :
-                $missingPropertyAdjustment = !$professionLevel->getWillIncrement()->getValue()
-                    && !$professionLevel->getIntelligenceIncrement()->getValue();
+                $missingPropertyAdjustment = $professionLevel->getWillIncrement()->getValue() === 0
+                    && $professionLevel->getIntelligenceIncrement()->getValue() === 0;
                 break;
             case $this->sortAlphabetically([Knack::KNACK, Charisma::CHARISMA]) :
-                $missingPropertyAdjustment = !$professionLevel->getKnackIncrement()->getValue()
-                    && !$professionLevel->getCharismaIncrement()->getValue();
+                $missingPropertyAdjustment = $professionLevel->getKnackIncrement()->getValue() === 0
+                    && $professionLevel->getCharismaIncrement()->getValue() === 0;
                 break;
         }
 
         if ($missingPropertyAdjustment) {
-            throw new \LogicException(
-                'The profession level of ID ' . $professionLevel->getId() . ' has to have adjustment either ' . implode(' or ', $this->getRelatedProperties())
+            throw new Exceptions\MissingPropertyAdjustmentForPayment(
+                'The profession ' . $professionLevel->getProfession()->getValue()
+                . ' of level ' . $professionLevel->getLevelRank()->getValue()
+                . ' has to have adjustment either ' . implode(' or ', $this->getRelatedProperties())
             );
         }
     }

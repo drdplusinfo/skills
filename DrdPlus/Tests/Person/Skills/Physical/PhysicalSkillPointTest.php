@@ -97,7 +97,7 @@ class PhysicalSkillPointTest extends AbstractTestOfSkillPoint
     private function I_can_create_skill_point_by_level_by_strength_adjustment()
     {
         $physicalSkillPoint = PhysicalSkillPoint::createFromRelatedPropertyIncrease(
-            $level = $this->createProfessionNextLevel(Strength::class),
+            $level = $this->createProfessionNextLevel(Agility::class, Strength::class),
             new Tables()
         );
         $this->assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);

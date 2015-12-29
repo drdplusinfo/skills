@@ -97,7 +97,7 @@ class PsychicalSkillPointTest extends AbstractTestOfSkillPoint
     private function I_can_create_skill_point_by_level_by_will_adjustment()
     {
         $psychicalSkillPoint = PsychicalSkillPoint::createFromRelatedPropertyIncrease(
-            $level = $this->createProfessionNextLevel(Will::class),
+            $level = $this->createProfessionNextLevel(Intelligence::class, Will::class),
             new Tables()
         );
         $this->assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);

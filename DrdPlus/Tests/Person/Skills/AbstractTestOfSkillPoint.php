@@ -240,9 +240,12 @@ abstract class AbstractTestOfSkillPoint extends TestWithMockery
     /**
      * @param $firstPropertyClass
      * @param bool $secondPropertyClass
+     * @param bool $withPropertyIncrement
      * @return \Mockery\MockInterface|ProfessionLevel
      */
-    protected function createProfessionNextLevel($firstPropertyClass, $secondPropertyClass = false)
+    protected function createProfessionNextLevel(
+        $firstPropertyClass, $secondPropertyClass, $withPropertyIncrement = true
+    )
     {
         $professionLevel = $this->mockery(ProfessionLevel::class);
         $professionLevel->shouldReceive('isFirstLevel')
@@ -252,19 +255,21 @@ abstract class AbstractTestOfSkillPoint extends TestWithMockery
             ->atLeast()->once()
             ->andReturn(true);
         $professionLevel->shouldReceive('get' . $this->parsePropertyName($firstPropertyClass) . 'Increment')
-            ->atLeast()->once()
             ->andReturn($willIncrement = $this->mockery($firstPropertyClass));
         $willIncrement->shouldReceive('getValue')
-            ->atLeast()->once()
-            ->andReturn($secondPropertyClass ? 0 : 1);
-        if ($secondPropertyClass) {
-            $professionLevel->shouldReceive('get' . $this->parsePropertyName($secondPropertyClass) . 'Increment')
-                ->atLeast()->once()
-                ->andReturn($intelligenceIncrement = $this->mockery($secondPropertyClass));
-            $intelligenceIncrement->shouldReceive('getValue')
-                ->atLeast()->once()
-                ->andReturn(1);
-        }
+            ->andReturn($withPropertyIncrement ? 1 : 0);
+        $professionLevel->shouldReceive('get' . $this->parsePropertyName($secondPropertyClass) . 'Increment')
+            ->andReturn($intelligenceIncrement = $this->mockery($secondPropertyClass));
+        $intelligenceIncrement->shouldReceive('getValue')
+            ->andReturn($withPropertyIncrement ? 1 : 0);
+        $professionLevel->shouldReceive('getProfession')
+            ->andReturn($profession = $this->mockery(Profession::class));
+        $profession->shouldReceive('getValue')
+            ->andReturn('foo');
+        $professionLevel->shouldReceive('getLevelRank')
+            ->andReturn($levelRank = $this->mockery(LevelRank::class));
+        $levelRank->shouldReceive('getValue')
+            ->andReturn(2);
 
         return $professionLevel;
     }
@@ -343,6 +348,18 @@ abstract class AbstractTestOfSkillPoint extends TestWithMockery
             $this->createProfessionFirstLevel('bar'),
             $sameTypeSkillPoint,
             $this->createPhysicalSkillPoint(),
+            new Tables()
+        );
+    }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Person\Skills\Exceptions\MissingPropertyAdjustmentForPayment
+     */
+    public function I_can_not_pay_for_skill_point_by_next_level_without_property_increment()
+    {
+        DeAbstractedPersonSkillPoint::createFromRelatedPropertyIncrease(
+            $this->createProfessionNextLevel(Strength::class, Agility::class, false),
             new Tables()
         );
     }
