@@ -2,6 +2,7 @@
 namespace DrdPlus\Person\Skills\Combined;
 
 use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Person\Skills\PersonSameTypeSkills;
 
 /**
@@ -48,10 +49,10 @@ class PersonCombinedSkills extends PersonSameTypeSkills
      * @ORM\OneToOne(targetEntity="FirstAid")
      */
     private $firstAid;
-    /** @var HandingWithAnimals|null
+    /** @var HandlingWithAnimals|null
      * @ORM\OneToOne(targetEntity="HandingWithAnimals")
      */
-    private $handingWithAnimals;
+    private $handlingWithAnimals;
     /** @var Handwork|null
      * @ORM\OneToOne(targetEntity="Handwork")
      */
@@ -101,7 +102,38 @@ class PersonCombinedSkills extends PersonSameTypeSkills
      */
     private $statuary;
 
-    protected function createSkillsIterator()
+    /**
+     * @param ProfessionLevels $professionLevels
+     * @return int
+     */
+    public function getUnusedFirstLevelCombinedSkillPointsValue(ProfessionLevels $professionLevels)
+    {
+        return $this->getFreeFirstLevelSkillPointsValue($this->getFirstLevelCombinedPropertiesSum($professionLevels));
+    }
+
+    private function getFirstLevelCombinedPropertiesSum(ProfessionLevels $professionLevels)
+    {
+        return $professionLevels->getFirstLevelKnackModifier() + $professionLevels->getFirstLevelCharismaModifier();
+    }
+
+    /**
+     * @param ProfessionLevels $professionLevels
+     * @return int
+     */
+    public function getUnusedNextLevelsCombinedSkillPointsValue(ProfessionLevels $professionLevels)
+    {
+        return $this->getFreeNextLevelsSkillPointsValue($this->getNextLevelsCombinedPropertiesSum($professionLevels));
+    }
+
+    private function getNextLevelsCombinedPropertiesSum(ProfessionLevels $professionLevels)
+    {
+        return $professionLevels->getNextLevelsKnackModifier() + $professionLevels->getNextLevelsCharismaModifier();
+    }
+
+    /**
+     * @return \ArrayIterator
+     */
+    public function getIterator()
     {
         return new \ArrayIterator(
             array_filter([
@@ -112,7 +144,7 @@ class PersonCombinedSkills extends PersonSameTypeSkills
                 $this->getFightWithShootingWeapons(),
                 $this->getFirstAid(),
                 $this->getGambling(),
-                $this->getHandingWithAnimals(),
+                $this->getHandlingWithAnimals(),
                 $this->getHandwork(),
                 $this->getHerbalism(),
                 $this->getHuntingAndFishing(),
@@ -148,60 +180,117 @@ class PersonCombinedSkills extends PersonSameTypeSkills
     {
         switch (true) {
             case is_a($combinedSkill, BigHandwork::class) :
+                if (isset($this->bigHandwork)) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Big handwork is already set');
+                }
                 $this->bigHandwork = $combinedSkill;
                 break;
             case is_a($combinedSkill, Cooking::class) :
+                if (isset($this->cooking)) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Cooking is already set');
+                }
                 $this->cooking = $combinedSkill;
                 break;
             case is_a($combinedSkill, Dancing::class) :
+                if (isset($this->dancing)) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Dancing is already set');
+                }
                 $this->dancing = $combinedSkill;
                 break;
             case is_a($combinedSkill, DuskSight::class) :
+                if (isset($this->duskSight)) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Dusk sight is already set');
+                }
                 $this->duskSight = $combinedSkill;
                 break;
             case is_a($combinedSkill, FightWithShootingWeapons::class) :
+                if (isset($this->fightWithShootingWeapons)) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Fight with shooting weapons is already set');
+                }
                 $this->fightWithShootingWeapons = $combinedSkill;
                 break;
             case is_a($combinedSkill, FirstAid::class) :
+                if (isset($this->firstAid)) {
+                    throw new Exceptions\CombinedSkillAlreadySet('First aid is already set');
+                }
                 $this->firstAid = $combinedSkill;
                 break;
-            case is_a($combinedSkill, HandingWithAnimals::class) :
-                $this->handingWithAnimals = $combinedSkill;
+            case is_a($combinedSkill, HandlingWithAnimals::class) :
+                if (isset($this->handlingWithAnimals)) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Handling with animals is already set');
+                }
+                $this->handlingWithAnimals = $combinedSkill;
                 break;
             case is_a($combinedSkill, Handwork::class) :
+                if (isset($this->handwork)) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Handwork is already set');
+                }
                 $this->handwork = $combinedSkill;
                 break;
             case is_a($combinedSkill, Gambling::class) :
+                if (isset($this->handwork)) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Gambling is already set');
+                }
                 $this->gambling = $combinedSkill;
                 break;
             case is_a($combinedSkill, Herbalism::class) :
+                if (isset($this->herbalism)) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Herbalism is already set');
+                }
                 $this->herbalism = $combinedSkill;
                 break;
             case is_a($combinedSkill, HuntingAndFishing::class) :
+                if (isset($this->huntingAndFishing)) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Hunting and fishing is already set');
+                }
                 $this->huntingAndFishing = $combinedSkill;
                 break;
             case is_a($combinedSkill, Knotting::class) :
+                if (isset($this->knotting)) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Knotting is already set');
+                }
                 $this->knotting = $combinedSkill;
                 break;
             case is_a($combinedSkill, Painting::class) :
+                if (isset($this->painting)) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Painting is already set');
+                }
                 $this->painting = $combinedSkill;
                 break;
             case is_a($combinedSkill, Pedagogy::class) :
+                if (isset($this->pedagogy)) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Pedagogy is already set');
+                }
                 $this->pedagogy = $combinedSkill;
                 break;
             case is_a($combinedSkill, PlayingOnMusicInstrument::class) :
+                if (isset($this->playingOnMusicInstrument)) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Playing on music instrument is already set');
+                }
                 $this->playingOnMusicInstrument = $combinedSkill;
                 break;
             case is_a($combinedSkill, Seduction::class) :
+                if (isset($this->seduction)) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Seduction is already set');
+                }
                 $this->seduction = $combinedSkill;
                 break;
             case is_a($combinedSkill, Showmanship::class) :
+                if (isset($this->showmanship)) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Showmanship is already set');
+                }
                 $this->showmanship = $combinedSkill;
                 break;
             case is_a($combinedSkill, Singing::class) :
+                if (isset($this->singing)) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Singing is already set');
+                }
                 $this->singing = $combinedSkill;
                 break;
             case is_a($combinedSkill, Statuary::class) :
+                if (isset($this->statuary)) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Statuary is already set');
+                }
                 $this->statuary = $combinedSkill;
                 break;
             default :
@@ -260,11 +349,11 @@ class PersonCombinedSkills extends PersonSameTypeSkills
     }
 
     /**
-     * @return HandingWithAnimals|null
+     * @return HandlingWithAnimals|null
      */
-    public function getHandingWithAnimals()
+    public function getHandlingWithAnimals()
     {
-        return $this->handingWithAnimals;
+        return $this->handlingWithAnimals;
     }
 
     /**
