@@ -10,11 +10,24 @@ use DrdPlus\Person\Skills\Combined\Gambling;
 use DrdPlus\Person\Skills\Combined\PersonCombinedSkill;
 use DrdPlus\Person\Skills\Combined\PersonCombinedSkills;
 use DrdPlus\Person\Skills\Combined\Seduction;
+use DrdPlus\Person\Skills\PersonSkill;
 use DrdPlus\Person\Skills\PersonSkillRank;
 use DrdPlus\Tests\Person\Skills\AbstractTestOfPersonSameTypeSkills;
 
 class PersonCombinedSkillsTest extends AbstractTestOfPersonSameTypeSkills
 {
+
+    /**
+     * @test
+     * @dataProvider providePersonSkill
+     * @param PersonSkill $personSkill
+     * @expectedException \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillAlreadySet
+     */
+    public function I_can_not_replace_skill(PersonSkill $personSkill)
+    {
+        parent::I_can_not_replace_skill($personSkill);
+    }
+
     /**
      * @test
      * @expectedException \DrdPlus\Person\Skills\Combined\Exceptions\UnknownCombinedSkill

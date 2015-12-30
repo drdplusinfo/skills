@@ -1,12 +1,25 @@
 <?php
 namespace DrdPlus\Tests\Person\Skills\Psychical;
 
+use DrdPlus\Person\Skills\PersonSkill;
 use DrdPlus\Person\Skills\Psychical\PersonPsychicalSkill;
 use DrdPlus\Person\Skills\Psychical\PersonPsychicalSkills;
 use DrdPlus\Tests\Person\Skills\AbstractTestOfPersonSameTypeSkills;
 
 class PersonPsychicalSkillsTest extends AbstractTestOfPersonSameTypeSkills
 {
+
+    /**
+     * @test
+     * @dataProvider providePersonSkill
+     * @param PersonSkill $personSkill
+     * @expectedException \DrdPlus\Person\Skills\Psychical\Exceptions\PsychicalSkillAlreadySet
+     */
+    public function I_can_not_replace_skill(PersonSkill $personSkill)
+    {
+        parent::I_can_not_replace_skill($personSkill);
+    }
+
     /**
      * @test
      * @expectedException \DrdPlus\Person\Skills\Psychical\Exceptions\UnknownPsychicalSkill

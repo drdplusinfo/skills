@@ -23,8 +23,8 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
         $this->assertSame($this->getExpectedSkillsGroupName(), $sut->getSkillsGroupName());
         $this->assertNull($sut->getId());
         $this->assertEquals([], $sut->getIterator()->getArrayCopy());
-        foreach ($sut as $item) {
-            $this->assertNull($item);
+        foreach ($sut as $skill) {
+            $this->assertNull($skill);
         }
     }
 
@@ -182,6 +182,22 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
         $getterName = 'get' . $matches['basename'];
 
         return $getterName;
+    }
+
+    /**
+     * @test
+     * @dataProvider providePersonSkill
+     * @param PersonSkill $personSkill
+     * @expectedException \DrdPlus\Person\Skills\Exceptions\SkillAlreadySet
+     */
+    public function I_can_not_replace_skill(PersonSkill $personSkill)
+    {
+        $sutClass = $this->getSutClass();
+        /** @var PersonSameTypeSkills $sut */
+        $sut = new $sutClass();
+        $addSkill = $this->getAdderName();
+        $sut->$addSkill($personSkill);
+        $sut->$addSkill($personSkill);
     }
 
     /**

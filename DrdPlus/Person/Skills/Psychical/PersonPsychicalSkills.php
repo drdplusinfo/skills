@@ -146,52 +146,100 @@ class PersonPsychicalSkills extends PersonSameTypeSkills
     {
         switch (true) {
             case is_a($psychicalSkill, Astronomy::class) :
-                $this->astronomy = $psychicalSkill;
+                if (isset($this->astronomy)) {
+                    throw new Exceptions\PsychicalSkillAlreadySet('astronomy  is already set');
+                }
+                $this->astronomy = $psychicalSkill;    
                 break;
             case is_a($psychicalSkill, Botany::class) :
-                $this->botany = $psychicalSkill;
+                if (isset($this->botany)) {
+                    throw new Exceptions\PsychicalSkillAlreadySet('botany  is already set');
+                }
+                $this->botany = $psychicalSkill;    
                 break;
             case is_a($psychicalSkill, EtiquetteOfUnderworld::class) :
-                $this->etiquetteOfUnderworld = $psychicalSkill;
+                if (isset($this->etiquetteOfUnderworld)) {
+                    throw new Exceptions\PsychicalSkillAlreadySet('etiquetteOfUnderworld  is already set');
+                }
+                $this->etiquetteOfUnderworld = $psychicalSkill;    
                 break;
             case is_a($psychicalSkill, ForeignLanguage::class) :
-                $this->foreignLanguage = $psychicalSkill;
+                if (isset($this->foreignLanguage)) {
+                    throw new Exceptions\PsychicalSkillAlreadySet('foreignLanguage  is already set');
+                }
+                $this->foreignLanguage = $psychicalSkill;    
                 break;
             case is_a($psychicalSkill, GeographyOfACountry::class) :
-                $this->geographyOfACountry = $psychicalSkill;
+                if (isset($this->geographyOfACountry)) {
+                    throw new Exceptions\PsychicalSkillAlreadySet('geographyOfACountry  is already set');
+                }
+                $this->geographyOfACountry = $psychicalSkill;    
                 break;
             case is_a($psychicalSkill, HandlingWithMagicalItems::class) :
-                $this->handlingWithMagicalItems = $psychicalSkill;
+                if (isset($this->handlingWithMagicalItems)) {
+                    throw new Exceptions\PsychicalSkillAlreadySet('handlingWithMagicalItems  is already set');
+                }
+                $this->handlingWithMagicalItems = $psychicalSkill;    
                 break;
             case is_a($psychicalSkill, Historiography::class) :
-                $this->historiography = $psychicalSkill;
+                if (isset($this->historiography)) {
+                    throw new Exceptions\PsychicalSkillAlreadySet('historiography  is already set');
+                }
+                $this->historiography = $psychicalSkill;    
                 break;
             case is_a($psychicalSkill, KnowledgeOfACity::class) :
-                $this->knowledgeOfACity = $psychicalSkill;
+                if (isset($this->knowledgeOfACity)) {
+                    throw new Exceptions\PsychicalSkillAlreadySet('knowledgeOfACity  is already set');
+                }
+                $this->knowledgeOfACity = $psychicalSkill;    
                 break;
             case is_a($psychicalSkill, KnowledgeOfWorld::class) :
-                $this->knowledgeOfWorld = $psychicalSkill;
+                if (isset($this->knowledgeOfWorld)) {
+                    throw new Exceptions\PsychicalSkillAlreadySet('knowledgeOfWorld  is already set');
+                }
+                $this->knowledgeOfWorld = $psychicalSkill;    
                 break;
             case is_a($psychicalSkill, MapsDrawing::class) :
-                $this->mapsDrawing = $psychicalSkill;
+                if (isset($this->mapsDrawing)) {
+                    throw new Exceptions\PsychicalSkillAlreadySet('mapsDrawing  is already set');
+                }
+                $this->mapsDrawing = $psychicalSkill;    
                 break;
             case is_a($psychicalSkill, Mythology::class) :
-                $this->mythology = $psychicalSkill;
+                if (isset($this->mythology)) {
+                    throw new Exceptions\PsychicalSkillAlreadySet('mythology  is already set');
+                }
+                $this->mythology = $psychicalSkill;    
                 break;
             case is_a($psychicalSkill, ReadingAndWriting::class) :
-                $this->readingAndWriting = $psychicalSkill;
+                if (isset($this->readingAndWriting)) {
+                    throw new Exceptions\PsychicalSkillAlreadySet('readingAndWriting  is already set');
+                }
+                $this->readingAndWriting = $psychicalSkill;    
                 break;
             case is_a($psychicalSkill, SocialEtiquette::class) :
-                $this->socialEtiquette = $psychicalSkill;
+                if (isset($this->socialEtiquette)) {
+                    throw new Exceptions\PsychicalSkillAlreadySet('socialEtiquette  is already set');
+                }
+                $this->socialEtiquette = $psychicalSkill;    
                 break;
             case is_a($psychicalSkill, Technology::class) :
-                $this->technology = $psychicalSkill;
+                if (isset($this->technology)) {
+                    throw new Exceptions\PsychicalSkillAlreadySet('technology  is already set');
+                }
+                $this->technology = $psychicalSkill;    
                 break;
             case is_a($psychicalSkill, Theology::class) :
-                $this->theology = $psychicalSkill;
+                if (isset($this->theology)) {
+                    throw new Exceptions\PsychicalSkillAlreadySet('theology  is already set');
+                }
+                $this->theology = $psychicalSkill;    
                 break;
             case is_a($psychicalSkill, Zoology::class) :
-                $this->zoology = $psychicalSkill;
+                if (isset($this->zoology)) {
+                    throw new Exceptions\PsychicalSkillAlreadySet('zoology  is already set');
+                }
+                $this->zoology = $psychicalSkill;    
                 break;
             default :
                 throw new Exceptions\UnknownPsychicalSkill(

@@ -145,52 +145,100 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
     {
         switch (true) {
             case is_a($physicalSkill, ArmorWearing::class) :
-                $this->armorWearing = $physicalSkill;
+                if (isset($this->armorWearing)) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('armorWearing  is already set');
+                }
+                $this->armorWearing = $physicalSkill;    
                 break;
             case is_a($physicalSkill, Athletics::class) :
-                $this->athletics = $physicalSkill;
+                if (isset($this->athletics)) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('athletics  is already set');
+                }
+                $this->athletics = $physicalSkill;    
                 break;
             case is_a($physicalSkill, Blacksmithing::class) :
-                $this->blacksmithing = $physicalSkill;
+                if (isset($this->blacksmithing)) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('blacksmithing  is already set');
+                }
+                $this->blacksmithing = $physicalSkill;    
                 break;
             case is_a($physicalSkill, BoatDriving::class) :
-                $this->boatDriving = $physicalSkill;
+                if (isset($this->boatDriving)) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('boatDriving  is already set');
+                }
+                $this->boatDriving = $physicalSkill;    
                 break;
             case is_a($physicalSkill, CartDriving::class) :
-                $this->cartDriving = $physicalSkill;
+                if (isset($this->cartDriving)) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('cartDriving  is already set');
+                }
+                $this->cartDriving = $physicalSkill;    
                 break;
             case is_a($physicalSkill, CityMoving::class) :
-                $this->cityMoving = $physicalSkill;
+                if (isset($this->cityMoving)) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('cityMoving  is already set');
+                }
+                $this->cityMoving = $physicalSkill;    
                 break;
             case is_a($physicalSkill, ClimbingAndHillwalking::class) :
-                $this->climbingAndHillwalking = $physicalSkill;
+                if (isset($this->climbingAndHillwalking)) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('climbingAndHillwalking  is already set');
+                }
+                $this->climbingAndHillwalking = $physicalSkill;    
                 break;
             case is_a($physicalSkill, FastMarsh::class) :
-                $this->fastMarsh = $physicalSkill;
+                if (isset($this->fastMarsh)) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('fastMarsh  is already set');
+                }
+                $this->fastMarsh = $physicalSkill;    
                 break;
             case is_a($physicalSkill, FightWithWeapon::class) :
-                $this->fightWithWeapon = $physicalSkill;
+                if (isset($this->fightWithWeapon)) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('fightWithWeapon  is already set');
+                }
+                $this->fightWithWeapon = $physicalSkill;    
                 break;
             case is_a($physicalSkill, Flying::class) :
-                $this->flying = $physicalSkill;
+                if (isset($this->flying)) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('flying  is already set');
+                }
+                $this->flying = $physicalSkill;    
                 break;
             case is_a($physicalSkill, ForestMoving::class) :
-                $this->forestMoving = $physicalSkill;
+                if (isset($this->forestMoving)) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('forestMoving  is already set');
+                }
+                $this->forestMoving = $physicalSkill;    
                 break;
             case is_a($physicalSkill, MovingInMountains::class) :
-                $this->movingInMountain = $physicalSkill;
+                if (isset($this->movingInMountain)) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('movingInMountain  is already set');
+                }
+                $this->movingInMountain = $physicalSkill;    
                 break;
             case is_a($physicalSkill, Riding::class) :
-                $this->riding = $physicalSkill;
+                if (isset($this->riding)) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('riding  is already set');
+                }
+                $this->riding = $physicalSkill;    
                 break;
             case is_a($physicalSkill, Sailing::class) :
-                $this->sailing = $physicalSkill;
+                if (isset($this->sailing)) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('sailing  is already set');
+                }
+                $this->sailing = $physicalSkill;    
                 break;
             case is_a($physicalSkill, ShieldUsage::class) :
-                $this->shieldUsage = $physicalSkill;
+                if (isset($this->shieldUsage)) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('shieldUsage  is already set');
+                }
+                $this->shieldUsage = $physicalSkill;    
                 break;
             case is_a($physicalSkill, Swimming::class) :
-                $this->swimming = $physicalSkill;
+                if (isset($this->swimming)) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('swimming  is already set');
+                }
+                $this->swimming = $physicalSkill;    
                 break;
             default :
                 throw new Exceptions\UnknownPhysicalSkill(

@@ -228,7 +228,7 @@ class PersonCombinedSkills extends PersonSameTypeSkills
                 $this->handwork = $combinedSkill;
                 break;
             case is_a($combinedSkill, Gambling::class) :
-                if (isset($this->handwork)) {
+                if (isset($this->gambling)) {
                     throw new Exceptions\CombinedSkillAlreadySet('Gambling is already set');
                 }
                 $this->gambling = $combinedSkill;
