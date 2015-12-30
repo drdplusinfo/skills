@@ -33,6 +33,23 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class PersonPsychicalSkill extends PersonSkill
 {
     /**
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     **/
+    private $id;
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * @return string[]
      */
     public function getRelatedPropertyCodes()

@@ -34,7 +34,7 @@ class PersonSkillsTest extends TestWithMockery
     private function getSortedExpectedSkills(array $physical, array $psychical, array $combined)
     {
         $expectedSkills = array_merge($physical, $psychical, $combined);
-        asort($expectedSkills);
+        sort($expectedSkills);
 
         return $expectedSkills;
     }
@@ -42,7 +42,7 @@ class PersonSkillsTest extends TestWithMockery
     private function getSortedGivenSkills(PersonSkills $personSkills)
     {
         $givenSkills = $personSkills->getSkills();
-        asort($givenSkills);
+        sort($givenSkills);
 
         return $givenSkills;
     }

@@ -138,7 +138,6 @@ class PersonSkills extends StrictObject
     /**
      * @param int $firstLevelPropertiesSum as a potential of skill points
      * @param PersonSameTypeSkills $sameTypeSkills
-     *
      * @return int
      */
     private function getFreeFirstLevelSkillPointsValue(

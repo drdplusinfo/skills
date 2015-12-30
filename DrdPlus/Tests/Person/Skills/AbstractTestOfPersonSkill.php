@@ -17,6 +17,7 @@ abstract class AbstractTestOfPersonSkill extends TestWithMockery
         /** @var PersonSkill $sut */
         $sut = new $sutClass($personSkillRank = $this->createPersonSkillRank());
         $this->assertEquals([1 => $personSkillRank], $sut->getSkillRanks());
+        $this->assertNull($sut->getId());
 
         $this->I_can_get_its_name($sut);
 
@@ -100,7 +101,8 @@ abstract class AbstractTestOfPersonSkill extends TestWithMockery
         preg_match('~[\\\](?<basename>\w+)$~', $sutClass, $matches);
         $sutBasename = $matches['basename'];
         $underscored = preg_replace('~([a-z])([A-Z])~', '$1_$2', $sutBasename);
-        $name = strtolower($underscored);
+        $underscoredSingleLetters = preg_replace('~([A-Z])([A-Z])~', '$1_$2', $underscored);
+        $name = strtolower($underscoredSingleLetters);
 
         return $name;
     }
@@ -122,7 +124,17 @@ abstract class AbstractTestOfPersonSkill extends TestWithMockery
 
     protected function I_can_get_related_property_codes(PersonSkill $personSkill)
     {
-        $this->assertEquals($this->getExpectedRelatedPropertyCodes(), $personSkill->getRelatedPropertyCodes());
+        $this->assertEquals(
+            $this->sort($this->getExpectedRelatedPropertyCodes()),
+            $this->sort($personSkill->getRelatedPropertyCodes())
+        );
+    }
+
+    private function sort(array $values)
+    {
+        sort($values);
+
+        return $values;
     }
 
     /**
@@ -192,6 +204,11 @@ abstract class AbstractTestOfPersonSkill extends TestWithMockery
 /** inner */
 class DeAbstractedPersonSkill extends PersonSkill
 {
+    public function getId()
+    {
+        return null;
+    }
+
     public function getName()
     {
         return 'foo';

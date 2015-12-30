@@ -98,7 +98,7 @@ class PersonPsychicalSkills extends PersonSameTypeSkills
                 $this->getEtiquetteOfUnderworld(),
                 $this->getForeignLanguage(),
                 $this->getGeographyOfACountry(),
-                $this->getHandlingWithMagicalItems(), // TODO handling with animals?
+                $this->getHandlingWithMagicalItems(),
                 $this->getHistoriography(),
                 $this->getKnowledgeOfACity(),
                 $this->getKnowledgeOfWorld(),

@@ -10,13 +10,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class HandlingWithMagicalItems extends PersonPsychicalSkill
 {
-    const HANDLING_OF_MAGICAL_ITEMS = SkillCodes::HANDLING_OF_MAGICAL_ITEMS;
+    const HANDLING_WITH_MAGICAL_ITEMS = SkillCodes::HANDLING_WITH_MAGICAL_ITEMS;
 
     /**
      * @return string
      */
     public function getName()
     {
-        return self::HANDLING_OF_MAGICAL_ITEMS;
+        return self::HANDLING_WITH_MAGICAL_ITEMS;
     }
 }

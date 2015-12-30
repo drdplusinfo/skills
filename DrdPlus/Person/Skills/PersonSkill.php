@@ -52,6 +52,11 @@ abstract class PersonSkill extends StrictObject
     }
 
     /**
+     * @return int|null
+     */
+    abstract public function getId();
+
+    /**
      * @return PersonSkillRank[]
      */
     public function getSkillRanks()

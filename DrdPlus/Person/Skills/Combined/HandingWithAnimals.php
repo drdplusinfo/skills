@@ -5,6 +5,7 @@ use DrdPlus\Codes\SkillCodes;
 
 class HandingWithAnimals extends PersonCombinedSkill
 {
+    // TODO handing or handling?
     const HANDING_WITH_ANIMALS = SkillCodes::HANDING_WITH_ANIMALS;
 
     /**

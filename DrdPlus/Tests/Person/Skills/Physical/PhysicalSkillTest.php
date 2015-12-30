@@ -1,10 +1,17 @@
 <?php
 namespace DrdPlus\Tests\Person\Skills\Physical;
 
+use DrdPlus\Properties\Base\Agility;
+use DrdPlus\Properties\Base\Strength;
 use DrdPlus\Tests\Person\Skills\AbstractTestOfPersonSkill;
 
-abstract class PhysicalSkillTest extends AbstractTestOfPersonSkill
+class PhysicalSkillTest extends AbstractTestOfPersonSkill
 {
+
+    protected function getExpectedRelatedPropertyCodes()
+    {
+        return [Strength::STRENGTH, Agility::AGILITY];
+    }
 
     protected function isCombined()
     {
