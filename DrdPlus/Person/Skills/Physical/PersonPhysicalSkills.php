@@ -100,7 +100,7 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
                 $this->getCityMoving(),
                 $this->getClimbingAndHillwalking(),
                 $this->getFastMarsh(),
-                $this->getFightWithWeapon(), // TODO fight with shooting weapon?
+                $this->getFightWithWeapon(),
                 $this->getFlying(),
                 $this->getForestMoving(),
                 $this->getMovingInMountains(),
