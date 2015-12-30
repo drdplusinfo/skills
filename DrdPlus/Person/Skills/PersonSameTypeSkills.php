@@ -3,11 +3,8 @@ namespace DrdPlus\Person\Skills;
 
 use Granam\Strict\Object\StrictObject;
 
-abstract class PersonSameTypeSkills extends StrictObject implements \Iterator, \Countable
+abstract class PersonSameTypeSkills extends StrictObject implements \IteratorAggregate, \Countable
 {
-
-    /** @var \ArrayIterator */
-    protected $skillsIterator;
 
     /**
      * @return string
@@ -16,6 +13,11 @@ abstract class PersonSameTypeSkills extends StrictObject implements \Iterator, \
 
     /** @return int|null */
     abstract public function getId();
+
+    /**
+     * @return \ArrayIterator|PersonSkill[]
+     */
+    abstract public function getIterator();
 
     /**
      * @return int
@@ -41,21 +43,6 @@ abstract class PersonSameTypeSkills extends StrictObject implements \Iterator, \
             }
         );
     }
-
-    /**
-     * @return \ArrayIterator
-     */
-    protected function getSkillsIterator()
-    {
-        if (!isset($this->skillsIterator)) {
-            $this->skillsIterator = $this->createSkillsIterator();
-        }
-
-        return $this->skillsIterator;
-    }
-
-    /** @return \ArrayIterator */
-    abstract protected function createSkillsIterator();
 
     /**
      * @return int
@@ -88,12 +75,11 @@ abstract class PersonSameTypeSkills extends StrictObject implements \Iterator, \
      */
     protected function getSkillRanks()
     {
-        $skillRanksPerSkill = array_map(
-            function (PersonSkill $personSkill) {
-                return $personSkill->getSkillRanks();
-            },
-            $this->toArray()
-        );
+        $skillRanksPerSkill = [];
+        foreach ($this as $personSkill) {
+            /** @var PersonSkill $personSkill */
+            $skillRanksPerSkill[] = $personSkill->getSkillRanks();
+        }
 
         $skillRanks = [];
         foreach ($skillRanksPerSkill as $skillRanksOfSingleSkill) {
@@ -104,40 +90,25 @@ abstract class PersonSameTypeSkills extends StrictObject implements \Iterator, \
     }
 
     /**
-     * @return PersonSkill[]|array
+     * @param int $firstLevelPropertiesSum as a potential of skill points
+     * @return int
      */
-    public function toArray()
+    protected function getFreeFirstLevelSkillPointsValue($firstLevelPropertiesSum)
     {
-        return $this->getSkillsIterator()->getArrayCopy();
+        return $firstLevelPropertiesSum - $this->getFirstLevelSkillRankSummary();
     }
 
-    public function current()
+    /**
+     * @param int $nextLevelsPropertiesSum as a potential of skill points
+     * @return int
+     */
+    protected function getFreeNextLevelsSkillPointsValue($nextLevelsPropertiesSum)
     {
-        return $this->getSkillsIterator()->current();
-    }
-
-    public function next()
-    {
-        $this->getSkillsIterator()->next();
-    }
-
-    public function key()
-    {
-        return $this->getSkillsIterator()->key();
-    }
-
-    public function valid()
-    {
-        return $this->getSkillsIterator()->valid();
-    }
-
-    public function rewind()
-    {
-        $this->getSkillsIterator()->rewind();
+        return $nextLevelsPropertiesSum - $this->getNextLevelsSkillRankSummary();
     }
 
     public function count()
     {
-        return $this->getSkillsIterator()->count();
+        return $this->getIterator()->count();
     }
 }

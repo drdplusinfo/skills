@@ -2,6 +2,7 @@
 namespace DrdPlus\Person\Skills\Physical;
 
 use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Person\Skills\PersonSameTypeSkills;
 
 /**
@@ -88,7 +89,35 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
      */
     private $swimming;
 
-    protected function createSkillsIterator()
+    /**
+     * @param ProfessionLevels $professionLevels
+     * @return int
+     */
+    public function getFreeFirstLevelPhysicalSkillPointsValue(ProfessionLevels $professionLevels)
+    {
+        return $this->getFreeFirstLevelSkillPointsValue($this->getFirstLevelPhysicalPropertiesSum($professionLevels));
+    }
+
+    private function getFirstLevelPhysicalPropertiesSum(ProfessionLevels $professionLevels)
+    {
+        return $professionLevels->getFirstLevelStrengthModifier() + $professionLevels->getFirstLevelAgilityModifier();
+    }
+
+    /**
+     * @param ProfessionLevels $professionLevels
+     * @return int
+     */
+    public function getFreeNextLevelsPhysicalSkillPointsValue(ProfessionLevels $professionLevels)
+    {
+        return $this->getFreeNextLevelsSkillPointsValue($this->getNextLevelsPhysicalPropertiesSum($professionLevels));
+    }
+
+    private function getNextLevelsPhysicalPropertiesSum(ProfessionLevels $professionLevels)
+    {
+        return $professionLevels->getNextLevelsStrengthModifier() + $professionLevels->getNextLevelsAgilityModifier();
+    }
+
+    public function getIterator()
     {
         return new \ArrayIterator(
             array_filter([

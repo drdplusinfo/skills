@@ -2,6 +2,7 @@
 namespace DrdPlus\Person\Skills\Psychical;
 
 use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Person\Skills\PersonSameTypeSkills;
 
 /**
@@ -89,7 +90,35 @@ class PersonPsychicalSkills extends PersonSameTypeSkills
      */
     private $zoology;
 
-    protected function createSkillsIterator()
+    /**
+     * @param ProfessionLevels $professionLevels
+     * @return int
+     */
+    public function getFreeFirstLevelPsychicalSkillPointsValue(ProfessionLevels $professionLevels)
+    {
+        return $this->getFreeFirstLevelSkillPointsValue($this->getFirstLevelPhysicalPropertiesSum($professionLevels));
+    }
+
+    private function getFirstLevelPhysicalPropertiesSum(ProfessionLevels $professionLevels)
+    {
+        return $professionLevels->getFirstLevelWillModifier() + $professionLevels->getFirstLevelIntelligenceModifier();
+    }
+
+    /**
+     * @param ProfessionLevels $professionLevels
+     * @return int
+     */
+    public function getFreeNextLevelsPsychicalSkillPointsValue(ProfessionLevels $professionLevels)
+    {
+        return $this->getFreeNextLevelsSkillPointsValue($this->getNextLevelsPsychicalPropertiesSum($professionLevels));
+    }
+
+    private function getNextLevelsPsychicalPropertiesSum(ProfessionLevels $professionLevels)
+    {
+        return $professionLevels->getNextLevelsWillModifier() + $professionLevels->getNextLevelsIntelligenceModifier();
+    }
+
+    public function getIterator()
     {
         return new \ArrayIterator(
             array_filter([

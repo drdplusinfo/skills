@@ -22,7 +22,7 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
         $this->assertSame(0, $sut->getNextLevelsSkillRankSummary());
         $this->assertSame($this->getExpectedSkillsGroupName(), $sut->getSkillsGroupName());
         $this->assertNull($sut->getId());
-        $this->assertEquals([], $sut->toArray());
+        $this->assertEquals([], $sut->getIterator()->getArrayCopy());
         foreach ($sut as $item) {
             $this->assertNull($item);
         }
@@ -62,8 +62,8 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
         }
         $getSkill = $this->getSkillGetter($personSkill);
         $this->assertSame($personSkill, $sut->$getSkill());
-        $this->assertSame(1, $sut->getFirstLevelSkillRankSummary());
-        $this->assertSame(2 + 3, $sut->getNextLevelsSkillRankSummary());
+        $this->assertSame(1 + 2, $sut->getFirstLevelSkillRankSummary());
+        $this->assertSame(3, $sut->getNextLevelsSkillRankSummary());
     }
 
     /**
@@ -75,9 +75,9 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
         $personSkills = [];
         foreach ($personSkillClasses as $personSkillClass) {
             /** @var PersonSkill $personSkill */
-            $personSkill = new $personSkillClass($this->createPersonSkillRank(1));
-            $personSkill->addSkillRank($this->createPersonSkillRank(2));
-            $personSkill->addSkillRank($this->createPersonSkillRank(3));
+            $personSkill = new $personSkillClass($this->createPersonSkillRank(1, true)); // first level
+            $personSkill->addSkillRank($this->createPersonSkillRank(2, true)); // first level
+            $personSkill->addSkillRank($this->createPersonSkillRank(3, false)); // next level
             $personSkills[] = [$personSkill];
         }
 
@@ -141,20 +141,21 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
     }
 
     /**
-     * @param int $value
+     * @param int $skillRankValue
+     * @param bool $isFirstLevel
      * @return \Mockery\MockInterface|PersonSkillRank
      */
-    protected function createPersonSkillRank($value)
+    private function createPersonSkillRank($skillRankValue, $isFirstLevel)
     {
         $personSkillRank = $this->mockery(PersonSkillRank::class);
         $personSkillRank->shouldReceive('getValue')
-            ->andReturn($value);
+            ->andReturn($skillRankValue);
         $personSkillRank->shouldReceive('getProfessionLevel')
             ->andReturn($professionLevel = $this->mockery(ProfessionLevel::class));
         $professionLevel->shouldReceive('isFirstLevel')
-            ->andReturn($value === 1);
+            ->andReturn($isFirstLevel);
         $professionLevel->shouldReceive('isNextLevel')
-            ->andReturn($value > 1);
+            ->andReturn(!$isFirstLevel);
 
         return $personSkillRank;
     }
@@ -183,5 +184,18 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
         return $getterName;
     }
 
+    /**
+     * @test
+     */
     abstract public function I_can_not_add_unknown_skill();
+
+    /**
+     * @test
+     */
+    abstract public function I_can_get_unused_skill_points_from_first_level();
+
+    /**
+     * @test
+     */
+    abstract public function I_can_get_unused_skill_points_from_next_levels();
 }

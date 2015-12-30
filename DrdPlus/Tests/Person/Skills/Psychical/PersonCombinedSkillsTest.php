@@ -19,4 +19,14 @@ class PersonPsychicalSkillsTest extends AbstractTestOfPersonSameTypeSkills
         $skills->addPsychicalSkill($strangePsychicalSkill);
     }
 
+    public function I_can_get_unused_skill_points_from_first_level()
+    {
+        // TODO: Implement I_can_get_unused_skill_points_from_first_level() method.
+    }
+
+    public function I_can_get_unused_skill_points_from_next_levels()
+    {
+        // TODO: Implement I_can_get_unused_skill_points_from_next_levels() method.
+    }
+
 }

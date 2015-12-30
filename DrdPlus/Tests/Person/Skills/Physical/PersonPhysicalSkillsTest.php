@@ -19,4 +19,14 @@ class PersonPhysicalSkillsTest extends AbstractTestOfPersonSameTypeSkills
         $skills->addPhysicalSkill($strangePhysicalSkill);
     }
 
+    public function I_can_get_unused_skill_points_from_first_level()
+    {
+        // TODO: Implement I_can_get_unused_skill_points_from_first_level() method.
+    }
+
+    public function I_can_get_unused_skill_points_from_next_levels()
+    {
+        // TODO: Implement I_can_get_unused_skill_points_from_next_levels() method.
+    }
+
 }
