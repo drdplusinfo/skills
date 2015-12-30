@@ -93,9 +93,9 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
      * @param ProfessionLevels $professionLevels
      * @return int
      */
-    public function getFreeFirstLevelPhysicalSkillPointsValue(ProfessionLevels $professionLevels)
+    public function getUnusedFirstLevelPhysicalSkillPointsValue(ProfessionLevels $professionLevels)
     {
-        return $this->getFreeFirstLevelSkillPointsValue($this->getFirstLevelPhysicalPropertiesSum($professionLevels));
+        return $this->getUnusedFirstLevelSkillPointsValue($this->getFirstLevelPhysicalPropertiesSum($professionLevels));
     }
 
     private function getFirstLevelPhysicalPropertiesSum(ProfessionLevels $professionLevels)
@@ -107,9 +107,9 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
      * @param ProfessionLevels $professionLevels
      * @return int
      */
-    public function getFreeNextLevelsPhysicalSkillPointsValue(ProfessionLevels $professionLevels)
+    public function getUnusedNextLevelsPhysicalSkillPointsValue(ProfessionLevels $professionLevels)
     {
-        return $this->getFreeNextLevelsSkillPointsValue($this->getNextLevelsPhysicalPropertiesSum($professionLevels));
+        return $this->getUnusedNextLevelsSkillPointsValue($this->getNextLevelsPhysicalPropertiesSum($professionLevels));
     }
 
     private function getNextLevelsPhysicalPropertiesSum(ProfessionLevels $professionLevels)

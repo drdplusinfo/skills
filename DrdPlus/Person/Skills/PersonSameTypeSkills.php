@@ -93,7 +93,7 @@ abstract class PersonSameTypeSkills extends StrictObject implements \IteratorAgg
      * @param int $firstLevelPropertiesSum as a potential of skill points
      * @return int
      */
-    protected function getFreeFirstLevelSkillPointsValue($firstLevelPropertiesSum)
+    protected function getUnusedFirstLevelSkillPointsValue($firstLevelPropertiesSum)
     {
         return $firstLevelPropertiesSum - $this->getFirstLevelSkillRankSummary();
     }
@@ -102,7 +102,7 @@ abstract class PersonSameTypeSkills extends StrictObject implements \IteratorAgg
      * @param int $nextLevelsPropertiesSum as a potential of skill points
      * @return int
      */
-    protected function getFreeNextLevelsSkillPointsValue($nextLevelsPropertiesSum)
+    protected function getUnusedNextLevelsSkillPointsValue($nextLevelsPropertiesSum)
     {
         return $nextLevelsPropertiesSum - $this->getNextLevelsSkillRankSummary();
     }

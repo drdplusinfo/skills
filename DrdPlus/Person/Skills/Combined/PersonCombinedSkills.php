@@ -108,7 +108,7 @@ class PersonCombinedSkills extends PersonSameTypeSkills
      */
     public function getUnusedFirstLevelCombinedSkillPointsValue(ProfessionLevels $professionLevels)
     {
-        return $this->getFreeFirstLevelSkillPointsValue($this->getFirstLevelCombinedPropertiesSum($professionLevels));
+        return $this->getUnusedFirstLevelSkillPointsValue($this->getFirstLevelCombinedPropertiesSum($professionLevels));
     }
 
     private function getFirstLevelCombinedPropertiesSum(ProfessionLevels $professionLevels)
@@ -122,7 +122,7 @@ class PersonCombinedSkills extends PersonSameTypeSkills
      */
     public function getUnusedNextLevelsCombinedSkillPointsValue(ProfessionLevels $professionLevels)
     {
-        return $this->getFreeNextLevelsSkillPointsValue($this->getNextLevelsCombinedPropertiesSum($professionLevels));
+        return $this->getUnusedNextLevelsSkillPointsValue($this->getNextLevelsCombinedPropertiesSum($professionLevels));
     }
 
     private function getNextLevelsCombinedPropertiesSum(ProfessionLevels $professionLevels)
