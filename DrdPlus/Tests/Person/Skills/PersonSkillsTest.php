@@ -54,8 +54,8 @@ class PersonSkillsTest extends TestWithMockery
     private function createPhysicalSkills(array $asArray = [])
     {
         $physicalSkills = $this->mockery(PersonPhysicalSkills::class);
-        $physicalSkills->shouldReceive('toArray')
-            ->andReturn($asArray);
+        $physicalSkills->shouldReceive('getIterator')
+            ->andReturn(new \ArrayObject($asArray));
 
         return $physicalSkills;
     }
@@ -67,8 +67,8 @@ class PersonSkillsTest extends TestWithMockery
     private function createPsychicalSkills(array $asArray = [])
     {
         $psychicalSkills = $this->mockery(PersonPsychicalSkills::class);
-        $psychicalSkills->shouldReceive('toArray')
-            ->andReturn($asArray);
+        $psychicalSkills->shouldReceive('getIterator')
+            ->andReturn(new \ArrayObject($asArray));
 
         return $psychicalSkills;
     }
@@ -80,8 +80,8 @@ class PersonSkillsTest extends TestWithMockery
     private function createCombinedSkills(array $asArray = [])
     {
         $combinedSkills = $this->mockery(PersonCombinedSkills::class);
-        $combinedSkills->shouldReceive('toArray')
-            ->andReturn($asArray);
+        $combinedSkills->shouldReceive('getIterator')
+            ->andReturn(new \ArrayObject($asArray));
 
         return $combinedSkills;
     }
