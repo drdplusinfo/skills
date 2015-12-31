@@ -11,7 +11,7 @@ abstract class PersonSameTypeSkills extends StrictObject implements \IteratorAgg
      */
     abstract public function getSkillsGroupName();
 
-    /** @return int|null */
+    /** @return int */
     abstract public function getId();
 
     /**

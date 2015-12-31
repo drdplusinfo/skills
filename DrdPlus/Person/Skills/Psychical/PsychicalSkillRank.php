@@ -1,7 +1,6 @@
 <?php
 namespace DrdPlus\Person\Skills\Psychical;
 
-use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\Skills\PersonSkillRank;
 use Doctrine\Common\Annotations as ORM;
 use Granam\Integer\IntegerInterface;
@@ -12,8 +11,8 @@ use Granam\Integer\IntegerInterface;
  */
 class PsychicalSkillRank extends PersonSkillRank
 {
-    public function __construct(ProfessionLevel $professionLevel, PsychicalSkillPoint $skillPoint, IntegerInterface $requiredRankValue)
+    public function __construct(PsychicalSkillPoint $skillPoint, IntegerInterface $requiredRankValue)
     {
-        parent::__construct($professionLevel, $skillPoint, $requiredRankValue);
+        parent::__construct($skillPoint, $requiredRankValue);
     }
 }

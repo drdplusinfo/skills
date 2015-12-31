@@ -1,7 +1,6 @@
 <?php
 namespace DrdPlus\Person\Skills\Combined;
 
-use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\Skills\PersonSkillRank;
 use Doctrine\Common\Annotations as ORM;
 use Granam\Integer\IntegerInterface;
@@ -12,8 +11,8 @@ use Granam\Integer\IntegerInterface;
  */
 class CombinedSkillRank extends PersonSkillRank
 {
-    public function __construct(ProfessionLevel $professionLevel, CombinedSkillPoint $skillPoint, IntegerInterface $requiredRankValue)
+    public function __construct(CombinedSkillPoint $skillPoint, IntegerInterface $requiredRankValue)
     {
-        parent::__construct($professionLevel, $skillPoint, $requiredRankValue);
+        parent::__construct($skillPoint, $requiredRankValue);
     }
 }

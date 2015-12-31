@@ -13,6 +13,7 @@ class CombinedSkillRankTest extends AbstractTestOfSkillRank
     protected function createPersonSkillPoint()
     {
         $combinedSkillPoint = $this->mockery(CombinedSkillPoint::class);
+        $this->addProfessionLevelGetter($combinedSkillPoint);
 
         return $combinedSkillPoint;
     }

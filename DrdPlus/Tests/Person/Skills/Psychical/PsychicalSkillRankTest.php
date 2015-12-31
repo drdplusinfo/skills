@@ -13,6 +13,7 @@ class PsychicalSkillRankTest extends AbstractTestOfSkillRank
     protected function createPersonSkillPoint()
     {
         $psychicalSkillPoint = $this->mockery(PsychicalSkillPoint::class);
+        $this->addProfessionLevelGetter($psychicalSkillPoint);
 
         return $psychicalSkillPoint;
     }

@@ -256,7 +256,7 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
     }
 
     /**
-     * @return int|null
+     * @return int
      */
     public function getId()
     {

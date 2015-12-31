@@ -29,12 +29,12 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
 
     /**
      * @var ProfessionLevel
-     * @ORM\OneToOne(target="\DrdPlus\Person\ProfessionLevels\ProfessionLevel")
+     * @ORM\ManyToOne(target="\DrdPlus\Person\ProfessionLevels\ProfessionLevel")
      */
     private $professionLevel;
     /**
      * @var BackgroundSkillPoints|null
-     * @ORM\OneToOne(targetEntity="\DrdPlus\Person\Background\BackgroundSkillPoints", nullable=true)
+     * @ORM\Column(type="background_skill_points", nullable=true)
      */
     private $backgroundSkillPoints;
     /**
@@ -268,7 +268,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
     }
 
     /**
-     * @return int|null
+     * @return int
      */
     public function getId()
     {

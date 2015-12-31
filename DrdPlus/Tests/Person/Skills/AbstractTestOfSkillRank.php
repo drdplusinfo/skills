@@ -6,6 +6,7 @@ use DrdPlus\Person\Skills\PersonSkillPoint;
 use DrdPlus\Person\Skills\PersonSkillRank;
 use DrdPlus\Tests\Tools\TestWithMockery;
 use Granam\Integer\IntegerInterface;
+use Mockery\MockInterface;
 
 abstract class AbstractTestOfSkillRank extends TestWithMockery
 {
@@ -21,7 +22,6 @@ abstract class AbstractTestOfSkillRank extends TestWithMockery
         $sutClass = $this->getSutClass();
         /** @var PersonSkillRank $personSkillRank */
         $personSkillRank = new $sutClass(
-            $professionLevel = $this->createProfessionLevel(),
             $personSkillPoint = $this->createPersonSkillPoint(),
             $this->createRequiredRankValue($skillRankValue)
         );
@@ -29,7 +29,7 @@ abstract class AbstractTestOfSkillRank extends TestWithMockery
         $this->assertNull($personSkillRank->getId());
         $this->assertSame($skillRankValue, $personSkillRank->getValue());
         $this->assertSame("$skillRankValue", (string)$personSkillRank);
-        $this->assertSame($professionLevel, $personSkillRank->getProfessionLevel());
+        $this->assertSame($personSkillPoint->getProfessionLevel(), $personSkillRank->getProfessionLevel());
         $this->assertSame($personSkillPoint, $personSkillRank->getPersonSkillPoint());
     }
 
@@ -48,6 +48,12 @@ abstract class AbstractTestOfSkillRank extends TestWithMockery
         return $sutClass;
     }
 
+    protected function addProfessionLevelGetter(MockInterface $mock)
+    {
+        $mock->shouldReceive('getProfessionLevel')
+            ->andReturn($this->mockery(ProfessionLevel::class));
+    }
+
     /**
      * @test
      * @expectedException \LogicException
@@ -56,7 +62,6 @@ abstract class AbstractTestOfSkillRank extends TestWithMockery
     {
         $sutClass = $this->getSutClass();
         new $sutClass(
-            $this->createProfessionLevel(),
             $this->createPersonSkillPoint(),
             $this->createRequiredRankValue(-1)
         );
@@ -70,20 +75,9 @@ abstract class AbstractTestOfSkillRank extends TestWithMockery
     {
         $sutClass = $this->getSutClass();
         new $sutClass(
-            $this->createProfessionLevel(),
             $this->createPersonSkillPoint(),
             $this->createRequiredRankValue(4)
         );
-    }
-
-    /**
-     * @return \Mockery\MockInterface|ProfessionLevel
-     */
-    private function createProfessionLevel()
-    {
-        $professionLevels = $this->mockery(ProfessionLevel::class);
-
-        return $professionLevels;
     }
 
     /**

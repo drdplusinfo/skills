@@ -13,6 +13,7 @@ class PhysicalSkillRankTest extends AbstractTestOfSkillRank
     protected function createPersonSkillPoint()
     {
         $physicalSkillPoint = $this->mockery(PhysicalSkillPoint::class);
+        $this->addProfessionLevelGetter($physicalSkillPoint);
 
         return $physicalSkillPoint;
     }

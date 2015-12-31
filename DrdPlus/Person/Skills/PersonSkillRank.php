@@ -8,47 +8,33 @@ use Granam\Strict\Object\StrictObject;
 abstract class PersonSkillRank extends StrictObject implements IntegerInterface
 {
     const MIN_RANK_VALUE = 0; // heard about it
-    const MAX_RANK_VALUE = 3; // perfect knowledge
+    const MAX_RANK_VALUE = 3; // great knowledge
 
     /**
      * @var integer
-     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    /**
-     * @var ProfessionLevel
-     *
-     * @ORM\ManyToOne(targetEntity="\DrdPlus\Person\ProfessionLevels\ProfessionLevel")
-     */
-    private $professionLevel;
+
     /**
      * @var PersonSkillPoint
-     *
      * @ORM\OneToOne(targetEntity="\DrdPlus\Person\Skills\AbstractSkillPoint")
      */
     private $personSkillPoint;
     /**
      * @var int
-     *
      * @ORM\Column(type="integer")
      */
     private $value;
 
     /**
-     * @param ProfessionLevel $professionLevel
      * @param PersonSkillPoint $personSkillPoint
      * @param IntegerInterface $requiredRankValue
      */
-    protected function __construct(
-        ProfessionLevel $professionLevel,
-        PersonSkillPoint $personSkillPoint,
-        IntegerInterface $requiredRankValue
-    )
+    protected function __construct(PersonSkillPoint $personSkillPoint, IntegerInterface $requiredRankValue)
     {
-        $this->professionLevel = $professionLevel; // skill rank has been achieved on this profession level
         $this->personSkillPoint = $personSkillPoint; // this skill point has been consumed to achieve this rank
         $this->checkRequiredRankValue($requiredRankValue);
         $this->value = $requiredRankValue->getValue();
@@ -81,7 +67,7 @@ abstract class PersonSkillRank extends StrictObject implements IntegerInterface
      */
     public function getProfessionLevel()
     {
-        return $this->professionLevel;
+        return $this->getPersonSkillPoint()->getProfessionLevel();
     }
 
     /**

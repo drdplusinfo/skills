@@ -52,7 +52,7 @@ abstract class PersonSkill extends StrictObject
     }
 
     /**
-     * @return int|null
+     * @return int
      */
     abstract public function getId();
 

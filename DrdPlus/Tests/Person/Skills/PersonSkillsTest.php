@@ -1,9 +1,13 @@
 <?php
 namespace DrdPlus\Person\Skills;
 
+use DrdPlus\Person\Background\BackgroundSkillPoints;
+use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Person\Skills\Combined\PersonCombinedSkills;
 use DrdPlus\Person\Skills\Physical\PersonPhysicalSkills;
 use DrdPlus\Person\Skills\Psychical\PersonPsychicalSkills;
+use DrdPlus\PersonProperties\NextLevelsProperties;
+use DrdPlus\Tables\Tables;
 use DrdPlus\Tests\Tools\TestWithMockery;
 
 class PersonSkillsTest extends TestWithMockery
@@ -84,6 +88,77 @@ class PersonSkillsTest extends TestWithMockery
             ->andReturn(new \ArrayObject($asArray));
 
         return $combinedSkills;
+    }
+
+    /**
+     * TODO rework check
+     * @dataProvider providePointsToBeChecked
+     * @param ProfessionLevels $professionLevels
+     * @param BackgroundSkillPoints $backgroundSkillPoints
+     * @param NextLevelsProperties $nextLevelsProperties
+     * @param \Exception $expectedException = null
+     * @throws \Exception
+     */
+    public function I_can_let_check_validity_of_skill_points(
+        ProfessionLevels $professionLevels,
+        BackgroundSkillPoints $backgroundSkillPoints,
+        NextLevelsProperties $nextLevelsProperties,
+        \Exception $expectedException = null
+    )
+    {
+        $personSkills = new PersonSkills(
+            $physicalSkills = $this->createPhysicalSkills(),
+            $psychicalSkills = $this->createPsychicalSkills(),
+            $combinedSkills = $this->createCombinedSkills()
+        );
+
+        try {
+            $personSkills->checkSkillPoints(
+                $professionLevels,
+                $backgroundSkillPoints,
+                $nextLevelsProperties,
+                new Tables()
+            );
+        } catch (\Exception $exception) {
+            if ($expectedException) {
+                $this->assertInstanceOf(get_class($expectedException), $exception);
+            } else {
+                throw $exception;
+            }
+        }
+    }
+
+    public function providePointsToBeChecked()
+    {
+        return [
+            [
+                $this->createProfessionLevels(),
+                $this->createBackgroundSkillPoints(),
+                $this->createNextLevelsProperties(),
+                null // TODO specific exception
+            ],
+        ];
+    }
+
+    private function createProfessionLevels()
+    {
+        $professionLevels = $this->mockery(ProfessionLevels::class);
+
+        return $professionLevels;
+    }
+
+    private function createBackgroundSkillPoints()
+    {
+        $backgroundSkillPoints = $this->mockery(BackgroundSkillPoints::class);
+
+        return $backgroundSkillPoints;
+    }
+
+    private function createNextLevelsProperties()
+    {
+        $nextLevelsProperties = $this->mockery(NextLevelsProperties::class);
+
+        return $nextLevelsProperties;
     }
 
 }
