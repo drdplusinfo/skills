@@ -45,6 +45,16 @@ abstract class PersonCombinedSkill extends PersonSkill
      **/
     private $id;
 
+    public function __construct(CombinedSkillRank $combinedSkillRank)
+    {
+        parent::__construct($combinedSkillRank);
+    }
+
+    public function addCombinedSkillRank(CombinedSkillRank $combinedSkillRank)
+    {
+        parent::addSkillRank($combinedSkillRank);
+    }
+
     /**
      * @return int
      */

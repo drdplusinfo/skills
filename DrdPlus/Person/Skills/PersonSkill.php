@@ -12,22 +12,41 @@ abstract class PersonSkill extends StrictObject
      */
     protected $skillRanks = [];
 
-    public function __construct(PersonSkillRank $skillRank)
+    protected function __construct(PersonSkillRank $personSkillRank)
     {
-        $this->addSkillRank($skillRank);
+        $this->addSkillRank($personSkillRank);
     }
 
-    public function addSkillRank(PersonSkillRank $skillRank)
+    protected function addSkillRank(PersonSkillRank $personSkillRank)
     {
-        if (($this->getMaxSkillRankValue() + 1) !== $skillRank->getValue()) {
+        $this->guardSkillRankSequence($personSkillRank);
+//        $this->checkBackgroundSkillPointsOveruse($personSkillRank);
+
+        $this->skillRanks[$personSkillRank->getValue()] = $personSkillRank;
+    }
+
+    private function guardSkillRankSequence(PersonSkillRank $personSkillRank)
+    {
+        if (($this->getMaxSkillRankValue() + 1) !== $personSkillRank->getValue()) {
             throw new Exceptions\UnexpectedRankValue(
                 "New skill rank has to follow rank sequence, expected "
-                . ($this->getMaxSkillRankValue() + 1) . ", got {$skillRank->getValue()}"
+                . ($this->getMaxSkillRankValue() + 1) . ", got {$personSkillRank->getValue()}"
             );
         }
-
-        $this->skillRanks[$skillRank->getValue()] = $skillRank;
     }
+
+    /*private function checkUnquenessRanksAndPoints(PersonSkillRank $personSkillRank)
+    {
+        $ranksToCheck = $this->getSkillRanks();
+        $ranksToCheck[] = $personSkillRank;
+        $pointsToCheck = array_filter(
+            $ranksToCheck,
+            function(PersonSkillRank $personSkillRank) {
+                $personSkillRank->getPersonSkillPoint();
+            }
+        );
+        uniq
+    }*/
 
     /**
      * @return int
@@ -57,7 +76,8 @@ abstract class PersonSkill extends StrictObject
     abstract public function getId();
 
     /**
-     * @return PersonSkillRank[]
+     * TODO make this protected and add get(Type)SkillRanks getter to keep consistent interface
+     * @return PersonSkillRank[]|array
      */
     public function getSkillRanks()
     {

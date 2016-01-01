@@ -15,7 +15,7 @@ abstract class AbstractTestOfPersonSkill extends TestWithMockery
     public function I_can_use_it($sutClass)
     {
         /** @var PersonSkill $sut */
-        $sut = new $sutClass($personSkillRank = $this->createPersonSkillRank());
+        $sut = new $sutClass($personSkillRank = $this->createPersonSkillRank($sutClass));
         $this->assertEquals([1 => $personSkillRank], $sut->getSkillRanks());
         $this->assertNull($sut->getId());
 
@@ -80,16 +80,38 @@ abstract class AbstractTestOfPersonSkill extends TestWithMockery
     }
 
     /**
+     * @param string $sutClass
      * @param int $value
      * @return \Mockery\MockInterface|PersonSkillRank
      */
-    protected function createPersonSkillRank($value = 1)
+    protected function createPersonSkillRank($sutClass, $value = 1)
     {
-        $personSkillRank = $this->mockery(PersonSkillRank::class);
+        $personSkillRank = $this->mockery($this->getPersonSkillRankClass($sutClass));
         $personSkillRank->shouldReceive('getValue')
             ->andReturn($value);
 
         return $personSkillRank;
+    }
+
+    private function getPersonSkillRankClass($sutClass)
+    {
+        $baseClass = PersonSkillRank::class;
+        $typeName = preg_quote(ucfirst($this->getTypeName($sutClass)));
+        $class = preg_replace(
+            '~[\\\]PersonSkillRank$~',
+            '\\' . $typeName . '\\' . $typeName . 'SkillRank',
+            $baseClass
+        );
+
+        return $class;
+    }
+
+    private function getTypeName($sutClass)
+    {
+        preg_match('~[\\\](?<baseNamespace>\w+)[\\\]\w+$~', $sutClass, $matches);
+        $this->assertNotEmpty($matches['baseNamespace']);
+
+        return $matches['baseNamespace'];
     }
 
     /**
@@ -171,9 +193,12 @@ abstract class AbstractTestOfPersonSkill extends TestWithMockery
      */
     public function I_can_add_more_ranks()
     {
-        $sut = new DeAbstractedPersonSkill($skillRank = $this->createPersonSkillRank($rankValue = 1));
+        $sutClass = current($this->provideSutClass())[0]; // one is enough of this test
+        /** @var PersonSkill $sut */
+        $sut = new $sutClass($skillRank = $this->createPersonSkillRank($sutClass, $rankValue = 1));
         $this->assertSame([$rankValue => $skillRank], $sut->getSkillRanks());
-        $sut->addSkillRank($nextRank = $this->createPersonSkillRank($nextRankValue = 2));
+        $addTypeSkillRank = 'add' . $this->getTypeName($sutClass) . 'SkillRank';
+        $sut->$addTypeSkillRank($nextRank = $this->createPersonSkillRank($sutClass, $nextRankValue = 2));
         $this->assertSame([$rankValue => $skillRank, $nextRankValue => $nextRank], $sut->getSkillRanks());
     }
 
@@ -185,9 +210,11 @@ abstract class AbstractTestOfPersonSkill extends TestWithMockery
      */
     public function I_can_not_add_rank_with_invalid_sequence(array $sequence)
     {
-        $sut = new DeAbstractedPersonSkill($skillRank = $this->createPersonSkillRank());
+        $sutClass = current($this->provideSutClass())[0]; // one is enough of this test
+        $sut = new $sutClass($skillRank = $this->createPersonSkillRank($sutClass));
+        $addTypeSkillRank = 'add' . $this->getTypeName($sutClass) . 'SkillRank';
         foreach ($sequence as $rankValue) {
-            $sut->addSkillRank($this->createPersonSkillRank($rankValue));
+            $sut->$addTypeSkillRank($this->createPersonSkillRank($sutClass, $rankValue));
         }
     }
 
@@ -199,39 +226,4 @@ abstract class AbstractTestOfPersonSkill extends TestWithMockery
             [[3]], // skipped second rank
         ];
     }
-}
-
-/** inner */
-class DeAbstractedPersonSkill extends PersonSkill
-{
-    public function getId()
-    {
-        return null;
-    }
-
-    public function getName()
-    {
-        return 'foo';
-    }
-
-    public function getRelatedPropertyCodes()
-    {
-        return [];
-    }
-
-    public function isPhysical()
-    {
-        return false;
-    }
-
-    public function isPsychical()
-    {
-        return false;
-    }
-
-    public function isCombined()
-    {
-        return false;
-    }
-
 }

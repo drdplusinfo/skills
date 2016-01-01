@@ -144,7 +144,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
     )
     {
         if ($professionLevel->isFirstLevel() && $backgroundSkillPoints) {
-            $this->checkPayByFirstLevelBackgroundSkills($professionLevel, $tables, $backgroundSkillPoints);
+            $this->checkPayByFirstLevelBackgroundSkillPoints($professionLevel, $tables, $backgroundSkillPoints);
         } else if ($professionLevel->isFirstLevel() && $firstPaidSkillPoint && $secondPaidSkillPoint) {
             $this->checkPayByOtherSkillPoints($firstPaidSkillPoint, $secondPaidSkillPoint);
         } else if ($professionLevel->isNextLevel()) {
@@ -165,7 +165,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
      *
      * @return bool
      */
-    private function checkPayByFirstLevelBackgroundSkills(
+    private function checkPayByFirstLevelBackgroundSkillPoints(
         ProfessionLevel $professionLevel,
         Tables $tables,
         BackgroundSkillPoints $backgroundSkillPoints

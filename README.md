@@ -1,7 +1,7 @@
 Skills of a person for DrD+
 
 PersonSkills are all the person skills on one pile.
--> SameTypePersonSkills are skills of same type, like physical, on one pile
+-> PersonSameTypeSkills are skills of same type, like physical, on one pile
   -> PersonSkill is specific learned "ability", like horse riding
     -> PersonSkillRank is a "level" of the skill
        => PersonSkillPoint is the only but required price of a PersonSkillRank
@@ -23,3 +23,19 @@ PersonSkillRank
 - PersonSkillPoint has to be unique in whole universe, see PersonSkillPoint cross-type payment check
 
 PersonSkill
+- can be used just as an arbiter due its aggregating meaning
+- -can check if BackgroundSkillPoints are not overused- should not check it, its too tricky, let it to PersonSkills
+- can check if PersonSkillPoint and PersonSkillRank are unique locally
+- can check if cross-type PersonSkillPoint(s) as a payment are unique and not used as a standard point locally
+
+PersonSameTypeSkills
+- can be used just as an arbiter due its aggregating meaning
+- can sum all the first and next levels skill ranks
+
+PersonCombinedSkills + PersonPhysicalSkills + PersonPsychicalSkills
+- all the same-type skills it aggregate have to be unique in whole universe
+- has ability to find out unused skill point values of same-type skills
+
+PersonSkills
+- PersonCombinedSkills + PersonPhysicalSkills + PersonPsychicalSkills has to be unique in whole universe
+- should be the final arbiter, recommended way is to re-use existing checks of sub-aggregates

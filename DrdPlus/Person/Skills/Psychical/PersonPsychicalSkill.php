@@ -41,6 +41,16 @@ abstract class PersonPsychicalSkill extends PersonSkill
      **/
     private $id;
 
+    public function __construct(PsychicalSkillRank $psychicalSkillRank)
+    {
+        parent::__construct($psychicalSkillRank);
+    }
+
+    public function addPsychicalSkillRank(PsychicalSkillRank $psychicalSkillRank)
+    {
+        parent::addSkillRank($psychicalSkillRank);
+    }
+
     /**
      * @return int
      */

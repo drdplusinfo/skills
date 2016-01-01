@@ -41,6 +41,16 @@ abstract class PersonPhysicalSkill extends PersonSkill
      **/
     private $id;
 
+    public function __construct(PhysicalSkillRank $physicalSkillRank)
+    {
+        parent::__construct($physicalSkillRank);
+    }
+
+    public function addPhysicalSkillRank(PhysicalSkillRank $physicalSkillRank)
+    {
+        parent::addSkillRank($physicalSkillRank);
+    }
+
     /**
      * @return int
      */

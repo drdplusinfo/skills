@@ -2,9 +2,12 @@
 namespace DrdPlus\Tests\Person\Skills;
 
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
+use DrdPlus\Person\Skills\Combined\CombinedSkillRank;
 use DrdPlus\Person\Skills\PersonSameTypeSkills;
 use DrdPlus\Person\Skills\PersonSkill;
 use DrdPlus\Person\Skills\PersonSkillRank;
+use DrdPlus\Person\Skills\Physical\PhysicalSkillRank;
+use DrdPlus\Person\Skills\Psychical\PsychicalSkillRank;
 use DrdPlus\Tests\Tools\TestWithMockery;
 
 abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
@@ -20,7 +23,7 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
         $this->assertSame(0, $sut->count());
         $this->assertSame(0, $sut->getFirstLevelSkillRankSummary());
         $this->assertSame(0, $sut->getNextLevelsSkillRankSummary());
-        $this->assertSame($this->getExpectedSkillsGroupName(), $sut->getSkillsGroupName());
+        $this->assertSame($this->getExpectedSkillsTypeName(), $sut->getSkillsGroupName());
         $this->assertNull($sut->getId());
         $this->assertEquals([], $sut->getIterator()->getArrayCopy());
         foreach ($sut as $skill) {
@@ -36,7 +39,7 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
         return preg_replace('~[\\\]Tests([\\\].+)Test$~', '$1', static::class);
     }
 
-    protected function getExpectedSkillsGroupName()
+    protected function getExpectedSkillsTypeName()
     {
         $sutClass = $this->getSutClass();
         $this->assertSame(1, preg_match('~[\\\]?Person(?<groupName>\w+)Skills$~', $sutClass, $matches));
@@ -55,7 +58,7 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
         $sutClass = $this->getSutClass();
         /** @var PersonSameTypeSkills $sut */
         $sut = new $sutClass();
-        $addSkill = $this->getAdderName();
+        $addSkill = $this->getSkillAdderName();
         $sut->$addSkill($personSkill);
         foreach ($sut as $index => $placedPersonSkill) {
             $this->assertSame($personSkill, $placedPersonSkill);
@@ -76,12 +79,28 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
         foreach ($personSkillClasses as $personSkillClass) {
             /** @var PersonSkill $personSkill */
             $personSkill = new $personSkillClass($this->createPersonSkillRank(1, true)); // first level
-            $personSkill->addSkillRank($this->createPersonSkillRank(2, true)); // first level
-            $personSkill->addSkillRank($this->createPersonSkillRank(3, false)); // next level
+            $addSkillTypeRank = $this->getSkillRankAdderName();
+            $personSkill->$addSkillTypeRank($this->createPersonSkillRank(2, true)); // first level
+            $personSkill->$addSkillTypeRank($this->createPersonSkillRank(3, false)); // next level
             $personSkills[] = [$personSkill];
         }
 
         return $personSkills;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getSkillRankAdderName()
+    {
+        $typeName = $this->getExpectedSkillsTypeName();
+
+        /**
+         * @see \DrdPlus\Person\Skills\Combined\PersonCombinedSkill::addCombinedSkillRank
+         * @see \DrdPlus\Person\Skills\Physical\PersonPhysicalSkill::addPhysicalSkillRank
+         * @see \DrdPlus\Person\Skills\Psychical\PersonPsychicalSkill::addPsychicalSkillRank
+         */
+        return 'add' . ucfirst($typeName) . 'SkillRank';
     }
 
     /**
@@ -143,11 +162,11 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
     /**
      * @param int $skillRankValue
      * @param bool $isFirstLevel
-     * @return \Mockery\MockInterface|PersonSkillRank
+     * @return \Mockery\MockInterface|CombinedSkillRank|PsychicalSkillRank|PhysicalSkillRank
      */
     private function createPersonSkillRank($skillRankValue, $isFirstLevel)
     {
-        $personSkillRank = $this->mockery(PersonSkillRank::class);
+        $personSkillRank = $this->mockery($this->getPersonSkillRankClass());
         $personSkillRank->shouldReceive('getValue')
             ->andReturn($skillRankValue);
         $personSkillRank->shouldReceive('getProfessionLevel')
@@ -160,12 +179,25 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
         return $personSkillRank;
     }
 
+    private function getPersonSkillRankClass()
+    {
+        $baseClass = PersonSkillRank::class;
+        $typeName = preg_quote(ucfirst($this->getExpectedSkillsTypeName()));
+        $class = preg_replace(
+            '~[\\\]Person(SkillRank)$~',
+            '\\' . $typeName . '\\' . $typeName . '$1',
+            $baseClass
+        );
+
+        return $class;
+    }
+
     /**
      * @return string
      */
-    protected function getAdderName()
+    protected function getSkillAdderName()
     {
-        $groupName = $this->getExpectedSkillsGroupName();
+        $groupName = $this->getExpectedSkillsTypeName();
 
         /**
          * @see \DrdPlus\Person\Skills\Combined\PersonCombinedSkills::addCombinedSkill
@@ -195,7 +227,7 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
         $sutClass = $this->getSutClass();
         /** @var PersonSameTypeSkills $sut */
         $sut = new $sutClass();
-        $addSkill = $this->getAdderName();
+        $addSkill = $this->getSkillAdderName();
         $sut->$addSkill($personSkill);
         $sut->$addSkill($personSkill);
     }
