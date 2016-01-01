@@ -76,7 +76,6 @@ abstract class PersonSkill extends StrictObject
     abstract public function getId();
 
     /**
-     * TODO make this protected and add get(Type)SkillRanks getter to keep consistent interface
      * @return PersonSkillRank[]|array
      */
     public function getSkillRanks()
