@@ -20,8 +20,6 @@ abstract class PersonSkill extends StrictObject
     protected function addSkillRank(PersonSkillRank $personSkillRank)
     {
         $this->guardSkillRankSequence($personSkillRank);
-//        $this->checkBackgroundSkillPointsOveruse($personSkillRank);
-
         $this->skillRanks[$personSkillRank->getValue()] = $personSkillRank;
     }
 
@@ -34,19 +32,6 @@ abstract class PersonSkill extends StrictObject
             );
         }
     }
-
-    /*private function checkUnquenessRanksAndPoints(PersonSkillRank $personSkillRank)
-    {
-        $ranksToCheck = $this->getSkillRanks();
-        $ranksToCheck[] = $personSkillRank;
-        $pointsToCheck = array_filter(
-            $ranksToCheck,
-            function(PersonSkillRank $personSkillRank) {
-                $personSkillRank->getPersonSkillPoint();
-            }
-        );
-        uniq
-    }*/
 
     /**
      * @return int
