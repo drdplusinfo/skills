@@ -25,67 +25,67 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
     private $id;
 
     /** @var ArmorWearing|null
-     * @ORM\OneToOne(targetEntity="ArmorWearing")
+     * @ORM\OneToOne(targetEntity="ArmorWearing", nullable=true))
      */
     private $armorWearing;
     /** @var Athletics|null
-     * @ORM\OneToOne(targetEntity="Athletics")
+     * @ORM\OneToOne(targetEntity="Athletics", nullable=true))
      */
     private $athletics;
     /** @var Blacksmithing|null
-     * @ORM\OneToOne(targetEntity="Blacksmithing")
+     * @ORM\OneToOne(targetEntity="Blacksmithing", nullable=true))
      */
     private $blacksmithing;
     /** @var BoatDriving|null
-     * @ORM\OneToOne(targetEntity="BoatDriving")
+     * @ORM\OneToOne(targetEntity="BoatDriving", nullable=true))
      */
     private $boatDriving;
     /** @var CartDriving|null
-     * @ORM\OneToOne(targetEntity="CartDriving")
+     * @ORM\OneToOne(targetEntity="CartDriving", nullable=true))
      */
     private $cartDriving;
     /** @var CityMoving|null
-     * @ORM\OneToOne(targetEntity="CityMoving")
+     * @ORM\OneToOne(targetEntity="CityMoving", nullable=true))
      */
     private $cityMoving;
     /** @var ClimbingAndHillwalking|null
-     * @ORM\OneToOne(targetEntity="ClimbingAndHillwalking")
+     * @ORM\OneToOne(targetEntity="ClimbingAndHillwalking", nullable=true))
      */
     private $climbingAndHillwalking;
     /** @var FastMarsh|null
-     * @ORM\OneToOne(targetEntity="FastMarsh")
+     * @ORM\OneToOne(targetEntity="FastMarsh", nullable=true))
      */
     private $fastMarsh;
     /** @var FightWithWeapon|null
-     * @ORM\OneToOne(targetEntity="FightWithWeapon")
+     * @ORM\OneToOne(targetEntity="FightWithWeapon", nullable=true))
      */
     private $fightWithWeapon;
     /** @var Flying|null
-     * @ORM\OneToOne(targetEntity="Flying")
+     * @ORM\OneToOne(targetEntity="Flying", nullable=true))
      */
     private $flying;
     /** @var ForestMoving|null
-     * @ORM\OneToOne(targetEntity="ForestMoving")
+     * @ORM\OneToOne(targetEntity="ForestMoving", nullable=true))
      */
     private $forestMoving;
     /** @var MovingInMountains|null
-     * @ORM\OneToOne(targetEntity="MovingInMountains")
+     * @ORM\OneToOne(targetEntity="MovingInMountains", nullable=true))
      */
     private $movingInMountain;
     /** @var Riding|null
-     * @ORM\OneToOne(targetEntity="Riding")
+     * @ORM\OneToOne(targetEntity="Riding", nullable=true))
      */
     private $riding;
     /** @var Sailing|null
-     * @ORM\OneToOne(targetEntity="Sailing")
+     * @ORM\OneToOne(targetEntity="Sailing", nullable=true))
      */
     private $sailing;
     /** @var ShieldUsage|null
-     * @ORM\OneToOne(targetEntity="ShieldUsage")
+     * @ORM\OneToOne(targetEntity="ShieldUsage", nullable=true))
      */
     private $shieldUsage;
     /** @var Swimming|null
-     * @ORM\OneToOne(targetEntity="Swimming")
+     * @ORM\OneToOne(targetEntity="Swimming", nullable=true))
      */
     private $swimming;
 

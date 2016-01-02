@@ -26,79 +26,79 @@ class PersonCombinedSkills extends PersonSameTypeSkills
 
     /**
      * @var BigHandwork|null
-     * @ORM\OneToOne(targetEntity="BigHandwork")
+     * @ORM\OneToOne(targetEntity="BigHandwork", nullable=true))
      */
     private $bigHandwork;
     /** @var Cooking|null
-     * @ORM\OneToOne(targetEntity="Cooking")
+     * @ORM\OneToOne(targetEntity="Cooking", nullable=true))
      */
     private $cooking;
     /** @var Dancing|null
-     * @ORM\OneToOne(targetEntity="Dancing")
+     * @ORM\OneToOne(targetEntity="Dancing", nullable=true))
      */
     private $dancing;
     /** @var DuskSight|null
-     * @ORM\OneToOne(targetEntity="DuskSight")
+     * @ORM\OneToOne(targetEntity="DuskSight", nullable=true))
      */
     private $duskSight;
     /** @var FightWithShootingWeapons|null
-     * @ORM\OneToOne(targetEntity="FightWithShootingWeapons")
+     * @ORM\OneToOne(targetEntity="FightWithShootingWeapons", nullable=true))
      */
     private $fightWithShootingWeapons;
     /** @var FirstAid|null
-     * @ORM\OneToOne(targetEntity="FirstAid")
+     * @ORM\OneToOne(targetEntity="FirstAid", nullable=true))
      */
     private $firstAid;
     /** @var HandlingWithAnimals|null
-     * @ORM\OneToOne(targetEntity="HandingWithAnimals")
+     * @ORM\OneToOne(targetEntity="HandingWithAnimals", nullable=true))
      */
     private $handlingWithAnimals;
     /** @var Handwork|null
-     * @ORM\OneToOne(targetEntity="Handwork")
+     * @ORM\OneToOne(targetEntity="Handwork", nullable=true))
      */
     private $handwork;
     /** @var Gambling|null
-     * @ORM\OneToOne(targetEntity="Gambling")
+     * @ORM\OneToOne(targetEntity="Gambling", nullable=true))
      */
     private $gambling;
     /** @var Herbalism|null
-     * @ORM\OneToOne(targetEntity="Herbalism")
+     * @ORM\OneToOne(targetEntity="Herbalism", nullable=true))
      */
     private $herbalism;
     /** @var HuntingAndFishing|null
-     * @ORM\OneToOne(targetEntity="HuntingAndFishing")
+     * @ORM\OneToOne(targetEntity="HuntingAndFishing", nullable=true))
      */
     private $huntingAndFishing;
     /** @var Knotting|null
-     * @ORM\OneToOne(targetEntity="Knotting")
+     * @ORM\OneToOne(targetEntity="Knotting", nullable=true))
      */
     private $knotting;
     /** @var Painting|null
-     * @ORM\OneToOne(targetEntity="Painting")
+     * @ORM\OneToOne(targetEntity="Painting", nullable=true))
      */
     private $painting;
     /** @var Pedagogy|null
-     * @ORM\OneToOne(targetEntity="Pedagogy")
+     * @ORM\OneToOne(targetEntity="Pedagogy", nullable=true))
      */
     private $pedagogy;
     /** @var PlayingOnMusicInstrument|null
-     * @ORM\OneToOne(targetEntity="PlayingOnMusicInstrument")
+     * @ORM\OneToOne(targetEntity="PlayingOnMusicInstrument", nullable=true))
      */
     private $playingOnMusicInstrument;
     /** @var Seduction|null
-     * @ORM\OneToOne(targetEntity="Seduction")
+     * @ORM\OneToOne(targetEntity="Seduction", nullable=true))
      */
     private $seduction;
     /** @var Showmanship|null
-     * @ORM\OneToOne(targetEntity="Showmanship")
+     * @ORM\OneToOne(targetEntity="Showmanship", nullable=true))
      */
     private $showmanship;
     /** @var Singing|null
-     * @ORM\OneToOne(targetEntity="Singing")
+     * @ORM\OneToOne(targetEntity="Singing", nullable=true))
      */
     private $singing;
     /** @var Statuary|null
-     * @ORM\OneToOne(targetEntity="Statuary")
+     * @ORM\OneToOne(targetEntity="Statuary", nullable=true))
      */
     private $statuary;
 

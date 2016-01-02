@@ -26,67 +26,67 @@ class PersonPsychicalSkills extends PersonSameTypeSkills
     private $id;
 
     /** @var Astronomy|null
-     * @ORM\OneToOne(targetEntity="Astronomy")
+     * @ORM\OneToOne(targetEntity="Astronomy", nullable=true))
      */
     private $astronomy;
     /** @var Botany|null
-     * @ORM\OneToOne(targetEntity="Botany")
+     * @ORM\OneToOne(targetEntity="Botany", nullable=true))
      */
     private $botany;
     /** @var EtiquetteOfUnderworld|null
-     * @ORM\OneToOne(targetEntity="EtiquetteOfUnderworld")
+     * @ORM\OneToOne(targetEntity="EtiquetteOfUnderworld", nullable=true))
      */
     private $etiquetteOfUnderworld;
     /** @var ForeignLanguage|null
-     * @ORM\OneToOne(targetEntity="ForeignLanguage")
+     * @ORM\OneToOne(targetEntity="ForeignLanguage", nullable=true))
      */
     private $foreignLanguage;
     /** @var GeographyOfACountry|null
-     * @ORM\OneToOne(targetEntity="GeographyOfACountry")
+     * @ORM\OneToOne(targetEntity="GeographyOfACountry", nullable=true))
      */
     private $geographyOfACountry;
     /** @var HandlingWithMagicalItems|null
-     * @ORM\OneToOne(targetEntity="HandlingOfMagicalItems")
+     * @ORM\OneToOne(targetEntity="HandlingOfMagicalItems", nullable=true))
      */
     private $handlingWithMagicalItems;
     /** @var Historiography|null
-     * @ORM\OneToOne(targetEntity="Historiography")
+     * @ORM\OneToOne(targetEntity="Historiography", nullable=true))
      */
     private $historiography;
     /** @var KnowledgeOfACity|null
-     * @ORM\OneToOne(targetEntity="KnowledgeOfACity")
+     * @ORM\OneToOne(targetEntity="KnowledgeOfACity", nullable=true))
      */
     private $knowledgeOfACity;
     /** @var KnowledgeOfWorld|null
-     * @ORM\OneToOne(targetEntity="KnowledgeOfWorld")
+     * @ORM\OneToOne(targetEntity="KnowledgeOfWorld", nullable=true))
      */
     private $knowledgeOfWorld;
     /** @var MapsDrawing|null
-     * @ORM\OneToOne(targetEntity="MapsDrawing")
+     * @ORM\OneToOne(targetEntity="MapsDrawing", nullable=true))
      */
     private $mapsDrawing;
     /** @var Mythology|null
-     * @ORM\OneToOne(targetEntity="Mythology")
+     * @ORM\OneToOne(targetEntity="Mythology", nullable=true))
      */
     private $mythology;
     /** @var ReadingAndWriting|null
-     * @ORM\OneToOne(targetEntity="ReadingAndWriting")
+     * @ORM\OneToOne(targetEntity="ReadingAndWriting", nullable=true))
      */
     private $readingAndWriting;
     /** @var SocialEtiquette|null
-     * @ORM\OneToOne(targetEntity="SocialEtiquette")
+     * @ORM\OneToOne(targetEntity="SocialEtiquette", nullable=true))
      */
     private $socialEtiquette;
     /** @var Technology|null
-     * @ORM\OneToOne(targetEntity="Technology")
+     * @ORM\OneToOne(targetEntity="Technology", nullable=true))
      */
     private $technology;
     /** @var Theology|null
-     * @ORM\OneToOne(targetEntity="Theology")
+     * @ORM\OneToOne(targetEntity="Theology", nullable=true))
      */
     private $theology;
     /** @var Zoology|null
-     * @ORM\OneToOne(targetEntity="Zoology")
+     * @ORM\OneToOne(targetEntity="Zoology", nullable=true))
      */
     private $zoology;
 
