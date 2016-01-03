@@ -29,13 +29,13 @@ PersonSkill
 - can check if cross-type PersonSkillPoint(s) as a payment are unique and not used as a standard point locally
 
 PersonSameTypeSkills
+(can sum all the first and next levels skill ranks)
 - can be used just as an arbiter due its aggregating meaning
-- can sum all the first and next levels skill ranks
 
 PersonCombinedSkills + PersonPhysicalSkills + PersonPsychicalSkills
+(has ability to find out unused skill point values of same-type skills)
 - all the same-type skills it aggregate have to be unique in whole universe
-- has ability to find out unused skill point values of same-type skills
 
 PersonSkills
 - PersonCombinedSkills + PersonPhysicalSkills + PersonPsychicalSkills has to be unique in whole universe
-- should be the final arbiter, recommended way is to re-use existing checks of sub-aggregates
+- should be the final arbiter, -recommended way is to re-use existing checks of sub-aggregates-

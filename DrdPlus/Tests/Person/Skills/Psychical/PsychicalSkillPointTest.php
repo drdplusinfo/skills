@@ -39,7 +39,7 @@ class PsychicalSkillPointTest extends AbstractTestOfSkillPoint
 
     private function I_can_create_skill_point_from_two_combined_skill_points()
     {
-        $psychicalSkillPoint = PsychicalSkillPoint::createFromCrossTypeSkillPoints(
+        $psychicalSkillPoint = PsychicalSkillPoint::createFromFirstLevelCrossTypeSkillPoints(
             $level = $this->createProfessionFirstLevel(),
             $firstPaidSkillPoint = $this->createCombinedSkillPoint(),
             $secondPaidSkillPoint = $this->createCombinedSkillPoint(),
@@ -55,7 +55,7 @@ class PsychicalSkillPointTest extends AbstractTestOfSkillPoint
 
     private function I_can_create_skill_point_from_two_physical_skill_points()
     {
-        $psychicalSkillPoint = PsychicalSkillPoint::createFromCrossTypeSkillPoints(
+        $psychicalSkillPoint = PsychicalSkillPoint::createFromFirstLevelCrossTypeSkillPoints(
             $level = $this->createProfessionFirstLevel(),
             $firstPaidSkillPoint = $this->createPhysicalSkillPoint(),
             $secondPaidSkillPoint = $this->createPhysicalSkillPoint(),
@@ -71,7 +71,7 @@ class PsychicalSkillPointTest extends AbstractTestOfSkillPoint
 
     private function I_can_create_skill_point_from_physical_and_combined_skill_points()
     {
-        $psychicalSkillPoint = PsychicalSkillPoint::createFromCrossTypeSkillPoints(
+        $psychicalSkillPoint = PsychicalSkillPoint::createFromFirstLevelCrossTypeSkillPoints(
             $level = $this->createProfessionFirstLevel(),
             $firstPaidSkillPoint = $this->createPhysicalSkillPoint(),
             $secondPaidSkillPoint = $this->createCombinedSkillPoint(),
@@ -96,7 +96,7 @@ class PsychicalSkillPointTest extends AbstractTestOfSkillPoint
 
     private function I_can_create_skill_point_by_level_by_will_adjustment()
     {
-        $psychicalSkillPoint = PsychicalSkillPoint::createFromRelatedPropertyIncrease(
+        $psychicalSkillPoint = PsychicalSkillPoint::createFromNextLevelsPropertyIncrease(
             $level = $this->createProfessionNextLevel(Intelligence::class, Will::class),
             new Tables()
         );
@@ -110,7 +110,7 @@ class PsychicalSkillPointTest extends AbstractTestOfSkillPoint
 
     private function I_can_create_skill_point_by_level_by_intelligence_adjustment()
     {
-        $psychicalSkillPoint = PsychicalSkillPoint::createFromRelatedPropertyIncrease(
+        $psychicalSkillPoint = PsychicalSkillPoint::createFromNextLevelsPropertyIncrease(
             $level = $this->createProfessionNextLevel(Will::class, Intelligence::class),
             new Tables()
         );

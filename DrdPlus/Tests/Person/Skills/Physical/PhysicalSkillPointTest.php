@@ -39,7 +39,7 @@ class PhysicalSkillPointTest extends AbstractTestOfSkillPoint
 
     private function I_can_create_skill_point_from_two_combined_skill_points()
     {
-        $physicalSkillPoint = PhysicalSkillPoint::createFromCrossTypeSkillPoints(
+        $physicalSkillPoint = PhysicalSkillPoint::createFromFirstLevelCrossTypeSkillPoints(
             $level = $this->createProfessionFirstLevel(),
             $firstPaidSkillPoint = $this->createCombinedSkillPoint(),
             $secondPaidSkillPoint = $this->createCombinedSkillPoint(),
@@ -55,7 +55,7 @@ class PhysicalSkillPointTest extends AbstractTestOfSkillPoint
 
     private function I_can_create_skill_point_from_two_psychical_skill_points()
     {
-        $physicalSkillPoint = PhysicalSkillPoint::createFromCrossTypeSkillPoints(
+        $physicalSkillPoint = PhysicalSkillPoint::createFromFirstLevelCrossTypeSkillPoints(
             $level = $this->createProfessionFirstLevel(),
             $firstPaidSkillPoint = $this->createPsychicalSkillPoint(),
             $secondPaidSkillPoint = $this->createPsychicalSkillPoint(),
@@ -71,7 +71,7 @@ class PhysicalSkillPointTest extends AbstractTestOfSkillPoint
 
     private function I_can_create_skill_point_from_psychical_and_combined_skill_points()
     {
-        $physicalSkillPoint = PhysicalSkillPoint::createFromCrossTypeSkillPoints(
+        $physicalSkillPoint = PhysicalSkillPoint::createFromFirstLevelCrossTypeSkillPoints(
             $level = $this->createProfessionFirstLevel(),
             $firstPaidSkillPoint = $this->createPsychicalSkillPoint(),
             $secondPaidSkillPoint = $this->createCombinedSkillPoint(),
@@ -96,7 +96,7 @@ class PhysicalSkillPointTest extends AbstractTestOfSkillPoint
 
     private function I_can_create_skill_point_by_level_by_strength_adjustment()
     {
-        $physicalSkillPoint = PhysicalSkillPoint::createFromRelatedPropertyIncrease(
+        $physicalSkillPoint = PhysicalSkillPoint::createFromNextLevelsPropertyIncrease(
             $level = $this->createProfessionNextLevel(Agility::class, Strength::class),
             new Tables()
         );
@@ -110,7 +110,7 @@ class PhysicalSkillPointTest extends AbstractTestOfSkillPoint
 
     private function I_can_create_skill_point_by_level_by_agility_adjustment()
     {
-        $physicalSkillPoint = PhysicalSkillPoint::createFromRelatedPropertyIncrease(
+        $physicalSkillPoint = PhysicalSkillPoint::createFromNextLevelsPropertyIncrease(
             $level = $this->createProfessionNextLevel(Strength::class, Agility::class),
             new Tables()
         );

@@ -285,7 +285,7 @@ abstract class AbstractTestOfSkillPoint extends TestWithMockery
      */
     public function I_can_not_create_skill_point_by_invalid_payment()
     {
-        DeAbstractedPersonSkillPoint::createFromRelatedPropertyIncrease(
+        DeAbstractedPersonSkillPoint::createFromNextLevelsPropertyIncrease(
             $this->createProfessionFirstLevel('foo'),
             new Tables()
         );
@@ -315,7 +315,7 @@ abstract class AbstractTestOfSkillPoint extends TestWithMockery
         $firstPaidByBackgroundPoints, $secondPaidByBackgroundPoints
     )
     {
-        DeAbstractedPersonSkillPoint::createFromCrossTypeSkillPoints(
+        DeAbstractedPersonSkillPoint::createFromFirstLevelCrossTypeSkillPoints(
             $this->createProfessionFirstLevel('foo'),
             $this->createCombinedSkillPoint($firstPaidByBackgroundPoints, true, true),
             $this->createCombinedSkillPoint($secondPaidByBackgroundPoints, true, true),
@@ -344,7 +344,7 @@ abstract class AbstractTestOfSkillPoint extends TestWithMockery
         );
         $sameTypeSkillPoint->shouldReceive('getProfessionLevel')
             ->andReturn($this->createProfessionFirstLevel('baz'));
-        DeAbstractedPersonSkillPoint::createFromCrossTypeSkillPoints(
+        DeAbstractedPersonSkillPoint::createFromFirstLevelCrossTypeSkillPoints(
             $this->createProfessionFirstLevel('bar'),
             $sameTypeSkillPoint,
             $this->createPhysicalSkillPoint(),
@@ -358,7 +358,7 @@ abstract class AbstractTestOfSkillPoint extends TestWithMockery
      */
     public function I_can_not_pay_for_skill_point_by_next_level_without_property_increment()
     {
-        DeAbstractedPersonSkillPoint::createFromRelatedPropertyIncrease(
+        DeAbstractedPersonSkillPoint::createFromNextLevelsPropertyIncrease(
             $this->createProfessionNextLevel(Strength::class, Agility::class, false),
             new Tables()
         );

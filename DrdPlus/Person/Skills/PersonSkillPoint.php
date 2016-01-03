@@ -82,7 +82,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
      *
      * @return static
      */
-    public static function createFromCrossTypeSkillPoints(
+    public static function createFromFirstLevelCrossTypeSkillPoints(
         ProfessionLevel $professionLevel,
         PersonSkillPoint $firstPaidSkillPoint,
         PersonSkillPoint $secondPaidSkillPoint,
@@ -100,7 +100,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
      *
      * @return static
      */
-    public static function createFromRelatedPropertyIncrease(ProfessionLevel $professionLevel, Tables $tables)
+    public static function createFromNextLevelsPropertyIncrease(ProfessionLevel $professionLevel, Tables $tables)
     {
         return new static($professionLevel, $tables);
     }
