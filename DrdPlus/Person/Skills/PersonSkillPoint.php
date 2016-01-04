@@ -250,7 +250,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
             throw new Exceptions\MissingPropertyAdjustmentForPayment(
                 'The profession ' . $professionLevel->getProfession()->getValue()
                 . ' of level ' . $professionLevel->getLevelRank()->getValue()
-                . ' has to have adjustment either ' . implode(' or ', $this->getRelatedProperties())
+                . ' has to have adjusted either ' . implode(' or ', $this->getRelatedProperties())
             );
         }
     }
