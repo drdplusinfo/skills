@@ -1,6 +1,7 @@
 <?php
 namespace DrdPlus\Person\Skills;
 
+use DrdPlus\Codes\PropertyCodes;
 use DrdPlus\Person\Background\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
@@ -155,9 +156,15 @@ class PersonSkillsTest extends TestWithMockery
         $firstSkillPoint->shouldReceive('getTypeName')
             ->andReturn(CombinedSkillPoint::COMBINED);
         $firstSkillPoint->shouldReceive('isPaidByFirstLevelBackgroundSkillPoints')
+            ->andReturn(false);
+        $firstSkillPoint->shouldReceive('isPaidByOtherSkillPoints')
+            ->andReturn(false);
+        $firstSkillPoint->shouldReceive('isPaidByNextLevelPropertyIncrease')
             ->andReturn(true);
         $firstSkillPoint->shouldReceive('getBackgroundSkillPoints')
             ->andReturn($backgroundSkillPoints);
+        $firstSkillPoint->shouldReceive('getRelatedProperties')
+            ->andReturn([PropertyCodes::KNACK, PropertyCodes::CHARISMA]);
 
         return $combinedSkills;
     }
@@ -190,7 +197,7 @@ class PersonSkillsTest extends TestWithMockery
         $professionLevels->shouldReceive('getNextLevelsIntelligenceModifier')
             ->andReturn(0);
         $professionLevels->shouldReceive('getNextLevelsCharismaModifier')
-            ->andReturn(0);
+            ->andReturn(1);
 
         return $professionLevels;
     }
