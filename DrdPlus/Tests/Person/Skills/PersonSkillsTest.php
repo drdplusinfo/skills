@@ -4,9 +4,15 @@ namespace DrdPlus\Person\Skills;
 use DrdPlus\Person\Background\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
+use DrdPlus\Person\Skills\Combined\CombinedSkillPoint;
+use DrdPlus\Person\Skills\Combined\FirstAid;
 use DrdPlus\Person\Skills\Combined\PersonCombinedSkills;
 use DrdPlus\Person\Skills\Physical\PersonPhysicalSkills;
+use DrdPlus\Person\Skills\Physical\PhysicalSkillPoint;
+use DrdPlus\Person\Skills\Physical\Swimming;
 use DrdPlus\Person\Skills\Psychical\PersonPsychicalSkills;
+use DrdPlus\Person\Skills\Psychical\PsychicalSkillPoint;
+use DrdPlus\Person\Skills\Psychical\ReadingAndWriting;
 use DrdPlus\Professions\Profession;
 use DrdPlus\Tables\Tables;
 use DrdPlus\Tests\Tools\TestWithMockery;
@@ -20,56 +26,123 @@ class PersonSkillsTest extends TestWithMockery
     public function I_can_create_it()
     {
         $personSkills = PersonSkills::getIt(
-            $this->createProfessionLevels('foo'),
-            $this->createBackgroundSkillPoints(),
+            $professionLevels = $this->createProfessionLevels('foo'),
+            $backgroundSkillPoints = $this->createBackgroundSkillPoints(
+                $profession = $professionLevels->getFirstLevel()->getProfession()
+            ),
             new Tables(),
-            $physicalSkills = $this->createPhysicalSkills(),
-            $psychicalSkills = $this->createPsychicalSkills(),
-            $combinedSkills = $this->createCombinedSkills()
+            $physicalSkills = $this->createPhysicalSkills($backgroundSkillPoints, $professionLevels->getFirstLevel()),
+            $psychicalSkills = $this->createPsychicalSkills($backgroundSkillPoints, $professionLevels->getFirstLevel()),
+            $combinedSkills = $this->createCombinedSkills($backgroundSkillPoints, $professionLevels->getFirstLevel())
         );
 
         $this->assertNull($personSkills->getId());
         $this->assertSame($physicalSkills, $personSkills->getPhysicalSkills());
         $this->assertSame($psychicalSkills, $personSkills->getPsychicalSkills());
         $this->assertSame($combinedSkills, $personSkills->getCombinedSkills());
-        $this->assertEquals([], $personSkills->getSkills());
+        $this->assertEquals(
+            $this->getSortedExpectedSkills(
+                $physicalSkills->getIterator()->getArrayCopy(),
+                $psychicalSkills->getIterator()->getArrayCopy(),
+                $combinedSkills->getIterator()->getArrayCopy()
+            ),
+            $this->getSortedGivenSkills($personSkills)
+        );
     }
 
     /**
-     * @param array $asArray
+     * @param ProfessionLevel $firstLevel
+     * @param BackgroundSkillPoints $backgroundSkillPoints
      * @return PersonPhysicalSkills
      * */
-    private function createPhysicalSkills(array $asArray = [])
+    private function createPhysicalSkills(BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $firstLevel)
     {
         $physicalSkills = $this->mockery(PersonPhysicalSkills::class);
         $physicalSkills->shouldReceive('getIterator')
-            ->andReturn(new \ArrayObject($asArray));
+            ->andReturn(new \ArrayIterator(
+                [$firstSkill = $this->mockery(PersonSkill::class)]
+            ));
+        $firstSkill->shouldReceive('getName')
+            ->andReturn(Swimming::SWIMMING);
+        $firstSkill->shouldReceive('getSkillRanks')
+            ->andReturn([
+                $firstSkillRank = $this->mockery(PersonSkillRank::class)
+            ]);
+        $firstSkillRank->shouldReceive('getProfessionLevel')
+            ->andReturn($firstLevel);
+        $firstSkillRank->shouldReceive('getPersonSkillPoint')
+            ->andReturn($firstSkillPoint = $this->mockery(PhysicalSkillPoint::class));
+        $firstSkillPoint->shouldReceive('getTypeName')
+            ->andReturn(PhysicalSkillPoint::PHYSICAL);
+        $firstSkillPoint->shouldReceive('isPaidByFirstLevelBackgroundSkillPoints')
+            ->andReturn(true);
+        $firstSkillPoint->shouldReceive('getBackgroundSkillPoints')
+            ->andReturn($backgroundSkillPoints);
 
         return $physicalSkills;
     }
 
     /**
-     * @param array $asArray
+     * @param ProfessionLevel $firstLevel
+     * @param BackgroundSkillPoints $backgroundSkillPoints
      * @return PersonPsychicalSkills
      */
-    private function createPsychicalSkills(array $asArray = [])
+    private function createPsychicalSkills(BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $firstLevel)
     {
         $psychicalSkills = $this->mockery(PersonPsychicalSkills::class);
         $psychicalSkills->shouldReceive('getIterator')
-            ->andReturn(new \ArrayObject($asArray));
+            ->andReturn(new \ArrayIterator(
+                [$firstSkill = $this->mockery(PersonSkill::class)]
+            ));
+        $firstSkill->shouldReceive('getName')
+            ->andReturn(ReadingAndWriting::READING_AND_WRITING);
+        $firstSkill->shouldReceive('getSkillRanks')
+            ->andReturn([
+                $firstSkillRank = $this->mockery(PersonSkillRank::class)
+            ]);
+        $firstSkillRank->shouldReceive('getProfessionLevel')
+            ->andReturn($firstLevel);
+        $firstSkillRank->shouldReceive('getPersonSkillPoint')
+            ->andReturn($firstSkillPoint = $this->mockery(PsychicalSkillPoint::class));
+        $firstSkillPoint->shouldReceive('getTypeName')
+            ->andReturn(PsychicalSkillPoint::PSYCHICAL);
+        $firstSkillPoint->shouldReceive('isPaidByFirstLevelBackgroundSkillPoints')
+            ->andReturn(true);
+        $firstSkillPoint->shouldReceive('getBackgroundSkillPoints')
+            ->andReturn($backgroundSkillPoints);
+
 
         return $psychicalSkills;
     }
 
     /**
-     * @param array $asArray
+     * @param ProfessionLevel $firstLevel
+     * @param BackgroundSkillPoints $backgroundSkillPoints
      * @return PersonCombinedSkills
      */
-    private function createCombinedSkills(array $asArray = [])
+    private function createCombinedSkills(BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $firstLevel)
     {
         $combinedSkills = $this->mockery(PersonCombinedSkills::class);
         $combinedSkills->shouldReceive('getIterator')
-            ->andReturn(new \ArrayObject($asArray));
+            ->andReturn(new \ArrayIterator(
+                [$firstSkill = $this->mockery(PersonSkill::class)]
+            ));
+        $firstSkill->shouldReceive('getName')
+            ->andReturn(FirstAid::FIRST_AID);
+        $firstSkill->shouldReceive('getSkillRanks')
+            ->andReturn([
+                $firstSkillRank = $this->mockery(PersonSkillRank::class)
+            ]);
+        $firstSkillRank->shouldReceive('getProfessionLevel')
+            ->andReturn($firstLevel);
+        $firstSkillRank->shouldReceive('getPersonSkillPoint')
+            ->andReturn($firstSkillPoint = $this->mockery(CombinedSkillPoint::class));
+        $firstSkillPoint->shouldReceive('getTypeName')
+            ->andReturn(CombinedSkillPoint::COMBINED);
+        $firstSkillPoint->shouldReceive('isPaidByFirstLevelBackgroundSkillPoints')
+            ->andReturn(true);
+        $firstSkillPoint->shouldReceive('getBackgroundSkillPoints')
+            ->andReturn($backgroundSkillPoints);
 
         return $combinedSkills;
     }
@@ -83,6 +156,10 @@ class PersonSkillsTest extends TestWithMockery
         $professionLevels = $this->mockery(ProfessionLevels::class);
         $professionLevels->shouldReceive('getFirstLevel')
             ->andReturn($firstLevel = $this->mockery(ProfessionLevel::class));
+        $firstLevel->shouldReceive('isFirstLevel')
+            ->andReturn(true);
+        $firstLevel->shouldReceive('isNextLevel')
+            ->andReturn(false);
         $firstLevel->shouldReceive('getProfession')
             ->andReturn($profession = $this->mockery(Profession::class));
         $profession->shouldReceive('getValue')
@@ -104,33 +181,38 @@ class PersonSkillsTest extends TestWithMockery
     }
 
     /**
-     * @param string $expectedProfessionCode
+     * @param Profession $profession
      * @return \Mockery\MockInterface|BackgroundSkillPoints
      */
-    private function createBackgroundSkillPoints($expectedProfessionCode = null)
+    private function createBackgroundSkillPoints(Profession $profession = null)
     {
         $backgroundSkillPoints = $this->mockery(BackgroundSkillPoints::class);
-        if (!is_null($expectedProfessionCode)) {
+        if ($profession) {
             $backgroundSkillPoints->shouldReceive('getPhysicalSkillPoints')
-                ->with($expectedProfessionCode, \Mockery::type(Tables::class))
-                ->atLeast()->once();
+                ->with($profession, \Mockery::type(Tables::class))
+                ->atLeast()->once()
+                ->andReturn(1);
             $backgroundSkillPoints->shouldReceive('getPsychicalSkillPoints')
-                ->with($expectedProfessionCode, \Mockery::type(Tables::class))
-                ->atLeast()->once();
+                ->with($profession, \Mockery::type(Tables::class))
+                ->atLeast()->once()
+                ->andReturn(1);
             $backgroundSkillPoints->shouldReceive('getCombinedSkillPoints')
-                ->with($expectedProfessionCode, \Mockery::type(Tables::class))
-                ->atLeast()->once();
+                ->with($profession, \Mockery::type(Tables::class))
+                ->atLeast()->once()
+                ->andReturn(1);
         }
+        $backgroundSkillPoints->shouldReceive('getBackgroundPointsValue')
+            ->andReturn(8);
 
         return $backgroundSkillPoints;
     }
 
-    // TODO test returned skills
-
     private function getSortedExpectedSkills(array $physical, array $psychical, array $combined)
     {
         $expectedSkills = array_merge($physical, $psychical, $combined);
-        sort($expectedSkills);
+        usort($expectedSkills, function (PersonSkill $firstSkill, PersonSkill $secondSkill) {
+            return strcmp($firstSkill->getName(), $secondSkill->getName());
+        });
 
         return $expectedSkills;
     }
@@ -138,7 +220,9 @@ class PersonSkillsTest extends TestWithMockery
     private function getSortedGivenSkills(PersonSkills $personSkills)
     {
         $givenSkills = $personSkills->getSkills();
-        sort($givenSkills);
+        usort($givenSkills, function (PersonSkill $firstSkill, PersonSkill $secondSkill) {
+            return strcmp($firstSkill->getName(), $secondSkill->getName());
+        });
 
         return $givenSkills;
     }
