@@ -138,7 +138,7 @@ class PersonSkills extends StrictObject
              * check their sum
              */
             $propertyPayment['firstLevel'][$type]['paidSkillPoints']++;
-            $propertyPayment['firstLevel'][$type]['backgroundSkillPoints'] = $skillPoint->getBackgroundSkillPoints(); // one to one
+            $propertyPayment['firstLevel'][$type]['backgroundSkillPoints'] = $skillPoint->getBackgroundSkillPoints();
 
             return $propertyPayment;
         } else if ($skillPoint->isPaidByOtherSkillPoints()) {
@@ -271,9 +271,9 @@ class PersonSkills extends StrictObject
                     break;
             }
             if ($availableSkillPoints < $payment['paidSkillPoints']) {
-                throw new \LogicException(
+                throw new Exceptions\HigherSkillRanksThanPossible(
                     "First level skills of type $skillType have higher ranks then possible."
-                    . " Expected spent $availableSkillPoints skill points at most, counted " . $payment['paidSkillPoints']
+                    . " Expected spent $availableSkillPoints skill points at most, got " . $payment['paidSkillPoints']
                 );
             }
         }
