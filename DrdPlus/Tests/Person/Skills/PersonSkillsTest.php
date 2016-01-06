@@ -83,8 +83,8 @@ class PersonSkillsTest extends TestWithMockery
     }
 
     /**
-     * @param ProfessionLevel $firstLevel
      * @param BackgroundSkillPoints $backgroundSkillPoints
+     * @param ProfessionLevel $firstLevel
      * @return PersonPsychicalSkills
      */
     private function createPsychicalSkills(BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $firstLevel)
@@ -107,10 +107,25 @@ class PersonSkillsTest extends TestWithMockery
         $firstSkillPoint->shouldReceive('getTypeName')
             ->andReturn(PsychicalSkillPoint::PSYCHICAL);
         $firstSkillPoint->shouldReceive('isPaidByFirstLevelBackgroundSkillPoints')
+            ->andReturn(false);
+        $firstSkillPoint->shouldReceive('isPaidByOtherSkillPoints')
             ->andReturn(true);
-        $firstSkillPoint->shouldReceive('getBackgroundSkillPoints')
+        $firstSkillPoint->shouldReceive('getFirstPaidOtherSkillPoint')
+            ->andReturn($firstPaidOtherSkillPoint = $this->mockery(PsychicalSkillPoint::class));
+        $firstPaidOtherSkillPoint->shouldReceive('getTypeName')
+            ->andReturn(PhysicalSkillPoint::PHYSICAL);
+        $firstSkillPoint->shouldReceive('getSecondPaidOtherSkillPoint')
+            ->andReturn($secondPaidOtherSkillPoint = $this->mockery(PsychicalSkillPoint::class));
+        $secondPaidOtherSkillPoint->shouldReceive('getTypeName')
+            ->andReturn(PhysicalSkillPoint::PHYSICAL);
+        $firstPaidOtherSkillPoint->shouldReceive('isPaidByFirstLevelBackgroundSkillPoints')
+            ->andReturn(true);
+        $secondPaidOtherSkillPoint->shouldReceive('isPaidByFirstLevelBackgroundSkillPoints')
+            ->andReturn(true);
+        $secondPaidOtherSkillPoint->shouldReceive('getBackgroundSkillPoints')
             ->andReturn($backgroundSkillPoints);
-
+        $firstPaidOtherSkillPoint->shouldReceive('getBackgroundSkillPoints')
+            ->andReturn($backgroundSkillPoints);
 
         return $psychicalSkills;
     }
@@ -190,15 +205,12 @@ class PersonSkillsTest extends TestWithMockery
         if ($profession) {
             $backgroundSkillPoints->shouldReceive('getPhysicalSkillPoints')
                 ->with($profession, \Mockery::type(Tables::class))
-                ->atLeast()->once()
-                ->andReturn(1);
+                ->andReturn(3);
             $backgroundSkillPoints->shouldReceive('getPsychicalSkillPoints')
                 ->with($profession, \Mockery::type(Tables::class))
-                ->atLeast()->once()
                 ->andReturn(1);
             $backgroundSkillPoints->shouldReceive('getCombinedSkillPoints')
                 ->with($profession, \Mockery::type(Tables::class))
-                ->atLeast()->once()
                 ->andReturn(1);
         }
         $backgroundSkillPoints->shouldReceive('getBackgroundPointsValue')
