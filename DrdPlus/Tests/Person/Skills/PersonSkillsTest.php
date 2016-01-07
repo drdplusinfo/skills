@@ -208,7 +208,7 @@ class PersonSkillsTest extends TestWithMockery
         $firstSkillRank->shouldReceive('getPersonSkillPoint')
             ->andReturn($firstSkillPoint = $this->mockery($this->determineSkillPointClass($firstSkillClass)));
         $firstSkillPoint->shouldReceive('getTypeName')
-            ->andReturn($this->determineSkillGroupName($firstSkillClass));
+            ->andReturn($this->determineSkillTypeName($firstSkillClass));
         $firstSkillPoint->shouldReceive('isPaidByFirstLevelBackgroundSkillPoints')
             ->andReturn(false);
         $firstSkillPoint->shouldReceive('isPaidByOtherSkillPoints')
@@ -216,11 +216,11 @@ class PersonSkillsTest extends TestWithMockery
         $firstSkillPoint->shouldReceive('getFirstPaidOtherSkillPoint')
             ->andReturn($firstPaidOtherSkillPoint = $this->mockery($this->determineSkillPointClass($firstOtherSkillClass)));
         $firstPaidOtherSkillPoint->shouldReceive('getTypeName')
-            ->andReturn($this->determineSkillGroupName($firstOtherSkillClass));
+            ->andReturn($this->determineSkillTypeName($firstOtherSkillClass));
         $firstSkillPoint->shouldReceive('getSecondPaidOtherSkillPoint')
             ->andReturn($secondPaidOtherSkillPoint = $this->mockery($this->determineSkillPointClass($secondOtherSkillClass)));
         $secondPaidOtherSkillPoint->shouldReceive('getTypeName')
-            ->andReturn($this->determineSkillGroupName($secondOtherSkillClass));
+            ->andReturn($this->determineSkillTypeName($secondOtherSkillClass));
         $firstPaidOtherSkillPoint->shouldReceive('isPaidByFirstLevelBackgroundSkillPoints')
             ->andReturn(true);
         $secondPaidOtherSkillPoint->shouldReceive('isPaidByFirstLevelBackgroundSkillPoints')
@@ -233,7 +233,7 @@ class PersonSkillsTest extends TestWithMockery
         return $skills;
     }
 
-    private function determineSkillGroupName($skillClass)
+    private function determineSkillTypeName($skillClass)
     {
         if (is_a($skillClass, PersonPhysicalSkill::class, true)) {
             return PhysicalSkillPoint::PHYSICAL;
@@ -283,7 +283,7 @@ class PersonSkillsTest extends TestWithMockery
         $firstSkillRank->shouldReceive('getPersonSkillPoint')
             ->andReturn($firstSkillPoint = $this->mockery($this->determineSkillPointClass($skillClass)));
         $firstSkillPoint->shouldReceive('getTypeName')
-            ->andReturn($this->determineSkillGroupName($skillClass));
+            ->andReturn($this->determineSkillTypeName($skillClass));
         $firstSkillPoint->shouldReceive('isPaidByFirstLevelBackgroundSkillPoints')
             ->andReturn(false);
         $firstSkillPoint->shouldReceive('isPaidByOtherSkillPoints')
