@@ -3,6 +3,7 @@ namespace DrdPlus\Person\Skills;
 
 use DrdPlus\Codes\PropertyCodes;
 use DrdPlus\Person\Background\BackgroundSkillPoints;
+use DrdPlus\Person\ProfessionLevels\LevelRank;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Person\Skills\Combined\CombinedSkillPoint;
@@ -88,9 +89,9 @@ class PersonSkillsTest extends TestWithMockery
             [
                 $professionLevels,
                 $backgroundSkillPoints,
-                $this->createPhysicalSkillsByNextLevelPropertyIncrease($backgroundSkillPoints, $professionLevels->getFirstLevel()),
-                $this->createPsychicalSkillsByNextLevelPropertyIncrease($backgroundSkillPoints, $professionLevels->getFirstLevel()),
-                $this->createCombinedSkillsByNextLevelPropertyIncrease($backgroundSkillPoints, $professionLevels->getFirstLevel())
+                $this->createPhysicalSkillsByNextLevelPropertyIncrease($backgroundSkillPoints, current($professionLevels->getNextLevels())),
+                $this->createPsychicalSkillsByNextLevelPropertyIncrease($backgroundSkillPoints, current($professionLevels->getNextLevels())),
+                $this->createCombinedSkillsByNextLevelPropertyIncrease($backgroundSkillPoints, current($professionLevels->getNextLevels()))
             ],
         ];
     }
@@ -322,55 +323,55 @@ class PersonSkillsTest extends TestWithMockery
     }
 
     /**
-     * @param ProfessionLevel $firstLevel
+     * @param ProfessionLevel $nextLevel
      * @param BackgroundSkillPoints $backgroundSkillPoints
      * @return PersonCombinedSkills
      */
     private function createPhysicalSkillsByNextLevelPropertyIncrease(
-        BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $firstLevel
+        BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $nextLevel
     )
     {
         $physicalSkillPoints = $this->createSkillsByNextLevelPropertyIncrease(
-            $backgroundSkillPoints, $firstLevel, Athletics::class
+            $backgroundSkillPoints, $nextLevel, Athletics::class
         );
 
         return $physicalSkillPoints;
     }
 
     /**
-     * @param ProfessionLevel $firstLevel
+     * @param ProfessionLevel $nextLevel
      * @param BackgroundSkillPoints $backgroundSkillPoints
      * @return PersonCombinedSkills
      */
     private function createPsychicalSkillsByNextLevelPropertyIncrease(
-        BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $firstLevel
+        BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $nextLevel
     )
     {
         $psychicalSkillPoints = $this->createSkillsByNextLevelPropertyIncrease(
-            $backgroundSkillPoints, $firstLevel, ReadingAndWriting::class
+            $backgroundSkillPoints, $nextLevel, ReadingAndWriting::class
         );
 
         return $psychicalSkillPoints;
     }
 
     /**
-     * @param ProfessionLevel $firstLevel
+     * @param ProfessionLevel $nextLevel
      * @param BackgroundSkillPoints $backgroundSkillPoints
      * @return PersonCombinedSkills
      */
     private function createCombinedSkillsByNextLevelPropertyIncrease(
-        BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $firstLevel
+        BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $nextLevel
     )
     {
         $combinedSkills = $this->createSkillsByNextLevelPropertyIncrease(
-            $backgroundSkillPoints, $firstLevel, Cooking::class
+            $backgroundSkillPoints, $nextLevel, Cooking::class
         );
 
         return $combinedSkills;
     }
 
     private function createSkillsByNextLevelPropertyIncrease(
-        BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $firstLevel, $skillClass
+        BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $nextLevel, $skillClass
     )
     {
         $kills = $this->mockery($this->determineSkillsClass($skillClass));
@@ -382,11 +383,11 @@ class PersonSkillsTest extends TestWithMockery
             ->andReturn($this->parseSkillName($skillClass));
         $firstSkill->shouldReceive('getSkillRanks')
             ->andReturn([
-                $firstSkillRank = $this->mockery(PersonSkillRank::class)
+                $nextLevelSkillRank = $this->mockery(PersonSkillRank::class)
             ]);
-        $firstSkillRank->shouldReceive('getProfessionLevel')
-            ->andReturn($firstLevel);
-        $firstSkillRank->shouldReceive('getPersonSkillPoint')
+        $nextLevelSkillRank->shouldReceive('getProfessionLevel')
+            ->andReturn($nextLevel);
+        $nextLevelSkillRank->shouldReceive('getPersonSkillPoint')
             ->andReturn($firstSkillPoint = $this->mockery($this->determineSkillPointClass($skillClass)));
         $firstSkillPoint->shouldReceive('getTypeName')
             ->andReturn($this->determineSkillTypeName($skillClass));
@@ -435,6 +436,18 @@ class PersonSkillsTest extends TestWithMockery
             ->andReturn($profession = $this->mockery(Profession::class));
         $profession->shouldReceive('getValue')
             ->andReturn($professionCode);
+        $professionLevels->shouldReceive('getNextLevels')
+            ->andReturn([$nextLevel = $this->mockery(ProfessionLevel::class)]);
+        $nextLevel->shouldReceive('isFirstLevel')
+            ->andReturn(false);
+        $nextLevel->shouldReceive('isNextLevel')
+            ->andReturn(true);
+        $nextLevel->shouldReceive('getProfession')
+            ->andReturn($profession = $this->mockery(Profession::class));
+        $nextLevel->shouldReceive('getLevelRank')
+            ->andReturn($nextLevelRank = $this->mockery(LevelRank::class));
+        $nextLevelRank->shouldReceive('getValue')
+            ->andReturn(2);
         $professionLevels->shouldReceive('getNextLevelsStrengthModifier')
             ->andReturn(1);
         $professionLevels->shouldReceive('getNextLevelsAgilityModifier')
