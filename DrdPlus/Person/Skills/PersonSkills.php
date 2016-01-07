@@ -152,53 +152,47 @@ class PersonSkills extends StrictObject
     }
 
     /**
-     * @param array $skillPointPayments
+     * @param array $paymentOfSkillPoints
      *
      * @return array
      */
-    private static function sumPayments(array $skillPointPayments)
+    private static function sumPayments(array $paymentOfSkillPoints)
     {
-        $sumPayment = self::getPaymentsSkeleton();
-
-        foreach ($skillPointPayments as $skillPointPayment) {
+        $paymentSum = self::getPaymentsSkeleton();
+        foreach ($paymentOfSkillPoints as $paymentOfSkillPoint) {
             foreach ([PhysicalSkillPoint::PHYSICAL, PsychicalSkillPoint::PSYCHICAL, CombinedSkillPoint::COMBINED] as $type) {
-                $sumPayment = self::sumFirstLevelPaymentForType($sumPayment, $skillPointPayment, $type);
-                $sumPayment = self::sumNextLevelsPaymentForType($sumPayment, $skillPointPayment, $type);
+                $paymentSum['firstLevel'][$type] = self::sumFirstLevelPaymentOfType(
+                    $paymentSum['firstLevel'][$type], $paymentOfSkillPoint['firstLevel'][$type]
+                );
+                $paymentSum['nextLevels'][$type] = self::sumNextLevelsPaymentOfType(
+                    $paymentSum['nextLevels'][$type], $paymentOfSkillPoint['nextLevels'][$type]
+                );
             }
         }
 
-        return $sumPayment;
+        return $paymentSum;
     }
 
     /**
-     * @param array $sumPayment
-     * @param array $skillPointPayment
-     * @param string $type
+     * @param array $firstLevelSumPaymentOfType
+     * @param array $firstLevelSkillPointPaymentOfType
      *
      * @return array
      */
-    private static function sumFirstLevelPaymentForType(array $sumPayment, array $skillPointPayment, $type)
+    private static function sumFirstLevelPaymentOfType(array $firstLevelSumPaymentOfType, array $firstLevelSkillPointPaymentOfType)
     {
-        $sumPaymentOfType = &$sumPayment['firstLevel'][$type];
-        $skillPointPaymentOfType = $skillPointPayment['firstLevel'][$type];
-
-        $sumPaymentOfType['paidSkillPoints'] += $skillPointPaymentOfType['paidSkillPoints'];
-        if (!$sumPaymentOfType['backgroundSkillPoints']) {
-            if ($skillPointPaymentOfType['backgroundSkillPoints']) {
-                $sumPaymentOfType['backgroundSkillPoints'] = $skillPointPaymentOfType['backgroundSkillPoints'];
+        if ($firstLevelSkillPointPaymentOfType['paidSkillPoints'] > 0) {
+            if ($firstLevelSumPaymentOfType['backgroundSkillPoints']) {
+                self::checkIfBackgroundSkillPointsAreTheSame(
+                    $firstLevelSkillPointPaymentOfType['backgroundSkillPoints'], $firstLevelSumPaymentOfType['backgroundSkillPoints']
+                );
+            } else {
+                $firstLevelSumPaymentOfType['backgroundSkillPoints'] = $firstLevelSkillPointPaymentOfType['backgroundSkillPoints'];
             }
-        } else if ($skillPointPaymentOfType['backgroundSkillPoints']) {
-            /** @var BackgroundSkillPoints $skillPointPaymentBackgroundSkillPoints */
-            $skillPointPaymentBackgroundSkillPoints = $skillPointPaymentOfType['backgroundSkillPoints'];
-            /** @var BackgroundSkillPoints $sumPaymentBackgroundSkillPoints */
-            $sumPaymentBackgroundSkillPoints = $sumPaymentOfType['backgroundSkillPoints'];
-            self::checkIfBackgroundSkillPointsAreTheSame(
-                $skillPointPaymentBackgroundSkillPoints,
-                $sumPaymentBackgroundSkillPoints
-            );
+            $firstLevelSumPaymentOfType['paidSkillPoints'] += $firstLevelSkillPointPaymentOfType['paidSkillPoints'];
         }
 
-        return $sumPayment;
+        return $firstLevelSumPaymentOfType;
     }
 
     private static function checkIfBackgroundSkillPointsAreTheSame(
@@ -215,32 +209,14 @@ class PersonSkills extends StrictObject
         }
     }
 
-    private static function sumNextLevelsPaymentForType(array $sumPayment, array $skillPointPayment, $type)
+    private static function sumNextLevelsPaymentOfType(array $nextLevelsSumPaymentOfType, array $NextLevelsSkillPointPaymentOfType)
     {
-        $sumPaymentOfType = &$sumPayment['nextLevels'][$type];
-        $skillPointPaymentOfType = $skillPointPayment['nextLevels'][$type];
-
-        $sumPaymentOfType['paidSkillPoints'] += $skillPointPaymentOfType['paidSkillPoints'];
-        if (!$sumPaymentOfType['relatedProperties']) {
-            if ($skillPointPaymentOfType['relatedProperties']) {
-                $sumPaymentOfType['relatedProperties'] = $skillPointPaymentOfType['relatedProperties'];
-            }
-        } else if ($skillPointPaymentOfType['relatedProperties']) {
-            /** @var string[] $skillPointRelatedProperties */
-            $skillPointRelatedProperties = $skillPointPaymentOfType['relatedProperties'];
-            /** @var string[] $sumPaymentRelatedProperties */
-            $sumPaymentRelatedProperties = $sumPaymentOfType['relatedProperties'];
-            if (array_diff($skillPointRelatedProperties, $sumPaymentRelatedProperties)
-                || array_diff($sumPaymentRelatedProperties, $skillPointRelatedProperties)
-            ) {
-                throw new \LogicException(
-                    "All next level skill points of same type ($type) have to use same related properties."
-                    . ' Got ' . implode(',', $skillPointRelatedProperties) . ' and ' . implode(',', $sumPaymentRelatedProperties)
-                );
-            }
+        if ($NextLevelsSkillPointPaymentOfType['paidSkillPoints'] > 0) {
+            $nextLevelsSumPaymentOfType['paidSkillPoints'] += $NextLevelsSkillPointPaymentOfType['paidSkillPoints'];
+            $nextLevelsSumPaymentOfType['relatedProperties'] = $NextLevelsSkillPointPaymentOfType['relatedProperties'];
         }
 
-        return $sumPayment;
+        return $nextLevelsSumPaymentOfType;
     }
 
     private static function checkFirstLevelPayment(
