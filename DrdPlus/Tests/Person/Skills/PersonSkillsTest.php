@@ -465,10 +465,11 @@ class PersonSkillsTest extends TestWithMockery
     }
 
     /**
-     * @param Profession $profession
+     * @param Profession|null $profession
+     * @param mixed $value = 'foo bar'
      * @return \Mockery\MockInterface|BackgroundSkillPoints
      */
-    private function createBackgroundSkillPoints(Profession $profession = null)
+    private function createBackgroundSkillPoints(Profession $profession = null, $value = 'foo bar')
     {
         $backgroundSkillPoints = $this->mockery(BackgroundSkillPoints::class);
         if ($profession) {
@@ -483,7 +484,7 @@ class PersonSkillsTest extends TestWithMockery
                 ->andReturn(3);
         }
         $backgroundSkillPoints->shouldReceive('getBackgroundPointsValue')
-            ->andReturn('foo bar');
+            ->andReturn($value);
 
         return $backgroundSkillPoints;
     }
@@ -509,7 +510,6 @@ class PersonSkillsTest extends TestWithMockery
     }
 
     // NEGATIVE TESTS
-
 
     /**
      * @test
@@ -564,6 +564,61 @@ class PersonSkillsTest extends TestWithMockery
             ->andReturn(false);
         $firstSkillPoint->shouldReceive('isPaidByNextLevelPropertyIncrease')
             ->andReturn(false);
+
+        return $skills;
+    }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Person\Skills\Exceptions\BackgroundSkillPointsAreNotSame
+     */
+    public function I_can_not_use_different_background_skill_points()
+    {
+        $professionLevels = $this->createProfessionLevels('foo');
+        $backgroundSkillPoints = $this->createBackgroundSkillPoints($professionLevels->getFirstLevel()->getProfession());
+        $physicalSkills = $this->createPhysicalSkillsWithDifferentBackground($professionLevels->getFirstLevel(), Swimming::class);
+        $psychicalSkills = $this->createPsychicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $professionLevels->getFirstLevel());
+        $combinedSkills = $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $professionLevels->getFirstLevel());
+
+        PersonSkills::getIt(
+            $professionLevels,
+            $backgroundSkillPoints,
+            new Tables(),
+            $physicalSkills,
+            $psychicalSkills,
+            $combinedSkills
+        );
+    }
+
+    /**
+     * @param ProfessionLevel $firstLevel
+     * @param $firstSkillClass
+     * @return \Mockery\MockInterface|PersonPhysicalSkills
+     */
+    private function createPhysicalSkillsWithDifferentBackground(ProfessionLevel $firstLevel, $firstSkillClass)
+    {
+        $skillsClass = $this->determineSkillsClass($firstSkillClass);
+        $skills = $this->mockery($skillsClass);
+        $skills->shouldReceive('getIterator')
+            ->andReturn(new \ArrayIterator(
+                [$firstSkill = $this->mockery(PersonSkill::class)]
+            ));
+        $firstSkill->shouldReceive('getName')
+            ->andReturn($this->parseSkillName($firstSkillClass));
+        $firstSkill->shouldReceive('getSkillRanks')
+            ->andReturn([
+                $firstSkillRank = $this->mockery(PersonSkillRank::class)
+            ]);
+        $firstSkillRank->shouldReceive('getProfessionLevel')
+            ->andReturn($firstLevel);
+        $firstSkillRank->shouldReceive('getPersonSkillPoint')
+            ->andReturn($firstSkillPoint = $this->mockery($this->determineSkillPointClass($firstSkillClass)));
+        $firstSkillPoint->shouldReceive('getTypeName')
+            ->andReturn(PhysicalSkillPoint::PHYSICAL);
+        $firstSkillPoint->shouldReceive('isPaidByFirstLevelBackgroundSkillPoints')
+            ->andReturn(true);
+        $firstSkillPoint->shouldReceive('getBackgroundSkillPoints')
+            ->andReturn($this->createBackgroundSkillPoints(null, 'different points value'));
 
         return $skills;
     }
