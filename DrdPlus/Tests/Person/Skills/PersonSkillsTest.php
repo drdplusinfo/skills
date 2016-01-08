@@ -115,7 +115,7 @@ class PersonSkillsTest extends TestWithMockery
     /**
      * @param ProfessionLevel $firstLevel
      * @param BackgroundSkillPoints $backgroundSkillPoints
-     * @return PersonPhysicalSkills
+     * @return PersonPsychicalSkills
      * */
     private function createPsychicalSkillsPaidByFirstLevelBackground(
         BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $firstLevel
@@ -131,7 +131,7 @@ class PersonSkillsTest extends TestWithMockery
     /**
      * @param ProfessionLevel $firstLevel
      * @param BackgroundSkillPoints $backgroundSkillPoints
-     * @return PersonPhysicalSkills
+     * @return PersonCombinedSkills
      * */
     private function createCombinedSkillsPaidByFirstLevelBackground(
         BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $firstLevel
@@ -506,6 +506,66 @@ class PersonSkillsTest extends TestWithMockery
         });
 
         return $givenSkills;
+    }
+
+    // NEGATIVE TESTS
+
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Person\Skills\Exceptions\UnknownPaymentForSkillPoint
+     */
+    public function I_can_not_use_unknown_payment()
+    {
+        $professionLevels = $this->createProfessionLevels('foo');
+        $backgroundSkillPoints = $this->createBackgroundSkillPoints($professionLevels->getFirstLevel()->getProfession());
+        $physicalSkills = $this->createPhysicalSkillsWithUnknownPayment($professionLevels->getFirstLevel(), Swimming::class);
+        $psychicalSkills = $this->createPsychicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $professionLevels->getFirstLevel());
+        $combinedSkills = $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $professionLevels->getFirstLevel());
+
+        PersonSkills::getIt(
+            $professionLevels,
+            $backgroundSkillPoints,
+            new Tables(),
+            $physicalSkills,
+            $psychicalSkills,
+            $combinedSkills
+        );
+    }
+
+    /**
+     * @param ProfessionLevel $firstLevel
+     * @param $firstSkillClass
+     * @return \Mockery\MockInterface|PersonPhysicalSkills
+     */
+    private function createPhysicalSkillsWithUnknownPayment(ProfessionLevel $firstLevel, $firstSkillClass)
+    {
+        $skillsClass = $this->determineSkillsClass($firstSkillClass);
+        $skills = $this->mockery($skillsClass);
+        $skills->shouldReceive('getIterator')
+            ->andReturn(new \ArrayIterator(
+                [$firstSkill = $this->mockery(PersonSkill::class)]
+            ));
+        $firstSkill->shouldReceive('getName')
+            ->andReturn($this->parseSkillName($firstSkillClass));
+        $firstSkill->shouldReceive('getSkillRanks')
+            ->andReturn([
+                $firstSkillRank = $this->mockery(PersonSkillRank::class)
+            ]);
+        $firstSkillRank->shouldReceive('getProfessionLevel')
+            ->andReturn($firstLevel);
+        $firstSkillRank->shouldReceive('getPersonSkillPoint')
+            ->andReturn($firstSkillPoint = $this->mockery($this->determineSkillPointClass($firstSkillClass)));
+        $firstSkillPoint->shouldReceive('getTypeName')
+            ->andReturn(PhysicalSkillPoint::PHYSICAL);
+        $firstSkillPoint->shouldReceive('isPaidByFirstLevelBackgroundSkillPoints')
+            ->andReturn(false);
+        $firstSkillPoint->shouldReceive('isPaidByOtherSkillPoints')
+            ->andReturn(false);
+        $firstSkillPoint->shouldReceive('isPaidByNextLevelPropertyIncrease')
+            ->andReturn(false);
+
+        return $skills;
     }
 
 }
