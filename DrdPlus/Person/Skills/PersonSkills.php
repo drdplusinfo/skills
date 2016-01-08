@@ -341,9 +341,10 @@ class PersonSkills extends StrictObject
             }
         }
         if ($tooHighRankAdjustments) {
-            throw new \LogicException(
-                'Only on first level can be skill ranks increased more then ' . self::MAX_SKILL_RANK_INCREASE_PER_NEXT_LEVEL . '.'
-                . ' Got ' . count($tooHighRankAdjustments) . ' skills with too high rank-per-level adjustment'
+            throw new Exceptions\TooHighSingleSkillIncrementPerNextLevel(
+                'Only on first level can be skill ranks increased more then '
+                . (self::MAX_SKILL_RANK_INCREASE_PER_NEXT_LEVEL === 1 ? 'once' : self::MAX_SKILL_RANK_INCREASE_PER_NEXT_LEVEL) . '.'
+                . ' Got ' . count($tooHighRankAdjustments) . ' skill(s) with too high rank-per-level adjustment'
                 . ' (' . self::getTooHighRankAdjustmentsDescription($tooHighRankAdjustments) . ')'
             );
         }
@@ -353,19 +354,19 @@ class PersonSkills extends StrictObject
     {
         $descriptionParts = [];
         foreach ($tooHighRankAdjustments as $skillName => $ranksPerLevel) {
-            $skillDescription = "skill $skillName over-increased on";
+            $skillDescription = "skill '$skillName' over-increased on";
             $levelsDescriptions = [];
             foreach ($ranksPerLevel as $levelValue => $skillRanks) {
-                $levelDescription = " level $levelValue to rank"
+                $levelDescription = "level $levelValue to ranks "
                     . implode(
-                        ',',
+                        ' and ',
                         array_map(function (PersonSkillRank $rank) {
                             return $rank->getValue();
                         }, $skillRanks)
                     );
                 $levelsDescriptions[] = $levelDescription;
             }
-            $skillDescription .= ' ' . implode(',', $levelsDescriptions);
+            $skillDescription .= ' ' . implode(', ', $levelsDescriptions);
             $descriptionParts[] = $skillDescription;
         }
 
