@@ -227,7 +227,6 @@ class PersonSkills extends StrictObject
             if (!$payment['paidFirstLevelSkillPoints']) {
                 continue; // no skills have been "bought" at all
             }
-            /** @var BackgroundSkillPoints $paymentBackgroundSkills */
             $paymentBackgroundSkills = $payment['backgroundSkillPoints'];
             self::checkIfBackgroundSkillPointsAreTheSame($paymentBackgroundSkills, $backgroundSkillPoints);
             $availableSkillPoints = 0;
