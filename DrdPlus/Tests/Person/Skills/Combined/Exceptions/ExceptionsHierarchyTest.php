@@ -1,5 +1,5 @@
 <?php
-namespace DrdPlus\Tests\Person\Skills\Combined;
+namespace DrdPlus\Tests\Person\Skills\Combined\Exceptions;
 
 use DrdPlus\Person\Skills\Combined\PersonCombinedSkills;
 use DrdPlus\Person\Skills\PersonSkills;

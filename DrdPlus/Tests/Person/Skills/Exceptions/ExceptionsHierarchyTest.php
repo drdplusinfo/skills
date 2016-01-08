@@ -1,5 +1,5 @@
 <?php
-namespace DrdPlus\Tests\Person\Skills;
+namespace DrdPlus\Tests\Person\Skills\Exceptions;
 
 use DrdPlus\Person\Skills\PersonSkills;
 use Granam\Exceptions\Tests\Tools\AbstractTestOfExceptionsHierarchy;

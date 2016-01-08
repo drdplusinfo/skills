@@ -1,5 +1,5 @@
 <?php
-namespace DrdPlus\Tests\Person\Skills\Physical;
+namespace DrdPlus\Tests\Person\Skills\Physical\Exceptions;
 
 use DrdPlus\Person\Skills\PersonSkills;
 use DrdPlus\Person\Skills\Physical\PersonPhysicalSkills;
