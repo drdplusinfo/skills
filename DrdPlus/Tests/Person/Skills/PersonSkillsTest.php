@@ -419,9 +419,22 @@ class PersonSkillsTest extends TestWithMockery
     /**
      * @param string $professionCode
      * @param int $nextLevelsStrengthModifier = 1
+     * @param int $nextLevelsAgilityModifier = 0
+     * @param int $nextLevelsKnackModifier = 1
+     * @param int $nextLevelsWillModifier = 1
+     * @param int $nextLevelsIntelligenceModifier = 0
+     * @param int $nextLevelsCharismaModifier = 0
      * @return \Mockery\MockInterface|ProfessionLevels
      */
-    private function createProfessionLevels($professionCode = 'foo', $nextLevelsStrengthModifier = 1)
+    private function createProfessionLevels(
+        $professionCode = 'foo',
+        $nextLevelsStrengthModifier = 1,
+        $nextLevelsAgilityModifier = 0,
+        $nextLevelsKnackModifier = 1,
+        $nextLevelsWillModifier = 1,
+        $nextLevelsIntelligenceModifier = 0,
+        $nextLevelsCharismaModifier = 0
+    )
     {
         $professionLevels = $this->mockery(ProfessionLevels::class);
         $professionLevels->shouldReceive('getFirstLevel')
@@ -449,15 +462,15 @@ class PersonSkillsTest extends TestWithMockery
         $professionLevels->shouldReceive('getNextLevelsStrengthModifier')
             ->andReturn($nextLevelsStrengthModifier);
         $professionLevels->shouldReceive('getNextLevelsAgilityModifier')
-            ->andReturn(0);
+            ->andReturn($nextLevelsAgilityModifier);
         $professionLevels->shouldReceive('getNextLevelsKnackModifier')
-            ->andReturn(1);
+            ->andReturn($nextLevelsKnackModifier);
         $professionLevels->shouldReceive('getNextLevelsWillModifier')
-            ->andReturn(1);
+            ->andReturn($nextLevelsWillModifier);
         $professionLevels->shouldReceive('getNextLevelsIntelligenceModifier')
-            ->andReturn(0);
+            ->andReturn($nextLevelsIntelligenceModifier);
         $professionLevels->shouldReceive('getNextLevelsCharismaModifier')
-            ->andReturn(0);
+            ->andReturn($nextLevelsCharismaModifier);
 
         return $professionLevels;
     }
@@ -793,16 +806,19 @@ class PersonSkillsTest extends TestWithMockery
     }
 
     /**
-     * TODO test other types as well
      * @test
+     * @dataProvider provideProfessionLevelsWithTooLowPropertyIncrease
      * @expectedException \DrdPlus\Person\Skills\Exceptions\HigherSkillRanksFromNextLevelsThanPossible
+     * @param ProfessionLevels $professionLevels
      */
-    public function I_can_not_increase_skills_by_next_levels_more_than_provides_property_increments()
+    public function I_can_not_increase_skills_by_next_levels_more_than_provides_property_increments(
+        ProfessionLevels $professionLevels
+    )
     {
-        $professionLevels = $this->createProfessionLevels('foo', 0);
-        $physicalSkills = $this->createPhysicalSkillsByNextLevelPropertyIncrease(current($professionLevels->getNextLevels()));
-        $psychicalSkills = $this->createPsychicalSkillsByNextLevelPropertyIncrease($professionLevels->getFirstLevel());
-        $combinedSkills = $this->createCombinedSkillsByNextLevelPropertyIncrease($professionLevels->getFirstLevel());
+        $nextLevel = current($professionLevels->getNextLevels());
+        $physicalSkills = $this->createPhysicalSkillsByNextLevelPropertyIncrease($nextLevel);
+        $psychicalSkills = $this->createPsychicalSkillsByNextLevelPropertyIncrease($nextLevel);
+        $combinedSkills = $this->createCombinedSkillsByNextLevelPropertyIncrease($nextLevel);
         $backgroundSkillPoints = $this->createBackgroundSkillPoints($professionLevels->getFirstLevel()->getProfession());
 
         PersonSkills::getIt(
@@ -813,6 +829,15 @@ class PersonSkillsTest extends TestWithMockery
             $psychicalSkills,
             $combinedSkills
         );
+    }
+
+    public function provideProfessionLevelsWithTooLowPropertyIncrease()
+    {
+        return [
+            [$this->createProfessionLevels('foo', 0, 0)], // physical properties
+            [$this->createProfessionLevels('foo', 1, 1, 1, 0, 0)], // psychical properties
+            [$this->createProfessionLevels('foo', 1, 1, 0, 1, 1, 0)], // combined properties
+        ];
     }
 
     /**
