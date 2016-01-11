@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jaroslavtyc/drd-plus-person-skills.svg?branch=master)](https://travis-ci.org/jaroslavtyc/drd-plus-person-skills)
+
 Skills of a person for DrD+
 
 PersonSkills are all the person skills on one pile.
