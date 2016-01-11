@@ -104,14 +104,14 @@ class PersonSkills extends StrictObject
     {
         return [
             'firstLevel' => [
-                PhysicalSkillPoint::PHYSICAL => ['paidFirstLevelSkillPoints' => 0, 'backgroundSkillPoints' => null],
-                PsychicalSkillPoint::PSYCHICAL => ['paidFirstLevelSkillPoints' => 0, 'backgroundSkillPoints' => null],
-                CombinedSkillPoint::COMBINED => ['paidFirstLevelSkillPoints' => 0, 'backgroundSkillPoints' => null]
+                PhysicalSkillPoint::PHYSICAL => ['spentFirstLevelSkillPoints' => 0, 'backgroundSkillPoints' => null],
+                PsychicalSkillPoint::PSYCHICAL => ['spentFirstLevelSkillPoints' => 0, 'backgroundSkillPoints' => null],
+                CombinedSkillPoint::COMBINED => ['spentFirstLevelSkillPoints' => 0, 'backgroundSkillPoints' => null]
             ],
             'nextLevels' => [
-                PhysicalSkillPoint::PHYSICAL => ['paidNextLevelsSkillPoints' => 0, 'relatedProperties' => []],
-                PsychicalSkillPoint::PSYCHICAL => ['paidNextLevelsSkillPoints' => 0, 'relatedProperties' => []],
-                CombinedSkillPoint::COMBINED => ['paidNextLevelsSkillPoints' => 0, 'relatedProperties' => []]
+                PhysicalSkillPoint::PHYSICAL => ['spentNextLevelsSkillPoints' => 0, 'relatedProperties' => []],
+                PsychicalSkillPoint::PSYCHICAL => ['spentNextLevelsSkillPoints' => 0, 'relatedProperties' => []],
+                CombinedSkillPoint::COMBINED => ['spentNextLevelsSkillPoints' => 0, 'relatedProperties' => []]
             ]
         ];
     }
@@ -128,7 +128,7 @@ class PersonSkills extends StrictObject
              * and @see \DrdPlus\Person\Background\Heritage
              * check their sum
              */
-            $propertyPayment['firstLevel'][$type]['paidFirstLevelSkillPoints']++;
+            $propertyPayment['firstLevel'][$type]['spentFirstLevelSkillPoints'] += $skillPoint->getValue();
             $propertyPayment['firstLevel'][$type]['backgroundSkillPoints'] = $skillPoint->getBackgroundSkillPoints();
 
             return $propertyPayment;
@@ -140,7 +140,7 @@ class PersonSkills extends StrictObject
             return self::sumPayments([$firstPaidOtherSkillPoint, $secondPaidOtherSkillPoint]);
         } else if ($skillPoint->isPaidByNextLevelPropertyIncrease()) {
             // for every skill point of this type has to exists level property increase
-            $propertyPayment['nextLevels'][$type]['paidNextLevelsSkillPoints']++;
+            $propertyPayment['nextLevels'][$type]['spentNextLevelsSkillPoints'] += $skillPoint->getValue();
             $propertyPayment['nextLevels'][$type]['relatedProperties'] = $skillPoint->getRelatedProperties();
 
             return $propertyPayment;
@@ -181,7 +181,7 @@ class PersonSkills extends StrictObject
      */
     private static function sumFirstLevelPaymentOfType(array $firstLevelSumPaymentOfType, array $firstLevelSkillPointPaymentOfType)
     {
-        if ($firstLevelSkillPointPaymentOfType['paidFirstLevelSkillPoints'] > 0) {
+        if ($firstLevelSkillPointPaymentOfType['spentFirstLevelSkillPoints'] > 0) {
             if ($firstLevelSumPaymentOfType['backgroundSkillPoints']) {
                 self::checkIfBackgroundSkillPointsAreTheSame(
                     $firstLevelSkillPointPaymentOfType['backgroundSkillPoints'], $firstLevelSumPaymentOfType['backgroundSkillPoints']
@@ -189,7 +189,7 @@ class PersonSkills extends StrictObject
             } else {
                 $firstLevelSumPaymentOfType['backgroundSkillPoints'] = $firstLevelSkillPointPaymentOfType['backgroundSkillPoints'];
             }
-            $firstLevelSumPaymentOfType['paidFirstLevelSkillPoints'] += $firstLevelSkillPointPaymentOfType['paidFirstLevelSkillPoints'];
+            $firstLevelSumPaymentOfType['spentFirstLevelSkillPoints'] += $firstLevelSkillPointPaymentOfType['spentFirstLevelSkillPoints'];
         }
 
         return $firstLevelSumPaymentOfType;
@@ -211,8 +211,8 @@ class PersonSkills extends StrictObject
 
     private static function sumNextLevelsPaymentOfType(array $nextLevelsSumPaymentOfType, array $NextLevelsSkillPointPaymentOfType)
     {
-        if ($NextLevelsSkillPointPaymentOfType['paidNextLevelsSkillPoints'] > 0) {
-            $nextLevelsSumPaymentOfType['paidNextLevelsSkillPoints'] += $NextLevelsSkillPointPaymentOfType['paidNextLevelsSkillPoints'];
+        if ($NextLevelsSkillPointPaymentOfType['spentNextLevelsSkillPoints'] > 0) {
+            $nextLevelsSumPaymentOfType['spentNextLevelsSkillPoints'] += $NextLevelsSkillPointPaymentOfType['spentNextLevelsSkillPoints'];
             $nextLevelsSumPaymentOfType['relatedProperties'] = $NextLevelsSkillPointPaymentOfType['relatedProperties'];
         }
 
@@ -224,7 +224,7 @@ class PersonSkills extends StrictObject
     )
     {
         foreach ($firstLevelPayments as $skillType => $payment) {
-            if (!$payment['paidFirstLevelSkillPoints']) {
+            if (!$payment['spentFirstLevelSkillPoints']) {
                 continue; // no skills have been "bought" at all
             }
             $paymentBackgroundSkills = $payment['backgroundSkillPoints'];
@@ -247,10 +247,10 @@ class PersonSkills extends StrictObject
                     );
                     break;
             }
-            if ($availableSkillPoints < $payment['paidFirstLevelSkillPoints']) {
+            if ($availableSkillPoints < $payment['spentFirstLevelSkillPoints']) {
                 throw new Exceptions\HigherSkillRanksFromFirstLevelThanPossible(
                     "First level skills of type '$skillType' have higher ranks then possible."
-                    . " Expected spent $availableSkillPoints skill points at most, got " . $payment['paidFirstLevelSkillPoints']
+                    . " Expected spent $availableSkillPoints skill points at most, got " . $payment['spentFirstLevelSkillPoints']
                 );
             }
         }
@@ -283,12 +283,12 @@ class PersonSkills extends StrictObject
                 }
             }
             $maxSkillPoint = self::getSkillPointByPropertyIncrease($increasedPropertySum);
-            if ($nextLevelPayment['paidNextLevelsSkillPoints'] > $maxSkillPoint) {
+            if ($nextLevelPayment['spentNextLevelsSkillPoints'] > $maxSkillPoint) {
                 throw new Exceptions\HigherSkillRanksFromNextLevelsThanPossible(
                     "Skills from next levels of type '$skillsType' have higher ranks than possible."
                     . " Max increase by next levels can be $maxSkillPoint by $increasedPropertySum increase"
                     . ' of related properties (' . implode(', ', $nextLevelPayment['relatedProperties']) . ')'
-                    . ', got ' . $nextLevelPayment['paidNextLevelsSkillPoints']
+                    . ', got ' . $nextLevelPayment['spentNextLevelsSkillPoints']
                 );
             }
         }
