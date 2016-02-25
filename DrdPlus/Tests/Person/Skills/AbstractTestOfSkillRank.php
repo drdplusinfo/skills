@@ -4,7 +4,7 @@ namespace DrdPlus\Tests\Person\Skills;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\Skills\PersonSkillPoint;
 use DrdPlus\Person\Skills\PersonSkillRank;
-use DrdPlus\Tests\Tools\TestWithMockery;
+use Granam\Tests\Tools\TestWithMockery;
 use Granam\Integer\IntegerInterface;
 use Mockery\MockInterface;
 

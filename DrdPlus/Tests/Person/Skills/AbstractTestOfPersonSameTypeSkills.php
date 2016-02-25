@@ -8,7 +8,7 @@ use DrdPlus\Person\Skills\PersonSkill;
 use DrdPlus\Person\Skills\PersonSkillRank;
 use DrdPlus\Person\Skills\Physical\PhysicalSkillRank;
 use DrdPlus\Person\Skills\Psychical\PsychicalSkillRank;
-use DrdPlus\Tests\Tools\TestWithMockery;
+use Granam\Tests\Tools\TestWithMockery;
 
 abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
 {
