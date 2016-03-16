@@ -16,13 +16,13 @@ class PsychicalSkillPointTest extends AbstractTestOfSkillPoint
             $backgroundSkillPoints = $this->createBackgroundSkills(123, 'getPsychicalSkillPoints'),
             new Tables()
         );
-        $this->assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
-        $this->assertSame(1, $psychicalSkillPoint->getValue());
-        $this->assertSame('psychical', $psychicalSkillPoint->getTypeName());
-        $this->assertSame([Will::WILL, Intelligence::INTELLIGENCE], $psychicalSkillPoint->getRelatedProperties());
-        $this->assertSame($backgroundSkillPoints, $psychicalSkillPoint->getBackgroundSkillPoints());
-        $this->assertNull($psychicalSkillPoint->getFirstPaidOtherSkillPoint());
-        $this->assertNull($psychicalSkillPoint->getSecondPaidOtherSkillPoint());
+        self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
+        self::assertSame(1, $psychicalSkillPoint->getValue());
+        self::assertSame('psychical', $psychicalSkillPoint->getTypeName());
+        self::assertSame([Will::WILL, Intelligence::INTELLIGENCE], $psychicalSkillPoint->getRelatedProperties());
+        self::assertSame($backgroundSkillPoints, $psychicalSkillPoint->getBackgroundSkillPoints());
+        self::assertNull($psychicalSkillPoint->getFirstPaidOtherSkillPoint());
+        self::assertNull($psychicalSkillPoint->getSecondPaidOtherSkillPoint());
 
         return [$psychicalSkillPoint, $level];
     }
@@ -45,10 +45,10 @@ class PsychicalSkillPointTest extends AbstractTestOfSkillPoint
             $secondPaidSkillPoint = $this->createCombinedSkillPoint(),
             new Tables()
         );
-        $this->assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
-        $this->assertNull($psychicalSkillPoint->getBackgroundSkillPoints());
-        $this->assertSame($firstPaidSkillPoint, $psychicalSkillPoint->getFirstPaidOtherSkillPoint());
-        $this->assertSame($secondPaidSkillPoint, $psychicalSkillPoint->getSecondPaidOtherSkillPoint());
+        self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
+        self::assertNull($psychicalSkillPoint->getBackgroundSkillPoints());
+        self::assertSame($firstPaidSkillPoint, $psychicalSkillPoint->getFirstPaidOtherSkillPoint());
+        self::assertSame($secondPaidSkillPoint, $psychicalSkillPoint->getSecondPaidOtherSkillPoint());
 
         return [$psychicalSkillPoint, $level];
     }
@@ -61,10 +61,10 @@ class PsychicalSkillPointTest extends AbstractTestOfSkillPoint
             $secondPaidSkillPoint = $this->createPhysicalSkillPoint(),
             new Tables()
         );
-        $this->assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
-        $this->assertNull($psychicalSkillPoint->getBackgroundSkillPoints());
-        $this->assertSame($firstPaidSkillPoint, $psychicalSkillPoint->getFirstPaidOtherSkillPoint());
-        $this->assertSame($secondPaidSkillPoint, $psychicalSkillPoint->getSecondPaidOtherSkillPoint());
+        self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
+        self::assertNull($psychicalSkillPoint->getBackgroundSkillPoints());
+        self::assertSame($firstPaidSkillPoint, $psychicalSkillPoint->getFirstPaidOtherSkillPoint());
+        self::assertSame($secondPaidSkillPoint, $psychicalSkillPoint->getSecondPaidOtherSkillPoint());
 
         return [$psychicalSkillPoint, $level];
     }
@@ -77,10 +77,10 @@ class PsychicalSkillPointTest extends AbstractTestOfSkillPoint
             $secondPaidSkillPoint = $this->createCombinedSkillPoint(),
             new Tables()
         );
-        $this->assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
-        $this->assertNull($psychicalSkillPoint->getBackgroundSkillPoints());
-        $this->assertSame($firstPaidSkillPoint, $psychicalSkillPoint->getFirstPaidOtherSkillPoint());
-        $this->assertSame($secondPaidSkillPoint, $psychicalSkillPoint->getSecondPaidOtherSkillPoint());
+        self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
+        self::assertNull($psychicalSkillPoint->getBackgroundSkillPoints());
+        self::assertSame($firstPaidSkillPoint, $psychicalSkillPoint->getFirstPaidOtherSkillPoint());
+        self::assertSame($secondPaidSkillPoint, $psychicalSkillPoint->getSecondPaidOtherSkillPoint());
 
         return [$psychicalSkillPoint, $level];
     }
@@ -100,10 +100,10 @@ class PsychicalSkillPointTest extends AbstractTestOfSkillPoint
             $level = $this->createProfessionNextLevel(Intelligence::class, Will::class),
             new Tables()
         );
-        $this->assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
-        $this->assertNull($psychicalSkillPoint->getBackgroundSkillPoints());
-        $this->assertNull($psychicalSkillPoint->getFirstPaidOtherSkillPoint());
-        $this->assertNull($psychicalSkillPoint->getSecondPaidOtherSkillPoint());
+        self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
+        self::assertNull($psychicalSkillPoint->getBackgroundSkillPoints());
+        self::assertNull($psychicalSkillPoint->getFirstPaidOtherSkillPoint());
+        self::assertNull($psychicalSkillPoint->getSecondPaidOtherSkillPoint());
 
         return [$psychicalSkillPoint, $level];
     }
@@ -114,10 +114,10 @@ class PsychicalSkillPointTest extends AbstractTestOfSkillPoint
             $level = $this->createProfessionNextLevel(Will::class, Intelligence::class),
             new Tables()
         );
-        $this->assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
-        $this->assertNull($psychicalSkillPoint->getBackgroundSkillPoints());
-        $this->assertNull($psychicalSkillPoint->getFirstPaidOtherSkillPoint());
-        $this->assertNull($psychicalSkillPoint->getSecondPaidOtherSkillPoint());
+        self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
+        self::assertNull($psychicalSkillPoint->getBackgroundSkillPoints());
+        self::assertNull($psychicalSkillPoint->getFirstPaidOtherSkillPoint());
+        self::assertNull($psychicalSkillPoint->getSecondPaidOtherSkillPoint());
 
         return [$psychicalSkillPoint, $level];
     }

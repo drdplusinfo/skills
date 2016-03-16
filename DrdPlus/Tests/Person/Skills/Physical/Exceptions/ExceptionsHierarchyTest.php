@@ -3,9 +3,9 @@ namespace DrdPlus\Tests\Person\Skills\Physical\Exceptions;
 
 use DrdPlus\Person\Skills\PersonSkills;
 use DrdPlus\Person\Skills\Physical\PersonPhysicalSkills;
-use Granam\Exceptions\Tests\Tools\AbstractTestOfExceptionsHierarchy;
+use Granam\Tests\Exceptions\Tools\AbstractExceptionsHierarchyTest;
 
-class ExceptionsHierarchyTest extends AbstractTestOfExceptionsHierarchy
+class ExceptionsHierarchyTest extends AbstractExceptionsHierarchyTest
 {
     protected function getTestedNamespace()
     {

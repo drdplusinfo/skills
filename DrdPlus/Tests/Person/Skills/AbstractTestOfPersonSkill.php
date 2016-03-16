@@ -16,8 +16,8 @@ abstract class AbstractTestOfPersonSkill extends TestWithMockery
     {
         /** @var PersonSkill $sut */
         $sut = new $sutClass($personSkillRank = $this->createPersonSkillRank($sutClass));
-        $this->assertEquals([1 => $personSkillRank], $sut->getSkillRanks());
-        $this->assertNull($sut->getId());
+        self::assertEquals([1 => $personSkillRank], $sut->getSkillRanks());
+        self::assertNull($sut->getId());
 
         $this->I_can_get_its_name($sut);
 
@@ -109,7 +109,7 @@ abstract class AbstractTestOfPersonSkill extends TestWithMockery
     private function getTypeName($sutClass)
     {
         preg_match('~[\\\](?<baseNamespace>\w+)[\\\]\w+$~', $sutClass, $matches);
-        $this->assertNotEmpty($matches['baseNamespace']);
+        self::assertNotEmpty($matches['baseNamespace']);
 
         return $matches['baseNamespace'];
     }
@@ -124,19 +124,18 @@ abstract class AbstractTestOfPersonSkill extends TestWithMockery
         $sutBasename = $matches['basename'];
         $underscored = preg_replace('~([a-z])([A-Z])~', '$1_$2', $sutBasename);
         $underscoredSingleLetters = preg_replace('~([A-Z])([A-Z])~', '$1_$2', $underscored);
-        $name = strtolower($underscoredSingleLetters);
 
-        return $name;
+        return strtolower($underscoredSingleLetters);
     }
 
     protected function I_can_get_its_name(PersonSkill $personSkill)
     {
         $expectedSkillName = $this->getExpectedSkillName(get_class($personSkill));
-        $this->assertSame($expectedSkillName, $personSkill->getName());
+        self::assertSame($expectedSkillName, $personSkill->getName());
         $constantName = $this->getConstantName($expectedSkillName);
-        $this->assertTrue(defined(get_class($personSkill) . '::' . $constantName));
+        self::assertTrue(defined(get_class($personSkill) . '::' . $constantName));
         $reflection = new \ReflectionClass($personSkill);
-        $this->assertSame($expectedSkillName, $reflection->getConstant($constantName));
+        self::assertSame($expectedSkillName, $reflection->getConstant($constantName));
     }
 
     protected function getConstantName($skillName)
@@ -146,7 +145,7 @@ abstract class AbstractTestOfPersonSkill extends TestWithMockery
 
     protected function I_can_get_related_property_codes(PersonSkill $personSkill)
     {
-        $this->assertEquals(
+        self::assertEquals(
             $this->sort($this->getExpectedRelatedPropertyCodes()),
             $this->sort($personSkill->getRelatedPropertyCodes())
         );
@@ -167,10 +166,10 @@ abstract class AbstractTestOfPersonSkill extends TestWithMockery
     protected function I_can_ask_it_which_type_is_it(PersonSkill $personSkill)
     {
         // should be only one type
-        $this->assertSame(1, $this->isPhysical() + $this->isPsychical() + $this->isCombined());
-        $this->assertSame($this->isPhysical(), $personSkill->isPhysical());
-        $this->assertSame($this->isPsychical(), $personSkill->isPsychical());
-        $this->assertSame($this->isCombined(), $personSkill->isCombined());
+        self::assertSame(1, $this->isPhysical() + $this->isPsychical() + $this->isCombined());
+        self::assertSame($this->isPhysical(), $personSkill->isPhysical());
+        self::assertSame($this->isPsychical(), $personSkill->isPsychical());
+        self::assertSame($this->isCombined(), $personSkill->isCombined());
     }
 
     /**
@@ -196,10 +195,10 @@ abstract class AbstractTestOfPersonSkill extends TestWithMockery
         $sutClass = current($this->provideSutClass())[0]; // one is enough of this test
         /** @var PersonSkill $sut */
         $sut = new $sutClass($skillRank = $this->createPersonSkillRank($sutClass, $rankValue = 1));
-        $this->assertSame([$rankValue => $skillRank], $sut->getSkillRanks());
+        self::assertSame([$rankValue => $skillRank], $sut->getSkillRanks());
         $addTypeSkillRank = 'add' . $this->getTypeName($sutClass) . 'SkillRank';
         $sut->$addTypeSkillRank($nextRank = $this->createPersonSkillRank($sutClass, $nextRankValue = 2));
-        $this->assertSame([$rankValue => $skillRank, $nextRankValue => $nextRank], $sut->getSkillRanks());
+        self::assertSame([$rankValue => $skillRank, $nextRankValue => $nextRank], $sut->getSkillRanks());
     }
 
     /**

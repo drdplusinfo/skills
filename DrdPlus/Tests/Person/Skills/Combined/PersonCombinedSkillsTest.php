@@ -50,14 +50,14 @@ class PersonCombinedSkillsTest extends AbstractTestOfPersonSameTypeSkills
             $firstLevelKnack = 123, $firstLevelCharisma = 456, $nextLevelKnack = 321, $nextLevelCharisma = 654
         );
 
-        $this->assertSame(
+        self::assertSame(
             $firstLevelKnack + $firstLevelCharisma,
             $skills->getUnusedFirstLevelCombinedSkillPointsValue($professionLevels)
         );
 
         $skills->addCombinedSkill($this->createCombinedSkill($usedRank = 3, 1, BigHandwork::class));
         $skills->addCombinedSkill($this->createCombinedSkill($unusedRank = 2, 2, Cooking::class));
-        $this->assertSame(
+        self::assertSame(
             ($firstLevelKnack + $firstLevelCharisma) - array_sum(range(1, $usedRank)),
             $skills->getUnusedFirstLevelCombinedSkillPointsValue($professionLevels),
             'Expected ' . (($firstLevelKnack + $firstLevelCharisma) - array_sum(range(1, $usedRank)))
@@ -134,13 +134,13 @@ class PersonCombinedSkillsTest extends AbstractTestOfPersonSameTypeSkills
             $firstLevelKnack = 123, $firstLevelCharisma = 456, $nextLevelsKnack = 321, $nextLevelsCharisma = 654
         );
 
-        $this->assertSame($nextLevelsKnack + $nextLevelsCharisma, $skills->getUnusedNextLevelsCombinedSkillPointsValue($professionLevels));
+        self::assertSame($nextLevelsKnack + $nextLevelsCharisma, $skills->getUnusedNextLevelsCombinedSkillPointsValue($professionLevels));
         $skills->addCombinedSkill($this->createCombinedSkill($rankFromFirstLevel = 2, 1, FirstAid::class));
-        $this->assertSame($nextLevelsKnack + $nextLevelsCharisma, $skills->getUnusedNextLevelsCombinedSkillPointsValue($professionLevels));
+        self::assertSame($nextLevelsKnack + $nextLevelsCharisma, $skills->getUnusedNextLevelsCombinedSkillPointsValue($professionLevels));
 
         $skills->addCombinedSkill($this->createCombinedSkill($aRankFromNextLevel = 3, 2, Gambling::class));
         $skills->addCombinedSkill($this->createCombinedSkill($anotherRankFromNextLevel = 1, 3, Seduction::class));
-        $this->assertSame(
+        self::assertSame(
             ($nextLevelsKnack + $nextLevelsCharisma) - (array_sum(range(1, $aRankFromNextLevel)) + array_sum(range(1, $anotherRankFromNextLevel))),
             $skills->getUnusedNextLevelsCombinedSkillPointsValue($professionLevels),
             'Expected ' . (($nextLevelsKnack + $nextLevelsCharisma) - (array_sum(range(1, $aRankFromNextLevel)) + array_sum(range(1, $anotherRankFromNextLevel))))

@@ -40,36 +40,36 @@ abstract class AbstractTestOfSkillPoint extends TestWithMockery
 
     protected function I_got_null_as_ID_of_non_persisted_skill_point(PersonSkillPoint $skillPoint)
     {
-        $this->assertNull($skillPoint->getId());
+        self::assertNull($skillPoint->getId());
     }
 
     protected function I_got_always_number_one_on_to_string_conversion(PersonSkillPoint $skillPoint)
     {
-        $this->assertSame('1', (string)$skillPoint);
+        self::assertSame('1', (string)$skillPoint);
     }
 
     protected function I_can_get_profession_level(PersonSkillPoint $skillPoint, ProfessionLevel $expectedLevel)
     {
-        $this->assertSame($expectedLevel, $skillPoint->getProfessionLevel());
+        self::assertSame($expectedLevel, $skillPoint->getProfessionLevel());
     }
 
     protected function I_can_detect_way_of_payment(PersonSkillPoint $skillPoint)
     {
-        $this->assertSame(
+        self::assertSame(
             $skillPoint->getBackgroundSkillPoints() !== null,
             $skillPoint->isPaidByFirstLevelBackgroundSkillPoints()
         );
-        $this->assertSame(
-            !empty($skillPoint->getFirstPaidOtherSkillPoint()) && !empty($skillPoint->getSecondPaidOtherSkillPoint()),
+        self::assertSame(
+            $skillPoint->getFirstPaidOtherSkillPoint() !== null && $skillPoint->getSecondPaidOtherSkillPoint() !== null,
             $skillPoint->isPaidByOtherSkillPoints()
         );
-        $this->assertSame(
+        self::assertSame(
             !$skillPoint->isPaidByFirstLevelBackgroundSkillPoints()
             && !$skillPoint->isPaidByOtherSkillPoints()
             && $skillPoint->getProfessionLevel()->isNextLevel(),
             $skillPoint->isPaidByNextLevelPropertyIncrease()
         );
-        $this->assertSame(
+        self::assertSame(
             1,
             $skillPoint->isPaidByFirstLevelBackgroundSkillPoints()
             + $skillPoint->isPaidByNextLevelPropertyIncrease()

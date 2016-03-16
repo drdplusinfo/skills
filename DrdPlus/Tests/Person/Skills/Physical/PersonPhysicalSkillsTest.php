@@ -50,14 +50,14 @@ class PersonPhysicalSkillsTest extends AbstractTestOfPersonSameTypeSkills
             $firstLevelStrength = 123, $firstLevelAgility = 456, $nextLevelStrength = 321, $nextLevelAgility = 654
         );
 
-        $this->assertSame(
+        self::assertSame(
             $firstLevelStrength + $firstLevelAgility,
             $skills->getUnusedFirstLevelPhysicalSkillPointsValue($professionLevels)
         );
 
         $skills->addPhysicalSkill($this->createPhysicalSkill($usedRank = 3, 1, ArmorWearing::class));
         $skills->addPhysicalSkill($this->createPhysicalSkill($unusedRank = 2, 2, Athletics::class));
-        $this->assertSame(
+        self::assertSame(
             ($firstLevelStrength + $firstLevelAgility) - array_sum(range(1, $usedRank)),
             $skills->getUnusedFirstLevelPhysicalSkillPointsValue($professionLevels),
             'Expected ' . (($firstLevelStrength + $firstLevelAgility) - array_sum(range(1, $usedRank)))
@@ -134,13 +134,13 @@ class PersonPhysicalSkillsTest extends AbstractTestOfPersonSameTypeSkills
             $firstLevelStrength = 123, $firstLevelAgility = 456, $nextLevelsStrength = 321, $nextLevelsAgility = 654
         );
 
-        $this->assertSame($nextLevelsStrength + $nextLevelsAgility, $skills->getUnusedNextLevelsPhysicalSkillPointsValue($professionLevels));
+        self::assertSame($nextLevelsStrength + $nextLevelsAgility, $skills->getUnusedNextLevelsPhysicalSkillPointsValue($professionLevels));
         $skills->addPhysicalSkill($this->createPhysicalSkill($rankFromFirstLevel = 2, 1, Blacksmithing::class));
-        $this->assertSame($nextLevelsStrength + $nextLevelsAgility, $skills->getUnusedNextLevelsPhysicalSkillPointsValue($professionLevels));
+        self::assertSame($nextLevelsStrength + $nextLevelsAgility, $skills->getUnusedNextLevelsPhysicalSkillPointsValue($professionLevels));
 
         $skills->addPhysicalSkill($this->createPhysicalSkill($aRankFromNextLevel = 3, 2, BoatDriving::class));
         $skills->addPhysicalSkill($this->createPhysicalSkill($anotherRankFromNextLevel = 1, 3, Flying::class));
-        $this->assertSame(
+        self::assertSame(
             ($nextLevelsStrength + $nextLevelsAgility) - (array_sum(range(1, $aRankFromNextLevel)) + array_sum(range(1, $anotherRankFromNextLevel))),
             $skills->getUnusedNextLevelsPhysicalSkillPointsValue($professionLevels),
             'Expected ' . (($nextLevelsStrength + $nextLevelsAgility) - (array_sum(range(1, $aRankFromNextLevel)) + array_sum(range(1, $anotherRankFromNextLevel))))

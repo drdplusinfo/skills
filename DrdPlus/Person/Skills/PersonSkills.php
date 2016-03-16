@@ -30,7 +30,7 @@ class PersonSkills extends StrictObject
     const PSYCHICAL = PersonPsychicalSkills::PSYCHICAL;
     const COMBINED = PersonCombinedSkills::COMBINED;
 
-    public static function getIt(
+    public static function createIt(
         ProfessionLevels $professionLevels,
         BackgroundSkillPoints $backgroundSkillPoints,
         Tables $tables,

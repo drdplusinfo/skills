@@ -20,14 +20,14 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
         $sutClass = $this->getSutClass();
         /** @var PersonSameTypeSkills $sut */
         $sut = new $sutClass();
-        $this->assertSame(0, $sut->count());
-        $this->assertSame(0, $sut->getFirstLevelSkillRankSummary());
-        $this->assertSame(0, $sut->getNextLevelsSkillRankSummary());
-        $this->assertSame($this->getExpectedSkillsTypeName(), $sut->getSkillsGroupName());
-        $this->assertNull($sut->getId());
-        $this->assertEquals([], $sut->getIterator()->getArrayCopy());
+        self::assertSame(0, $sut->count());
+        self::assertSame(0, $sut->getFirstLevelSkillRankSummary());
+        self::assertSame(0, $sut->getNextLevelsSkillRankSummary());
+        self::assertSame($this->getExpectedSkillsTypeName(), $sut->getSkillsGroupName());
+        self::assertNull($sut->getId());
+        self::assertEquals([], $sut->getIterator()->getArrayCopy());
         foreach ($sut as $skill) {
-            $this->assertNull($skill);
+            self::assertNull($skill);
         }
     }
 
@@ -42,10 +42,9 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
     protected function getExpectedSkillsTypeName()
     {
         $sutClass = $this->getSutClass();
-        $this->assertSame(1, preg_match('~[\\\]?Person(?<groupName>\w+)Skills$~', $sutClass, $matches));
-        $groupName = strtolower($matches['groupName']);
+        self::assertSame(1, preg_match('~[\\\]?Person(?<groupName>\w+)Skills$~', $sutClass, $matches));
 
-        return $groupName;
+        return strtolower($matches['groupName']);
     }
 
     /**
@@ -61,12 +60,12 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
         $addSkill = $this->getSkillAdderName();
         $sut->$addSkill($personSkill);
         foreach ($sut as $index => $placedPersonSkill) {
-            $this->assertSame($personSkill, $placedPersonSkill);
+            self::assertSame($personSkill, $placedPersonSkill);
         }
         $getSkill = $this->getSkillGetter($personSkill);
-        $this->assertSame($personSkill, $sut->$getSkill());
-        $this->assertSame(1 + 2, $sut->getFirstLevelSkillRankSummary());
-        $this->assertSame(3, $sut->getNextLevelsSkillRankSummary());
+        self::assertSame($personSkill, $sut->$getSkill());
+        self::assertSame(1 + 2, $sut->getFirstLevelSkillRankSummary());
+        self::assertSame(3, $sut->getNextLevelsSkillRankSummary());
     }
 
     /**
@@ -210,10 +209,9 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
     protected function getSkillGetter(PersonSkill $personSkill)
     {
         $class = get_class($personSkill);
-        $this->assertSame(1, preg_match('~[\\\](?<basename>\w+)$~', $class, $matches));
-        $getterName = 'get' . $matches['basename'];
+        self::assertSame(1, preg_match('~[\\\](?<basename>\w+)$~', $class, $matches));
 
-        return $getterName;
+        return 'get' . $matches['basename'];
     }
 
     /**

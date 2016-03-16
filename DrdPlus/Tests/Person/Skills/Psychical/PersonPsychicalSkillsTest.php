@@ -50,14 +50,14 @@ class PersonPsychicalSkillsTest extends AbstractTestOfPersonSameTypeSkills
             $firstLevelWill = 123, $firstLevelIntelligence = 456, $nextLevelWill = 321, $nextLevelIntelligence = 654
         );
 
-        $this->assertSame(
+        self::assertSame(
             $firstLevelWill + $firstLevelIntelligence,
             $skills->getUnusedFirstLevelPsychicalSkillPointsValue($professionLevels)
         );
 
         $skills->addPsychicalSkill($this->createPsychicalSkill($usedRank = 3, 1, Astronomy::class));
         $skills->addPsychicalSkill($this->createPsychicalSkill($unusedRank = 2, 2, Botany::class));
-        $this->assertSame(
+        self::assertSame(
             ($firstLevelWill + $firstLevelIntelligence) - array_sum(range(1, $usedRank)),
             $skills->getUnusedFirstLevelPsychicalSkillPointsValue($professionLevels),
             'Expected ' . (($firstLevelWill + $firstLevelIntelligence) - array_sum(range(1, $usedRank)))
@@ -134,13 +134,13 @@ class PersonPsychicalSkillsTest extends AbstractTestOfPersonSameTypeSkills
             $firstLevelWill = 123, $firstLevelIntelligence = 456, $nextLevelsWill = 321, $nextLevelsIntelligence = 654
         );
 
-        $this->assertSame($nextLevelsWill + $nextLevelsIntelligence, $skills->getUnusedNextLevelsPsychicalSkillPointsValue($professionLevels));
+        self::assertSame($nextLevelsWill + $nextLevelsIntelligence, $skills->getUnusedNextLevelsPsychicalSkillPointsValue($professionLevels));
         $skills->addPsychicalSkill($this->createPsychicalSkill($rankFromFirstLevel = 2, 1, Mythology::class));
-        $this->assertSame($nextLevelsWill + $nextLevelsIntelligence, $skills->getUnusedNextLevelsPsychicalSkillPointsValue($professionLevels));
+        self::assertSame($nextLevelsWill + $nextLevelsIntelligence, $skills->getUnusedNextLevelsPsychicalSkillPointsValue($professionLevels));
 
         $skills->addPsychicalSkill($this->createPsychicalSkill($aRankFromNextLevel = 3, 2, Technology::class));
         $skills->addPsychicalSkill($this->createPsychicalSkill($anotherRankFromNextLevel = 1, 3, Zoology::class));
-        $this->assertSame(
+        self::assertSame(
             ($nextLevelsWill + $nextLevelsIntelligence) - (array_sum(range(1, $aRankFromNextLevel)) + array_sum(range(1, $anotherRankFromNextLevel))),
             $skills->getUnusedNextLevelsPsychicalSkillPointsValue($professionLevels),
             'Expected ' . (($nextLevelsWill + $nextLevelsIntelligence) - (array_sum(range(1, $aRankFromNextLevel)) + array_sum(range(1, $anotherRankFromNextLevel))))

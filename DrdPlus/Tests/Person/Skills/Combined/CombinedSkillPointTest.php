@@ -16,13 +16,13 @@ class CombinedSkillPointTest extends AbstractTestOfSkillPoint
             $backgroundSkillPoints = $this->createBackgroundSkills(123, 'getCombinedSkillPoints'),
             new Tables()
         );
-        $this->assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
-        $this->assertSame(1, $combinedSkillPoint->getValue());
-        $this->assertSame('combined', $combinedSkillPoint->getTypeName());
-        $this->assertSame([Knack::KNACK, Charisma::CHARISMA], $combinedSkillPoint->getRelatedProperties());
-        $this->assertSame($backgroundSkillPoints, $combinedSkillPoint->getBackgroundSkillPoints());
-        $this->assertNull($combinedSkillPoint->getFirstPaidOtherSkillPoint());
-        $this->assertNull($combinedSkillPoint->getSecondPaidOtherSkillPoint());
+        self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
+        self::assertSame(1, $combinedSkillPoint->getValue());
+        self::assertSame('combined', $combinedSkillPoint->getTypeName());
+        self::assertSame([Knack::KNACK, Charisma::CHARISMA], $combinedSkillPoint->getRelatedProperties());
+        self::assertSame($backgroundSkillPoints, $combinedSkillPoint->getBackgroundSkillPoints());
+        self::assertNull($combinedSkillPoint->getFirstPaidOtherSkillPoint());
+        self::assertNull($combinedSkillPoint->getSecondPaidOtherSkillPoint());
 
         return [$combinedSkillPoint, $level];
     }
@@ -45,10 +45,10 @@ class CombinedSkillPointTest extends AbstractTestOfSkillPoint
             $secondPaidSkillPoint = $this->createPhysicalSkillPoint(),
             new Tables()
         );
-        $this->assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
-        $this->assertNull($combinedSkillPoint->getBackgroundSkillPoints());
-        $this->assertSame($firstPaidSkillPoint, $combinedSkillPoint->getFirstPaidOtherSkillPoint());
-        $this->assertSame($secondPaidSkillPoint, $combinedSkillPoint->getSecondPaidOtherSkillPoint());
+        self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
+        self::assertNull($combinedSkillPoint->getBackgroundSkillPoints());
+        self::assertSame($firstPaidSkillPoint, $combinedSkillPoint->getFirstPaidOtherSkillPoint());
+        self::assertSame($secondPaidSkillPoint, $combinedSkillPoint->getSecondPaidOtherSkillPoint());
 
         return [$combinedSkillPoint, $level];
     }
@@ -61,10 +61,10 @@ class CombinedSkillPointTest extends AbstractTestOfSkillPoint
             $secondPaidSkillPoint = $this->createPsychicalSkillPoint(),
             new Tables()
         );
-        $this->assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
-        $this->assertNull($combinedSkillPoint->getBackgroundSkillPoints());
-        $this->assertSame($firstPaidSkillPoint, $combinedSkillPoint->getFirstPaidOtherSkillPoint());
-        $this->assertSame($secondPaidSkillPoint, $combinedSkillPoint->getSecondPaidOtherSkillPoint());
+        self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
+        self::assertNull($combinedSkillPoint->getBackgroundSkillPoints());
+        self::assertSame($firstPaidSkillPoint, $combinedSkillPoint->getFirstPaidOtherSkillPoint());
+        self::assertSame($secondPaidSkillPoint, $combinedSkillPoint->getSecondPaidOtherSkillPoint());
 
         return [$combinedSkillPoint, $level];
     }
@@ -77,10 +77,10 @@ class CombinedSkillPointTest extends AbstractTestOfSkillPoint
             $secondPaidSkillPoint = $this->createPhysicalSkillPoint(),
             new Tables()
         );
-        $this->assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
-        $this->assertNull($combinedSkillPoint->getBackgroundSkillPoints());
-        $this->assertSame($firstPaidSkillPoint, $combinedSkillPoint->getFirstPaidOtherSkillPoint());
-        $this->assertSame($secondPaidSkillPoint, $combinedSkillPoint->getSecondPaidOtherSkillPoint());
+        self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
+        self::assertNull($combinedSkillPoint->getBackgroundSkillPoints());
+        self::assertSame($firstPaidSkillPoint, $combinedSkillPoint->getFirstPaidOtherSkillPoint());
+        self::assertSame($secondPaidSkillPoint, $combinedSkillPoint->getSecondPaidOtherSkillPoint());
 
         return [$combinedSkillPoint, $level];
     }
@@ -100,10 +100,10 @@ class CombinedSkillPointTest extends AbstractTestOfSkillPoint
             $level = $this->createProfessionNextLevel(Knack::class, Charisma::class),
             new Tables()
         );
-        $this->assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
-        $this->assertNull($combinedSkillPoint->getBackgroundSkillPoints());
-        $this->assertNull($combinedSkillPoint->getFirstPaidOtherSkillPoint());
-        $this->assertNull($combinedSkillPoint->getSecondPaidOtherSkillPoint());
+        self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
+        self::assertNull($combinedSkillPoint->getBackgroundSkillPoints());
+        self::assertNull($combinedSkillPoint->getFirstPaidOtherSkillPoint());
+        self::assertNull($combinedSkillPoint->getSecondPaidOtherSkillPoint());
 
         return [$combinedSkillPoint, $level];
     }
@@ -114,10 +114,10 @@ class CombinedSkillPointTest extends AbstractTestOfSkillPoint
             $level = $this->createProfessionNextLevel(Charisma::class, Knack::class),
             new Tables()
         );
-        $this->assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
-        $this->assertNull($combinedSkillPoint->getBackgroundSkillPoints());
-        $this->assertNull($combinedSkillPoint->getFirstPaidOtherSkillPoint());
-        $this->assertNull($combinedSkillPoint->getSecondPaidOtherSkillPoint());
+        self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
+        self::assertNull($combinedSkillPoint->getBackgroundSkillPoints());
+        self::assertNull($combinedSkillPoint->getFirstPaidOtherSkillPoint());
+        self::assertNull($combinedSkillPoint->getSecondPaidOtherSkillPoint());
 
         return [$combinedSkillPoint, $level];
     }

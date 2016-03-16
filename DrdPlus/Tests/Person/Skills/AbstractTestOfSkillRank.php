@@ -26,11 +26,11 @@ abstract class AbstractTestOfSkillRank extends TestWithMockery
             $this->createRequiredRankValue($skillRankValue)
         );
 
-        $this->assertNull($personSkillRank->getId());
-        $this->assertSame($skillRankValue, $personSkillRank->getValue());
-        $this->assertSame("$skillRankValue", (string)$personSkillRank);
-        $this->assertSame($personSkillPoint->getProfessionLevel(), $personSkillRank->getProfessionLevel());
-        $this->assertSame($personSkillPoint, $personSkillRank->getPersonSkillPoint());
+        self::assertNull($personSkillRank->getId());
+        self::assertSame($skillRankValue, $personSkillRank->getValue());
+        self::assertSame("$skillRankValue", (string)$personSkillRank);
+        self::assertSame($personSkillPoint->getProfessionLevel(), $personSkillRank->getProfessionLevel());
+        self::assertSame($personSkillPoint, $personSkillRank->getPersonSkillPoint());
     }
 
     public function allowedSkillRankValues()
@@ -43,9 +43,7 @@ abstract class AbstractTestOfSkillRank extends TestWithMockery
      */
     protected function getSutClass()
     {
-        $sutClass = preg_replace('~[\\\]Tests([\\\].+)Test$~', '$1', static::class);
-
-        return $sutClass;
+        return preg_replace('~[\\\]Tests([\\\].+)Test$~', '$1', static::class);
     }
 
     protected function addProfessionLevelGetter(MockInterface $mock)

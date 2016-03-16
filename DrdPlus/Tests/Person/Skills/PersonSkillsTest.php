@@ -45,7 +45,7 @@ class PersonSkillsTest extends TestWithMockery
         PersonCombinedSkills $combinedSkills
     )
     {
-        $personSkills = PersonSkills::getIt(
+        $personSkills = PersonSkills::createIt(
             $professionLevels,
             $backgroundSkillPoints,
             new Tables(),
@@ -54,11 +54,11 @@ class PersonSkillsTest extends TestWithMockery
             $combinedSkills
         );
 
-        $this->assertNull($personSkills->getId());
-        $this->assertSame($physicalSkills, $personSkills->getPhysicalSkills());
-        $this->assertSame($psychicalSkills, $personSkills->getPsychicalSkills());
-        $this->assertSame($combinedSkills, $personSkills->getCombinedSkills());
-        $this->assertEquals(
+        self::assertNull($personSkills->getId());
+        self::assertSame($physicalSkills, $personSkills->getPhysicalSkills());
+        self::assertSame($psychicalSkills, $personSkills->getPsychicalSkills());
+        self::assertSame($combinedSkills, $personSkills->getCombinedSkills());
+        self::assertEquals(
             $this->getSortedExpectedSkills(
                 $physicalSkills->getIterator()->getArrayCopy(),
                 $psychicalSkills->getIterator()->getArrayCopy(),
@@ -202,13 +202,12 @@ class PersonSkillsTest extends TestWithMockery
      */
     private function parseSkillName($skillClass)
     {
-        $this->assertEquals(1, preg_match('~[\\\](?<basename>\w+)$~', $skillClass, $matches));
+        self::assertEquals(1, preg_match('~[\\\](?<basename>\w+)$~', $skillClass, $matches));
         $sutBasename = $matches['basename'];
         $underscored = preg_replace('~([a-z])([A-Z])~', '$1_$2', $sutBasename);
         $underscoredSingleLetters = preg_replace('~([A-Z])([A-Z])~', '$1_$2', $underscored);
-        $name = strtolower($underscoredSingleLetters);
 
-        return $name;
+        return strtolower($underscoredSingleLetters);
     }
 
     private function determineSkillPointClass($skillClass)
@@ -543,7 +542,7 @@ class PersonSkillsTest extends TestWithMockery
         $psychicalSkills = $this->createPsychicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $professionLevels->getFirstLevel());
         $combinedSkills = $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $professionLevels->getFirstLevel());
 
-        PersonSkills::getIt(
+        PersonSkills::createIt(
             $professionLevels,
             $backgroundSkillPoints,
             new Tables(),
@@ -610,7 +609,7 @@ class PersonSkillsTest extends TestWithMockery
         $psychicalSkills = $this->createPsychicalSkillsPaidByFirstLevelBackground($fromOtherSkillsBackgroundSkillPoints, $professionLevels->getFirstLevel());
         $combinedSkills = $this->createCombinedSkillsPaidByFirstLevelBackground($fromOtherSkillsBackgroundSkillPoints, $professionLevels->getFirstLevel());
 
-        PersonSkills::getIt(
+        PersonSkills::createIt(
             $professionLevels,
             $backgroundSkillPoints,
             new Tables(),
@@ -686,7 +685,7 @@ class PersonSkillsTest extends TestWithMockery
         PersonCombinedSkills $combinedSkills
     )
     {
-        PersonSkills::getIt(
+        PersonSkills::createIt(
             $professionLevels,
             $backgroundSkillPoints,
             new Tables(),
@@ -821,7 +820,7 @@ class PersonSkillsTest extends TestWithMockery
         $combinedSkills = $this->createCombinedSkillsByNextLevelPropertyIncrease($nextLevel);
         $backgroundSkillPoints = $this->createBackgroundSkillPoints($professionLevels->getFirstLevel()->getProfession());
 
-        PersonSkills::getIt(
+        PersonSkills::createIt(
             $professionLevels,
             $backgroundSkillPoints,
             new Tables(),
@@ -852,7 +851,7 @@ class PersonSkillsTest extends TestWithMockery
         $combinedSkills = $this->createCombinedSkillsByNextLevelPropertyIncrease($professionLevels->getFirstLevel());
         $backgroundSkillPoints = $this->createBackgroundSkillPoints($professionLevels->getFirstLevel()->getProfession());
 
-        PersonSkills::getIt(
+        PersonSkills::createIt(
             $professionLevels,
             $backgroundSkillPoints,
             new Tables(),

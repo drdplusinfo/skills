@@ -16,13 +16,13 @@ class PhysicalSkillPointTest extends AbstractTestOfSkillPoint
             $backgroundSkillPoints = $this->createBackgroundSkills(123, 'getPhysicalSkillPoints'),
             new Tables()
         );
-        $this->assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
-        $this->assertSame(1, $physicalSkillPoint->getValue());
-        $this->assertSame('physical', $physicalSkillPoint->getTypeName());
-        $this->assertSame([Strength::STRENGTH, Agility::AGILITY], $physicalSkillPoint->getRelatedProperties());
-        $this->assertSame($backgroundSkillPoints, $physicalSkillPoint->getBackgroundSkillPoints());
-        $this->assertNull($physicalSkillPoint->getFirstPaidOtherSkillPoint());
-        $this->assertNull($physicalSkillPoint->getSecondPaidOtherSkillPoint());
+        self::assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
+        self::assertSame(1, $physicalSkillPoint->getValue());
+        self::assertSame('physical', $physicalSkillPoint->getTypeName());
+        self::assertSame([Strength::STRENGTH, Agility::AGILITY], $physicalSkillPoint->getRelatedProperties());
+        self::assertSame($backgroundSkillPoints, $physicalSkillPoint->getBackgroundSkillPoints());
+        self::assertNull($physicalSkillPoint->getFirstPaidOtherSkillPoint());
+        self::assertNull($physicalSkillPoint->getSecondPaidOtherSkillPoint());
 
         return [$physicalSkillPoint, $level];
     }
@@ -45,10 +45,10 @@ class PhysicalSkillPointTest extends AbstractTestOfSkillPoint
             $secondPaidSkillPoint = $this->createCombinedSkillPoint(),
             new Tables()
         );
-        $this->assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
-        $this->assertNull($physicalSkillPoint->getBackgroundSkillPoints());
-        $this->assertSame($firstPaidSkillPoint, $physicalSkillPoint->getFirstPaidOtherSkillPoint());
-        $this->assertSame($secondPaidSkillPoint, $physicalSkillPoint->getSecondPaidOtherSkillPoint());
+        self::assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
+        self::assertNull($physicalSkillPoint->getBackgroundSkillPoints());
+        self::assertSame($firstPaidSkillPoint, $physicalSkillPoint->getFirstPaidOtherSkillPoint());
+        self::assertSame($secondPaidSkillPoint, $physicalSkillPoint->getSecondPaidOtherSkillPoint());
 
         return [$physicalSkillPoint, $level];
     }
@@ -61,10 +61,10 @@ class PhysicalSkillPointTest extends AbstractTestOfSkillPoint
             $secondPaidSkillPoint = $this->createPsychicalSkillPoint(),
             new Tables()
         );
-        $this->assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
-        $this->assertNull($physicalSkillPoint->getBackgroundSkillPoints());
-        $this->assertSame($firstPaidSkillPoint, $physicalSkillPoint->getFirstPaidOtherSkillPoint());
-        $this->assertSame($secondPaidSkillPoint, $physicalSkillPoint->getSecondPaidOtherSkillPoint());
+        self::assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
+        self::assertNull($physicalSkillPoint->getBackgroundSkillPoints());
+        self::assertSame($firstPaidSkillPoint, $physicalSkillPoint->getFirstPaidOtherSkillPoint());
+        self::assertSame($secondPaidSkillPoint, $physicalSkillPoint->getSecondPaidOtherSkillPoint());
 
         return [$physicalSkillPoint, $level];
     }
@@ -77,10 +77,10 @@ class PhysicalSkillPointTest extends AbstractTestOfSkillPoint
             $secondPaidSkillPoint = $this->createCombinedSkillPoint(),
             new Tables()
         );
-        $this->assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
-        $this->assertNull($physicalSkillPoint->getBackgroundSkillPoints());
-        $this->assertSame($firstPaidSkillPoint, $physicalSkillPoint->getFirstPaidOtherSkillPoint());
-        $this->assertSame($secondPaidSkillPoint, $physicalSkillPoint->getSecondPaidOtherSkillPoint());
+        self::assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
+        self::assertNull($physicalSkillPoint->getBackgroundSkillPoints());
+        self::assertSame($firstPaidSkillPoint, $physicalSkillPoint->getFirstPaidOtherSkillPoint());
+        self::assertSame($secondPaidSkillPoint, $physicalSkillPoint->getSecondPaidOtherSkillPoint());
 
         return [$physicalSkillPoint, $level];
     }
@@ -100,10 +100,10 @@ class PhysicalSkillPointTest extends AbstractTestOfSkillPoint
             $level = $this->createProfessionNextLevel(Agility::class, Strength::class),
             new Tables()
         );
-        $this->assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
-        $this->assertNull($physicalSkillPoint->getBackgroundSkillPoints());
-        $this->assertNull($physicalSkillPoint->getFirstPaidOtherSkillPoint());
-        $this->assertNull($physicalSkillPoint->getSecondPaidOtherSkillPoint());
+        self::assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
+        self::assertNull($physicalSkillPoint->getBackgroundSkillPoints());
+        self::assertNull($physicalSkillPoint->getFirstPaidOtherSkillPoint());
+        self::assertNull($physicalSkillPoint->getSecondPaidOtherSkillPoint());
 
         return [$physicalSkillPoint, $level];
     }
@@ -114,10 +114,10 @@ class PhysicalSkillPointTest extends AbstractTestOfSkillPoint
             $level = $this->createProfessionNextLevel(Strength::class, Agility::class),
             new Tables()
         );
-        $this->assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
-        $this->assertNull($physicalSkillPoint->getBackgroundSkillPoints());
-        $this->assertNull($physicalSkillPoint->getFirstPaidOtherSkillPoint());
-        $this->assertNull($physicalSkillPoint->getSecondPaidOtherSkillPoint());
+        self::assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
+        self::assertNull($physicalSkillPoint->getBackgroundSkillPoints());
+        self::assertNull($physicalSkillPoint->getFirstPaidOtherSkillPoint());
+        self::assertNull($physicalSkillPoint->getSecondPaidOtherSkillPoint());
 
         return [$physicalSkillPoint, $level];
     }
