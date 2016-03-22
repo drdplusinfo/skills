@@ -180,115 +180,115 @@ class PersonCombinedSkills extends PersonSameTypeSkills
     {
         switch (true) {
             case is_a($combinedSkill, BigHandwork::class) :
-                if (isset($this->bigHandwork)) {
+                if ($this->bigHandwork !== null) {
                     throw new Exceptions\CombinedSkillAlreadySet('Big handwork is already set');
                 }
                 $this->bigHandwork = $combinedSkill;
                 break;
             case is_a($combinedSkill, Cooking::class) :
-                if (isset($this->cooking)) {
+                if ($this->cooking !== null) {
                     throw new Exceptions\CombinedSkillAlreadySet('Cooking is already set');
                 }
                 $this->cooking = $combinedSkill;
                 break;
             case is_a($combinedSkill, Dancing::class) :
-                if (isset($this->dancing)) {
+                if ($this->dancing !== null) {
                     throw new Exceptions\CombinedSkillAlreadySet('Dancing is already set');
                 }
                 $this->dancing = $combinedSkill;
                 break;
             case is_a($combinedSkill, DuskSight::class) :
-                if (isset($this->duskSight)) {
+                if ($this->duskSight !== null) {
                     throw new Exceptions\CombinedSkillAlreadySet('Dusk sight is already set');
                 }
                 $this->duskSight = $combinedSkill;
                 break;
             case is_a($combinedSkill, FightWithShootingWeapons::class) :
-                if (isset($this->fightWithShootingWeapons)) {
+                if ($this->fightWithShootingWeapons !== null) {
                     throw new Exceptions\CombinedSkillAlreadySet('Fight with shooting weapons is already set');
                 }
                 $this->fightWithShootingWeapons = $combinedSkill;
                 break;
             case is_a($combinedSkill, FirstAid::class) :
-                if (isset($this->firstAid)) {
+                if ($this->firstAid !== null) {
                     throw new Exceptions\CombinedSkillAlreadySet('First aid is already set');
                 }
                 $this->firstAid = $combinedSkill;
                 break;
             case is_a($combinedSkill, HandlingWithAnimals::class) :
-                if (isset($this->handlingWithAnimals)) {
+                if ($this->handlingWithAnimals !== null) {
                     throw new Exceptions\CombinedSkillAlreadySet('Handling with animals is already set');
                 }
                 $this->handlingWithAnimals = $combinedSkill;
                 break;
             case is_a($combinedSkill, Handwork::class) :
-                if (isset($this->handwork)) {
+                if ($this->handwork !== null) {
                     throw new Exceptions\CombinedSkillAlreadySet('Handwork is already set');
                 }
                 $this->handwork = $combinedSkill;
                 break;
             case is_a($combinedSkill, Gambling::class) :
-                if (isset($this->gambling)) {
+                if ($this->gambling !== null) {
                     throw new Exceptions\CombinedSkillAlreadySet('Gambling is already set');
                 }
                 $this->gambling = $combinedSkill;
                 break;
             case is_a($combinedSkill, Herbalism::class) :
-                if (isset($this->herbalism)) {
+                if ($this->herbalism !== null) {
                     throw new Exceptions\CombinedSkillAlreadySet('Herbalism is already set');
                 }
                 $this->herbalism = $combinedSkill;
                 break;
             case is_a($combinedSkill, HuntingAndFishing::class) :
-                if (isset($this->huntingAndFishing)) {
+                if ($this->huntingAndFishing !== null) {
                     throw new Exceptions\CombinedSkillAlreadySet('Hunting and fishing is already set');
                 }
                 $this->huntingAndFishing = $combinedSkill;
                 break;
             case is_a($combinedSkill, Knotting::class) :
-                if (isset($this->knotting)) {
+                if ($this->knotting !== null) {
                     throw new Exceptions\CombinedSkillAlreadySet('Knotting is already set');
                 }
                 $this->knotting = $combinedSkill;
                 break;
             case is_a($combinedSkill, Painting::class) :
-                if (isset($this->painting)) {
+                if ($this->painting !== null) {
                     throw new Exceptions\CombinedSkillAlreadySet('Painting is already set');
                 }
                 $this->painting = $combinedSkill;
                 break;
             case is_a($combinedSkill, Pedagogy::class) :
-                if (isset($this->pedagogy)) {
+                if ($this->pedagogy !== null) {
                     throw new Exceptions\CombinedSkillAlreadySet('Pedagogy is already set');
                 }
                 $this->pedagogy = $combinedSkill;
                 break;
             case is_a($combinedSkill, PlayingOnMusicInstrument::class) :
-                if (isset($this->playingOnMusicInstrument)) {
+                if ($this->playingOnMusicInstrument !== null) {
                     throw new Exceptions\CombinedSkillAlreadySet('Playing on music instrument is already set');
                 }
                 $this->playingOnMusicInstrument = $combinedSkill;
                 break;
             case is_a($combinedSkill, Seduction::class) :
-                if (isset($this->seduction)) {
+                if ($this->seduction !== null) {
                     throw new Exceptions\CombinedSkillAlreadySet('Seduction is already set');
                 }
                 $this->seduction = $combinedSkill;
                 break;
             case is_a($combinedSkill, Showmanship::class) :
-                if (isset($this->showmanship)) {
+                if ($this->showmanship !== null) {
                     throw new Exceptions\CombinedSkillAlreadySet('Showmanship is already set');
                 }
                 $this->showmanship = $combinedSkill;
                 break;
             case is_a($combinedSkill, Singing::class) :
-                if (isset($this->singing)) {
+                if ($this->singing !== null) {
                     throw new Exceptions\CombinedSkillAlreadySet('Singing is already set');
                 }
                 $this->singing = $combinedSkill;
                 break;
             case is_a($combinedSkill, Statuary::class) :
-                if (isset($this->statuary)) {
+                if ($this->statuary !== null) {
                     throw new Exceptions\CombinedSkillAlreadySet('Statuary is already set');
                 }
                 $this->statuary = $combinedSkill;

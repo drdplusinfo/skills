@@ -164,6 +164,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
      * @param BackgroundSkillPoints $backgroundSkillPoints
      *
      * @return bool
+     * @throws \DrdPlus\Person\Skills\Exceptions\EmptyFirstLevelBackgroundSkillPoints
      */
     private function checkPayByFirstLevelBackgroundSkillPoints(
         ProfessionLevel $professionLevel,

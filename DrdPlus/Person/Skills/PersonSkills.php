@@ -321,7 +321,7 @@ class PersonSkills extends StrictObject
                 foreach ($skill->getSkillRanks() as $skillRank) {
                     if ($skillRank->getProfessionLevel()->isNextLevel()) {
                         $levelValue = $skillRank->getProfessionLevel()->getLevelRank()->getValue();
-                        if (!isset($nextLevelSkills[$skill->getName()][$levelValue])) {
+                        if (!array_key_exists($levelValue, $nextLevelSkills[$skill->getName()])) {
                             $nextLevelSkills[$skill->getName()][$levelValue] = [];
                         }
                         $nextLevelSkills[$skill->getName()][$levelValue][] = $skillRank;
@@ -332,10 +332,10 @@ class PersonSkills extends StrictObject
         $tooHighRankAdjustments = [];
         foreach ($nextLevelSkills as $skillName => $ranksPerLevel) {
             foreach ($ranksPerLevel as $levelValue => $skillRanks) {
-                if (count($skillRanks) > self::MAX_SKILL_RANK_INCREASE_PER_NEXT_LEVEL) {
-                    if (!isset($tooHighRankAdjustments[$skillName][$levelValue])) {
-                        $tooHighRankAdjustments[$skillName][$levelValue] = $skillRanks;
-                    }
+                if (count($skillRanks) > self::MAX_SKILL_RANK_INCREASE_PER_NEXT_LEVEL
+                    && !isset($tooHighRankAdjustments[$skillName][$levelValue])
+                ) {
+                    $tooHighRankAdjustments[$skillName][$levelValue] = $skillRanks;
                 }
             }
         }
