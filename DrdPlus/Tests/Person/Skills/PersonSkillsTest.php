@@ -2,7 +2,7 @@
 namespace DrdPlus\Person\Skills;
 
 use DrdPlus\Codes\PropertyCodes;
-use DrdPlus\Person\Background\BackgroundSkillPoints;
+use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\LevelRank;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
@@ -502,7 +502,7 @@ class PersonSkillsTest extends TestWithMockery
                 ->with($profession, \Mockery::type(Tables::class))
                 ->andReturn($combinedSkillPoints);
         }
-        $backgroundSkillPoints->shouldReceive('getBackgroundPointsValue')
+        $backgroundSkillPoints->shouldReceive('getSpentBackgroundPoints')
             ->andReturn($value);
 
         return $backgroundSkillPoints;

@@ -27,7 +27,7 @@ abstract class PersonSkill extends StrictObject
     {
         if (($this->getMaxSkillRankValue() + 1) !== $personSkillRank->getValue()) {
             throw new Exceptions\UnexpectedRankValue(
-                "New skill rank has to follow rank sequence, expected "
+                'New skill rank has to follow rank sequence, expected '
                 . ($this->getMaxSkillRankValue() + 1) . ", got {$personSkillRank->getValue()}"
             );
         }

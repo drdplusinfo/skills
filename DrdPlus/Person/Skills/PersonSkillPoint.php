@@ -2,7 +2,7 @@
 namespace DrdPlus\Person\Skills;
 
 use Doctrine\ORM\Mapping as ORM;
-use DrdPlus\Person\Background\BackgroundSkillPoints;
+use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Properties\Base\Agility;
 use DrdPlus\Properties\Base\Charisma;

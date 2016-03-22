@@ -2,7 +2,7 @@
 namespace DrdPlus\Person\Skills;
 
 use Doctrine\ORM\Mapping as ORM;
-use DrdPlus\Person\Background\BackgroundSkillPoints;
+use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Properties\Base\Agility;
@@ -200,11 +200,11 @@ class PersonSkills extends StrictObject
         BackgroundSkillPoints $secondBackgroundSkillPoints
     )
     {
-        if ($firstBackgroundSkillPoints->getBackgroundPointsValue() !== $secondBackgroundSkillPoints->getBackgroundPointsValue()) {
+        if ($firstBackgroundSkillPoints->getSpentBackgroundPoints() !== $secondBackgroundSkillPoints->getSpentBackgroundPoints()) {
             throw new Exceptions\BackgroundSkillPointsAreNotSame(
                 'All skill points, originated in person background, have to use same background skill points.'
-                . " Got different background skill points with values {$firstBackgroundSkillPoints->getBackgroundPointsValue()}"
-                . " and {$secondBackgroundSkillPoints->getBackgroundPointsValue()}"
+                . " Got different background skill points with values {$firstBackgroundSkillPoints->getSpentBackgroundPoints()}"
+                . " and {$secondBackgroundSkillPoints->getSpentBackgroundPoints()}"
             );
         }
     }
