@@ -3,9 +3,9 @@ namespace DrdPlus\Tests\Person\Skills\Combined;
 
 use DrdPlus\Properties\Base\Charisma;
 use DrdPlus\Properties\Base\Knack;
-use DrdPlus\Tests\Person\Skills\AbstractTestOfPersonSkill;
+use DrdPlus\Tests\Person\Skills\PersonSkillTest;
 
-class CombinedSkillTest extends AbstractTestOfPersonSkill
+class CombinedSkillTest extends PersonSkillTest
 {
 
     protected function getExpectedRelatedPropertyCodes()

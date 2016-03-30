@@ -5,7 +5,7 @@ use DrdPlus\Person\Skills\PersonSkill;
 use DrdPlus\Person\Skills\PersonSkillRank;
 use Granam\Tests\Tools\TestWithMockery;
 
-abstract class AbstractTestOfPersonSkill extends TestWithMockery
+abstract class PersonSkillTest extends TestWithMockery
 {
     /**
      * @test
@@ -16,7 +16,8 @@ abstract class AbstractTestOfPersonSkill extends TestWithMockery
     {
         /** @var PersonSkill $sut */
         $sut = new $sutClass($personSkillRank = $this->createPersonSkillRank($sutClass));
-        self::assertEquals([1 => $personSkillRank], $sut->getSkillRanks());
+        self::assertSame([1 => $personSkillRank], $sut->getSkillRanks());
+        self::assertSame($personSkillRank, $sut->getCurrentSkillRank());
         self::assertNull($sut->getId());
 
         $this->I_can_get_its_name($sut);
@@ -194,17 +195,20 @@ abstract class AbstractTestOfPersonSkill extends TestWithMockery
     {
         $sutClass = current($this->provideSutClass())[0]; // one is enough of this test
         /** @var PersonSkill $sut */
-        $sut = new $sutClass($skillRank = $this->createPersonSkillRank($sutClass, $rankValue = 1));
-        self::assertSame([$rankValue => $skillRank], $sut->getSkillRanks());
+        $sut = new $sutClass($firstSkillRank = $this->createPersonSkillRank($sutClass, $rankValue = 1));
+        self::assertSame([$rankValue => $firstSkillRank], $sut->getSkillRanks());
+        self::assertSame($firstSkillRank, $sut->getCurrentSkillRank());
         $addTypeSkillRank = 'add' . $this->getTypeName($sutClass) . 'SkillRank';
-        $sut->$addTypeSkillRank($nextRank = $this->createPersonSkillRank($sutClass, $nextRankValue = 2));
-        self::assertSame([$rankValue => $skillRank, $nextRankValue => $nextRank], $sut->getSkillRanks());
+        $sut->$addTypeSkillRank($nextSkillRank = $this->createPersonSkillRank($sutClass, $nextRankValue = 2));
+        self::assertSame([$rankValue => $firstSkillRank, $nextRankValue => $nextSkillRank], $sut->getSkillRanks());
+        self::assertSame($nextSkillRank, $sut->getCurrentSkillRank());
     }
 
     /**
      * @test
      * @dataProvider provideInvalidSequence
      * @expectedException \DrdPlus\Person\Skills\Exceptions\UnexpectedRankValue
+     *
      * @param array|int[] $sequence
      */
     public function I_can_not_add_rank_with_invalid_sequence(array $sequence)

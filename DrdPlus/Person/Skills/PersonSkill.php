@@ -69,6 +69,14 @@ abstract class PersonSkill extends StrictObject
     }
 
     /**
+     * @return PersonSkillRank
+     */
+    public function getCurrentSkillRank()
+    {
+        return $this->skillRanks[$this->getMaxSkillRankValue()];
+    }
+
+    /**
      * @return string
      */
     abstract public function getName();

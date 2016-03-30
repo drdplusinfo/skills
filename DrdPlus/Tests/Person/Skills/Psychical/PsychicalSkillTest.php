@@ -3,9 +3,9 @@ namespace DrdPlus\Tests\Person\Skills\Psychical;
 
 use DrdPlus\Properties\Base\Intelligence;
 use DrdPlus\Properties\Base\Will;
-use DrdPlus\Tests\Person\Skills\AbstractTestOfPersonSkill;
+use DrdPlus\Tests\Person\Skills\PersonSkillTest;
 
-class PsychicalSkillTest extends AbstractTestOfPersonSkill
+class PsychicalSkillTest extends PersonSkillTest
 {
     protected function getExpectedRelatedPropertyCodes()
     {
