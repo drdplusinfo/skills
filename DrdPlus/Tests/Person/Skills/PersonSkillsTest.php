@@ -92,6 +92,7 @@ class PersonSkillsTest extends TestWithMockery
                 $combinedSkills->getIterator()->getArrayCopy()
             )
         );
+        self::assertCount(count($sortedExpectedSkills), $personSkills);
     }
 
     public function provideValidSkillsCombination()
