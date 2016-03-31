@@ -390,4 +390,13 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
     {
         return $this->swimming;
     }
+
+    /**
+     * @return array|\string[]
+     */
+    public function getAllSameTypeSkillCodes()
+    {
+        return SkillCodes::getPhysicalSkillCodes();
+    }
+
 }

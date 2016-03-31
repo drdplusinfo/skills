@@ -12,9 +12,9 @@ use DrdPlus\Person\Skills\Psychical\PersonPsychicalSkill;
 use DrdPlus\Person\Skills\Psychical\PersonPsychicalSkills;
 use DrdPlus\Person\Skills\Psychical\Technology;
 use DrdPlus\Person\Skills\Psychical\Zoology;
-use DrdPlus\Tests\Person\Skills\AbstractTestOfPersonSameTypeSkills;
+use DrdPlus\Tests\Person\Skills\PersonSameTypeSkillsTest;
 
-class PersonPsychicalSkillsTest extends AbstractTestOfPersonSameTypeSkills
+class PersonPsychicalSkillsTest extends PersonSameTypeSkillsTest
 {
 
     /**

@@ -1,6 +1,7 @@
 <?php
 namespace DrdPlus\Tests\Person\Skills;
 
+use DrdPlus\Codes\SkillCodes;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\Skills\Combined\CombinedSkillRank;
 use DrdPlus\Person\Skills\PersonSameTypeSkills;
@@ -10,7 +11,7 @@ use DrdPlus\Person\Skills\Physical\PhysicalSkillRank;
 use DrdPlus\Person\Skills\Psychical\PsychicalSkillRank;
 use Granam\Tests\Tools\TestWithMockery;
 
-abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
+abstract class PersonSameTypeSkillsTest extends TestWithMockery
 {
     /**
      * @test
@@ -26,9 +27,6 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
         self::assertSame($this->getExpectedSkillsTypeName(), $sut->getSkillsGroupName());
         self::assertNull($sut->getId());
         self::assertEquals([], $sut->getIterator()->getArrayCopy());
-        foreach ($sut as $skill) {
-            self::assertNull($skill);
-        }
     }
 
     /**
@@ -57,15 +55,41 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
         $sutClass = $this->getSutClass();
         /** @var PersonSameTypeSkills $sut */
         $sut = new $sutClass();
+        self::assertSame(0, $sut->getFirstLevelSkillRankSummary());
+        self::assertSame(0, $sut->getNextLevelsSkillRankSummary());
+
         $addSkill = $this->getSkillAdderName();
         $sut->$addSkill($personSkill);
+        self::assertSame(
+            $this->getSameTypeSkillCodesExcept($personSkill->getName()),
+            $sut->getCodesOfNotLearnedSameTypeSkills()
+        );
         foreach ($sut as $index => $placedPersonSkill) {
             self::assertSame($personSkill, $placedPersonSkill);
         }
-        $getSkill = $this->getSkillGetter($personSkill);
-        self::assertSame($personSkill, $sut->$getSkill());
-        self::assertSame(1 + 2, $sut->getFirstLevelSkillRankSummary());
-        self::assertSame(3, $sut->getNextLevelsSkillRankSummary());
+        $skillGetter = $this->getSkillGetter($personSkill);
+        self::assertSame($personSkill, $sut->$skillGetter());
+        self::assertSame(
+            1 + 2 /* first and second rank have been get on first level, see provider */,
+            $sut->getFirstLevelSkillRankSummary()
+        );
+        self::assertSame(
+            3 /* maximal skill rank has been get on second level, see provider */,
+            $sut->getNextLevelsSkillRankSummary()
+        );
+    }
+
+    protected function getSameTypeSkillCodesExcept($except)
+    {
+        return array_diff($this->getSameTypeSkillCodes(), [$except]);
+    }
+
+    protected function getSameTypeSkillCodes()
+    {
+        $type = preg_replace('~.*Person(\w+)Skills$~', '$1', $this->getSutClass());
+        $sameTypeGetter = "get{$type}SkillCodes";
+
+        return SkillCodes::$sameTypeGetter();
     }
 
     /**
@@ -77,10 +101,10 @@ abstract class AbstractTestOfPersonSameTypeSkills extends TestWithMockery
         $personSkills = [];
         foreach ($personSkillClasses as $personSkillClass) {
             /** @var PersonSkill $personSkill */
-            $personSkill = new $personSkillClass($this->createPersonSkillRank(1, true)); // first level
+            $personSkill = new $personSkillClass($this->createPersonSkillRank(1, true /* first level */));
             $addSkillTypeRank = $this->getSkillRankAdderName();
-            $personSkill->$addSkillTypeRank($this->createPersonSkillRank(2, true)); // first level
-            $personSkill->$addSkillTypeRank($this->createPersonSkillRank(3, false)); // next level
+            $personSkill->$addSkillTypeRank($this->createPersonSkillRank(2, true /* first level */));
+            $personSkill->$addSkillTypeRank($this->createPersonSkillRank(3, false /* next level */));
             $personSkills[] = [$personSkill];
         }
 

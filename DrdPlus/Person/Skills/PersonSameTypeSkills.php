@@ -69,21 +69,14 @@ abstract class PersonSameTypeSkills extends StrictObject implements \IteratorAgg
         );
     }
 
-
     /**
      * @return array|PersonSkillRank[]
      */
     protected function getSkillRanks()
     {
-        $skillRanksPerSkill = [];
-        foreach ($this as $personSkill) {
-            /** @var PersonSkill $personSkill */
-            $skillRanksPerSkill[] = $personSkill->getSkillRanks();
-        }
-
         $skillRanks = [];
-        foreach ($skillRanksPerSkill as $skillRanksOfSingleSkill) {
-            $skillRanks = array_merge($skillRanks, $skillRanksOfSingleSkill);
+        foreach ($this->getIterator() as $personSkill) {
+            $skillRanks = array_merge($skillRanks, $personSkill->getSkillRanks());
         }
 
         return $skillRanks;
@@ -111,4 +104,22 @@ abstract class PersonSameTypeSkills extends StrictObject implements \IteratorAgg
     {
         return $this->getIterator()->count();
     }
+
+    /**
+     * @return array|string[]
+     */
+    public function getCodesOfNotLearnedSameTypeSkills()
+    {
+        $namesOfKnownSkills = [];
+        foreach ($this->getIterator() as $skill) {
+            $namesOfKnownSkills[] = $skill->getName();
+        }
+
+        return array_diff($this->getAllSameTypeSkillCodes(), $namesOfKnownSkills);
+    }
+
+    /**
+     * @return string[]|array
+     */
+    abstract public function getAllSameTypeSkillCodes();
 }

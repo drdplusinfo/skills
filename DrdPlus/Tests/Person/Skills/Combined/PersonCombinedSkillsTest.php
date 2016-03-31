@@ -12,9 +12,9 @@ use DrdPlus\Person\Skills\Combined\PersonCombinedSkills;
 use DrdPlus\Person\Skills\Combined\Seduction;
 use DrdPlus\Person\Skills\PersonSkill;
 use DrdPlus\Person\Skills\PersonSkillRank;
-use DrdPlus\Tests\Person\Skills\AbstractTestOfPersonSameTypeSkills;
+use DrdPlus\Tests\Person\Skills\PersonSameTypeSkillsTest;
 
-class PersonCombinedSkillsTest extends AbstractTestOfPersonSameTypeSkills
+class PersonCombinedSkillsTest extends PersonSameTypeSkillsTest
 {
 
     /**

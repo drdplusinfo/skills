@@ -452,4 +452,12 @@ class PersonCombinedSkills extends PersonSameTypeSkills
         return $this->statuary;
     }
 
+    /**
+     * @return array|\string[]
+     */
+    public function getAllSameTypeSkillCodes()
+    {
+        return SkillCodes::getCombinedSkillCodes();
+    }
+
 }

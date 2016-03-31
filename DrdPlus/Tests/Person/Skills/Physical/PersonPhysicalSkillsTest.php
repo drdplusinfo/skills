@@ -12,9 +12,9 @@ use DrdPlus\Person\Skills\Physical\BoatDriving;
 use DrdPlus\Person\Skills\Physical\Flying;
 use DrdPlus\Person\Skills\Physical\PersonPhysicalSkill;
 use DrdPlus\Person\Skills\Physical\PersonPhysicalSkills;
-use DrdPlus\Tests\Person\Skills\AbstractTestOfPersonSameTypeSkills;
+use DrdPlus\Tests\Person\Skills\PersonSameTypeSkillsTest;
 
-class PersonPhysicalSkillsTest extends AbstractTestOfPersonSameTypeSkills
+class PersonPhysicalSkillsTest extends PersonSameTypeSkillsTest
 {
 
     /**
