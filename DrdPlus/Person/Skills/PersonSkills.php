@@ -2,6 +2,7 @@
 namespace DrdPlus\Person\Skills;
 
 use Doctrine\ORM\Mapping as ORM;
+use DrdPlus\Codes\SkillCodes;
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
@@ -24,7 +25,7 @@ use Granam\Strict\Object\StrictObject;
  * @ORM\Table()
  * @ORM\Entity()
  */
-class PersonSkills extends StrictObject
+class PersonSkills extends StrictObject implements \IteratorAggregate, \Countable
 {
     const PHYSICAL = PersonPhysicalSkills::PHYSICAL;
     const PSYCHICAL = PersonPsychicalSkills::PSYCHICAL;
@@ -455,6 +456,41 @@ class PersonSkills extends StrictObject
             $this->getPsychicalSkills()->getIterator()->getArrayCopy(),
             $this->getCombinedSkills()->getIterator()->getArrayCopy()
         );
+    }
+
+    public function getCodesOfAllSkills()
+    {
+        return SkillCodes::getSkillCodes();
+    }
+
+    public function getCodesOfLearnedSkills()
+    {
+        $codesOfKnownSkills = [];
+        foreach ($this->getSkills() as $skill) {
+            $codesOfKnownSkills[] = $skill->getName();
+        }
+
+        return $codesOfKnownSkills;
+    }
+
+    public function getCodesOfNotLearnedSkills()
+    {
+        $namesOfKnownSkills = [];
+        foreach ($this->getSkills() as $skill) {
+            $namesOfKnownSkills[] = $skill->getName();
+        }
+
+        return array_diff($this->getCodesOfAllSkills(), $namesOfKnownSkills);
+    }
+
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->getSkills());
+    }
+
+    public function count()
+    {
+        return count($this->getSkills());
     }
 
 }

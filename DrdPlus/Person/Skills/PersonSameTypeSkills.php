@@ -115,11 +115,11 @@ abstract class PersonSameTypeSkills extends StrictObject implements \IteratorAgg
             $namesOfKnownSkills[] = $skill->getName();
         }
 
-        return array_diff($this->getAllSameTypeSkillCodes(), $namesOfKnownSkills);
+        return array_diff($this->getCodesOfAllSameTypeSkills(), $namesOfKnownSkills);
     }
 
     /**
      * @return string[]|array
      */
-    abstract public function getAllSameTypeSkillCodes();
+    abstract public function getCodesOfAllSameTypeSkills();
 }

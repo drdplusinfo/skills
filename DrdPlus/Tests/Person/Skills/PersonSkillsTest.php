@@ -2,6 +2,7 @@
 namespace DrdPlus\Person\Skills;
 
 use DrdPlus\Codes\PropertyCodes;
+use DrdPlus\Codes\SkillCodes;
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\LevelRank;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
@@ -59,12 +60,37 @@ class PersonSkillsTest extends TestWithMockery
         self::assertSame($psychicalSkills, $personSkills->getPsychicalSkills());
         self::assertSame($combinedSkills, $personSkills->getCombinedSkills());
         self::assertEquals(
-            $this->getSortedExpectedSkills(
+            $sortedExpectedSkills = $this->getSortedExpectedSkills(
                 $physicalSkills->getIterator()->getArrayCopy(),
                 $psychicalSkills->getIterator()->getArrayCopy(),
                 $combinedSkills->getIterator()->getArrayCopy()
             ),
             $this->getSortedGivenSkills($personSkills)
+        );
+        self::assertSame(SkillCodes::getSkillCodes(), $personSkills->getCodesOfAllSkills());
+        $learnedSkills = $personSkills->getCodesOfLearnedSkills();
+        sort($learnedSkills);
+        self::assertEquals(
+            $expectedCodesOfLearnedSkills = array_map(
+                function (PersonSkill $personSkill) {
+                    return $personSkill->getName();
+                },
+                $sortedExpectedSkills
+            ),
+            $learnedSkills
+        );
+        self::assertNotEmpty($expectedCodesOfLearnedSkills);
+        self::assertEquals(
+            array_diff(SkillCodes::getSkillCodes(), $expectedCodesOfLearnedSkills),
+            $personSkills->getCodesOfNotLearnedSkills()
+        );
+        self::assertEquals(
+            $personSkills->getIterator()->getArrayCopy(),
+            array_merge(
+                $physicalSkills->getIterator()->getArrayCopy(),
+                $psychicalSkills->getIterator()->getArrayCopy(),
+                $combinedSkills->getIterator()->getArrayCopy()
+            )
         );
     }
 
@@ -508,6 +534,12 @@ class PersonSkillsTest extends TestWithMockery
         return $backgroundSkillPoints;
     }
 
+    /**
+     * @param array $physical
+     * @param array $psychical
+     * @param array $combined
+     * @return array|PersonSkill[]
+     */
     private function getSortedExpectedSkills(array $physical, array $psychical, array $combined)
     {
         $expectedSkills = array_merge($physical, $psychical, $combined);
@@ -868,7 +900,6 @@ class PersonSkillsTest extends TestWithMockery
      */
     private function createPhysicalSkillsWithTooHighSkillIncrementPerNextLevel(ProfessionLevel $nextLevel, $skillClass)
     {
-
         $kills = $this->mockery($this->determineSkillsClass($skillClass));
         $kills->shouldReceive('getIterator')
             ->andReturn(new \ArrayIterator([

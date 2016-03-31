@@ -394,7 +394,7 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
     /**
      * @return array|\string[]
      */
-    public function getAllSameTypeSkillCodes()
+    public function getCodesOfAllSameTypeSkills()
     {
         return SkillCodes::getPhysicalSkillCodes();
     }
