@@ -4,11 +4,9 @@ namespace DrdPlus\Person\Skills\Combined;
 use DrdPlus\Codes\SkillCodes;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Person\Skills\PersonSameTypeSkills;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * CombinedSkills
- *
- * @ORM\Table()
  * @ORM\Entity()
  */
 class PersonCombinedSkills extends PersonSameTypeSkills
@@ -16,89 +14,98 @@ class PersonCombinedSkills extends PersonSameTypeSkills
     const COMBINED = SkillCodes::COMBINED;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
      * @var BigHandwork|null
-     * @ORM\OneToOne(targetEntity="BigHandwork", nullable=true))
+     * @ORM\OneToOne(targetEntity="BigHandwork")
      */
     private $bigHandwork;
-    /** @var Cooking|null
-     * @ORM\OneToOne(targetEntity="Cooking", nullable=true))
+    /**
+     * @var Cooking|null
+     * @ORM\OneToOne(targetEntity="Cooking")
      */
     private $cooking;
-    /** @var Dancing|null
-     * @ORM\OneToOne(targetEntity="Dancing", nullable=true))
+    /**
+     * @var Dancing|null
+     * @ORM\OneToOne(targetEntity="Dancing")
      */
     private $dancing;
-    /** @var DuskSight|null
-     * @ORM\OneToOne(targetEntity="DuskSight", nullable=true))
+    /**
+     * @var DuskSight|null
+     * @ORM\OneToOne(targetEntity="DuskSight")
      */
     private $duskSight;
-    /** @var FightWithShootingWeapons|null
-     * @ORM\OneToOne(targetEntity="FightWithShootingWeapons", nullable=true))
+    /**
+     * @var FightWithShootingWeapons|null
+     * @ORM\OneToOne(targetEntity="FightWithShootingWeapons")
      */
     private $fightWithShootingWeapons;
-    /** @var FirstAid|null
-     * @ORM\OneToOne(targetEntity="FirstAid", nullable=true))
+    /**
+     * @var FirstAid|null
+     * @ORM\OneToOne(targetEntity="FirstAid")
      */
     private $firstAid;
-    /** @var HandlingWithAnimals|null
-     * @ORM\OneToOne(targetEntity="HandingWithAnimals", nullable=true))
+    /**
+     * @var HandlingWithAnimals|null
+     * @ORM\OneToOne(targetEntity="HandlingWithAnimals")
      */
     private $handlingWithAnimals;
-    /** @var Handwork|null
-     * @ORM\OneToOne(targetEntity="Handwork", nullable=true))
+    /**
+     * @var Handwork|null
+     * @ORM\OneToOne(targetEntity="Handwork")
      */
     private $handwork;
-    /** @var Gambling|null
-     * @ORM\OneToOne(targetEntity="Gambling", nullable=true))
+    /**
+     * @var Gambling|null
+     * @ORM\OneToOne(targetEntity="Gambling")
      */
     private $gambling;
-    /** @var Herbalism|null
-     * @ORM\OneToOne(targetEntity="Herbalism", nullable=true))
+    /**
+     * @var Herbalism|null
+     * @ORM\OneToOne(targetEntity="Herbalism")
      */
     private $herbalism;
-    /** @var HuntingAndFishing|null
-     * @ORM\OneToOne(targetEntity="HuntingAndFishing", nullable=true))
+    /**
+     * @var HuntingAndFishing|null
+     * @ORM\OneToOne(targetEntity="HuntingAndFishing")
      */
     private $huntingAndFishing;
-    /** @var Knotting|null
-     * @ORM\OneToOne(targetEntity="Knotting", nullable=true))
+    /**
+     * @var Knotting|null
+     * @ORM\OneToOne(targetEntity="Knotting")
      */
     private $knotting;
-    /** @var Painting|null
-     * @ORM\OneToOne(targetEntity="Painting", nullable=true))
+    /**
+     * @var Painting|null
+     * @ORM\OneToOne(targetEntity="Painting")
      */
     private $painting;
-    /** @var Pedagogy|null
-     * @ORM\OneToOne(targetEntity="Pedagogy", nullable=true))
+    /**
+     * @var Pedagogy|null
+     * @ORM\OneToOne(targetEntity="Pedagogy")
      */
     private $pedagogy;
-    /** @var PlayingOnMusicInstrument|null
-     * @ORM\OneToOne(targetEntity="PlayingOnMusicInstrument", nullable=true))
+    /**
+     * @var PlayingOnMusicInstrument|null
+     * @ORM\OneToOne(targetEntity="PlayingOnMusicInstrument")
      */
     private $playingOnMusicInstrument;
-    /** @var Seduction|null
-     * @ORM\OneToOne(targetEntity="Seduction", nullable=true))
+    /**
+     * @var Seduction|null
+     * @ORM\OneToOne(targetEntity="Seduction")
      */
     private $seduction;
-    /** @var Showmanship|null
-     * @ORM\OneToOne(targetEntity="Showmanship", nullable=true))
+    /**
+     * @var Showmanship|null
+     * @ORM\OneToOne(targetEntity="Showmanship")
      */
     private $showmanship;
-    /** @var Singing|null
-     * @ORM\OneToOne(targetEntity="Singing", nullable=true))
+    /**
+     * @var Singing|null
+     * @ORM\OneToOne(targetEntity="Singing")
      */
     private $singing;
-    /** @var Statuary|null
-     * @ORM\OneToOne(targetEntity="Statuary", nullable=true))
+    /**
+     * @var Statuary|null
+     * @ORM\OneToOne(targetEntity="Statuary")
      */
     private $statuary;
 
@@ -166,14 +173,6 @@ class PersonCombinedSkills extends PersonSameTypeSkills
     public function getSkillsGroupName()
     {
         return self::COMBINED;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function addCombinedSkill(PersonCombinedSkill $combinedSkill)

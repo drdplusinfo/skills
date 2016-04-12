@@ -4,11 +4,9 @@ namespace DrdPlus\Person\Skills\Psychical;
 use DrdPlus\Codes\SkillCodes;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Person\Skills\PersonSameTypeSkills;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PsychicalSkills
- *
- * @ORM\Table()
  * @ORM\Entity()
  */
 class PersonPsychicalSkills extends PersonSameTypeSkills
@@ -17,76 +15,83 @@ class PersonPsychicalSkills extends PersonSameTypeSkills
     const PSYCHICAL = SkillCodes::PSYCHICAL;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /** @var Astronomy|null
-     * @ORM\OneToOne(targetEntity="Astronomy", nullable=true))
+     * @var Astronomy|null
+     * @ORM\OneToOne(targetEntity="Astronomy")
      */
     private $astronomy;
-    /** @var Botany|null
-     * @ORM\OneToOne(targetEntity="Botany", nullable=true))
+    /**
+     * @var Botany|null
+     * @ORM\OneToOne(targetEntity="Botany")
      */
     private $botany;
-    /** @var EtiquetteOfUnderworld|null
-     * @ORM\OneToOne(targetEntity="EtiquetteOfUnderworld", nullable=true))
+    /**
+     * @var EtiquetteOfUnderworld|null
+     * @ORM\OneToOne(targetEntity="EtiquetteOfUnderworld")
      */
     private $etiquetteOfUnderworld;
-    /** @var ForeignLanguage|null
-     * @ORM\OneToOne(targetEntity="ForeignLanguage", nullable=true))
+    /**
+     * @var ForeignLanguage|null
+     * @ORM\OneToOne(targetEntity="ForeignLanguage")
      */
     private $foreignLanguage;
-    /** @var GeographyOfACountry|null
-     * @ORM\OneToOne(targetEntity="GeographyOfACountry", nullable=true))
+    /**
+     * @var GeographyOfACountry|null
+     * @ORM\OneToOne(targetEntity="GeographyOfACountry")
      */
     private $geographyOfACountry;
-    /** @var HandlingWithMagicalItems|null
-     * @ORM\OneToOne(targetEntity="HandlingOfMagicalItems", nullable=true))
+    /**
+     * @var HandlingWithMagicalItems|null
+     * @ORM\OneToOne(targetEntity="HandlingWithMagicalItems")
      */
     private $handlingWithMagicalItems;
-    /** @var Historiography|null
-     * @ORM\OneToOne(targetEntity="Historiography", nullable=true))
+    /**
+     * @var Historiography|null
+     * @ORM\OneToOne(targetEntity="Historiography")
      */
     private $historiography;
-    /** @var KnowledgeOfACity|null
-     * @ORM\OneToOne(targetEntity="KnowledgeOfACity", nullable=true))
+    /**
+     * @var KnowledgeOfACity|null
+     * @ORM\OneToOne(targetEntity="KnowledgeOfACity")
      */
     private $knowledgeOfACity;
-    /** @var KnowledgeOfWorld|null
-     * @ORM\OneToOne(targetEntity="KnowledgeOfWorld", nullable=true))
+    /**
+     * @var KnowledgeOfWorld|null
+     * @ORM\OneToOne(targetEntity="KnowledgeOfWorld")
      */
     private $knowledgeOfWorld;
-    /** @var MapsDrawing|null
-     * @ORM\OneToOne(targetEntity="MapsDrawing", nullable=true))
+    /**
+     * @var MapsDrawing|null
+     * @ORM\OneToOne(targetEntity="MapsDrawing")
      */
     private $mapsDrawing;
-    /** @var Mythology|null
-     * @ORM\OneToOne(targetEntity="Mythology", nullable=true))
+    /**
+     * @var Mythology|null
+     * @ORM\OneToOne(targetEntity="Mythology")
      */
     private $mythology;
-    /** @var ReadingAndWriting|null
-     * @ORM\OneToOne(targetEntity="ReadingAndWriting", nullable=true))
+    /**
+     * @var ReadingAndWriting|null
+     * @ORM\OneToOne(targetEntity="ReadingAndWriting")
      */
     private $readingAndWriting;
-    /** @var SocialEtiquette|null
-     * @ORM\OneToOne(targetEntity="SocialEtiquette", nullable=true))
+    /**
+     * @var SocialEtiquette|null
+     * @ORM\OneToOne(targetEntity="SocialEtiquette")
      */
     private $socialEtiquette;
-    /** @var Technology|null
-     * @ORM\OneToOne(targetEntity="Technology", nullable=true))
+    /**
+     * @var Technology|null
+     * @ORM\OneToOne(targetEntity="Technology")
      */
     private $technology;
-    /** @var Theology|null
-     * @ORM\OneToOne(targetEntity="Theology", nullable=true))
+    /**
+     * @var Theology|null
+     * @ORM\OneToOne(targetEntity="Theology")
      */
     private $theology;
-    /** @var Zoology|null
-     * @ORM\OneToOne(targetEntity="Zoology", nullable=true))
+    /**
+     * @var Zoology|null
+     * @ORM\OneToOne(targetEntity="Zoology")
      */
     private $zoology;
 
@@ -254,14 +259,6 @@ class PersonPsychicalSkills extends PersonSameTypeSkills
     public function getSkillsGroupName()
     {
         return self::PSYCHICAL;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

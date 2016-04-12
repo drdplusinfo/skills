@@ -2,6 +2,7 @@
 namespace DrdPlus\Person\Skills;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrineum\Entity\Entity;
 use DrdPlus\Codes\SkillCodes;
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
@@ -22,30 +23,68 @@ use DrdPlus\Tables\Tables;
 use Granam\Strict\Object\StrictObject;
 
 /**
- * @ORM\Table()
  * @ORM\Entity()
  */
-class PersonSkills extends StrictObject implements \IteratorAggregate, \Countable
+class PersonSkills extends StrictObject implements \IteratorAggregate, \Countable, Entity
 {
     const PHYSICAL = PersonPhysicalSkills::PHYSICAL;
     const PSYCHICAL = PersonPsychicalSkills::PSYCHICAL;
     const COMBINED = PersonCombinedSkills::COMBINED;
 
-    public static function createIt(
+    /**
+     * @var integer
+     *
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var PersonPhysicalSkills
+     *
+     * @ORM\OneToOne(targetEntity="DrdPlus\Person\Skills\Physical\PersonPhysicalSkills")
+     */
+    private $personPhysicalSkills;
+
+    /**
+     * @var PersonPsychicalSkills
+     *
+     * @ORM\OneToOne(targetEntity="DrdPlus\Person\Skills\Psychical\PersonPsychicalSkills")
+     */
+    private $personPsychicalSkills;
+
+    /**
+     * @var PersonCombinedSkills
+     *
+     * @ORM\OneToOne(targetEntity="DrdPlus\Person\Skills\Combined\PersonCombinedSkills")
+     */
+    private $personCombinedSkills;
+
+    /**
+     * @param ProfessionLevels $professionLevels
+     * @param BackgroundSkillPoints $backgroundSkillPoints
+     * @param Tables $tables
+     * @param PersonPhysicalSkills $personPhysicalSkills
+     * @param PersonPsychicalSkills $personPsychicalSkills
+     * @param PersonCombinedSkills $personCombinedSkills
+     * @return PersonSkills
+     */
+    public static function createPersonSkills(
         ProfessionLevels $professionLevels,
         BackgroundSkillPoints $backgroundSkillPoints,
         Tables $tables,
-        PersonPhysicalSkills $physicalSkills,
-        PersonPsychicalSkills $psychicalSkills,
-        PersonCombinedSkills $combinedSkills
+        PersonPhysicalSkills $personPhysicalSkills,
+        PersonPsychicalSkills $personPsychicalSkills,
+        PersonCombinedSkills $personCombinedSkills
     )
     {
         self::checkPaymentForSkillPoints(
-            $professionLevels, $backgroundSkillPoints, $tables, $physicalSkills, $psychicalSkills, $combinedSkills
+            $professionLevels, $backgroundSkillPoints, $tables, $personPhysicalSkills, $personPsychicalSkills, $personCombinedSkills
         );
-        self::checkNextLevelsSkillRanks($physicalSkills, $psychicalSkills, $combinedSkills);
+        self::checkNextLevelsSkillRanks($personPhysicalSkills, $personPsychicalSkills, $personCombinedSkills);
 
-        return new self($physicalSkills, $psychicalSkills, $combinedSkills);
+        return new self($personPhysicalSkills, $personPsychicalSkills, $personCombinedSkills);
     }
 
     /**
@@ -374,44 +413,22 @@ class PersonSkills extends StrictObject implements \IteratorAggregate, \Countabl
     }
 
     /**
-     * @var integer
+     * Looking for a way how to create it?
+     * Try @see PersonSkills::createPersonSkills
      *
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @param PersonPhysicalSkills $personPhysicalSkills
+     * @param PersonPsychicalSkills $personPsychicalSkills
+     * @param PersonCombinedSkills $personCombinedSkills
      */
-    private $id;
-
-    /**
-     * @var PersonPhysicalSkills
-     *
-     * @ORM\OneToOne(targetEntity="DrdPlus\Person\Skills\Physical\PhysicalSkills")
-     */
-    private $physicalSkills;
-
-    /**
-     * @var PersonPsychicalSkills
-     *
-     * @ORM\OneToOne(targetEntity="DrdPlus\Person\Skills\Psychical\PsychicalSkills")
-     */
-    private $psychicalSkills;
-
-    /**
-     * @var PersonCombinedSkills
-     *
-     * @ORM\OneToOne(targetEntity="DrdPlus\Person\Skills\Combined\CombinedSkills")
-     */
-    private $combinedSkills;
-
     private function __construct(
-        PersonPhysicalSkills $physicalSkills,
-        PersonPsychicalSkills $psychicalSkills,
-        PersonCombinedSkills $combinedSkills
+        PersonPhysicalSkills $personPhysicalSkills,
+        PersonPsychicalSkills $personPsychicalSkills,
+        PersonCombinedSkills $personCombinedSkills
     )
     {
-        $this->physicalSkills = $physicalSkills;
-        $this->psychicalSkills = $psychicalSkills;
-        $this->combinedSkills = $combinedSkills;
+        $this->personPhysicalSkills = $personPhysicalSkills;
+        $this->personPsychicalSkills = $personPsychicalSkills;
+        $this->personCombinedSkills = $personCombinedSkills;
     }
 
     /**
@@ -425,25 +442,25 @@ class PersonSkills extends StrictObject implements \IteratorAggregate, \Countabl
     /**
      * @return PersonPhysicalSkills
      */
-    public function getPhysicalSkills()
+    public function getPersonPhysicalSkills()
     {
-        return $this->physicalSkills;
+        return $this->personPhysicalSkills;
     }
 
     /**
      * @return PersonPsychicalSkills
      */
-    public function getPsychicalSkills()
+    public function getPersonPsychicalSkills()
     {
-        return $this->psychicalSkills;
+        return $this->personPsychicalSkills;
     }
 
     /**
      * @return PersonCombinedSkills
      */
-    public function getCombinedSkills()
+    public function getPersonCombinedSkills()
     {
-        return $this->combinedSkills;
+        return $this->personCombinedSkills;
     }
 
     /**
@@ -452,9 +469,9 @@ class PersonSkills extends StrictObject implements \IteratorAggregate, \Countabl
     public function getSkills()
     {
         return array_merge(
-            $this->getPhysicalSkills()->getIterator()->getArrayCopy(),
-            $this->getPsychicalSkills()->getIterator()->getArrayCopy(),
-            $this->getCombinedSkills()->getIterator()->getArrayCopy()
+            $this->getPersonPhysicalSkills()->getIterator()->getArrayCopy(),
+            $this->getPersonPsychicalSkills()->getIterator()->getArrayCopy(),
+            $this->getPersonCombinedSkills()->getIterator()->getArrayCopy()
         );
     }
 

@@ -2,6 +2,7 @@
 namespace DrdPlus\Person\Skills;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrineum\Entity\Entity;
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Properties\Base\Agility;
@@ -14,22 +15,24 @@ use DrdPlus\Tables\Tables;
 use Granam\Integer\IntegerInterface;
 use Granam\Strict\Object\StrictObject;
 
-abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
+/**
+ * @ORM\MappedSuperclass()
+ */
+abstract class PersonSkillPoint extends StrictObject implements IntegerInterface, Entity
 {
     const SKILL_POINT_VALUE = 1;
 
     /**
      * @var integer|null
-     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    private $id;
 
     /**
      * @var ProfessionLevel
-     * @ORM\ManyToOne(target="\DrdPlus\Person\ProfessionLevels\ProfessionLevel")
+     * @ORM\ManyToOne(targetEntity="\DrdPlus\Person\ProfessionLevels\ProfessionLevel")
      */
     private $professionLevel;
     /**
@@ -39,12 +42,12 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
     private $backgroundSkillPoints;
     /**
      * @var PersonSkillPoint|null
-     * @ORM\OneToOne(targetEntity="PersonSkillPoint", nullable=true)
+     * @ORM\OneToOne(targetEntity="PersonSkillPoint")
      */
     private $firstPaidOtherSkillPoint;
     /**
      * @var PersonSkillPoint|null
-     * @ORM\OneToOne(targetEntity="PersonSkillPoint", nullable=true)
+     * @ORM\OneToOne(targetEntity="PersonSkillPoint")
      */
     private $secondPaidOtherSkillPoint;
 
@@ -143,9 +146,9 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
         PersonSkillPoint $secondPaidSkillPoint = null
     )
     {
-        if ($professionLevel->isFirstLevel() && $backgroundSkillPoints) {
+        if (($isFirstLevel = $professionLevel->isFirstLevel()) && $backgroundSkillPoints) {
             $this->checkPayByFirstLevelBackgroundSkillPoints($professionLevel, $tables, $backgroundSkillPoints);
-        } else if ($professionLevel->isFirstLevel() && $firstPaidSkillPoint && $secondPaidSkillPoint) {
+        } else if ($isFirstLevel && $firstPaidSkillPoint && $secondPaidSkillPoint) {
             $this->checkPayByOtherSkillPoints($firstPaidSkillPoint, $secondPaidSkillPoint);
         } else if ($professionLevel->isNextLevel()) {
             $this->checkPayByLevelPropertyIncrease($professionLevel);

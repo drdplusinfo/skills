@@ -8,22 +8,21 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
- * @ORM\Table()
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({
+ *  "armorWearing" = "ArmorWearing",
  *  "athletics" = "Athletics",
  *  "blacksmithing" = "Blacksmithing",
  *  "boatDriving" = "BoatDriving",
- *  "cardDriving" = "CardDriving",
+ *  "cartDriving" = "CartDriving",
  *  "cityMoving" = "CityMoving",
  *  "climbingAndHillwalking" = "ClimbingAndHillwalking",
  *  "fastMarsh" = "FastMarsh",
  *  "fightWithWeapon" = "FightWithWeapon",
  *  "flying" = "Flying",
  *  "forestMoving" = "ForestMoving",
- *  "movingInMountain" = "MovingInMountain",
- *  "physicalSkills" = "PhysicalSkills",
+ *  "movingInMountains" = "MovingInMountains",
  *  "riding" = "Riding",
  *  "sailing" = "Sailing",
  *  "shieldUsage" = "ShieldUsage",

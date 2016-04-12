@@ -8,7 +8,6 @@ use DrdPlus\Properties\Base\Will;
 use DrdPlus\Person\Skills\PersonSkillPoint;
 
 /**
- * @ORM\Table()
  * @ORM\Entity()
  */
 class PsychicalSkillPoint extends PersonSkillPoint

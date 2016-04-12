@@ -5,9 +5,9 @@ use DrdPlus\Professions\Fighter;
 use DrdPlus\Properties\Base\Intelligence;
 use DrdPlus\Properties\Base\Will;
 use DrdPlus\Tables\Tables;
-use DrdPlus\Tests\Person\Skills\AbstractTestOfSkillPoint;
+use DrdPlus\Tests\Person\Skills\PersonSkillPointTest;
 
-class PsychicalSkillPointTest extends AbstractTestOfSkillPoint
+class PsychicalSkillPointTest extends PersonSkillPointTest
 {
     protected function I_can_create_skill_point_by_first_level_background_skills()
     {

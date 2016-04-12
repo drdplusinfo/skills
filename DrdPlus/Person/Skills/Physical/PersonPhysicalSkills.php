@@ -4,11 +4,9 @@ namespace DrdPlus\Person\Skills\Physical;
 use DrdPlus\Codes\SkillCodes;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Person\Skills\PersonSameTypeSkills;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PhysicalSkills
- *
- * @ORM\Table()
  * @ORM\Entity()
  */
 class PersonPhysicalSkills extends PersonSameTypeSkills
@@ -16,76 +14,83 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
     const PHYSICAL = SkillCodes::PHYSICAL;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /** @var ArmorWearing|null
-     * @ORM\OneToOne(targetEntity="ArmorWearing", nullable=true))
+     * @var ArmorWearing|null
+     * @ORM\OneToOne(targetEntity="ArmorWearing")
      */
     private $armorWearing;
-    /** @var Athletics|null
-     * @ORM\OneToOne(targetEntity="Athletics", nullable=true))
+    /**
+     * @var Athletics|null
+     * @ORM\OneToOne(targetEntity="Athletics")
      */
     private $athletics;
-    /** @var Blacksmithing|null
-     * @ORM\OneToOne(targetEntity="Blacksmithing", nullable=true))
+    /**
+     * @var Blacksmithing|null
+     * @ORM\OneToOne(targetEntity="Blacksmithing")
      */
     private $blacksmithing;
-    /** @var BoatDriving|null
-     * @ORM\OneToOne(targetEntity="BoatDriving", nullable=true))
+    /**
+     * @var BoatDriving|null
+     * @ORM\OneToOne(targetEntity="BoatDriving")
      */
     private $boatDriving;
-    /** @var CartDriving|null
-     * @ORM\OneToOne(targetEntity="CartDriving", nullable=true))
+    /**
+     * @var CartDriving|null
+     * @ORM\OneToOne(targetEntity="CartDriving")
      */
     private $cartDriving;
-    /** @var CityMoving|null
-     * @ORM\OneToOne(targetEntity="CityMoving", nullable=true))
+    /**
+     * @var CityMoving|null
+     * @ORM\OneToOne(targetEntity="CityMoving")
      */
     private $cityMoving;
-    /** @var ClimbingAndHillwalking|null
-     * @ORM\OneToOne(targetEntity="ClimbingAndHillwalking", nullable=true))
+    /**
+     * @var ClimbingAndHillwalking|null
+     * @ORM\OneToOne(targetEntity="ClimbingAndHillwalking")
      */
     private $climbingAndHillwalking;
-    /** @var FastMarsh|null
-     * @ORM\OneToOne(targetEntity="FastMarsh", nullable=true))
+    /**
+     * @var FastMarsh|null
+     * @ORM\OneToOne(targetEntity="FastMarsh")
      */
     private $fastMarsh;
-    /** @var FightWithWeapon|null
-     * @ORM\OneToOne(targetEntity="FightWithWeapon", nullable=true))
+    /**
+     * @var FightWithWeapon|null
+     * @ORM\OneToOne(targetEntity="FightWithWeapon")
      */
     private $fightWithWeapon;
-    /** @var Flying|null
-     * @ORM\OneToOne(targetEntity="Flying", nullable=true))
+    /**
+     * @var Flying|null
+     * @ORM\OneToOne(targetEntity="Flying")
      */
     private $flying;
-    /** @var ForestMoving|null
-     * @ORM\OneToOne(targetEntity="ForestMoving", nullable=true))
+    /**
+     * @var ForestMoving|null
+     * @ORM\OneToOne(targetEntity="ForestMoving")
      */
     private $forestMoving;
-    /** @var MovingInMountains|null
-     * @ORM\OneToOne(targetEntity="MovingInMountains", nullable=true))
+    /**
+     * @var MovingInMountains|null
+     * @ORM\OneToOne(targetEntity="MovingInMountains")
      */
     private $movingInMountain;
-    /** @var Riding|null
-     * @ORM\OneToOne(targetEntity="Riding", nullable=true))
+    /**
+     * @var Riding|null
+     * @ORM\OneToOne(targetEntity="Riding")
      */
     private $riding;
-    /** @var Sailing|null
-     * @ORM\OneToOne(targetEntity="Sailing", nullable=true))
+    /**
+     * @var Sailing|null
+     * @ORM\OneToOne(targetEntity="Sailing")
      */
     private $sailing;
-    /** @var ShieldUsage|null
-     * @ORM\OneToOne(targetEntity="ShieldUsage", nullable=true))
+    /**
+     * @var ShieldUsage|null
+     * @ORM\OneToOne(targetEntity="ShieldUsage")
      */
     private $shieldUsage;
-    /** @var Swimming|null
-     * @ORM\OneToOne(targetEntity="Swimming", nullable=true))
+    /**
+     * @var Swimming|null
+     * @ORM\OneToOne(targetEntity="Swimming")
      */
     private $swimming;
 
@@ -148,97 +153,97 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
                 if ($this->armorWearing !== null) {
                     throw new Exceptions\PhysicalSkillAlreadySet('armorWearing  is already set');
                 }
-                $this->armorWearing = $physicalSkill;    
+                $this->armorWearing = $physicalSkill;
                 break;
             case is_a($physicalSkill, Athletics::class) :
                 if ($this->athletics !== null) {
                     throw new Exceptions\PhysicalSkillAlreadySet('athletics  is already set');
                 }
-                $this->athletics = $physicalSkill;    
+                $this->athletics = $physicalSkill;
                 break;
             case is_a($physicalSkill, Blacksmithing::class) :
                 if ($this->blacksmithing !== null) {
                     throw new Exceptions\PhysicalSkillAlreadySet('blacksmithing  is already set');
                 }
-                $this->blacksmithing = $physicalSkill;    
+                $this->blacksmithing = $physicalSkill;
                 break;
             case is_a($physicalSkill, BoatDriving::class) :
                 if ($this->boatDriving !== null) {
                     throw new Exceptions\PhysicalSkillAlreadySet('boatDriving  is already set');
                 }
-                $this->boatDriving = $physicalSkill;    
+                $this->boatDriving = $physicalSkill;
                 break;
             case is_a($physicalSkill, CartDriving::class) :
                 if ($this->cartDriving !== null) {
                     throw new Exceptions\PhysicalSkillAlreadySet('cartDriving  is already set');
                 }
-                $this->cartDriving = $physicalSkill;    
+                $this->cartDriving = $physicalSkill;
                 break;
             case is_a($physicalSkill, CityMoving::class) :
                 if ($this->cityMoving !== null) {
                     throw new Exceptions\PhysicalSkillAlreadySet('cityMoving  is already set');
                 }
-                $this->cityMoving = $physicalSkill;    
+                $this->cityMoving = $physicalSkill;
                 break;
             case is_a($physicalSkill, ClimbingAndHillwalking::class) :
                 if ($this->climbingAndHillwalking !== null) {
                     throw new Exceptions\PhysicalSkillAlreadySet('climbingAndHillwalking  is already set');
                 }
-                $this->climbingAndHillwalking = $physicalSkill;    
+                $this->climbingAndHillwalking = $physicalSkill;
                 break;
             case is_a($physicalSkill, FastMarsh::class) :
                 if ($this->fastMarsh !== null) {
                     throw new Exceptions\PhysicalSkillAlreadySet('fastMarsh  is already set');
                 }
-                $this->fastMarsh = $physicalSkill;    
+                $this->fastMarsh = $physicalSkill;
                 break;
             case is_a($physicalSkill, FightWithWeapon::class) :
                 if ($this->fightWithWeapon !== null) {
                     throw new Exceptions\PhysicalSkillAlreadySet('fightWithWeapon  is already set');
                 }
-                $this->fightWithWeapon = $physicalSkill;    
+                $this->fightWithWeapon = $physicalSkill;
                 break;
             case is_a($physicalSkill, Flying::class) :
                 if ($this->flying !== null) {
                     throw new Exceptions\PhysicalSkillAlreadySet('flying  is already set');
                 }
-                $this->flying = $physicalSkill;    
+                $this->flying = $physicalSkill;
                 break;
             case is_a($physicalSkill, ForestMoving::class) :
                 if ($this->forestMoving !== null) {
                     throw new Exceptions\PhysicalSkillAlreadySet('forestMoving  is already set');
                 }
-                $this->forestMoving = $physicalSkill;    
+                $this->forestMoving = $physicalSkill;
                 break;
             case is_a($physicalSkill, MovingInMountains::class) :
                 if ($this->movingInMountain !== null) {
                     throw new Exceptions\PhysicalSkillAlreadySet('movingInMountain  is already set');
                 }
-                $this->movingInMountain = $physicalSkill;    
+                $this->movingInMountain = $physicalSkill;
                 break;
             case is_a($physicalSkill, Riding::class) :
                 if ($this->riding !== null) {
                     throw new Exceptions\PhysicalSkillAlreadySet('riding  is already set');
                 }
-                $this->riding = $physicalSkill;    
+                $this->riding = $physicalSkill;
                 break;
             case is_a($physicalSkill, Sailing::class) :
                 if ($this->sailing !== null) {
                     throw new Exceptions\PhysicalSkillAlreadySet('sailing  is already set');
                 }
-                $this->sailing = $physicalSkill;    
+                $this->sailing = $physicalSkill;
                 break;
             case is_a($physicalSkill, ShieldUsage::class) :
                 if ($this->shieldUsage !== null) {
                     throw new Exceptions\PhysicalSkillAlreadySet('shieldUsage  is already set');
                 }
-                $this->shieldUsage = $physicalSkill;    
+                $this->shieldUsage = $physicalSkill;
                 break;
             case is_a($physicalSkill, Swimming::class) :
                 if ($this->swimming !== null) {
                     throw new Exceptions\PhysicalSkillAlreadySet('swimming  is already set');
                 }
-                $this->swimming = $physicalSkill;    
+                $this->swimming = $physicalSkill;
                 break;
             default :
                 throw new Exceptions\UnknownPhysicalSkill(
@@ -253,14 +258,6 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
     public function getSkillsGroupName()
     {
         return self::PHYSICAL;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

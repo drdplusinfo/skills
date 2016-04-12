@@ -5,9 +5,9 @@ use DrdPlus\Professions\Fighter;
 use DrdPlus\Properties\Base\Agility;
 use DrdPlus\Properties\Base\Strength;
 use DrdPlus\Tables\Tables;
-use DrdPlus\Tests\Person\Skills\AbstractTestOfSkillPoint;
+use DrdPlus\Tests\Person\Skills\PersonSkillPointTest;
 
-class PhysicalSkillPointTest extends AbstractTestOfSkillPoint
+class PhysicalSkillPointTest extends PersonSkillPointTest
 {
     protected function I_can_create_skill_point_by_first_level_background_skills()
     {

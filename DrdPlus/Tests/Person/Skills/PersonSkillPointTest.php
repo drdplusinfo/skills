@@ -14,7 +14,7 @@ use DrdPlus\Properties\Base\Strength;
 use DrdPlus\Tables\Tables;
 use Granam\Tests\Tools\TestWithMockery;
 
-abstract class AbstractTestOfSkillPoint extends TestWithMockery
+abstract class PersonSkillPointTest extends TestWithMockery
 {
     protected $paidByFirstLevelBackgroundSkills;
     protected $isPaidByNextLevelPropertyIncrease;

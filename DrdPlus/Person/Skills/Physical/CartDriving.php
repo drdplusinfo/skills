@@ -5,7 +5,6 @@ use DrdPlus\Codes\SkillCodes;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table()
  * @ORM\Entity()
  */
 class CartDriving extends PersonPhysicalSkill

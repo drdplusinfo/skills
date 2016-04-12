@@ -8,26 +8,25 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
- * @ORM\Table()
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({
- *  "astronomy" = "Astronomy,
- *  "botany" = "Botany,
- *  "etiquetteOfUnderworld" = "EtiquetteOfUnderworld,
- *  "foreignLanguage" = "ForeignLanguage,
- *  "geographyOfACountry" = "GeographyOfACountry,
- *  "handlingOfMagicalItems" = "HandlingOfMagicalItems,
- *  "historiography" = "Historiography,
- *  "knowledgeOfACity" = "KnowledgeOfACity,
- *  "knowledgeOfWorld" = "KnowledgeOfWorld,
- *  "mapsDrawing" = "MapsDrawing,
- *  "mythology" = "Mythology,
- *  "readingAndWriting" = "ReadingAndWriting,
- *  "socialEtiquette" = "SocialEtiquette,
- *  "technology" = "Technology,
- *  "theology" = "Theology,
- *  "zoology" = "Zoology
+ *  "astronomy" = "Astronomy",
+ *  "botany" = "Botany",
+ *  "etiquetteOfUnderworld" = "EtiquetteOfUnderworld",
+ *  "foreignLanguage" = "ForeignLanguage",
+ *  "geographyOfACountry" = "GeographyOfACountry",
+ *  "handlingWithMagicalItems" = "HandlingWithMagicalItems",
+ *  "historiography" = "Historiography",
+ *  "knowledgeOfACity" = "KnowledgeOfACity",
+ *  "knowledgeOfWorld" = "KnowledgeOfWorld",
+ *  "mapsDrawing" = "MapsDrawing",
+ *  "mythology" = "Mythology",
+ *  "readingAndWriting" = "ReadingAndWriting",
+ *  "socialEtiquette" = "SocialEtiquette",
+ *  "technology" = "Technology",
+ *  "theology" = "Theology",
+ *  "zoology" = "Zoology"
  * })
  */
 abstract class PersonPsychicalSkill extends PersonSkill

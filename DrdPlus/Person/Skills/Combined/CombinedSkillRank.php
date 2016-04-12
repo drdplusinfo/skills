@@ -2,12 +2,11 @@
 namespace DrdPlus\Person\Skills\Combined;
 
 use DrdPlus\Person\Skills\PersonSkillRank;
-use Doctrine\Common\Annotations as ORM;
+use Doctrine\ORM\Mapping as ORM;
 use Granam\Integer\IntegerInterface;
 
 /**
- * @ORM\Table
- * @ORM\Entity
+ * @ORM\Entity()
  */
 class CombinedSkillRank extends PersonSkillRank
 {

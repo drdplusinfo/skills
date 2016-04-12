@@ -2,11 +2,10 @@
 namespace DrdPlus\Person\Skills\Psychical;
 
 use DrdPlus\Person\Skills\PersonSkillRank;
-use Doctrine\Common\Annotations as ORM;
+use Doctrine\ORM\Mapping as ORM;
 use Granam\Integer\IntegerInterface;
 
 /**
- * @ORM\Table
  * @ORM\Entity
  */
 class PsychicalSkillRank extends PersonSkillRank

@@ -10,7 +10,7 @@ abstract class PersonSkill extends StrictObject
      *
      * @ORM\OneToMany(targetEntity="PersonSkillRank")
      */
-    protected $skillRanks = [];
+    private $skillRanks = [];
 
     protected function __construct(PersonSkillRank $personSkillRank)
     {

@@ -5,7 +5,6 @@ use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Codes\SkillCodes;
 
 /**
- * @ORM\Table()
  * @ORM\Entity()
  */
 class Astronomy extends PersonPsychicalSkill

@@ -1,11 +1,16 @@
 <?php
 namespace DrdPlus\Person\Skills;
 
+use Doctrineum\Entity\Entity;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use Granam\Integer\IntegerInterface;
 use Granam\Strict\Object\StrictObject;
+use Doctrine\ORM\Mapping as ORM;
 
-abstract class PersonSkillRank extends StrictObject implements IntegerInterface
+/**
+ * @ORM\MappedSuperclass()
+ */
+abstract class PersonSkillRank extends StrictObject implements IntegerInterface, Entity
 {
     const MIN_RANK_VALUE = 0; // heard about it
     const MAX_RANK_VALUE = 3; // great knowledge
@@ -14,13 +19,12 @@ abstract class PersonSkillRank extends StrictObject implements IntegerInterface
      * @var integer
      * @ORM\Column(type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue()
      */
     private $id;
-
     /**
      * @var PersonSkillPoint
-     * @ORM\OneToOne(targetEntity="\DrdPlus\Person\Skills\AbstractSkillPoint")
+     * @ORM\OneToOne(targetEntity="\DrdPlus\Person\Skills\PersonSkillPoint")
      */
     private $personSkillPoint;
     /**

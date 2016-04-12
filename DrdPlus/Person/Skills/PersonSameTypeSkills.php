@@ -2,17 +2,34 @@
 namespace DrdPlus\Person\Skills;
 
 use Granam\Strict\Object\StrictObject;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\MappedSuperclass()
+ */
 abstract class PersonSameTypeSkills extends StrictObject implements \IteratorAggregate, \Countable
 {
+    /**
+     * @var integer
+     *
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue()
+     */
+    private $id;
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @return string
      */
     abstract public function getSkillsGroupName();
-
-    /** @return int */
-    abstract public function getId();
 
     /**
      * @return \ArrayIterator|PersonSkill[]
@@ -76,7 +93,9 @@ abstract class PersonSameTypeSkills extends StrictObject implements \IteratorAgg
     {
         $skillRanks = [];
         foreach ($this->getIterator() as $personSkill) {
-            $skillRanks = array_merge($skillRanks, $personSkill->getSkillRanks());
+            foreach ($personSkill->getSkillRanks() as $skillRank) {
+                $skillRanks[] = $skillRank;
+            }
         }
 
         return $skillRanks;

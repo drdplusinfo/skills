@@ -46,7 +46,7 @@ class PersonSkillsTest extends TestWithMockery
         PersonCombinedSkills $combinedSkills
     )
     {
-        $personSkills = PersonSkills::createIt(
+        $personSkills = PersonSkills::createPersonSkills(
             $professionLevels,
             $backgroundSkillPoints,
             new Tables(),
@@ -56,9 +56,9 @@ class PersonSkillsTest extends TestWithMockery
         );
 
         self::assertNull($personSkills->getId());
-        self::assertSame($physicalSkills, $personSkills->getPhysicalSkills());
-        self::assertSame($psychicalSkills, $personSkills->getPsychicalSkills());
-        self::assertSame($combinedSkills, $personSkills->getCombinedSkills());
+        self::assertSame($physicalSkills, $personSkills->getPersonPhysicalSkills());
+        self::assertSame($psychicalSkills, $personSkills->getPersonPsychicalSkills());
+        self::assertSame($combinedSkills, $personSkills->getPersonCombinedSkills());
         self::assertEquals(
             $sortedExpectedSkills = $this->getSortedExpectedSkills(
                 $physicalSkills->getIterator()->getArrayCopy(),
@@ -575,7 +575,7 @@ class PersonSkillsTest extends TestWithMockery
         $psychicalSkills = $this->createPsychicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $professionLevels->getFirstLevel());
         $combinedSkills = $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $professionLevels->getFirstLevel());
 
-        PersonSkills::createIt(
+        PersonSkills::createPersonSkills(
             $professionLevels,
             $backgroundSkillPoints,
             new Tables(),
@@ -642,7 +642,7 @@ class PersonSkillsTest extends TestWithMockery
         $psychicalSkills = $this->createPsychicalSkillsPaidByFirstLevelBackground($fromOtherSkillsBackgroundSkillPoints, $professionLevels->getFirstLevel());
         $combinedSkills = $this->createCombinedSkillsPaidByFirstLevelBackground($fromOtherSkillsBackgroundSkillPoints, $professionLevels->getFirstLevel());
 
-        PersonSkills::createIt(
+        PersonSkills::createPersonSkills(
             $professionLevels,
             $backgroundSkillPoints,
             new Tables(),
@@ -718,7 +718,7 @@ class PersonSkillsTest extends TestWithMockery
         PersonCombinedSkills $combinedSkills
     )
     {
-        PersonSkills::createIt(
+        PersonSkills::createPersonSkills(
             $professionLevels,
             $backgroundSkillPoints,
             new Tables(),
@@ -853,7 +853,7 @@ class PersonSkillsTest extends TestWithMockery
         $combinedSkills = $this->createCombinedSkillsByNextLevelPropertyIncrease($nextLevel);
         $backgroundSkillPoints = $this->createBackgroundSkillPoints($professionLevels->getFirstLevel()->getProfession());
 
-        PersonSkills::createIt(
+        PersonSkills::createPersonSkills(
             $professionLevels,
             $backgroundSkillPoints,
             new Tables(),
@@ -884,7 +884,7 @@ class PersonSkillsTest extends TestWithMockery
         $combinedSkills = $this->createCombinedSkillsByNextLevelPropertyIncrease($professionLevels->getFirstLevel());
         $backgroundSkillPoints = $this->createBackgroundSkillPoints($professionLevels->getFirstLevel()->getProfession());
 
-        PersonSkills::createIt(
+        PersonSkills::createPersonSkills(
             $professionLevels,
             $backgroundSkillPoints,
             new Tables(),
