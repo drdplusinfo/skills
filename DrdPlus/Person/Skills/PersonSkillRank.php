@@ -24,7 +24,7 @@ abstract class PersonSkillRank extends StrictObject implements IntegerInterface,
     private $id;
     /**
      * @var PersonSkillPoint
-     * @ORM\OneToOne(targetEntity="\DrdPlus\Person\Skills\PersonSkillPoint")
+     * @ORM\OneToOne(targetEntity="\DrdPlus\Person\Skills\PersonSkillPoint", cascade={"persist"})
      */
     private $personSkillPoint;
     /**

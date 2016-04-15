@@ -29,10 +29,9 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var ProfessionLevel
-     * @ORM\ManyToOne(targetEntity="\DrdPlus\Person\ProfessionLevels\ProfessionLevel")
+     * @ORM\ManyToOne(targetEntity="\DrdPlus\Person\ProfessionLevels\ProfessionLevel", cascade={"persist"})
      */
     private $professionLevel;
     /**
@@ -42,12 +41,12 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
     private $backgroundSkillPoints;
     /**
      * @var PersonSkillPoint|null
-     * @ORM\OneToOne(targetEntity="PersonSkillPoint")
+     * @ORM\OneToOne(targetEntity="PersonSkillPoint", cascade={"persist"})
      */
     private $firstPaidOtherSkillPoint;
     /**
      * @var PersonSkillPoint|null
-     * @ORM\OneToOne(targetEntity="PersonSkillPoint")
+     * @ORM\OneToOne(targetEntity="PersonSkillPoint", cascade={"persist"})
      */
     private $secondPaidOtherSkillPoint;
 

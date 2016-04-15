@@ -7,6 +7,9 @@ use DrdPlus\Properties\Base\Strength;
 use DrdPlus\Person\Skills\PersonSkillPoint;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\Entity()
+ */
 class PhysicalSkillPoint extends PersonSkillPoint
 {
 

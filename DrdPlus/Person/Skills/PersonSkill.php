@@ -2,6 +2,7 @@
 namespace DrdPlus\Person\Skills;
 
 use Granam\Strict\Object\StrictObject;
+use Doctrine\ORM\Mapping as ORM;
 
 abstract class PersonSkill extends StrictObject
 {

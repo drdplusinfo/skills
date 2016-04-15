@@ -33,31 +33,27 @@ class PersonSkills extends StrictObject implements \IteratorAggregate, \Countabl
 
     /**
      * @var integer
-     *
      * @ORM\Column(type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue()
      */
     private $id;
 
     /**
      * @var PersonPhysicalSkills
-     *
-     * @ORM\OneToOne(targetEntity="DrdPlus\Person\Skills\Physical\PersonPhysicalSkills")
+     * @ORM\OneToOne(targetEntity="DrdPlus\Person\Skills\Physical\PersonPhysicalSkills", cascade={"persist"})
      */
     private $personPhysicalSkills;
 
     /**
      * @var PersonPsychicalSkills
-     *
-     * @ORM\OneToOne(targetEntity="DrdPlus\Person\Skills\Psychical\PersonPsychicalSkills")
+     * @ORM\OneToOne(targetEntity="DrdPlus\Person\Skills\Psychical\PersonPsychicalSkills", cascade={"persist"})
      */
     private $personPsychicalSkills;
 
     /**
      * @var PersonCombinedSkills
-     *
-     * @ORM\OneToOne(targetEntity="DrdPlus\Person\Skills\Combined\PersonCombinedSkills")
+     * @ORM\OneToOne(targetEntity="DrdPlus\Person\Skills\Combined\PersonCombinedSkills", cascade={"persist"})
      */
     private $personCombinedSkills;
 

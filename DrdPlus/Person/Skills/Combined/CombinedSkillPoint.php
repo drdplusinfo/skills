@@ -8,7 +8,7 @@ use DrdPlus\Person\Skills\PersonSkillPoint;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table
+ * @ORM\Entity()
  */
 class CombinedSkillPoint extends PersonSkillPoint
 {
