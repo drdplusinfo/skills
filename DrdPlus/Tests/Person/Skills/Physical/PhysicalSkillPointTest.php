@@ -96,7 +96,7 @@ class PhysicalSkillPointTest extends PersonSkillPointTest
 
     private function I_can_create_skill_point_by_level_by_strength_adjustment()
     {
-        $physicalSkillPoint = PhysicalSkillPoint::createFromNextLevelsPropertyIncrease(
+        $physicalSkillPoint = PhysicalSkillPoint::createFromNextLevelPropertyIncrease(
             $level = $this->createProfessionNextLevel(Agility::class, Strength::class),
             new Tables()
         );
@@ -110,7 +110,7 @@ class PhysicalSkillPointTest extends PersonSkillPointTest
 
     private function I_can_create_skill_point_by_level_by_agility_adjustment()
     {
-        $physicalSkillPoint = PhysicalSkillPoint::createFromNextLevelsPropertyIncrease(
+        $physicalSkillPoint = PhysicalSkillPoint::createFromNextLevelPropertyIncrease(
             $level = $this->createProfessionNextLevel(Strength::class, Agility::class),
             new Tables()
         );

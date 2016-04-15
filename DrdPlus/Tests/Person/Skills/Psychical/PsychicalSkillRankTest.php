@@ -2,9 +2,9 @@
 namespace DrdPlus\Tests\Person\Skills\Psychical;
 
 use DrdPlus\Person\Skills\Psychical\PsychicalSkillPoint;
-use DrdPlus\Tests\Person\Skills\AbstractTestOfSkillRank;
+use DrdPlus\Tests\Person\Skills\PersonSkillRankTest;
 
-class PsychicalSkillRankTest extends AbstractTestOfSkillRank
+class PsychicalSkillRankTest extends PersonSkillRankTest
 {
 
     /**

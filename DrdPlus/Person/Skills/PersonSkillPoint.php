@@ -4,7 +4,9 @@ namespace DrdPlus\Person\Skills;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrineum\Entity\Entity;
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
+use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
+use DrdPlus\Person\ProfessionLevels\ProfessionNextLevel;
 use DrdPlus\Properties\Base\Agility;
 use DrdPlus\Properties\Base\Charisma;
 use DrdPlus\Properties\Base\Intelligence;
@@ -24,16 +26,21 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
 
     /**
      * @var integer|null
-     * @ORM\Column(type="integer")
      * @ORM\Id
+     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
     /**
-     * @var ProfessionLevel
-     * @ORM\ManyToOne(targetEntity="\DrdPlus\Person\ProfessionLevels\ProfessionLevel", cascade={"persist"})
+     * @var ProfessionFirstLevel|null
+     * @ORM\ManyToOne(targetEntity="\DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel", cascade={"persist"})
      */
-    private $professionLevel;
+    private $professionFirstLevel;
+    /**
+     * @var ProfessionNextLevel|null
+     * @ORM\ManyToOne(targetEntity="\DrdPlus\Person\ProfessionLevels\ProfessionNextLevel", cascade={"persist"})
+     */
+    private $professionNextLevel;
     /**
      * @var BackgroundSkillPoints|null
      * @ORM\Column(type="background_skill_points", nullable=true)
@@ -61,23 +68,23 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
     abstract public function getRelatedProperties();
 
     /**
-     * @param ProfessionLevel $professionLevel
+     * @param ProfessionFirstLevel $professionFirstLevel
      * @param BackgroundSkillPoints $backgroundSkillPoints
      * @param Tables $tables
      *
      * @return static
      */
     public static function createFromFirstLevelBackgroundSkillPoints(
-        ProfessionLevel $professionLevel,
+        ProfessionFirstLevel $professionFirstLevel,
         BackgroundSkillPoints $backgroundSkillPoints,
         Tables $tables
     )
     {
-        return new static($professionLevel, $tables, $backgroundSkillPoints);
+        return new static($tables, $professionFirstLevel, null /* next levels */, $backgroundSkillPoints);
     }
 
     /**
-     * @param ProfessionLevel $professionLevel
+     * @param ProfessionFirstLevel $professionFirstLevel
      * @param PersonSkillPoint $firstPaidSkillPoint
      * @param PersonSkillPoint $secondPaidSkillPoint
      * @param Tables $tables
@@ -85,83 +92,120 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
      * @return static
      */
     public static function createFromFirstLevelCrossTypeSkillPoints(
-        ProfessionLevel $professionLevel,
+        ProfessionFirstLevel $professionFirstLevel,
         PersonSkillPoint $firstPaidSkillPoint,
         PersonSkillPoint $secondPaidSkillPoint,
         Tables $tables
     )
     {
         return new static(
-            $professionLevel, $tables, null /* background skills */, $firstPaidSkillPoint, $secondPaidSkillPoint
+            $tables,
+            $professionFirstLevel,
+            null /* next levels */,
+            null /* background skill points */,
+            $firstPaidSkillPoint,
+            $secondPaidSkillPoint
         );
     }
 
     /**
-     * @param ProfessionLevel $professionLevel
+     * @param ProfessionNextLevel $professionNextLevel
      * @param Tables $tables
      *
      * @return static
      */
-    public static function createFromNextLevelsPropertyIncrease(ProfessionLevel $professionLevel, Tables $tables)
+    public static function createFromNextLevelPropertyIncrease(
+        ProfessionNextLevel $professionNextLevel,
+        Tables $tables
+    )
     {
-        return new static($professionLevel, $tables);
+        return new static($tables, null /* first level */, $professionNextLevel);
     }
 
     /**
-     * You can pay by a level (by its property adjustment respectively) or by two another skill points (as combined and psychical for a new physical)
+     * You can pay by a level (by its property adjustment respectively) or by two another skill points
+     * (for example combined and psychical for a new physical).
      *
-     * @param ProfessionLevel $professionLevel
      * @param Tables $tables
-     * @param BackgroundSkillPoints $backgroundSkillPoints = null
+     * @param ProfessionFirstLevel|null $professionFirstLevel = null
+     * @param ProfessionNextLevel|null $professionNextLevel = null
+     * @param BackgroundSkillPoints|null $backgroundSkillPoints = null
      * @param PersonSkillPoint $firstPaidOtherSkillPoint = null
      * @param PersonSkillPoint $secondPaidOtherSkillPoint = null
+     * @throws \DrdPlus\Person\Skills\Exceptions\UnknownPaymentForSkillPoint
      */
     protected function __construct(
-        ProfessionLevel $professionLevel,
         Tables $tables,
+        ProfessionFirstLevel $professionFirstLevel = null,
+        ProfessionNextLevel $professionNextLevel = null,
         BackgroundSkillPoints $backgroundSkillPoints = null,
         PersonSkillPoint $firstPaidOtherSkillPoint = null,
         PersonSkillPoint $secondPaidOtherSkillPoint = null
     )
     {
-        $this->checkPayment(
-            $professionLevel,
+        $this->checkSkillPointPayment(
             $tables,
+            $professionFirstLevel,
+            $professionNextLevel,
             $backgroundSkillPoints,
             $firstPaidOtherSkillPoint,
             $secondPaidOtherSkillPoint
         );
-        $this->professionLevel = $professionLevel;
+
+        $this->professionFirstLevel = $professionFirstLevel;
+        $this->professionNextLevel = $professionNextLevel;
         $this->backgroundSkillPoints = $backgroundSkillPoints;
         $this->firstPaidOtherSkillPoint = $firstPaidOtherSkillPoint;
         $this->secondPaidOtherSkillPoint = $secondPaidOtherSkillPoint;
     }
 
-    private function checkPayment(
-        ProfessionLevel $professionLevel,
+    private function checkSkillPointPayment(
+        Tables $tables,
+        ProfessionFirstLevel $professionFirstLevel = null,
+        ProfessionNextLevel $professionNextLevel = null,
+        BackgroundSkillPoints $backgroundSkillPoints = null,
+        PersonSkillPoint $firstPaidOtherSkillPoint = null,
+        PersonSkillPoint $secondPaidOtherSkillPoint = null
+    )
+    {
+        if ($professionFirstLevel) {
+            $this->checkFirstLevelPayment(
+                $professionFirstLevel,
+                $tables,
+                $backgroundSkillPoints,
+                $firstPaidOtherSkillPoint,
+                $secondPaidOtherSkillPoint
+            );
+        } else if ($professionNextLevel) {
+            $this->checkNextLevelPaymentByPropertyIncrement($professionNextLevel);
+        } else {
+            throw new Exceptions\UnknownPaymentForSkillPoint('Required first level of next level, got nothing');
+        }
+    }
+
+    private function checkFirstLevelPayment(
+        ProfessionFirstLevel $professionFirstLevel,
         Tables $tables,
         BackgroundSkillPoints $backgroundSkillPoints = null,
         PersonSkillPoint $firstPaidSkillPoint = null,
         PersonSkillPoint $secondPaidSkillPoint = null
     )
     {
-        if (($isFirstLevel = $professionLevel->isFirstLevel()) && $backgroundSkillPoints) {
-            $this->checkPayByFirstLevelBackgroundSkillPoints($professionLevel, $tables, $backgroundSkillPoints);
-        } else if ($isFirstLevel && $firstPaidSkillPoint && $secondPaidSkillPoint) {
-            $this->checkPayByOtherSkillPoints($firstPaidSkillPoint, $secondPaidSkillPoint);
-        } else if ($professionLevel->isNextLevel()) {
-            $this->checkPayByLevelPropertyIncrease($professionLevel);
+        if ($backgroundSkillPoints) {
+            $this->checkPayByFirstLevelBackgroundSkillPoints($professionFirstLevel, $tables, $backgroundSkillPoints);
+        } else if ($firstPaidSkillPoint && $secondPaidSkillPoint) {
+            $this->checkPayByOtherFirstLevelSkillPoints($firstPaidSkillPoint, $secondPaidSkillPoint);
         } else {
             throw new Exceptions\UnknownPaymentForSkillPoint(
                 'Unknown payment for skill point on level '
-                . $professionLevel->getLevelRank()->getValue()
-                . ' of profession ' . $professionLevel->getProfession()->getValue()
+                . $professionFirstLevel->getLevelRank()->getValue()
+                . ' of profession ' . $professionFirstLevel->getProfession()->getValue()
             );
         }
     }
 
     /**
-     * @param ProfessionLevel $professionLevel
+     * @param ProfessionFirstLevel $professionFirstLevel
      * @param Tables $tables
      * @param BackgroundSkillPoints $backgroundSkillPoints
      *
@@ -169,7 +213,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
      * @throws \DrdPlus\Person\Skills\Exceptions\EmptyFirstLevelBackgroundSkillPoints
      */
     private function checkPayByFirstLevelBackgroundSkillPoints(
-        ProfessionLevel $professionLevel,
+        ProfessionFirstLevel $professionFirstLevel,
         Tables $tables,
         BackgroundSkillPoints $backgroundSkillPoints
     )
@@ -179,17 +223,17 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
         switch ($relatedProperties) {
             case $this->sortAlphabetically([Strength::STRENGTH, Agility::AGILITY]) :
                 $firstLevelSkillPoints = $backgroundSkillPoints->getPhysicalSkillPoints(
-                    $professionLevel->getProfession(), $tables
+                    $professionFirstLevel->getProfession(), $tables
                 );
                 break;
             case $this->sortAlphabetically([Will::WILL, Intelligence::INTELLIGENCE]) :
                 $firstLevelSkillPoints = $backgroundSkillPoints->getPsychicalSkillPoints(
-                    $professionLevel->getProfession(), $tables
+                    $professionFirstLevel->getProfession(), $tables
                 );
                 break;
             case $this->sortAlphabetically([Knack::KNACK, Charisma::CHARISMA]) :
                 $firstLevelSkillPoints = $backgroundSkillPoints->getCombinedSkillPoints(
-                    $professionLevel->getProfession(), $tables
+                    $professionFirstLevel->getProfession(), $tables
                 );
                 break;
         }
@@ -203,13 +247,13 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
         return true;
     }
 
-    private function checkPayByOtherSkillPoints(PersonSkillPoint $firstPaidSkillPoint, PersonSkillPoint $secondPaidSkillPoint)
+    private function checkPayByOtherFirstLevelSkillPoints(PersonSkillPoint $firstPaidSkillPoint, PersonSkillPoint $secondPaidSkillPoint)
     {
-        $this->checkPaidSkillPoint($firstPaidSkillPoint);
-        $this->checkPaidSkillPoint($secondPaidSkillPoint);
+        $this->checkPaidFirstLevelSkillPoint($firstPaidSkillPoint);
+        $this->checkPaidFirstLevelSkillPoint($secondPaidSkillPoint);
     }
 
-    private function checkPaidSkillPoint(PersonSkillPoint $paidSkillPoint)
+    private function checkPaidFirstLevelSkillPoint(PersonSkillPoint $paidSkillPoint)
     {
         if (!$paidSkillPoint->isPaidByFirstLevelBackgroundSkillPoints()) {
             $message = 'Skill point to-pay-with has to origin from first level background skills.';
@@ -224,35 +268,35 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
         if ($paidSkillPoint->getTypeName() === $this->getTypeName()) {
             throw new Exceptions\NonSensePaymentBySameType(
                 "There is no sense to pay for skill point by another one of the very same type ({$this->getTypeName()})."
-                . ' Got paid skill point from level ' . $paidSkillPoint->getProfessionLevel()->getLevelRank()->getValue()
+                . ' Got paid skill point from level ' . $paidSkillPoint->getProfessionLevel()->getLevelRank()
                 . ' of profession ' . $paidSkillPoint->getProfessionLevel()->getProfession()->getValue() . '.'
             );
         }
     }
 
-    protected function checkPayByLevelPropertyIncrease(ProfessionLevel $professionLevel)
+    private function checkNextLevelPaymentByPropertyIncrement(ProfessionNextLevel $professionNextLevel)
     {
         $relatedProperties = $this->sortAlphabetically($this->getRelatedProperties());
         $missingPropertyAdjustment = false;
         switch ($relatedProperties) {
             case $this->sortAlphabetically([Strength::STRENGTH, Agility::AGILITY]) :
-                $missingPropertyAdjustment = $professionLevel->getStrengthIncrement()->getValue() === 0
-                    && $professionLevel->getAgilityIncrement()->getValue() === 0;
+                $missingPropertyAdjustment = $professionNextLevel->getStrengthIncrement()->getValue() === 0
+                    && $professionNextLevel->getAgilityIncrement()->getValue() === 0;
                 break;
             case $this->sortAlphabetically([Will::WILL, Intelligence::INTELLIGENCE]) :
-                $missingPropertyAdjustment = $professionLevel->getWillIncrement()->getValue() === 0
-                    && $professionLevel->getIntelligenceIncrement()->getValue() === 0;
+                $missingPropertyAdjustment = $professionNextLevel->getWillIncrement()->getValue() === 0
+                    && $professionNextLevel->getIntelligenceIncrement()->getValue() === 0;
                 break;
             case $this->sortAlphabetically([Knack::KNACK, Charisma::CHARISMA]) :
-                $missingPropertyAdjustment = $professionLevel->getKnackIncrement()->getValue() === 0
-                    && $professionLevel->getCharismaIncrement()->getValue() === 0;
+                $missingPropertyAdjustment = $professionNextLevel->getKnackIncrement()->getValue() === 0
+                    && $professionNextLevel->getCharismaIncrement()->getValue() === 0;
                 break;
         }
 
         if ($missingPropertyAdjustment) {
             throw new Exceptions\MissingPropertyAdjustmentForPayment(
-                'The profession ' . $professionLevel->getProfession()->getValue()
-                . ' of level ' . $professionLevel->getLevelRank()->getValue()
+                'The profession ' . $professionNextLevel->getProfession()->getValue()
+                . ' of level ' . $professionNextLevel->getLevelRank()->getValue()
                 . ' has to have adjusted either ' . implode(' or ', $this->getRelatedProperties())
             );
         }
@@ -295,11 +339,27 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
     }
 
     /**
-     * @return ProfessionLevel
+     * @return ProfessionFirstLevel|null
+     */
+    public function getProfessionFirstLevel()
+    {
+        return $this->professionFirstLevel;
+    }
+
+    /**
+     * @return ProfessionLevel|null
+     */
+    public function getProfessionNextLevel()
+    {
+        return $this->professionNextLevel;
+    }
+
+    /**
+     * @return ProfessionFirstLevel|ProfessionNextLevel
      */
     public function getProfessionLevel()
     {
-        return $this->professionLevel;
+        return $this->getProfessionFirstLevel() ?: $this->getProfessionNextLevel();
     }
 
     /**
@@ -349,7 +409,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
     {
         return !$this->isPaidByFirstLevelBackgroundSkillPoints()
         && !$this->isPaidByOtherSkillPoints()
-        && $this->getProfessionLevel()->isNextLevel();
+        && $this->getProfessionNextLevel() !== null;
     }
 
 }

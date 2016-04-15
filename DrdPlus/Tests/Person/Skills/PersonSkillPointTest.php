@@ -3,7 +3,9 @@ namespace DrdPlus\Tests\Person\Skills;
 
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\LevelRank;
+use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
+use DrdPlus\Person\ProfessionLevels\ProfessionNextLevel;
 use DrdPlus\Person\Skills\Combined\CombinedSkillPoint;
 use DrdPlus\Person\Skills\PersonSkillPoint;
 use DrdPlus\Person\Skills\Physical\PhysicalSkillPoint;
@@ -66,7 +68,7 @@ abstract class PersonSkillPointTest extends TestWithMockery
         self::assertSame(
             !$skillPoint->isPaidByFirstLevelBackgroundSkillPoints()
             && !$skillPoint->isPaidByOtherSkillPoints()
-            && $skillPoint->getProfessionLevel()->isNextLevel(),
+            && $skillPoint->getProfessionNextLevel() !== null,
             $skillPoint->isPaidByNextLevelPropertyIncrease()
         );
         self::assertSame(
@@ -120,15 +122,11 @@ abstract class PersonSkillPointTest extends TestWithMockery
     /**
      * @param string $professionName
      *
-     * @return \Mockery\MockInterface|ProfessionLevel
+     * @return \Mockery\MockInterface|ProfessionFirstLevel
      */
     protected function createProfessionFirstLevel($professionName = '')
     {
-        $professionLevel = $this->mockery(ProfessionLevel::class);
-        $professionLevel->shouldReceive('isFirstLevel')
-            ->andReturn(true);
-        $professionLevel->shouldReceive('isNextLevel')
-            ->andReturn(false);
+        $professionLevel = $this->mockery(ProfessionFirstLevel::class);
         $professionLevel->shouldReceive('getLevelRank')
             ->andReturn($levelRank = $this->mockery(LevelRank::class));
         $levelRank->shouldReceive('getValue')
@@ -241,19 +239,13 @@ abstract class PersonSkillPointTest extends TestWithMockery
      * @param $firstPropertyClass
      * @param bool $secondPropertyClass
      * @param bool $withPropertyIncrement
-     * @return \Mockery\MockInterface|ProfessionLevel
+     * @return \Mockery\MockInterface|ProfessionNextLevel
      */
     protected function createProfessionNextLevel(
         $firstPropertyClass, $secondPropertyClass, $withPropertyIncrement = true
     )
     {
-        $professionLevel = $this->mockery(ProfessionLevel::class);
-        $professionLevel->shouldReceive('isFirstLevel')
-            ->atLeast()->once()
-            ->andReturn(false);
-        $professionLevel->shouldReceive('isNextLevel')
-            ->atLeast()->once()
-            ->andReturn(true);
+        $professionLevel = $this->mockery(ProfessionNextLevel::class);
         $professionLevel->shouldReceive('get' . $this->parsePropertyName($firstPropertyClass) . 'Increment')
             ->andReturn($willIncrement = $this->mockery($firstPropertyClass));
         $willIncrement->shouldReceive('getValue')
@@ -277,18 +269,6 @@ abstract class PersonSkillPointTest extends TestWithMockery
     private function parsePropertyName($propertyClass)
     {
         return basename(str_replace('\\', '/', $propertyClass));
-    }
-
-    /**
-     * @test
-     * @expectedException \DrdPlus\Person\Skills\Exceptions\UnknownPaymentForSkillPoint
-     */
-    public function I_can_not_create_skill_point_by_invalid_payment()
-    {
-        DeAbstractedPersonSkillPoint::createFromNextLevelsPropertyIncrease(
-            $this->createProfessionFirstLevel('foo'),
-            new Tables()
-        );
     }
 
     /**
@@ -342,8 +322,12 @@ abstract class PersonSkillPointTest extends TestWithMockery
             DeAbstractedPersonSkillPoint::TYPE_NAME,
             true
         );
-        $sameTypeSkillPoint->shouldReceive('getProfessionLevel')
+        $sameTypeSkillPoint->shouldReceive('getProfessionFirstLevel')
             ->andReturn($this->createProfessionFirstLevel('baz'));
+        $sameTypeSkillPoint->shouldReceive('getProfessionNextLevel')
+            ->andReturnNull();
+        $sameTypeSkillPoint->shouldDeferMissing();
+
         DeAbstractedPersonSkillPoint::createFromFirstLevelCrossTypeSkillPoints(
             $this->createProfessionFirstLevel('bar'),
             $sameTypeSkillPoint,
@@ -358,7 +342,7 @@ abstract class PersonSkillPointTest extends TestWithMockery
      */
     public function I_can_not_pay_for_skill_point_by_next_level_without_property_increment()
     {
-        DeAbstractedPersonSkillPoint::createFromNextLevelsPropertyIncrease(
+        DeAbstractedPersonSkillPoint::createFromNextLevelPropertyIncrease(
             $this->createProfessionNextLevel(Strength::class, Agility::class, false),
             new Tables()
         );

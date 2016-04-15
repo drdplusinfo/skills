@@ -12,8 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 abstract class PersonSkillRank extends StrictObject implements IntegerInterface, Entity
 {
-    const MIN_RANK_VALUE = 0; // heard about it
-    const MAX_RANK_VALUE = 3; // great knowledge
 
     /**
      * @var integer
@@ -43,6 +41,9 @@ abstract class PersonSkillRank extends StrictObject implements IntegerInterface,
         $this->checkRequiredRankValue($requiredRankValue);
         $this->value = $requiredRankValue->getValue();
     }
+
+    const MIN_RANK_VALUE = 0; // heard about it
+    const MAX_RANK_VALUE = 3; // great knowledge
 
     private function checkRequiredRankValue(IntegerInterface $requiredRankValue)
     {

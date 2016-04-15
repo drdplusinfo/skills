@@ -8,7 +8,7 @@ use Granam\Tests\Tools\TestWithMockery;
 use Granam\Integer\IntegerInterface;
 use Mockery\MockInterface;
 
-abstract class AbstractTestOfSkillRank extends TestWithMockery
+abstract class PersonSkillRankTest extends TestWithMockery
 {
 
     /**

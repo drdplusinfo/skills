@@ -2,9 +2,9 @@
 namespace DrdPlus\Tests\Person\Skills\Physical;
 
 use DrdPlus\Person\Skills\Physical\PhysicalSkillPoint;
-use DrdPlus\Tests\Person\Skills\AbstractTestOfSkillRank;
+use DrdPlus\Tests\Person\Skills\PersonSkillRankTest;
 
-class PhysicalSkillRankTest extends AbstractTestOfSkillRank
+class PhysicalSkillRankTest extends PersonSkillRankTest
 {
 
     /**

@@ -2,9 +2,9 @@
 namespace DrdPlus\Tests\Person\Skills\Combined;
 
 use DrdPlus\Person\Skills\Combined\CombinedSkillPoint;
-use DrdPlus\Tests\Person\Skills\AbstractTestOfSkillRank;
+use DrdPlus\Tests\Person\Skills\PersonSkillRankTest;
 
-class CombinedSkillRankTest extends AbstractTestOfSkillRank
+class CombinedSkillRankTest extends PersonSkillRankTest
 {
 
     /**
