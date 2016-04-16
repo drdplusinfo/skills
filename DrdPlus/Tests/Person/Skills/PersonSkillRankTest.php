@@ -2,6 +2,7 @@
 namespace DrdPlus\Tests\Person\Skills;
 
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
+use DrdPlus\Person\Skills\PersonSkill;
 use DrdPlus\Person\Skills\PersonSkillPoint;
 use DrdPlus\Person\Skills\PersonSkillRank;
 use Granam\Tests\Tools\TestWithMockery;
@@ -22,6 +23,7 @@ abstract class PersonSkillRankTest extends TestWithMockery
         $sutClass = $this->getSutClass();
         /** @var PersonSkillRank $personSkillRank */
         $personSkillRank = new $sutClass(
+            $this->createOwningPersonSkill(),
             $personSkillPoint = $this->createPersonSkillPoint(),
             $this->createRequiredRankValue($skillRankValue)
         );
@@ -46,6 +48,11 @@ abstract class PersonSkillRankTest extends TestWithMockery
         return preg_replace('~[\\\]Tests([\\\].+)Test$~', '$1', static::class);
     }
 
+    /**
+     * @return PersonSkill
+     */
+    abstract protected function createOwningPersonSkill();
+
     protected function addProfessionLevelGetter(MockInterface $mock)
     {
         $mock->shouldReceive('getProfessionLevel')
@@ -58,8 +65,10 @@ abstract class PersonSkillRankTest extends TestWithMockery
      */
     public function I_can_not_create_negative_skill_rank()
     {
+        /** @var  $sutClass */
         $sutClass = $this->getSutClass();
         new $sutClass(
+            $this->createOwningPersonSkill(),
             $this->createPersonSkillPoint(),
             $this->createRequiredRankValue(-1)
         );
@@ -73,6 +82,7 @@ abstract class PersonSkillRankTest extends TestWithMockery
     {
         $sutClass = $this->getSutClass();
         new $sutClass(
+            $this->createOwningPersonSkill(),
             $this->createPersonSkillPoint(),
             $this->createRequiredRankValue(4)
         );

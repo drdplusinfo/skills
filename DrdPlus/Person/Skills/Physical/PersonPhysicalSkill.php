@@ -1,7 +1,9 @@
 <?php
 namespace DrdPlus\Person\Skills\Physical;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use DrdPlus\Person\Skills\PersonSkill;
+use DrdPlus\Person\Skills\PersonSkillRank;
 use DrdPlus\Properties\Base\Agility;
 use DrdPlus\Properties\Base\Strength;
 use Doctrine\ORM\Mapping as ORM;
@@ -31,31 +33,38 @@ use Doctrine\ORM\Mapping as ORM;
  */
 abstract class PersonPhysicalSkill extends PersonSkill
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     **/
-    private $id;
 
-    public function __construct(PhysicalSkillRank $physicalSkillRank)
+    /**
+     * @var PhysicalSkillRank[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="PhysicalSkillRank", mappedBy="personPhysicalSkill", cascade={"persist"})
+     */
+    private $physicalSkillRanks;
+
+    public function __construct()
     {
-        parent::__construct($physicalSkillRank);
+        $this->physicalSkillRanks = new ArrayCollection();
     }
 
-    public function addPhysicalSkillRank(PhysicalSkillRank $physicalSkillRank)
+    /**
+     * @param PhysicalSkillRank|PersonSkillRank $physicalSkillRank
+     * @throws \DrdPlus\Person\Skills\Physical\Exceptions\InvalidSkillRankType
+     */
+    public function addSkillRank(PersonSkillRank $physicalSkillRank)
     {
+        if (!$physicalSkillRank instanceof PhysicalSkillRank) {
+            throw new Exceptions\InvalidSkillRankType(
+                'Expected ' . PhysicalSkillRank::class . ', got ' . get_class($physicalSkillRank)
+            );
+        }
         parent::addSkillRank($physicalSkillRank);
     }
 
     /**
-     * @return int
+     * @return ArrayCollection|PhysicalSkillRank[]
      */
-    public function getId()
+    public function getSkillRanks()
     {
-        return $this->id;
+        return $this->physicalSkillRanks;
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 namespace DrdPlus\Tests\Person\Skills;
 
+use DrdPlus\Person\Skills\Combined\PersonCombinedSkill;
 use DrdPlus\Person\Skills\PersonSkill;
 use DrdPlus\Person\Skills\PersonSkillRank;
 use Granam\Tests\Tools\TestWithMockery;
@@ -14,8 +15,10 @@ abstract class PersonSkillTest extends TestWithMockery
      */
     public function I_can_use_it($sutClass)
     {
-        /** @var PersonSkill $sut */
-        $sut = new $sutClass($personSkillRank = $this->createPersonSkillRank($sutClass));
+        /** @var PersonSkill|PersonCombinedSkill $sut */
+        $sut = new $sutClass();
+        self::assertCount(0, $sut->getSkillRanks());
+        $sut->addSkillRank($personSkillRank = $this->createPersonSkillRank($sutClass));
         self::assertSame([1 => $personSkillRank], $sut->getSkillRanks()->toArray());
         self::assertSame($personSkillRank, $sut->getCurrentSkillRank());
         self::assertNull($sut->getId());
@@ -167,26 +170,36 @@ abstract class PersonSkillTest extends TestWithMockery
     protected function I_can_ask_it_which_type_is_it(PersonSkill $personSkill)
     {
         // should be only one type
-        self::assertSame(1, $this->isPhysical() + $this->isPsychical() + $this->isCombined());
-        self::assertSame($this->isPhysical(), $personSkill->isPhysical());
-        self::assertSame($this->isPsychical(), $personSkill->isPsychical());
-        self::assertSame($this->isCombined(), $personSkill->isCombined());
+        self::assertSame(1, $this->shouldBePhysical() + $this->shouldBePsychical() + $this->shouldBeCombined());
+        self::assertSame($this->shouldBePhysical(), $personSkill->isPhysical());
+        self::assertSame($this->shouldBePsychical(), $personSkill->isPsychical());
+        self::assertSame($this->shouldBeCombined(), $personSkill->isCombined());
     }
 
     /**
      * @return bool
      */
-    abstract protected function isCombined();
+    protected function shouldBeCombined()
+    {
+        return strpos(static::class, 'Combined') !== false;
+    }
 
     /**
      * @return bool
      */
-    abstract protected function isPhysical();
+    protected function shouldBePhysical()
+    {
+        return strpos(static::class, 'Physical') !== false;
+    }
 
     /**
      * @return bool
      */
-    abstract protected function isPsychical();
+    protected function shouldBePsychical()
+    {
+        return strpos(static::class, 'Psychical') !== false;
+
+    }
 
     /**
      * @test
@@ -194,12 +207,14 @@ abstract class PersonSkillTest extends TestWithMockery
     public function I_can_add_more_ranks()
     {
         $sutClass = current($this->provideSutClass())[0]; // one is enough of this test
-        /** @var PersonSkill $sut */
-        $sut = new $sutClass($firstSkillRank = $this->createPersonSkillRank($sutClass, $rankValue = 1));
+        /** @var PersonSkill|PersonCombinedSkill $sut */
+        $sut = new $sutClass();
+        self::assertCount(0, $sut->getSkillRanks());
+
+        $sut->addSkillRank($firstSkillRank = $this->createPersonSkillRank($sutClass, $rankValue = 1));
         self::assertSame([$rankValue => $firstSkillRank], $sut->getSkillRanks()->toArray());
         self::assertSame($firstSkillRank, $sut->getCurrentSkillRank());
-        $addTypeSkillRank = 'add' . $this->getTypeName($sutClass) . 'SkillRank';
-        $sut->$addTypeSkillRank($nextSkillRank = $this->createPersonSkillRank($sutClass, $nextRankValue = 2));
+        $sut->addSkillRank($nextSkillRank = $this->createPersonSkillRank($sutClass, $nextRankValue = 2));
         self::assertSame(
             [$rankValue => $firstSkillRank, $nextRankValue => $nextSkillRank],
             $sut->getSkillRanks()->toArray()
@@ -212,24 +227,25 @@ abstract class PersonSkillTest extends TestWithMockery
      * @dataProvider provideInvalidSequence
      * @expectedException \DrdPlus\Person\Skills\Exceptions\UnexpectedRankValue
      *
-     * @param array|int[] $sequence
+     * @param array|int[] $invalidRank
      */
-    public function I_can_not_add_rank_with_invalid_sequence(array $sequence)
+    public function I_can_not_add_rank_with_invalid_sequence($invalidRank)
     {
         $sutClass = current($this->provideSutClass())[0]; // one is enough of this test
-        $sut = new $sutClass($skillRank = $this->createPersonSkillRank($sutClass));
-        $addTypeSkillRank = 'add' . $this->getTypeName($sutClass) . 'SkillRank';
-        foreach ($sequence as $rankValue) {
-            $sut->$addTypeSkillRank($this->createPersonSkillRank($sutClass, $rankValue));
-        }
+        /** @var PersonSkill|PersonCombinedSkill $sut */
+        $sut = new $sutClass();
+        self::assertCount(0, $sut->getSkillRanks());
+        $sut->addSkillRank($firstSkillRank = $this->createPersonSkillRank($sutClass));
+        self::assertSame([1 => $firstSkillRank], $sut->getSkillRanks()->toArray());
+        $sut->addSkillRank($this->createPersonSkillRank($sutClass, $invalidRank));
     }
 
     public function provideInvalidSequence()
     {
         return [
-            [[1]], // same rank
-            [[0]], // lower rank
-            [[3]], // skipped second rank
+            [1], // same rank
+            [0], // lower rank
+            [3], // skipped second rank
         ];
     }
 }

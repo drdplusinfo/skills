@@ -10,8 +10,27 @@ use Granam\Integer\IntegerInterface;
  */
 class CombinedSkillRank extends PersonSkillRank
 {
-    public function __construct(CombinedSkillPoint $skillPoint, IntegerInterface $requiredRankValue)
+    /**
+     * @var PersonCombinedSkill
+     * @ORM\ManyToOne(targetEntity="PersonCombinedSkill", inversedBy="combinedSkillRanks", cascade={"persist"})
+     */
+    private $personCombinedSkill;
+
+    public function __construct(
+        PersonCombinedSkill $personCombinedSkill,
+        CombinedSkillPoint $skillPoint,
+        IntegerInterface $requiredRankValue
+    )
     {
-        parent::__construct($skillPoint, $requiredRankValue);
+        $this->personCombinedSkill = $personCombinedSkill;
+        parent::__construct($personCombinedSkill, $skillPoint, $requiredRankValue);
+    }
+
+    /**
+     * @return PersonCombinedSkill
+     */
+    public function getPersonSkill()
+    {
+        return $this->personCombinedSkill;
     }
 }

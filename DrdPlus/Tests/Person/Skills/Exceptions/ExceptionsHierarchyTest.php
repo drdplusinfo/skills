@@ -8,14 +8,14 @@ class ExceptionsHierarchyTest extends AbstractExceptionsHierarchyTest
 {
     protected function getTestedNamespace()
     {
-        $reflection = new \ReflectionClass(PersonSkills::class);
-
-        return $reflection->getNamespaceName();
+        return $this->getRootNamespace();
     }
 
     protected function getRootNamespace()
     {
-        return $this->getTestedNamespace();
+        $reflection = new \ReflectionClass(PersonSkills::class);
+
+        return $reflection->getNamespaceName();
     }
 
 }

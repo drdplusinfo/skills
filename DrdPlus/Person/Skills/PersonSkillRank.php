@@ -22,9 +22,7 @@ abstract class PersonSkillRank extends StrictObject implements IntegerInterface,
 
     /**
      * @var integer
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer") @ORM\Id @ORM\GeneratedValue()
      */
     private $id;
     /**
@@ -39,11 +37,18 @@ abstract class PersonSkillRank extends StrictObject implements IntegerInterface,
     private $value;
 
     /**
+     * @param PersonSkill $owningPersonSkill
      * @param PersonSkillPoint $personSkillPoint
      * @param IntegerInterface $requiredRankValue
+     * @throws \DrdPlus\Person\Skills\Exceptions\CanNotVerifyOwningPersonSkill
      */
-    protected function __construct(PersonSkillPoint $personSkillPoint, IntegerInterface $requiredRankValue)
+    protected function __construct(PersonSkill $owningPersonSkill, PersonSkillPoint $personSkillPoint, IntegerInterface $requiredRankValue)
     {
+        if ($owningPersonSkill !== $this->getPersonSkill()) {
+            throw new Exceptions\CanNotVerifyOwningPersonSkill(
+                'Person skill should be already set in descendant constructor'
+            );
+        }
         $this->personSkillPoint = $personSkillPoint; // this skill point has been consumed to achieve this rank
         $this->checkRequiredRankValue($requiredRankValue);
         $this->value = $requiredRankValue->getValue();
@@ -97,6 +102,11 @@ abstract class PersonSkillRank extends StrictObject implements IntegerInterface,
     {
         return $this->value;
     }
+
+    /**
+     * @return PersonSkill
+     */
+    abstract public function getPersonSkill();
 
     /**
      * @return string

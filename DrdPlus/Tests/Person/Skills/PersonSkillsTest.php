@@ -1,6 +1,7 @@
 <?php
 namespace DrdPlus\Person\Skills;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use DrdPlus\Codes\PropertyCodes;
 use DrdPlus\Codes\SkillCodes;
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
@@ -98,9 +99,11 @@ class PersonSkillsTest extends TestWithMockery
     public function provideValidSkillsCombination()
     {
         $professionLevels = $this->createProfessionLevels();
-        $backgroundSkillPoints = $this->createBackgroundSkillPoints($professionLevels->getFirstLevel()->getProfession());
+        $backgroundSkillPoints = $this->createBackgroundSkillPoints(
+            $professionLevels->getFirstLevel()->getProfession()
+        );
         $firstLevel = $professionLevels->getFirstLevel();
-        $nextLevel = current($professionLevels->getNextLevels());
+        $nextLevel = $professionLevels->getProfessionNextLevels()->last();
 
         return [
             [
@@ -473,8 +476,8 @@ class PersonSkillsTest extends TestWithMockery
             ->andReturn($profession = $this->mockery(Profession::class));
         $profession->shouldReceive('getValue')
             ->andReturn($professionCode);
-        $professionLevels->shouldReceive('getNextLevels')
-            ->andReturn([$nextLevel = $this->mockery(ProfessionLevel::class)]);
+        $professionLevels->shouldReceive('getProfessionNextLevels')
+            ->andReturn(new ArrayCollection([$nextLevel = $this->mockery(ProfessionLevel::class)]));
         $nextLevel->shouldReceive('isFirstLevel')
             ->andReturn(false);
         $nextLevel->shouldReceive('isNextLevel')
@@ -847,7 +850,7 @@ class PersonSkillsTest extends TestWithMockery
         ProfessionLevels $professionLevels
     )
     {
-        $nextLevel = current($professionLevels->getNextLevels());
+        $nextLevel = $professionLevels->getProfessionNextLevels()->last();
         $physicalSkills = $this->createPhysicalSkillsByNextLevelPropertyIncrease($nextLevel);
         $psychicalSkills = $this->createPsychicalSkillsByNextLevelPropertyIncrease($nextLevel);
         $combinedSkills = $this->createCombinedSkillsByNextLevelPropertyIncrease($nextLevel);
@@ -879,7 +882,10 @@ class PersonSkillsTest extends TestWithMockery
     public function I_can_not_increase_same_skill_more_than_once_per_next_level()
     {
         $professionLevels = $this->createProfessionLevels('foo', 2);
-        $physicalSkills = $this->createPhysicalSkillsWithTooHighSkillIncrementPerNextLevel(current($professionLevels->getNextLevels()), Swimming::class);
+        $physicalSkills = $this->createPhysicalSkillsWithTooHighSkillIncrementPerNextLevel(
+            $professionLevels->getProfessionNextLevels()->last(),
+            Swimming::class
+        );
         $psychicalSkills = $this->createPsychicalSkillsByNextLevelPropertyIncrease($professionLevels->getFirstLevel());
         $combinedSkills = $this->createCombinedSkillsByNextLevelPropertyIncrease($professionLevels->getFirstLevel());
         $backgroundSkillPoints = $this->createBackgroundSkillPoints($professionLevels->getFirstLevel()->getProfession());

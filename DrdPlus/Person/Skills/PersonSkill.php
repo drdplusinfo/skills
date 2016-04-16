@@ -2,28 +2,25 @@
 namespace DrdPlus\Person\Skills;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrineum\Entity\Entity;
 use Granam\Strict\Object\StrictObject;
 use Doctrine\ORM\Mapping as ORM;
 
-abstract class PersonSkill extends StrictObject
+/**
+ * @ORM\MappedSuperclass()
+ */
+abstract class PersonSkill extends StrictObject implements Entity
 {
     /**
-     * @var PersonSkillRank[]|ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="PersonSkillRank", mappedBy="personSkill", cascade={"persist"})
-     */
-    private $skillRanks;
-
-    protected function __construct(PersonSkillRank $personSkillRank)
-    {
-        $this->skillRanks = new ArrayCollection();
-        $this->addSkillRank($personSkillRank);
-    }
+     * @var int
+     * @ORM\Id @ORM\Column(type="integer") @ORM\GeneratedValue
+     **/
+    private $id;
 
     protected function addSkillRank(PersonSkillRank $personSkillRank)
     {
         $this->guardSkillRankSequence($personSkillRank);
-        $this->skillRanks[$personSkillRank->getValue()] = $personSkillRank;
+        $this->getSkillRanks()->offsetSet($personSkillRank->getValue(), $personSkillRank);
     }
 
     private function guardSkillRankSequence(PersonSkillRank $personSkillRank)
@@ -41,38 +38,28 @@ abstract class PersonSkill extends StrictObject
      */
     private function getMaxSkillRankValue()
     {
-        if (!($skillRankValues = $this->getSkillRankValues())) {
+        if (!$this->getCurrentSkillRank()) {
             return 0;
         }
 
-        return max($skillRankValues);
-    }
-
-    private function getSkillRankValues()
-    {
-        return array_map(
-            function (PersonSkillRank $skillRank) {
-                return $skillRank->getValue();
-            },
-            $this->getSkillRanks()->toArray()
-        );
+        return $this->getCurrentSkillRank()->getValue();
     }
 
     /**
      * @return int
      */
-    abstract public function getId();
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @return PersonSkillRank[]|ArrayCollection
      */
-    public function getSkillRanks()
-    {
-        return $this->skillRanks;
-    }
+    abstract public function getSkillRanks();
 
     /**
-     * @return PersonSkillRank
+     * @return PersonSkillRank|false
      */
     public function getCurrentSkillRank()
     {

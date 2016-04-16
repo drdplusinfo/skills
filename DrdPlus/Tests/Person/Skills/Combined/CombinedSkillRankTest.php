@@ -2,6 +2,7 @@
 namespace DrdPlus\Tests\Person\Skills\Combined;
 
 use DrdPlus\Person\Skills\Combined\CombinedSkillPoint;
+use DrdPlus\Person\Skills\Combined\Cooking;
 use DrdPlus\Tests\Person\Skills\PersonSkillRankTest;
 
 class CombinedSkillRankTest extends PersonSkillRankTest
@@ -16,6 +17,11 @@ class CombinedSkillRankTest extends PersonSkillRankTest
         $this->addProfessionLevelGetter($combinedSkillPoint);
 
         return $combinedSkillPoint;
+    }
+
+    protected function createOwningPersonSkill()
+    {
+        return new Cooking();
     }
 
 }

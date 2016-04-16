@@ -4,6 +4,7 @@ namespace DrdPlus\Tests\Person\Skills;
 use DrdPlus\Codes\SkillCodes;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\Skills\Combined\CombinedSkillRank;
+use DrdPlus\Person\Skills\Combined\PersonCombinedSkill;
 use DrdPlus\Person\Skills\PersonSameTypeSkills;
 use DrdPlus\Person\Skills\PersonSkill;
 use DrdPlus\Person\Skills\PersonSkillRank;
@@ -100,30 +101,15 @@ abstract class PersonSameTypeSkillsTest extends TestWithMockery
         $personSkillClasses = $this->getPersonSkillClasses();
         $personSkills = [];
         foreach ($personSkillClasses as $personSkillClass) {
-            /** @var PersonSkill $personSkill */
-            $personSkill = new $personSkillClass($this->createPersonSkillRank(1, true /* first level */));
-            $addSkillTypeRank = $this->getSkillRankAdderName();
-            $personSkill->$addSkillTypeRank($this->createPersonSkillRank(2, true /* first level */));
-            $personSkill->$addSkillTypeRank($this->createPersonSkillRank(3, false /* next level */));
+            /** @var PersonSkill|PersonCombinedSkill $personSkill */
+            $personSkill = new $personSkillClass();
+            $personSkill->addSkillRank($this->createPersonSkillRank(1, true /* from first level */));
+            $personSkill->addSkillRank($this->createPersonSkillRank(2, true /* from first level */));
+            $personSkill->addSkillRank($this->createPersonSkillRank(3, false /* from next level */));
             $personSkills[] = [$personSkill];
         }
 
         return $personSkills;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getSkillRankAdderName()
-    {
-        $typeName = $this->getExpectedSkillsTypeName();
-
-        /**
-         * @see \DrdPlus\Person\Skills\Combined\PersonCombinedSkill::addCombinedSkillRank
-         * @see \DrdPlus\Person\Skills\Physical\PersonPhysicalSkill::addPhysicalSkillRank
-         * @see \DrdPlus\Person\Skills\Psychical\PersonPsychicalSkill::addPsychicalSkillRank
-         */
-        return 'add' . ucfirst($typeName) . 'SkillRank';
     }
 
     /**

@@ -1,7 +1,9 @@
 <?php
 namespace DrdPlus\Person\Skills\Combined;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use DrdPlus\Person\Skills\PersonSkill;
+use DrdPlus\Person\Skills\PersonSkillRank;
 use DrdPlus\Properties\Base\Charisma;
 use DrdPlus\Properties\Base\Knack;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity()
  * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorColumn(name="skillName", type="string")
  * @ORM\DiscriminatorMap({
  * "bigHandwork" = "BigHandwork",
  * "cooking" = "Cooking",
@@ -34,31 +36,35 @@ use Doctrine\ORM\Mapping as ORM;
  */
 abstract class PersonCombinedSkill extends PersonSkill
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     **/
-    private $id;
 
-    public function __construct(CombinedSkillRank $combinedSkillRank)
+    /**
+     * @var CombinedSkillRank[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="CombinedSkillRank", mappedBy="personCombinedSkill", cascade={"persist"})
+     */
+    private $combinedSkillRanks;
+
+    public function __construct()
     {
-        parent::__construct($combinedSkillRank);
+        $this->combinedSkillRanks = new ArrayCollection();
     }
 
-    public function addCombinedSkillRank(CombinedSkillRank $combinedSkillRank)
+    /**
+     * @param PersonSkillRank|CombinedSkillRank $combinedSkillRank
+     */
+    public function addSkillRank(PersonSkillRank $combinedSkillRank)
     {
+        if (!$combinedSkillRank instanceof CombinedSkillRank) {
+            throw new \LogicException;
+        }
         parent::addSkillRank($combinedSkillRank);
     }
 
     /**
-     * @return int
+     * @return ArrayCollection|CombinedSkillRank[]
      */
-    public function getId()
+    public function getSkillRanks()
     {
-        return $this->id;
+        return $this->combinedSkillRanks;
     }
 
     /**

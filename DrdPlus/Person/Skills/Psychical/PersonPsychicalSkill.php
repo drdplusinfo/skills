@@ -1,7 +1,9 @@
 <?php
 namespace DrdPlus\Person\Skills\Psychical;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use DrdPlus\Person\Skills\PersonSkill;
+use DrdPlus\Person\Skills\PersonSkillRank;
 use DrdPlus\Properties\Base\Intelligence;
 use DrdPlus\Properties\Base\Will;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity()
  * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorColumn(name="skillName", type="string")
  * @ORM\DiscriminatorMap({
  *  "astronomy" = "Astronomy",
  *  "botany" = "Botany",
@@ -31,31 +33,43 @@ use Doctrine\ORM\Mapping as ORM;
  */
 abstract class PersonPsychicalSkill extends PersonSkill
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     **/
-    private $id;
 
-    public function __construct(PsychicalSkillRank $psychicalSkillRank)
+    /**
+     * @var PsychicalSkillRank[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="PsychicalSkillRank", mappedBy="personPsychicalSkill", cascade={"persist"})
+     */
+    private $psychicalSkillRanks;
+
+    public function __construct()
     {
-        parent::__construct($psychicalSkillRank);
+        $this->psychicalSkillRanks = new ArrayCollection();
     }
 
-    public function addPsychicalSkillRank(PsychicalSkillRank $psychicalSkillRank)
+    /**
+     * @param PsychicalSkillRank|PersonSkillRank $psychicalSkillRank
+     */
+    public function addSkillRank(PersonSkillRank $psychicalSkillRank)
     {
+        if (!$psychicalSkillRank instanceof PsychicalSkillRank) {
+            throw new \LogicException;
+        }
         parent::addSkillRank($psychicalSkillRank);
     }
 
     /**
-     * @return int
+     * @return ArrayCollection|PsychicalSkillRank[]
      */
-    public function getId()
+    public function getPsychicalSkillRanks()
     {
-        return $this->id;
+        return $this->psychicalSkillRanks;
+    }
+
+    /**
+     * @return ArrayCollection|PsychicalSkillRank[]
+     */
+    public function getSkillRanks()
+    {
+        return $this->getPsychicalSkillRanks();
     }
 
     /**
@@ -69,17 +83,17 @@ abstract class PersonPsychicalSkill extends PersonSkill
     /**
      * @return bool
      */
-    public function isPhysical()
+    public function isPsychical()
     {
-        return false;
+        return true;
     }
 
     /**
      * @return bool
      */
-    public function isPsychical()
+    public function isPhysical()
     {
-        return true;
+        return false;
     }
 
     /**
