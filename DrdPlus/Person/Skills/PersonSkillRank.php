@@ -8,7 +8,14 @@ use Granam\Strict\Object\StrictObject;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\MappedSuperclass()
+ * @ORM\Entity()
+ * @ORM\InheritanceType(value="SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="rankType", type="string")
+ * @ORM\DiscriminatorMap({
+ *     "combined" = "\DrdPlus\Person\Skills\Combined\CombinedSkillRank",
+ *     "physical" = "\DrdPlus\Person\Skills\Physical\PhysicalSkillRank",
+ *     "psychical" = "\DrdPlus\Person\Skills\Psychical\PsychicalSkillRank"
+ * })
  */
 abstract class PersonSkillRank extends StrictObject implements IntegerInterface, Entity
 {

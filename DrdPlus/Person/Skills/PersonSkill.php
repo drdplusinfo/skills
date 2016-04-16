@@ -1,20 +1,22 @@
 <?php
 namespace DrdPlus\Person\Skills;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Granam\Strict\Object\StrictObject;
 use Doctrine\ORM\Mapping as ORM;
 
 abstract class PersonSkill extends StrictObject
 {
     /**
-     * @var PersonSkillRank[]
+     * @var PersonSkillRank[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="PersonSkillRank")
+     * @ORM\OneToMany(targetEntity="PersonSkillRank", mappedBy="personSkill", cascade={"persist"})
      */
-    private $skillRanks = [];
+    private $skillRanks;
 
     protected function __construct(PersonSkillRank $personSkillRank)
     {
+        $this->skillRanks = new ArrayCollection();
         $this->addSkillRank($personSkillRank);
     }
 
@@ -52,7 +54,7 @@ abstract class PersonSkill extends StrictObject
             function (PersonSkillRank $skillRank) {
                 return $skillRank->getValue();
             },
-            $this->getSkillRanks()
+            $this->getSkillRanks()->toArray()
         );
     }
 
@@ -62,7 +64,7 @@ abstract class PersonSkill extends StrictObject
     abstract public function getId();
 
     /**
-     * @return PersonSkillRank[]|array
+     * @return PersonSkillRank[]|ArrayCollection
      */
     public function getSkillRanks()
     {
@@ -74,7 +76,7 @@ abstract class PersonSkill extends StrictObject
      */
     public function getCurrentSkillRank()
     {
-        return $this->skillRanks[$this->getMaxSkillRankValue()];
+        return $this->getSkillRanks()->last();
     }
 
     /**

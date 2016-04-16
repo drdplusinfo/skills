@@ -16,7 +16,7 @@ abstract class PersonSkillTest extends TestWithMockery
     {
         /** @var PersonSkill $sut */
         $sut = new $sutClass($personSkillRank = $this->createPersonSkillRank($sutClass));
-        self::assertSame([1 => $personSkillRank], $sut->getSkillRanks());
+        self::assertSame([1 => $personSkillRank], $sut->getSkillRanks()->toArray());
         self::assertSame($personSkillRank, $sut->getCurrentSkillRank());
         self::assertNull($sut->getId());
 
@@ -196,11 +196,14 @@ abstract class PersonSkillTest extends TestWithMockery
         $sutClass = current($this->provideSutClass())[0]; // one is enough of this test
         /** @var PersonSkill $sut */
         $sut = new $sutClass($firstSkillRank = $this->createPersonSkillRank($sutClass, $rankValue = 1));
-        self::assertSame([$rankValue => $firstSkillRank], $sut->getSkillRanks());
+        self::assertSame([$rankValue => $firstSkillRank], $sut->getSkillRanks()->toArray());
         self::assertSame($firstSkillRank, $sut->getCurrentSkillRank());
         $addTypeSkillRank = 'add' . $this->getTypeName($sutClass) . 'SkillRank';
         $sut->$addTypeSkillRank($nextSkillRank = $this->createPersonSkillRank($sutClass, $nextRankValue = 2));
-        self::assertSame([$rankValue => $firstSkillRank, $nextRankValue => $nextSkillRank], $sut->getSkillRanks());
+        self::assertSame(
+            [$rankValue => $firstSkillRank, $nextRankValue => $nextSkillRank],
+            $sut->getSkillRanks()->toArray()
+        );
         self::assertSame($nextSkillRank, $sut->getCurrentSkillRank());
     }
 
