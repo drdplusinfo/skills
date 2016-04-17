@@ -12,9 +12,7 @@ abstract class PersonSameTypeSkills extends StrictObject implements \IteratorAgg
     /**
      * @var integer
      *
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer") @ORM\Id @ORM\GeneratedValue(strategy="AUTO")p
      */
     private $id;
 

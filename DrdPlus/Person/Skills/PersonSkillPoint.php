@@ -26,9 +26,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
 
     /**
      * @var integer|null
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Id @ORM\Column(type="integer") @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
     /**
