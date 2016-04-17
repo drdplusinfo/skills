@@ -66,7 +66,7 @@ class DoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
 
         return array_merge(
             [
-                self::createPersonSkills($tables),
+                self::createPersonSkillsEntity($tables),
                 ProfessionFirstLevel::createFirstLevel(Theurgist::getIt()),
                 ProfessionNextLevel::createNextLevel(
                     Priest::getIt(),
@@ -110,7 +110,7 @@ class DoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         );
     }
 
-    public static function createPersonSkills(Tables $tables)
+    public static function createPersonSkillsEntity(Tables $tables)
     {
         return PersonSkills::createPersonSkills(
             ProfessionLevels::createIt(
