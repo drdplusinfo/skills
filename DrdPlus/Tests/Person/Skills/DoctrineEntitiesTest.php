@@ -123,76 +123,13 @@ class DoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
                     ]
                 )
             ],
-            $this->createPhysicalSkillEntities($tables, ProfessionFirstLevel::createFirstLevel(Wizard::getIt())),
-            $this->createPsychicalSkillEntities($tables, ProfessionFirstLevel::createFirstLevel(Thief::getIt())),
-            $this->createCombinedSkillEntities($tables, ProfessionFirstLevel::createFirstLevel(Ranger::getIt()))
+            self::createPhysicalSkillEntities($tables, ProfessionFirstLevel::createFirstLevel(Wizard::getIt())),
+            self::createPsychicalSkillEntities($tables, ProfessionFirstLevel::createFirstLevel(Thief::getIt())),
+            self::createCombinedSkillEntities($tables, ProfessionFirstLevel::createFirstLevel(Ranger::getIt()))
         );
     }
 
-    private function createCombinedSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel)
-    {
-        $personCombinedSkillReflection = new \ReflectionClass(PersonCombinedSkill::class);
-        $combinedSkillClasses = [];
-        foreach (scandir(dirname($personCombinedSkillReflection->getFileName())) as $file) {
-            if ($file === '..' || $file === '.') {
-                continue;
-            }
-            $className = $personCombinedSkillReflection->getNamespaceName() . '\\' . basename($file, '.php');
-            if (get_parent_class($className) !== PersonCombinedSkill::class) {
-                continue;
-            }
-            $combinedSkillClasses[] = $className;
-        }
-
-        $combinedSkillPoint = CombinedSkillPoint::createFromFirstLevelBackgroundSkillPoints(
-            $firstLevel,
-            BackgroundSkillPoints::getIt(3, Heritage::getIt(5)),
-            $tables
-        );
-        $requiredRankValue = new IntegerObject(1);
-        $combinedSkillRank = new CombinedSkillRank(
-            new Cooking(),
-            $combinedSkillPoint,
-            $requiredRankValue
-        );
-
-        $personCombinedSkillList = array_map(
-            function ($combinedSkillClass) use ($combinedSkillRank) {
-                return new $combinedSkillClass($combinedSkillRank);
-            },
-            $combinedSkillClasses
-        );
-
-        $personCombinedSkills = new PersonCombinedSkills();
-        foreach ($personCombinedSkillList as $personCombinedSkill) {
-            $personCombinedSkills->addCombinedSkill($personCombinedSkill);
-        }
-        $combinedSkillPoint = CombinedSkillPoint::createFromFirstLevelBackgroundSkillPoints(
-            $firstLevel,
-            BackgroundSkillPoints::getIt(3, Heritage::getIt(5)),
-            $tables
-        );
-        $combinedSkillRank = new CombinedSkillRank(
-            new Cooking(),
-            CombinedSkillPoint::createFromFirstLevelBackgroundSkillPoints(
-                $firstLevel,
-                BackgroundSkillPoints::getIt(4, Heritage::getIt(5)),
-                $tables
-            ),
-            new IntegerObject(1)
-        );
-
-        return array_merge(
-            $personCombinedSkillList,
-            [
-                $personCombinedSkills,
-                $combinedSkillPoint,
-                $combinedSkillRank
-            ]
-        );
-    }
-
-    private function createPhysicalSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel)
+    public static function createPhysicalSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel)
     {
         $personPhysicalSkillReflection = new \ReflectionClass(PersonPhysicalSkill::class);
         $physicalSkillClasses = [];
@@ -255,7 +192,7 @@ class DoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         );
     }
 
-    private function createPsychicalSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel)
+    public static function createPsychicalSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel)
     {
         $personPsychicalSkillReflection = new \ReflectionClass(PersonPsychicalSkill::class);
         $psychicalSkillClasses = [];
@@ -316,6 +253,69 @@ class DoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
                 $personPsychicalSkills,
                 $psychicalSkillPoint,
                 $psychicalSkillRank
+            ]
+        );
+    }
+
+    public static function createCombinedSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel)
+    {
+        $personCombinedSkillReflection = new \ReflectionClass(PersonCombinedSkill::class);
+        $combinedSkillClasses = [];
+        foreach (scandir(dirname($personCombinedSkillReflection->getFileName())) as $file) {
+            if ($file === '..' || $file === '.') {
+                continue;
+            }
+            $className = $personCombinedSkillReflection->getNamespaceName() . '\\' . basename($file, '.php');
+            if (get_parent_class($className) !== PersonCombinedSkill::class) {
+                continue;
+            }
+            $combinedSkillClasses[] = $className;
+        }
+
+        $combinedSkillPoint = CombinedSkillPoint::createFromFirstLevelBackgroundSkillPoints(
+            $firstLevel,
+            BackgroundSkillPoints::getIt(3, Heritage::getIt(5)),
+            $tables
+        );
+        $requiredRankValue = new IntegerObject(1);
+        $combinedSkillRank = new CombinedSkillRank(
+            new Cooking(),
+            $combinedSkillPoint,
+            $requiredRankValue
+        );
+
+        $personCombinedSkillList = array_map(
+            function ($combinedSkillClass) use ($combinedSkillRank) {
+                return new $combinedSkillClass($combinedSkillRank);
+            },
+            $combinedSkillClasses
+        );
+
+        $personCombinedSkills = new PersonCombinedSkills();
+        foreach ($personCombinedSkillList as $personCombinedSkill) {
+            $personCombinedSkills->addCombinedSkill($personCombinedSkill);
+        }
+        $combinedSkillPoint = CombinedSkillPoint::createFromFirstLevelBackgroundSkillPoints(
+            $firstLevel,
+            BackgroundSkillPoints::getIt(3, Heritage::getIt(5)),
+            $tables
+        );
+        $combinedSkillRank = new CombinedSkillRank(
+            new Cooking(),
+            CombinedSkillPoint::createFromFirstLevelBackgroundSkillPoints(
+                $firstLevel,
+                BackgroundSkillPoints::getIt(4, Heritage::getIt(5)),
+                $tables
+            ),
+            new IntegerObject(1)
+        );
+
+        return array_merge(
+            $personCombinedSkillList,
+            [
+                $personCombinedSkills,
+                $combinedSkillPoint,
+                $combinedSkillRank
             ]
         );
     }
