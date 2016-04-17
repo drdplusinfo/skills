@@ -66,26 +66,7 @@ class DoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
 
         return array_merge(
             [
-                PersonSkills::createPersonSkills(
-                    ProfessionLevels::createIt(
-                        ProfessionFirstLevel::createFirstLevel($profession = Fighter::getIt()),
-                        [ProfessionNextLevel::createNextLevel(
-                            $profession,
-                            LevelRank::getIt(2),
-                            Strength::getIt(0),
-                            Agility::getIt(1),
-                            Knack::getIt(0),
-                            Will::getIt(0),
-                            Intelligence::getIt(1),
-                            Charisma::getIt(0)
-                        )]
-                    ),
-                    BackgroundSkillPoints::getIt(2, Heritage::getIt(7)),
-                    $tables,
-                    new PersonPhysicalSkills(),
-                    new PersonPsychicalSkills(),
-                    new PersonCombinedSkills()
-                ),
+                self::createPersonSkills($tables),
                 ProfessionFirstLevel::createFirstLevel(Theurgist::getIt()),
                 ProfessionNextLevel::createNextLevel(
                     Priest::getIt(),
@@ -126,6 +107,30 @@ class DoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             self::createPhysicalSkillEntities($tables, ProfessionFirstLevel::createFirstLevel(Wizard::getIt())),
             self::createPsychicalSkillEntities($tables, ProfessionFirstLevel::createFirstLevel(Thief::getIt())),
             self::createCombinedSkillEntities($tables, ProfessionFirstLevel::createFirstLevel(Ranger::getIt()))
+        );
+    }
+
+    public static function createPersonSkills(Tables $tables)
+    {
+        return PersonSkills::createPersonSkills(
+            ProfessionLevels::createIt(
+                ProfessionFirstLevel::createFirstLevel($profession = Fighter::getIt()),
+                [ProfessionNextLevel::createNextLevel(
+                    $profession,
+                    LevelRank::getIt(2),
+                    Strength::getIt(0),
+                    Agility::getIt(1),
+                    Knack::getIt(0),
+                    Will::getIt(0),
+                    Intelligence::getIt(1),
+                    Charisma::getIt(0)
+                )]
+            ),
+            BackgroundSkillPoints::getIt(2, Heritage::getIt(7)),
+            $tables,
+            new PersonPhysicalSkills(),
+            new PersonPsychicalSkills(),
+            new PersonCombinedSkills()
         );
     }
 
