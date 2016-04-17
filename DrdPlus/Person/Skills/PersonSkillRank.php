@@ -26,11 +26,6 @@ abstract class PersonSkillRank extends StrictObject implements IntegerInterface,
      */
     private $id;
     /**
-     * @var PersonSkillPoint
-     * @ORM\OneToOne(targetEntity="\DrdPlus\Person\Skills\PersonSkillPoint", cascade={"persist"})
-     */
-    private $personSkillPoint;
-    /**
      * @var int
      * @ORM\Column(type="integer")
      */
@@ -41,15 +36,24 @@ abstract class PersonSkillRank extends StrictObject implements IntegerInterface,
      * @param PersonSkillPoint $personSkillPoint
      * @param IntegerInterface $requiredRankValue
      * @throws \DrdPlus\Person\Skills\Exceptions\CanNotVerifyOwningPersonSkill
+     * @throws \DrdPlus\Person\Skills\Exceptions\CanNotVerifyPaidPersonSkillPoint
      */
-    protected function __construct(PersonSkill $owningPersonSkill, PersonSkillPoint $personSkillPoint, IntegerInterface $requiredRankValue)
+    protected function __construct(
+        PersonSkill $owningPersonSkill,
+        PersonSkillPoint $personSkillPoint,
+        IntegerInterface $requiredRankValue
+    )
     {
         if ($owningPersonSkill !== $this->getPersonSkill()) {
             throw new Exceptions\CanNotVerifyOwningPersonSkill(
                 'Person skill should be already set in descendant constructor'
             );
         }
-        $this->personSkillPoint = $personSkillPoint; // this skill point has been consumed to achieve this rank
+        if ($personSkillPoint !== $this->getPersonSkillPoint()) {
+            throw new Exceptions\CanNotVerifyPaidPersonSkillPoint(
+                'Person skil point should be already set in descendant constructor'
+            );
+        }
         $this->checkRequiredRankValue($requiredRankValue);
         $this->value = $requiredRankValue->getValue();
     }
@@ -90,10 +94,7 @@ abstract class PersonSkillRank extends StrictObject implements IntegerInterface,
     /**
      * @return PersonSkillPoint
      */
-    public function getPersonSkillPoint()
-    {
-        return $this->personSkillPoint;
-    }
+    abstract public function getPersonSkillPoint();
 
     /**
      * @return int

@@ -1,6 +1,7 @@
 <?php
 namespace DrdPlus\Person\Skills\Combined;
 
+use DrdPlus\Person\Skills\PersonSkillPoint;
 use DrdPlus\Person\Skills\PersonSkillRank;
 use Doctrine\ORM\Mapping as ORM;
 use Granam\Integer\IntegerInterface;
@@ -15,15 +16,21 @@ class CombinedSkillRank extends PersonSkillRank
      * @ORM\ManyToOne(targetEntity="PersonCombinedSkill", inversedBy="combinedSkillRanks", cascade={"persist"})
      */
     private $personCombinedSkill;
+    /**
+     * @var CombinedSkillPoint
+     * @ORM\OneToOne(targetEntity="\DrdPlus\Person\Skills\Combined\CombinedSkillPoint", cascade={"persist"})
+     */
+    private $combinedSkillPoint;
 
     public function __construct(
         PersonCombinedSkill $personCombinedSkill,
-        CombinedSkillPoint $skillPoint,
+        CombinedSkillPoint $combinedSkillPoint,
         IntegerInterface $requiredRankValue
     )
     {
         $this->personCombinedSkill = $personCombinedSkill;
-        parent::__construct($personCombinedSkill, $skillPoint, $requiredRankValue);
+        $this->combinedSkillPoint = $combinedSkillPoint;
+        parent::__construct($personCombinedSkill, $combinedSkillPoint, $requiredRankValue);
     }
 
     /**
@@ -33,4 +40,13 @@ class CombinedSkillRank extends PersonSkillRank
     {
         return $this->personCombinedSkill;
     }
+
+    /**
+     * @return PersonCombinedSkill
+     */
+    public function getPersonSkillPoint()
+    {
+        return $this->combinedSkillPoint;
+    }
+
 }

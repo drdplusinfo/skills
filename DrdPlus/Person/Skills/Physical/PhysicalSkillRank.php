@@ -15,15 +15,21 @@ class PhysicalSkillRank extends PersonSkillRank
      * @ORM\ManyToOne(targetEntity="PersonPhysicalSkill", inversedBy="physicalSkillRanks", cascade={"persist"})
      */
     private $personPhysicalSkill;
+    /**
+     * @var PhysicalSkillPoint
+     * @ORM\OneToOne(targetEntity="\DrdPlus\Person\Skills\Physical\PhysicalSkillPoint", cascade={"persist"})
+     */
+    private $physicalSkillPoint;
 
     public function __construct(
         PersonPhysicalSkill $personPhysicalSkill,
-        PhysicalSkillPoint $skillPoint,
+        PhysicalSkillPoint $physicalSkillPoint,
         IntegerInterface $requiredRankValue
     )
     {
         $this->personPhysicalSkill = $personPhysicalSkill;
-        parent::__construct($personPhysicalSkill, $skillPoint, $requiredRankValue);
+        $this->physicalSkillPoint = $physicalSkillPoint;
+        parent::__construct($personPhysicalSkill, $physicalSkillPoint, $requiredRankValue);
     }
 
     /**
@@ -32,5 +38,13 @@ class PhysicalSkillRank extends PersonSkillRank
     public function getPersonSkill()
     {
         return $this->personPhysicalSkill;
+    }
+
+    /**
+     * @return PhysicalSkillPoint
+     */
+    public function getPersonSkillPoint()
+    {
+        return $this->physicalSkillPoint;
     }
 }

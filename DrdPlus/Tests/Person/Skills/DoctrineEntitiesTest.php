@@ -11,6 +11,7 @@ use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Person\ProfessionLevels\ProfessionNextLevel;
 use DrdPlus\Person\Skills\Combined\CombinedSkillPoint;
 use DrdPlus\Person\Skills\Combined\CombinedSkillRank;
+use DrdPlus\Person\Skills\Combined\Cooking;
 use DrdPlus\Person\Skills\Combined\PersonCombinedSkill;
 use DrdPlus\Person\Skills\Combined\PersonCombinedSkills;
 use DrdPlus\Person\Skills\EnumTypes\PersonSkillsEnumsRegistrar;
@@ -19,6 +20,8 @@ use DrdPlus\Person\Skills\Physical\PersonPhysicalSkill;
 use DrdPlus\Person\Skills\Physical\PersonPhysicalSkills;
 use DrdPlus\Person\Skills\Physical\PhysicalSkillPoint;
 use DrdPlus\Person\Skills\Physical\PhysicalSkillRank;
+use DrdPlus\Person\Skills\Physical\Swimming;
+use DrdPlus\Person\Skills\Psychical\Astronomy;
 use DrdPlus\Person\Skills\Psychical\PersonPsychicalSkill;
 use DrdPlus\Person\Skills\Psychical\PersonPsychicalSkills;
 use DrdPlus\Person\Skills\Psychical\PsychicalSkillPoint;
@@ -141,15 +144,17 @@ class DoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $combinedSkillClasses[] = $className;
         }
 
-        // TODO this entity should be unique for whole universe
         $combinedSkillPoint = CombinedSkillPoint::createFromFirstLevelBackgroundSkillPoints(
             $firstLevel,
             BackgroundSkillPoints::getIt(3, Heritage::getIt(5)),
             $tables
         );
         $requiredRankValue = new IntegerObject(1);
-        // TODO this entity should be unique for whole universe
-        $combinedSkillRank = new CombinedSkillRank($combinedSkillPoint, $requiredRankValue);
+        $combinedSkillRank = new CombinedSkillRank(
+            new Cooking(),
+            $combinedSkillPoint,
+            $requiredRankValue
+        );
 
         $personCombinedSkillList = array_map(
             function ($combinedSkillClass) use ($combinedSkillRank) {
@@ -168,6 +173,7 @@ class DoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $tables
         );
         $combinedSkillRank = new CombinedSkillRank(
+            new Cooking(),
             CombinedSkillPoint::createFromFirstLevelBackgroundSkillPoints(
                 $firstLevel,
                 BackgroundSkillPoints::getIt(4, Heritage::getIt(5)),
@@ -201,15 +207,17 @@ class DoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $physicalSkillClasses[] = $className;
         }
 
-        // TODO this entity should be unique for whole universe
         $physicalSkillPoint = PhysicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
             $firstLevel,
             BackgroundSkillPoints::getIt(3, Heritage::getIt(5)),
             $tables
         );
         $requiredRankValue = new IntegerObject(1);
-        // TODO this entity should be unique for whole universe
-        $physicalSkillRank = new PhysicalSkillRank($physicalSkillPoint, $requiredRankValue);
+        $physicalSkillRank = new PhysicalSkillRank(
+            new Swimming(),
+            $physicalSkillPoint,
+            $requiredRankValue
+        );
 
         $personPhysicalSkillList = array_map(
             function ($physicalSkillClass) use ($physicalSkillRank) {
@@ -228,6 +236,7 @@ class DoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $tables
         );
         $physicalSkillRank = new PhysicalSkillRank(
+            new Swimming(),
             PhysicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
                 $firstLevel,
                 BackgroundSkillPoints::getIt(4, Heritage::getIt(5)),
@@ -261,15 +270,17 @@ class DoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $psychicalSkillClasses[] = $className;
         }
 
-        // TODO this entity should be unique for whole universe
         $psychicalSkillPoint = PsychicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
             $firstLevel,
             BackgroundSkillPoints::getIt(3, Heritage::getIt(5)),
             $tables
         );
         $requiredRankValue = new IntegerObject(1);
-        // TODO this entity should be unique for whole universe
-        $psychicalSkillRank = new PsychicalSkillRank($psychicalSkillPoint, $requiredRankValue);
+        $psychicalSkillRank = new PsychicalSkillRank(
+            new Astronomy(),
+            $psychicalSkillPoint,
+            $requiredRankValue
+        );
 
         $personPsychicalSkillList = array_map(
             function ($psychicalSkillClass) use ($psychicalSkillRank) {
@@ -290,6 +301,7 @@ class DoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         );
 
         $psychicalSkillRank = new PsychicalSkillRank(
+            new Astronomy(),
             PsychicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
                 $firstLevel,
                 BackgroundSkillPoints::getIt(4, Heritage::getIt(5)),
