@@ -16,7 +16,7 @@
     "drd-plus/professions": "dev-master",
     "drd-plus/profession-levels": "dev-master",
     "drd-plus/person-background": "dev-master",
-    "drd-plus/person-properties": "dev-master",
+    "drd-plus/properties-by-levels": "dev-master",
     "doctrineum/entity": "dev-master",
     "doctrineum/datetime-immutable": "dev-master"
   },
