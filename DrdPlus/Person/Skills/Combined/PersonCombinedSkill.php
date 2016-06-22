@@ -3,7 +3,6 @@ namespace DrdPlus\Person\Skills\Combined;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use DrdPlus\Person\Skills\PersonSkill;
-use DrdPlus\Person\Skills\PersonSkillRank;
 use DrdPlus\Properties\Base\Charisma;
 use DrdPlus\Properties\Base\Knack;
 use Doctrine\ORM\Mapping as ORM;
@@ -49,14 +48,12 @@ abstract class PersonCombinedSkill extends PersonSkill
     }
 
     /**
-     * @param PersonSkillRank|CombinedSkillRank $combinedSkillRank
+     * @param CombinedSkillRank $combinedSkillRank
+     * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillRankExpected
      */
-    public function addSkillRank(PersonSkillRank $combinedSkillRank)
+    public function addSkillRank(CombinedSkillRank $combinedSkillRank)
     {
-        if (!$combinedSkillRank instanceof CombinedSkillRank) {
-            throw new \LogicException;
-        }
-        parent::addSkillRank($combinedSkillRank);
+        parent::addTypeVerifiedSkillRank($combinedSkillRank);
     }
 
     /**

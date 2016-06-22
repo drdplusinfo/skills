@@ -1,10 +1,18 @@
 <?php
 namespace DrdPlus\Tests\Person\Skills;
 
+use DrdPlus\Person\Skills\Combined\CombinedSkillRank;
 use DrdPlus\Person\Skills\Combined\PersonCombinedSkill;
 use DrdPlus\Person\Skills\PersonSkill;
 use DrdPlus\Person\Skills\PersonSkillRank;
-use Granam\Tests\Tools\TestWithMockery;
+use DrdPlus\Person\Skills\Physical\PersonPhysicalSkill;
+use DrdPlus\Person\Skills\Physical\PhysicalSkillRank;
+use DrdPlus\Person\Skills\Psychical\PersonPsychicalSkill;
+use DrdPlus\Person\Skills\Psychical\PsychicalSkillRank;
+use DrdPlus\Tests\Person\Skills\Physical\PersonPhysicalSkillsTest;
+use DrdPlus\Tests\Person\Skills\Psychical\PersonPsychicalSkillsTest;
+use /** @noinspection PhpUnusedAliasInspection because of a bug in PhpStorm */
+    Granam\Tests\Tools\TestWithMockery;
 
 abstract class PersonSkillTest extends TestWithMockery
 {
@@ -15,7 +23,7 @@ abstract class PersonSkillTest extends TestWithMockery
      */
     public function I_can_use_it($sutClass)
     {
-        /** @var PersonSkill|PersonCombinedSkill $sut */
+        /** @var PersonSkill|PersonPhysicalSkill|PersonPsychicalSkill|PersonCombinedSkill $sut */
         $sut = new $sutClass();
         self::assertCount(0, $sut->getSkillRanks());
         $sut->addSkillRank($personSkillRank = $this->createPersonSkillRank($sutClass));
@@ -86,7 +94,7 @@ abstract class PersonSkillTest extends TestWithMockery
     /**
      * @param string $sutClass
      * @param int $value
-     * @return \Mockery\MockInterface|PersonSkillRank
+     * @return \Mockery\MockInterface|PersonSkillRank|PsychicalSkillRank|PhysicalSkillRank|CombinedSkillRank
      */
     protected function createPersonSkillRank($sutClass, $value = 1)
     {
@@ -207,7 +215,7 @@ abstract class PersonSkillTest extends TestWithMockery
     public function I_can_add_more_ranks()
     {
         $sutClass = current($this->provideSutClass())[0]; // one is enough of this test
-        /** @var PersonSkill|PersonCombinedSkill $sut */
+        /** @var PersonSkill|PersonPhysicalSkill|PersonPsychicalSkill|PersonCombinedSkill $sut */
         $sut = new $sutClass();
         self::assertCount(0, $sut->getSkillRanks());
 
@@ -232,7 +240,7 @@ abstract class PersonSkillTest extends TestWithMockery
     public function I_can_not_add_rank_with_invalid_sequence($invalidRank)
     {
         $sutClass = current($this->provideSutClass())[0]; // one is enough of this test
-        /** @var PersonSkill|PersonCombinedSkill $sut */
+        /** @var PersonSkill|PersonCombinedSkill|PersonPhysicalSkillsTest|PersonPsychicalSkillsTest $sut */
         $sut = new $sutClass();
         self::assertCount(0, $sut->getSkillRanks());
         $sut->addSkillRank($firstSkillRank = $this->createPersonSkillRank($sutClass));

@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Person\Skills\Combined;
 
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\CombinedSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class FightWithShootingWeapons extends PersonCombinedSkill
 {
-    const FIGHT_WITH_SHOOTING_WEAPONS = SkillCodes::FIGHT_WITH_SHOOTING_WEAPONS;
+    const FIGHT_WITH_SHOOTING_WEAPONS = CombinedSkillCode::FIGHT_WITH_SHOOTING_WEAPONS;
 
     /**
      * @return string

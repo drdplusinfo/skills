@@ -3,7 +3,9 @@ namespace DrdPlus\Person\Skills;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrineum\Entity\Entity;
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\CombinedSkillCode;
+use DrdPlus\Codes\PhysicalSkillCode;
+use DrdPlus\Codes\PsychicalSkillCode;
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
@@ -471,9 +473,16 @@ class PersonSkills extends StrictObject implements \IteratorAggregate, \Countabl
         );
     }
 
+    /**
+     * @return array|string[]
+     */
     public function getCodesOfAllSkills()
     {
-        return SkillCodes::getSkillCodes();
+        return array_merge(
+            PhysicalSkillCode::getPhysicalSkillCodes(),
+            PsychicalSkillCode::getPsychicalSkillCodes(),
+            CombinedSkillCode::getCombinedSkillCodes()
+        );
     }
 
     public function getCodesOfLearnedSkills()

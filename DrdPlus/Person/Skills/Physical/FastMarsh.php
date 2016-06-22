@@ -2,14 +2,14 @@
 namespace DrdPlus\Person\Skills\Physical;
 
 use Doctrine\ORM\Mapping as ORM;
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\PhysicalSkillCode;
 
 /**
  * @ORM\Entity()
  */
 class FastMarsh extends PersonPhysicalSkill
 {
-    const FAST_MARSH = SkillCodes::FAST_MARSH;
+    const FAST_MARSH = PhysicalSkillCode::FAST_MARSH;
 
     /**
      * @return string

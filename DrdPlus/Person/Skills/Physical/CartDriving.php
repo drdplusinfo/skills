@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Person\Skills\Physical;
 
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\PhysicalSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CartDriving extends PersonPhysicalSkill
 {
-    const CART_DRIVING = SkillCodes::CART_DRIVING;
+    const CART_DRIVING = PhysicalSkillCode::CART_DRIVING;
 
     /**
      * @return string

@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Person\Skills\Combined;
 
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\CombinedSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Showmanship extends PersonCombinedSkill
 {
-    const SHOWMANSHIP = SkillCodes::SHOWMANSHIP;
+    const SHOWMANSHIP = CombinedSkillCode::SHOWMANSHIP;
 
     /**
      * @return string

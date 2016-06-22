@@ -348,12 +348,33 @@ abstract class PersonSkillPointTest extends TestWithMockery
         );
     }
 
+    /**
+     * @test
+     * @expectedException \DrdPlus\Person\Skills\Exceptions\UnknownPaymentForSkillPoint
+     */
+    public function I_had_to_provide_some_level_to_create_a_point()
+    {
+        new DeAbstractedPersonSkillPoint(new Tables());
+    }
+
 }
 
 /** inner */
 class DeAbstractedPersonSkillPoint extends PersonSkillPoint
 {
     const TYPE_NAME = 'foo';
+
+    public function __construct(
+        Tables $tables,
+        ProfessionFirstLevel $professionFirstLevel = null,
+        ProfessionNextLevel $professionNextLevel = null,
+        BackgroundSkillPoints $backgroundSkillPoints = null,
+        PersonSkillPoint $firstPaidOtherSkillPoint = null,
+        PersonSkillPoint $secondPaidOtherSkillPoint = null
+    )
+    {
+        parent::__construct($tables, $professionFirstLevel, $professionNextLevel, $backgroundSkillPoints, $firstPaidOtherSkillPoint, $secondPaidOtherSkillPoint);
+    }
 
     public function getTypeName()
     {

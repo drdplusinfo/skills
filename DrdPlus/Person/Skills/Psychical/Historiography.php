@@ -1,13 +1,13 @@
 <?php
 namespace DrdPlus\Person\Skills\Psychical;
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\PsychicalSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity()
  */
 class Historiography extends PersonPsychicalSkill
 {
-    const HISTORIOGRAPHY = SkillCodes::HISTORIOGRAPHY;
+    const HISTORIOGRAPHY = PsychicalSkillCode::HISTORIOGRAPHY;
 
     /**
      * @return string

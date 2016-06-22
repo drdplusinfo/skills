@@ -2,7 +2,7 @@
 namespace DrdPlus\Person\Skills\Psychical;
 
 use Doctrine\ORM\Mapping as ORM;
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\SkillTypeCode;
 use DrdPlus\Properties\Base\Intelligence;
 use DrdPlus\Properties\Base\Will;
 use DrdPlus\Person\Skills\PersonSkillPoint;
@@ -13,7 +13,7 @@ use DrdPlus\Person\Skills\PersonSkillPoint;
 class PsychicalSkillPoint extends PersonSkillPoint
 {
 
-    const PSYCHICAL = SkillCodes::PSYCHICAL;
+    const PSYCHICAL = SkillTypeCode::PSYCHICAL;
 
     /**
      * return @string

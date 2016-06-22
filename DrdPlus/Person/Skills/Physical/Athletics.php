@@ -2,14 +2,14 @@
 namespace DrdPlus\Person\Skills\Physical;
 
 use Doctrine\ORM\Mapping as ORM;
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\PhysicalSkillCode;
 
 /**
  * @ORM\Entity()
  */
 class Athletics extends PersonPhysicalSkill
 {
-    const ATHLETICS = SkillCodes::ATHLETICS;
+    const ATHLETICS = PhysicalSkillCode::ATHLETICS;
 
     /**
      * @return string

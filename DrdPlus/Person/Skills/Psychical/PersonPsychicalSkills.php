@@ -1,7 +1,8 @@
 <?php
 namespace DrdPlus\Person\Skills\Psychical;
 
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\PsychicalSkillCode;
+use DrdPlus\Codes\SkillTypeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Person\Skills\PersonSameTypeSkills;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class PersonPsychicalSkills extends PersonSameTypeSkills
 {
 
-    const PSYCHICAL = SkillCodes::PSYCHICAL;
+    const PSYCHICAL = SkillTypeCode::PSYCHICAL;
 
     /**
      * @var Astronomy|null
@@ -394,7 +395,7 @@ class PersonPsychicalSkills extends PersonSameTypeSkills
      */
     public function getCodesOfAllSameTypeSkills()
     {
-        return SkillCodes::getPsychicalSkillCodes();
+        return PsychicalSkillCode::getPsychicalSkillCodes();
     }
 
 }

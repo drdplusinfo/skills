@@ -3,7 +3,6 @@ namespace DrdPlus\Person\Skills\Psychical;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use DrdPlus\Person\Skills\PersonSkill;
-use DrdPlus\Person\Skills\PersonSkillRank;
 use DrdPlus\Properties\Base\Intelligence;
 use DrdPlus\Properties\Base\Will;
 use Doctrine\ORM\Mapping as ORM;
@@ -46,14 +45,11 @@ abstract class PersonPsychicalSkill extends PersonSkill
     }
 
     /**
-     * @param PsychicalSkillRank|PersonSkillRank $psychicalSkillRank
+     * @param PsychicalSkillRank $psychicalSkillRank
      */
-    public function addSkillRank(PersonSkillRank $psychicalSkillRank)
+    public function addSkillRank(PsychicalSkillRank $psychicalSkillRank)
     {
-        if (!$psychicalSkillRank instanceof PsychicalSkillRank) {
-            throw new \LogicException;
-        }
-        parent::addSkillRank($psychicalSkillRank);
+        parent::addTypeVerifiedSkillRank($psychicalSkillRank);
     }
 
     /**

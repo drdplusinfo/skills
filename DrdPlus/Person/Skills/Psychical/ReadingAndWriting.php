@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Person\Skills\Psychical;
 
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\PsychicalSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ReadingAndWriting extends PersonPsychicalSkill
 {
-    const READING_AND_WRITING = SkillCodes::READING_AND_WRITING;
+    const READING_AND_WRITING = PsychicalSkillCode::READING_AND_WRITING;
 
     /**
      * @return string

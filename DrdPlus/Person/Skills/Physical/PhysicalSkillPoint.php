@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Person\Skills\Physical;
 
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\SkillTypeCode;
 use DrdPlus\Properties\Base\Agility;
 use DrdPlus\Properties\Base\Strength;
 use DrdPlus\Person\Skills\PersonSkillPoint;
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class PhysicalSkillPoint extends PersonSkillPoint
 {
 
-    const PHYSICAL = SkillCodes::PHYSICAL;
+    const PHYSICAL = SkillTypeCode::PHYSICAL;
 
     /**
      * return @string

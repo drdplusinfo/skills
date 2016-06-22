@@ -1,13 +1,13 @@
 <?php
 namespace DrdPlus\Person\Skills\Psychical;
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\PsychicalSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity()
  */
 class Mythology extends PersonPsychicalSkill
 {
-    const MYTHOLOGY = SkillCodes::MYTHOLOGY;
+    const MYTHOLOGY = PsychicalSkillCode::MYTHOLOGY;
 
     /**
      * @return string

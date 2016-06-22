@@ -17,7 +17,7 @@ abstract class PersonSkill extends StrictObject implements Entity
      **/
     private $id;
 
-    protected function addSkillRank(PersonSkillRank $personSkillRank)
+    protected function addTypeVerifiedSkillRank(PersonSkillRank $personSkillRank)
     {
         $this->guardSkillRankSequence($personSkillRank);
         $this->getSkillRanks()->offsetSet($personSkillRank->getValue(), $personSkillRank);

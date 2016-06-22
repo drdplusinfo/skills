@@ -2,14 +2,14 @@
 namespace DrdPlus\Person\Skills\Physical;
 
 use Doctrine\ORM\Mapping as ORM;
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\PhysicalSkillCode;
 
 /**
  * @ORM\Entity()
  */
 class FightWithWeapon extends PersonPhysicalSkill
 {
-    const FIGHT_WITH_WEAPON = SkillCodes::FIGHT_WITH_WEAPON;
+    const FIGHT_WITH_WEAPON = PhysicalSkillCode::FIGHT_WITH_WEAPON;
 
     /**
      * @return string

@@ -1,13 +1,13 @@
 <?php
 namespace DrdPlus\Person\Skills\Psychical;
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\PsychicalSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity()
  */
 class KnowledgeOfACity extends PersonPsychicalSkill
 {
-    const KNOWLEDGE_OF_A_CITY = SkillCodes::KNOWLEDGE_OF_A_CITY;
+    const KNOWLEDGE_OF_A_CITY = PsychicalSkillCode::KNOWLEDGE_OF_A_CITY;
 
     /**
      * @return string

@@ -1,7 +1,8 @@
 <?php
 namespace DrdPlus\Person\Skills\Combined;
 
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\CombinedSkillCode;
+use DrdPlus\Codes\SkillTypeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Person\Skills\PersonSameTypeSkills;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PersonCombinedSkills extends PersonSameTypeSkills
 {
-    const COMBINED = SkillCodes::COMBINED;
+    const COMBINED = SkillTypeCode::COMBINED;
 
     /**
      * @var BigHandwork|null
@@ -456,7 +457,7 @@ class PersonCombinedSkills extends PersonSameTypeSkills
      */
     public function getCodesOfAllSameTypeSkills()
     {
-        return SkillCodes::getCombinedSkillCodes();
+        return CombinedSkillCode::getCombinedSkillCodes();
     }
 
 }

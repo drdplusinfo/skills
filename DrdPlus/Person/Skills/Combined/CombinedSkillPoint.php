@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Person\Skills\Combined;
 
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\SkillTypeCode;
 use DrdPlus\Properties\Base\Charisma;
 use DrdPlus\Properties\Base\Knack;
 use DrdPlus\Person\Skills\PersonSkillPoint;
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class CombinedSkillPoint extends PersonSkillPoint
 {
 
-    const COMBINED = SkillCodes::COMBINED;
+    const COMBINED = SkillTypeCode::COMBINED;
 
     /**
      * return @string

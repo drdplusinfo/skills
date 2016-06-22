@@ -3,7 +3,6 @@ namespace DrdPlus\Person\Skills\Physical;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use DrdPlus\Person\Skills\PersonSkill;
-use DrdPlus\Person\Skills\PersonSkillRank;
 use DrdPlus\Properties\Base\Agility;
 use DrdPlus\Properties\Base\Strength;
 use Doctrine\ORM\Mapping as ORM;
@@ -46,17 +45,12 @@ abstract class PersonPhysicalSkill extends PersonSkill
     }
 
     /**
-     * @param PhysicalSkillRank|PersonSkillRank $physicalSkillRank
+     * @param PhysicalSkillRank $physicalSkillRank
      * @throws \DrdPlus\Person\Skills\Physical\Exceptions\InvalidSkillRankType
      */
-    public function addSkillRank(PersonSkillRank $physicalSkillRank)
+    public function addSkillRank(PhysicalSkillRank $physicalSkillRank)
     {
-        if (!$physicalSkillRank instanceof PhysicalSkillRank) {
-            throw new Exceptions\InvalidSkillRankType(
-                'Expected ' . PhysicalSkillRank::class . ', got ' . get_class($physicalSkillRank)
-            );
-        }
-        parent::addSkillRank($physicalSkillRank);
+        parent::addTypeVerifiedSkillRank($physicalSkillRank);
     }
 
     /**

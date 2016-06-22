@@ -1,7 +1,8 @@
 <?php
 namespace DrdPlus\Person\Skills\Physical;
 
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\PhysicalSkillCode;
+use DrdPlus\Codes\SkillTypeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Person\Skills\PersonSameTypeSkills;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PersonPhysicalSkills extends PersonSameTypeSkills
 {
-    const PHYSICAL = SkillCodes::PHYSICAL;
+    const PHYSICAL = SkillTypeCode::PHYSICAL;
 
     /**
      * @var ArmorWearing|null
@@ -393,7 +394,7 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
      */
     public function getCodesOfAllSameTypeSkills()
     {
-        return SkillCodes::getPhysicalSkillCodes();
+        return PhysicalSkillCode::getPhysicalSkillCodes();
     }
 
 }

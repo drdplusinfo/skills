@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Person\Skills\Combined;
 
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\CombinedSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class BigHandwork extends PersonCombinedSkill
 {
-    const BIG_HANDWORK = SkillCodes::BIG_HANDWORK;
+    const BIG_HANDWORK = CombinedSkillCode::BIG_HANDWORK;
 
     /**
      * @return string

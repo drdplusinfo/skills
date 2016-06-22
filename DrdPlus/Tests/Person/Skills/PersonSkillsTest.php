@@ -2,8 +2,10 @@
 namespace DrdPlus\Person\Skills;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use DrdPlus\Codes\PropertyCodes;
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\CombinedSkillCode;
+use DrdPlus\Codes\PhysicalSkillCode;
+use DrdPlus\Codes\PropertyCode;
+use DrdPlus\Codes\PsychicalSkillCode;
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\LevelRank;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
@@ -25,7 +27,8 @@ use DrdPlus\Person\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Person\Skills\Psychical\ReadingAndWriting;
 use DrdPlus\Professions\Profession;
 use DrdPlus\Tables\Tables;
-use Granam\Tests\Tools\TestWithMockery;
+use /** @noinspection PhpUnusedAliasInspection due to a bug in PhPStorm */
+    Granam\Tests\Tools\TestWithMockery;
 
 class PersonSkillsTest extends TestWithMockery
 {
@@ -68,7 +71,14 @@ class PersonSkillsTest extends TestWithMockery
             ),
             $this->getSortedGivenSkills($personSkills)
         );
-        self::assertSame(SkillCodes::getSkillCodes(), $personSkills->getCodesOfAllSkills());
+        self::assertSame(
+            array_merge(
+                PhysicalSkillCode::getPhysicalSkillCodes(),
+                PsychicalSkillCode::getPsychicalSkillCodes(),
+                CombinedSkillCode::getCombinedSkillCodes()
+            ),
+            $personSkills->getCodesOfAllSkills()
+        );
         $learnedSkills = $personSkills->getCodesOfLearnedSkills();
         sort($learnedSkills);
         self::assertEquals(
@@ -82,7 +92,7 @@ class PersonSkillsTest extends TestWithMockery
         );
         self::assertNotEmpty($expectedCodesOfLearnedSkills);
         self::assertEquals(
-            array_diff(SkillCodes::getSkillCodes(), $expectedCodesOfLearnedSkills),
+            array_diff($this->getAllSkillCodes(), $expectedCodesOfLearnedSkills),
             $personSkills->getCodesOfNotLearnedSkills()
         );
         self::assertEquals(
@@ -94,6 +104,18 @@ class PersonSkillsTest extends TestWithMockery
             )
         );
         self::assertCount(count($sortedExpectedSkills), $personSkills);
+    }
+
+    /**
+     * @return array|string[]
+     */
+    private function getAllSkillCodes()
+    {
+        return array_merge(
+            PhysicalSkillCode::getPhysicalSkillCodes(),
+            PsychicalSkillCode::getPsychicalSkillCodes(),
+            CombinedSkillCode::getCombinedSkillCodes()
+        );
     }
 
     public function provideValidSkillsCombination()
@@ -434,13 +456,13 @@ class PersonSkillsTest extends TestWithMockery
     private function determineRelatedProperties($skillClass)
     {
         if (is_a($skillClass, PersonPhysicalSkill::class, true)) {
-            return [PropertyCodes::STRENGTH, PropertyCodes::AGILITY];
+            return [PropertyCode::STRENGTH, PropertyCode::AGILITY];
         }
         if (is_a($skillClass, PersonPsychicalSkill::class, true)) {
-            return [PropertyCodes::WILL, PropertyCodes::INTELLIGENCE];
+            return [PropertyCode::WILL, PropertyCode::INTELLIGENCE];
         }
         if (is_a($skillClass, PersonCombinedSkill::class, true)) {
-            return [PropertyCodes::KNACK, PropertyCodes::CHARISMA];
+            return [PropertyCode::KNACK, PropertyCode::CHARISMA];
         }
         throw new \LogicException;
     }

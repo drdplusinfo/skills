@@ -1,13 +1,13 @@
 <?php
 namespace DrdPlus\Person\Skills\Psychical;
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\PsychicalSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity()
  */
 class SocialEtiquette extends PersonPsychicalSkill
 {
-    const SOCIAL_ETIQUETTE = SkillCodes::SOCIAL_ETIQUETTE;
+    const SOCIAL_ETIQUETTE = PsychicalSkillCode::SOCIAL_ETIQUETTE;
 
     /**
      * @return string

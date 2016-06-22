@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Tests\Person\Skills;
 
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\SkillCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\Skills\Combined\CombinedSkillRank;
 use DrdPlus\Person\Skills\Combined\PersonCombinedSkill;
@@ -10,7 +10,8 @@ use DrdPlus\Person\Skills\PersonSkill;
 use DrdPlus\Person\Skills\PersonSkillRank;
 use DrdPlus\Person\Skills\Physical\PhysicalSkillRank;
 use DrdPlus\Person\Skills\Psychical\PsychicalSkillRank;
-use Granam\Tests\Tools\TestWithMockery;
+use/** @noinspection PhpUnusedAliasInspection because of a bug in PhpStorm */
+    Granam\Tests\Tools\TestWithMockery;
 
 abstract class PersonSameTypeSkillsTest extends TestWithMockery
 {
@@ -89,8 +90,10 @@ abstract class PersonSameTypeSkillsTest extends TestWithMockery
     {
         $type = preg_replace('~.*Person(\w+)Skills$~', '$1', $this->getSutClass());
         $sameTypeGetter = "get{$type}SkillCodes";
+        $skillCodeNamespace = (new \ReflectionClass(SkillCode::class))->getNamespaceName();
+        $skillTypeCodeClass = "{$skillCodeNamespace}\\{$type}SkillCode";
 
-        return SkillCodes::$sameTypeGetter();
+        return $skillTypeCodeClass::$sameTypeGetter();
     }
 
     /**

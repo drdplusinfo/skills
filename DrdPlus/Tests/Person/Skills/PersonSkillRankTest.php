@@ -5,18 +5,17 @@ use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\Skills\PersonSkill;
 use DrdPlus\Person\Skills\PersonSkillPoint;
 use DrdPlus\Person\Skills\PersonSkillRank;
-use Granam\Tests\Tools\TestWithMockery;
 use Granam\Integer\IntegerInterface;
 use Mockery\MockInterface;
+use Granam\Tests\Tools\TestWithMockery;
 
 abstract class PersonSkillRankTest extends TestWithMockery
 {
 
     /**
-     * @param int $skillRankValue
-     *
      * @test
      * @dataProvider allowedSkillRankValues
+     * @param int $skillRankValue
      */
     public function I_can_create_skill_rank($skillRankValue)
     {
@@ -106,4 +105,82 @@ abstract class PersonSkillRankTest extends TestWithMockery
 
         return $requiredRankValue;
     }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Person\Skills\Exceptions\CanNotVerifyOwningPersonSkill
+     */
+    public function Person_skill_has_to_be_set_in_descendant_constructor_first()
+    {
+        /** @var IntegerInterface $requiredRankValue */
+        $requiredRankValue = $this->mockery(IntegerInterface::class);
+
+        new BrokenBecauseOfSkillNotSetInConstructor(
+            $this->createOwningPersonSkill(),
+            $this->createPersonSkillPoint(),
+            $requiredRankValue
+        );
+    }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Person\Skills\Exceptions\CanNotVerifyPaidPersonSkillPoint
+     */
+    public function Person_skill_point_has_to_be_set_in_descendant_constructor_first()
+    {
+        /** @var IntegerInterface $requiredRankValue */
+        $requiredRankValue = $this->mockery(IntegerInterface::class);
+
+        new BrokenBecauseOfSkillPointNotSetInConstructor(
+            $this->createOwningPersonSkill(),
+            $this->createPersonSkillPoint(),
+            $requiredRankValue
+        );
+    }
+}
+
+class BrokenBecauseOfSkillNotSetInConstructor extends PersonSkillRank
+{
+    public function __construct(
+        PersonSkill $owningPersonSkill,
+        PersonSkillPoint $personSkillPoint,
+        IntegerInterface $requiredRankValue
+    )
+    {
+        parent::__construct($owningPersonSkill, $personSkillPoint, $requiredRankValue);
+    }
+
+    public function getPersonSkillPoint()
+    {
+    }
+
+    public function getPersonSkill()
+    {
+    }
+
+}
+
+class BrokenBecauseOfSkillPointNotSetInConstructor extends PersonSkillRank
+{
+    private $personSkill;
+
+    public function __construct(
+        PersonSkill $owningPersonSkill,
+        PersonSkillPoint $personSkillPoint,
+        IntegerInterface $requiredRankValue
+    )
+    {
+        $this->personSkill = $owningPersonSkill;
+        parent::__construct($owningPersonSkill, $personSkillPoint, $requiredRankValue);
+    }
+
+    public function getPersonSkillPoint()
+    {
+    }
+
+    public function getPersonSkill()
+    {
+        return $this->personSkill;
+    }
+
 }

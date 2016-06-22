@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Person\Skills\Combined;
 
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\CombinedSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PlayingOnMusicInstrument extends PersonCombinedSkill
 {
-    const PLAYING_ON_MUSIC_INSTRUMENT = SkillCodes::PLAYING_ON_MUSIC_INSTRUMENT;
+    const PLAYING_ON_MUSIC_INSTRUMENT = CombinedSkillCode::PLAYING_ON_MUSIC_INSTRUMENT;
 
     /**
      * @return string

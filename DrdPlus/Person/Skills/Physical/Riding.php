@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Person\Skills\Physical;
 
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\PhysicalSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Riding extends PersonPhysicalSkill
 {
-    const RIDING = SkillCodes::RIDING;
+    const RIDING = PhysicalSkillCode::RIDING;
 
     /**
      * @return string

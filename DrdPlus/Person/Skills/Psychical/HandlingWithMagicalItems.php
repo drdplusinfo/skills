@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Person\Skills\Psychical;
 
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\PsychicalSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class HandlingWithMagicalItems extends PersonPsychicalSkill
 {
-    const HANDLING_WITH_MAGICAL_ITEMS = SkillCodes::HANDLING_WITH_MAGICAL_ITEMS;
+    const HANDLING_WITH_MAGICAL_ITEMS = PsychicalSkillCode::HANDLING_WITH_MAGICAL_ITEMS;
 
     /**
      * @return string

@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Person\Skills\Combined;
 
-use DrdPlus\Codes\SkillCodes;
+use DrdPlus\Codes\CombinedSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class HuntingAndFishing extends PersonCombinedSkill
 {
-    const HUNTING_AND_FISHING = SkillCodes::HUNTING_AND_FISHING;
+    const HUNTING_AND_FISHING = CombinedSkillCode::HUNTING_AND_FISHING;
 
     /**
      * @return string
