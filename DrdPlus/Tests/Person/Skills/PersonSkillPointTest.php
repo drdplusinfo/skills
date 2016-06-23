@@ -14,7 +14,8 @@ use DrdPlus\Professions\Profession;
 use DrdPlus\Properties\Base\Agility;
 use DrdPlus\Properties\Base\Strength;
 use DrdPlus\Tables\Tables;
-use Granam\Tests\Tools\TestWithMockery;
+use /** @noinspection PhpUnusedAliasInspection because of a bug in PhpStorm */
+    Granam\Tests\Tools\TestWithMockery;
 
 abstract class PersonSkillPointTest extends TestWithMockery
 {
@@ -355,6 +356,15 @@ abstract class PersonSkillPointTest extends TestWithMockery
     public function I_had_to_provide_some_level_to_create_a_point()
     {
         new DeAbstractedPersonSkillPoint(new Tables());
+    }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Person\Skills\Exceptions\UnknownPaymentForSkillPoint
+     */
+    public function I_had_to_provide_some_skill_points_payment_to_create_a_point()
+    {
+        new DeAbstractedPersonSkillPoint(new Tables(), $this->createProfessionFirstLevel('foo'));
     }
 
 }
