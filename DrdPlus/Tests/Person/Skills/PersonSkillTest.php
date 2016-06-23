@@ -218,6 +218,7 @@ abstract class PersonSkillTest extends TestWithMockery
         /** @var PersonSkill|PersonPhysicalSkill|PersonPsychicalSkill|PersonCombinedSkill $sut */
         $sut = new $sutClass();
         self::assertCount(0, $sut->getSkillRanks());
+        self::assertFalse($sut->getCurrentSkillRank());
 
         $sut->addSkillRank($firstSkillRank = $this->createPersonSkillRank($sutClass, $rankValue = 1));
         self::assertSame([$rankValue => $firstSkillRank], $sut->getSkillRanks()->toArray());
