@@ -66,14 +66,18 @@ abstract class PersonSameTypeSkillsTest extends TestWithMockery
             $this->getSameTypeSkillCodesExcept($personSkill->getName()),
             $sut->getCodesOfNotLearnedSameTypeSkills()
         );
-        foreach ($sut as $index => $placedPersonSkill) {
-            self::assertSame($personSkill, $placedPersonSkill);
+        self::assertCount(1, $sut, 'Skill has not been included on count');
+        $collected = [];
+        foreach ($sut as $placedPersonSkill) {
+            $collected[] = $placedPersonSkill;
         }
+        self::assertSame([$personSkill], $collected, 'Skill has not been fetched by iteration');
         $skillGetter = $this->getSkillGetter($personSkill);
         self::assertSame($personSkill, $sut->$skillGetter());
         self::assertSame(
             1 + 2 /* first and second rank have been get on first level, see provider */,
-            $sut->getFirstLevelSkillRankSummary()
+            $sut->getFirstLevelSkillRankSummary(),
+            'First level skill rank summary does not match with expected'
         );
         self::assertSame(
             3 /* maximal skill rank has been get on second level, see provider */,
@@ -126,11 +130,9 @@ abstract class PersonSameTypeSkillsTest extends TestWithMockery
             function ($fileBasename) use ($namespace) {
                 $classBasename = preg_replace('~(\w+)\.\w+~', '$1', $fileBasename);
                 $className = $namespace . '\\' . $classBasename;
-                if (!is_a($className, PersonSkill::class, true)) {
-                    return false;
-                }
-                $reflection = new \ReflectionClass($className);
-                if ($reflection->isAbstract()) {
+                if (!is_a($className, PersonSkill::class, true)
+                    || (new \ReflectionClass($className))->isAbstract()
+                ) {
                     return false;
                 }
 
@@ -139,7 +141,12 @@ abstract class PersonSameTypeSkillsTest extends TestWithMockery
             $fileBaseNames
         );
 
-        return array_filter($sutClassNames);
+        return array_filter(
+            $sutClassNames,
+            function ($sutClassName) {
+                return $sutClassName !== false;
+            }
+        );
     }
 
     /**
@@ -257,4 +264,19 @@ abstract class PersonSameTypeSkillsTest extends TestWithMockery
      * @test
      */
     abstract public function I_can_get_unused_skill_points_from_next_levels();
+
+    /**
+     * @test
+     */
+    public function I_can_iterate_through_all_skills()
+    {
+        $sutClass = $this->getSutClass();
+        $skills = new $sutClass();
+        self::assertCount(0, $skills);
+        $collected = [];
+        foreach ($skills as $skill) {
+            $collected[] = $skill;
+        }
+        self::assertSame([], $collected);
+    }
 }

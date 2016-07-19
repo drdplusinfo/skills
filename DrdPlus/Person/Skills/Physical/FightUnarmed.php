@@ -1,20 +1,21 @@
 <?php
 namespace DrdPlus\Person\Skills\Physical;
 
-use DrdPlus\Codes\PhysicalSkillCode;
 use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @ORM\Entity()
  */
-class ShieldUsage extends PersonPhysicalSkill
+class FightUnarmed extends FightWithWeapon
 {
-    const SHIELD_USAGE = PhysicalSkillCode::SHIELD_USAGE;
+    const FIGHT_UNARMED = 'fight_unarmed';
 
     /**
      * @return string
      */
     public function getName()
     {
-        return self::SHIELD_USAGE;
+        return self::FIGHT_UNARMED;
     }
+
 }

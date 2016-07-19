@@ -9,6 +9,17 @@ use DrdPlus\Person\Skills\Physical\ArmorWearing;
 use DrdPlus\Person\Skills\Physical\Athletics;
 use DrdPlus\Person\Skills\Physical\Blacksmithing;
 use DrdPlus\Person\Skills\Physical\BoatDriving;
+use DrdPlus\Person\Skills\Physical\FightUnarmed;
+use DrdPlus\Person\Skills\Physical\FightWithAxes;
+use DrdPlus\Person\Skills\Physical\FightWithKnifesAndDaggers;
+use DrdPlus\Person\Skills\Physical\FightWithMacesAndClubs;
+use DrdPlus\Person\Skills\Physical\FightWithMorningStarsAndMorgensterns;
+use DrdPlus\Person\Skills\Physical\FightWithSabersAndBowieKnifes;
+use DrdPlus\Person\Skills\Physical\FightWithStaffsAndSpears;
+use DrdPlus\Person\Skills\Physical\FightWithSwords;
+use DrdPlus\Person\Skills\Physical\FightWithThrowingWeapons;
+use DrdPlus\Person\Skills\Physical\FightWithTwoWeapons;
+use DrdPlus\Person\Skills\Physical\FightWithVoulgesAndTridents;
 use DrdPlus\Person\Skills\Physical\Flying;
 use DrdPlus\Person\Skills\Physical\PersonPhysicalSkill;
 use DrdPlus\Person\Skills\Physical\PersonPhysicalSkills;
@@ -144,6 +155,42 @@ class PersonPhysicalSkillsTest extends PersonSameTypeSkillsTest
             ($nextLevelsStrength + $nextLevelsAgility) - (array_sum(range(1, $aRankFromNextLevel)) + array_sum(range(1, $anotherRankFromNextLevel))),
             $skills->getUnusedNextLevelsPhysicalSkillPointsValue($professionLevels),
             'Expected ' . (($nextLevelsStrength + $nextLevelsAgility) - (array_sum(range(1, $aRankFromNextLevel)) + array_sum(range(1, $anotherRankFromNextLevel))))
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function I_can_get_all_fight_with_melee_weapon_skills_at_once()
+    {
+        $skills = new PersonPhysicalSkills();
+        $skills->addPhysicalSkill($fightUnarmed = new FightUnarmed());
+        $skills->addPhysicalSkill($fightWithAxes = new FightWithAxes());
+        $skills->addPhysicalSkill($fightWithKnifesAndDaggers = new FightWithKnifesAndDaggers());
+        $skills->addPhysicalSkill($fightWithMacesAndClubs = new FightWithMacesAndClubs());
+        $skills->addPhysicalSkill($fightWithMorningStarsAndMorgensterns = new FightWithMorningStarsAndMorgensterns());
+        $skills->addPhysicalSkill($fightWithSabersAndBowieKnifes = new FightWithSabersAndBowieKnifes());
+        $skills->addPhysicalSkill($fightWithStaffsAndSpears = new FightWithStaffsAndSpears());
+        $skills->addPhysicalSkill($fightWithSwords = new FightWithSwords());
+        $skills->addPhysicalSkill($fightWithThrowingWeapons = new FightWithThrowingWeapons());
+        $skills->addPhysicalSkill($fightWithTwoWeapons = new FightWithTwoWeapons());
+        $skills->addPhysicalSkill($fightWithVoulgesAndTridents = new FightWithVoulgesAndTridents());
+
+        self::assertSame(
+            [
+                $fightUnarmed,
+                $fightWithAxes,
+                $fightWithKnifesAndDaggers,
+                $fightWithMacesAndClubs,
+                $fightWithMorningStarsAndMorgensterns,
+                $fightWithSabersAndBowieKnifes,
+                $fightWithStaffsAndSpears,
+                $fightWithSwords,
+                $fightWithThrowingWeapons,
+                $fightWithTwoWeapons,
+                $fightWithVoulgesAndTridents
+            ],
+            $skills->getFightWithMeleeWeaponSkills()
         );
     }
 

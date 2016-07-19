@@ -55,10 +55,60 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
      */
     private $fastMarsh;
     /**
-     * @var FightWithWeapon|null
-     * @ORM\OneToOne(targetEntity="FightWithWeapon")
+     * @var FightUnarmed|null
+     * @ORM\OneToOne(targetEntity="FightUnarmed")
      */
-    private $fightWithWeapon;
+    private $fightUnarmed;
+    /**
+     * @var FightWithAxes|null
+     * @ORM\OneToOne(targetEntity="FightWithAxes")
+     */
+    private $fightWithAxes;
+    /**
+     * @var FightWithKnifesAndDaggers|null
+     * @ORM\OneToOne(targetEntity="FightWithKnifesAndDaggers")
+     */
+    private $fightWithKnifesAndDaggers;
+    /**
+     * @var FightWithMacesAndClubs|null
+     * @ORM\OneToOne(targetEntity="FightWithMacesAndClubs")
+     */
+    private $fightWithMacesAndClubs;
+    /**
+     * @var FightWithMorningStarsAndMorgensterns|null
+     * @ORM\OneToOne(targetEntity="FightWithMorningStarsAndMorgensterns")
+     */
+    private $fightWithMorningStarsAndMorgensterns;
+    /**
+     * @var FightWithSabersAndBowieKnifes|null
+     * @ORM\OneToOne(targetEntity="FightWithSabersAndBowieKnifes")
+     */
+    private $fightWithSabersAndBowieKnifes;
+    /**
+     * @var FightWithStaffsAndSpears|null
+     * @ORM\OneToOne(targetEntity="FightWithStaffsAndSpears")
+     */
+    private $fightWithStaffsAndSpears;
+    /**
+     * @var FightWithSwords|null
+     * @ORM\OneToOne(targetEntity="FightWithSwords")
+     */
+    private $fightWithSwords;
+    /**
+     * @var FightWithThrowingWeapons|null
+     * @ORM\OneToOne(targetEntity="FightWithThrowingWeapons")
+     */
+    private $fightWithThrowingWeapons;
+    /**
+     * @var FightWithTwoWeapons|null
+     * @ORM\OneToOne(targetEntity="FightWithTwoWeapons")
+     */
+    private $fightWithTwoWeapons;
+    /**
+     * @var FightWithVoulgesAndTridents|null
+     * @ORM\OneToOne(targetEntity="FightWithVoulgesAndTridents")
+     */
+    private $fightWithVoulgesAndTridents;
     /**
      * @var Flying|null
      * @ORM\OneToOne(targetEntity="Flying")
@@ -73,7 +123,7 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
      * @var MovingInMountains|null
      * @ORM\OneToOne(targetEntity="MovingInMountains")
      */
-    private $movingInMountain;
+    private $movingInMountains;
     /**
      * @var Riding|null
      * @ORM\OneToOne(targetEntity="Riding")
@@ -135,7 +185,17 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
                 $this->getCityMoving(),
                 $this->getClimbingAndHillwalking(),
                 $this->getFastMarsh(),
-                $this->getFightWithWeapon(),
+                $this->getFightUnarmed(),
+                $this->getFightWithAxes(),
+                $this->getFightWithKnifesAndDaggers(),
+                $this->getFightWithMacesAndClubs(),
+                $this->getFightWithMorningStarsAndMorgensterns(),
+                $this->getFightWithSabersAndBowieKnifes(),
+                $this->getFightWithStaffsAndSpears(),
+                $this->getFightWithSwords(),
+                $this->getFightWithThrowingWeapons(),
+                $this->getFightWithTwoWeapons(),
+                $this->getFightWithVoulgesAndTridents(),
                 $this->getFlying(),
                 $this->getForestMoving(),
                 $this->getMovingInMountains(),
@@ -152,97 +212,157 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
         switch (true) {
             case is_a($physicalSkill, ArmorWearing::class) :
                 if ($this->armorWearing !== null) {
-                    throw new Exceptions\PhysicalSkillAlreadySet('armorWearing  is already set');
+                    throw new Exceptions\PhysicalSkillAlreadySet('armorWearing is already set');
                 }
                 $this->armorWearing = $physicalSkill;
                 break;
             case is_a($physicalSkill, Athletics::class) :
                 if ($this->athletics !== null) {
-                    throw new Exceptions\PhysicalSkillAlreadySet('athletics  is already set');
+                    throw new Exceptions\PhysicalSkillAlreadySet('athletics is already set');
                 }
                 $this->athletics = $physicalSkill;
                 break;
             case is_a($physicalSkill, Blacksmithing::class) :
                 if ($this->blacksmithing !== null) {
-                    throw new Exceptions\PhysicalSkillAlreadySet('blacksmithing  is already set');
+                    throw new Exceptions\PhysicalSkillAlreadySet('blacksmithing is already set');
                 }
                 $this->blacksmithing = $physicalSkill;
                 break;
             case is_a($physicalSkill, BoatDriving::class) :
                 if ($this->boatDriving !== null) {
-                    throw new Exceptions\PhysicalSkillAlreadySet('boatDriving  is already set');
+                    throw new Exceptions\PhysicalSkillAlreadySet('boatDriving is already set');
                 }
                 $this->boatDriving = $physicalSkill;
                 break;
             case is_a($physicalSkill, CartDriving::class) :
                 if ($this->cartDriving !== null) {
-                    throw new Exceptions\PhysicalSkillAlreadySet('cartDriving  is already set');
+                    throw new Exceptions\PhysicalSkillAlreadySet('cartDriving is already set');
                 }
                 $this->cartDriving = $physicalSkill;
                 break;
             case is_a($physicalSkill, CityMoving::class) :
                 if ($this->cityMoving !== null) {
-                    throw new Exceptions\PhysicalSkillAlreadySet('cityMoving  is already set');
+                    throw new Exceptions\PhysicalSkillAlreadySet('cityMoving is already set');
                 }
                 $this->cityMoving = $physicalSkill;
                 break;
             case is_a($physicalSkill, ClimbingAndHillwalking::class) :
                 if ($this->climbingAndHillwalking !== null) {
-                    throw new Exceptions\PhysicalSkillAlreadySet('climbingAndHillwalking  is already set');
+                    throw new Exceptions\PhysicalSkillAlreadySet('climbingAndHillwalking is already set');
                 }
                 $this->climbingAndHillwalking = $physicalSkill;
                 break;
             case is_a($physicalSkill, FastMarsh::class) :
                 if ($this->fastMarsh !== null) {
-                    throw new Exceptions\PhysicalSkillAlreadySet('fastMarsh  is already set');
+                    throw new Exceptions\PhysicalSkillAlreadySet('fastMarsh is already set');
                 }
                 $this->fastMarsh = $physicalSkill;
                 break;
-            case is_a($physicalSkill, FightWithWeapon::class) :
-                if ($this->fightWithWeapon !== null) {
-                    throw new Exceptions\PhysicalSkillAlreadySet('fightWithWeapon  is already set');
+            case is_a($physicalSkill, FightUnarmed::class) :
+                if ($this->fightUnarmed !== null) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('fightUnarmed is already set');
                 }
-                $this->fightWithWeapon = $physicalSkill;
+                $this->fightUnarmed = $physicalSkill;
+                break;
+            case is_a($physicalSkill, FightWithAxes::class) :
+                if ($this->fightWithAxes !== null) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('fightWithAxes is already set');
+                }
+                $this->fightWithAxes = $physicalSkill;
+                break;
+            case is_a($physicalSkill, FightWithKnifesAndDaggers::class) :
+                if ($this->fightWithKnifesAndDaggers !== null) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('fightWithKnifesAndDaggers is already set');
+                }
+                $this->fightWithKnifesAndDaggers = $physicalSkill;
+                break;
+            case is_a($physicalSkill, FightWithMacesAndClubs::class) :
+                if ($this->fightWithMacesAndClubs !== null) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('fightWithMacesAndClubs is already set');
+                }
+                $this->fightWithMacesAndClubs = $physicalSkill;
+                break;
+            case is_a($physicalSkill, FightWithMorningStarsAndMorgensterns::class) :
+                if ($this->fightWithMorningStarsAndMorgensterns !== null) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('fightWithMorningStarsAndMorgensterns is already set');
+                }
+                $this->fightWithMorningStarsAndMorgensterns = $physicalSkill;
+                break;
+            case is_a($physicalSkill, FightWithSabersAndBowieKnifes::class) :
+                if ($this->fightWithSabersAndBowieKnifes !== null) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('fightWithSabersAndBowieKnifes is already set');
+                }
+                $this->fightWithSabersAndBowieKnifes = $physicalSkill;
+                break;
+            case is_a($physicalSkill, FightWithStaffsAndSpears::class) :
+                if ($this->fightWithStaffsAndSpears !== null) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('fightWithStaffsAndSpears is already set');
+                }
+                $this->fightWithStaffsAndSpears = $physicalSkill;
+                break;
+            case is_a($physicalSkill, FightWithSwords::class) :
+                if ($this->fightWithSwords !== null) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('fightWithSwords is already set');
+                }
+                $this->fightWithSwords = $physicalSkill;
+                break;
+            case is_a($physicalSkill, FightWithThrowingWeapons::class) :
+                if ($this->fightWithThrowingWeapons !== null) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('fightWithThrowingWeapons is already set');
+                }
+                $this->fightWithThrowingWeapons = $physicalSkill;
+                break;
+            case is_a($physicalSkill, FightWithTwoWeapons::class) :
+                if ($this->fightWithTwoWeapons !== null) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('fightWithTwoWeapons is already set');
+                }
+                $this->fightWithTwoWeapons = $physicalSkill;
+                break;
+            case is_a($physicalSkill, FightWithVoulgesAndTridents::class) :
+                if ($this->fightWithVoulgesAndTridents !== null) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('fightWithVoulgesAndTridents is already set');
+                }
+                $this->fightWithVoulgesAndTridents = $physicalSkill;
                 break;
             case is_a($physicalSkill, Flying::class) :
                 if ($this->flying !== null) {
-                    throw new Exceptions\PhysicalSkillAlreadySet('flying  is already set');
+                    throw new Exceptions\PhysicalSkillAlreadySet('flying is already set');
                 }
                 $this->flying = $physicalSkill;
                 break;
             case is_a($physicalSkill, ForestMoving::class) :
                 if ($this->forestMoving !== null) {
-                    throw new Exceptions\PhysicalSkillAlreadySet('forestMoving  is already set');
+                    throw new Exceptions\PhysicalSkillAlreadySet('forestMoving is already set');
                 }
                 $this->forestMoving = $physicalSkill;
                 break;
             case is_a($physicalSkill, MovingInMountains::class) :
-                if ($this->movingInMountain !== null) {
-                    throw new Exceptions\PhysicalSkillAlreadySet('movingInMountain  is already set');
+                if ($this->movingInMountains !== null) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('movingInMountain is already set');
                 }
-                $this->movingInMountain = $physicalSkill;
+                $this->movingInMountains = $physicalSkill;
                 break;
             case is_a($physicalSkill, Riding::class) :
                 if ($this->riding !== null) {
-                    throw new Exceptions\PhysicalSkillAlreadySet('riding  is already set');
+                    throw new Exceptions\PhysicalSkillAlreadySet('riding is already set');
                 }
                 $this->riding = $physicalSkill;
                 break;
             case is_a($physicalSkill, Sailing::class) :
                 if ($this->sailing !== null) {
-                    throw new Exceptions\PhysicalSkillAlreadySet('sailing  is already set');
+                    throw new Exceptions\PhysicalSkillAlreadySet('sailing is already set');
                 }
                 $this->sailing = $physicalSkill;
                 break;
             case is_a($physicalSkill, ShieldUsage::class) :
                 if ($this->shieldUsage !== null) {
-                    throw new Exceptions\PhysicalSkillAlreadySet('shieldUsage  is already set');
+                    throw new Exceptions\PhysicalSkillAlreadySet('shieldUsage is already set');
                 }
                 $this->shieldUsage = $physicalSkill;
                 break;
             case is_a($physicalSkill, Swimming::class) :
                 if ($this->swimming !== null) {
-                    throw new Exceptions\PhysicalSkillAlreadySet('swimming  is already set');
+                    throw new Exceptions\PhysicalSkillAlreadySet('swimming is already set');
                 }
                 $this->swimming = $physicalSkill;
                 break;
@@ -328,9 +448,109 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
     /**
      * @return FightWithWeapon|null
      */
-    public function getFightWithWeapon()
+    public function getFightUnarmed()
     {
-        return $this->fightWithWeapon;
+        return $this->fightUnarmed;
+    }
+
+    /**
+     * @return FightWithAxes|null
+     */
+    public function getFightWithAxes()
+    {
+        return $this->fightWithAxes;
+    }
+
+    /**
+     * @return FightWithKnifesAndDaggers|null
+     */
+    public function getFightWithKnifesAndDaggers()
+    {
+        return $this->fightWithKnifesAndDaggers;
+    }
+
+    /**
+     * @return FightWithMacesAndClubs|null
+     */
+    public function getFightWithMacesAndClubs()
+    {
+        return $this->fightWithMacesAndClubs;
+    }
+
+    /**
+     * @return FightWithMorningStarsAndMorgensterns|null
+     */
+    public function getFightWithMorningStarsAndMorgensterns()
+    {
+        return $this->fightWithMorningStarsAndMorgensterns;
+    }
+
+    /**
+     * @return FightWithSabersAndBowieKnifes|null
+     */
+    public function getFightWithSabersAndBowieKnifes()
+    {
+        return $this->fightWithSabersAndBowieKnifes;
+    }
+
+    /**
+     * @return FightWithStaffsAndSpears|null
+     */
+    public function getFightWithStaffsAndSpears()
+    {
+        return $this->fightWithStaffsAndSpears;
+    }
+
+    /**
+     * @return FightWithSwords|null
+     */
+    public function getFightWithSwords()
+    {
+        return $this->fightWithSwords;
+    }
+
+    /**
+     * @return FightWithThrowingWeapons|null
+     */
+    public function getFightWithThrowingWeapons()
+    {
+        return $this->fightWithThrowingWeapons;
+    }
+
+    /**
+     * @return FightWithTwoWeapons|null
+     */
+    public function getFightWithTwoWeapons()
+    {
+        return $this->fightWithTwoWeapons;
+    }
+
+    /**
+     * @return FightWithVoulgesAndTridents|null
+     */
+    public function getFightWithVoulgesAndTridents()
+    {
+        return $this->fightWithVoulgesAndTridents;
+    }
+
+    /**
+     * @return array|FightWithWeapon[]
+     */
+    public function getFightWithMeleeWeaponSkills()
+    {
+        return [
+            $this->getFightUnarmed(),
+            $this->getFightWithAxes(),
+            $this->getFightWithKnifesAndDaggers(),
+            $this->getFightWithMacesAndClubs(),
+            $this->getFightWithMorningStarsAndMorgensterns(),
+            $this->getFightWithSabersAndBowieKnifes(),
+            $this->getFightWithStaffsAndSpears(),
+            $this->getFightWithSwords(),
+            $this->getFightWithThrowingWeapons(),
+            $this->getFightWithTwoWeapons(),
+            $this->getFightWithVoulgesAndTridents(),
+        ];
     }
 
     /**
@@ -354,7 +574,7 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
      */
     public function getMovingInMountains()
     {
-        return $this->movingInMountain;
+        return $this->movingInMountains;
     }
 
     /**

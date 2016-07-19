@@ -134,21 +134,9 @@ class DoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         );
     }
 
-    public static function createPhysicalSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel)
+    private static function createPhysicalSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel)
     {
-        $personPhysicalSkillReflection = new \ReflectionClass(PersonPhysicalSkill::class);
-        $physicalSkillClasses = [];
-        foreach (scandir(dirname($personPhysicalSkillReflection->getFileName())) as $file) {
-            if ($file === '..' || $file === '.') {
-                continue;
-            }
-            $className = $personPhysicalSkillReflection->getNamespaceName() . '\\' . basename($file, '.php');
-            if (get_parent_class($className) !== PersonPhysicalSkill::class) {
-                continue;
-            }
-            $physicalSkillClasses[] = $className;
-        }
-
+        $physicalSkillClasses = self::getListOfSkillClasses(PersonPhysicalSkill::class);
         $physicalSkillPoint = PhysicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
             $firstLevel,
             BackgroundSkillPoints::getIt(3, Heritage::getIt(5)),
@@ -160,7 +148,6 @@ class DoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $physicalSkillPoint,
             $requiredRankValue
         );
-
         $personPhysicalSkillList = array_map(
             function ($physicalSkillClass) use ($physicalSkillRank) {
                 return new $physicalSkillClass($physicalSkillRank);
@@ -197,21 +184,29 @@ class DoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         );
     }
 
-    public static function createPsychicalSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel)
+    private static function getListOfSkillClasses($personSkillParentClass)
     {
-        $personPsychicalSkillReflection = new \ReflectionClass(PersonPsychicalSkill::class);
-        $psychicalSkillClasses = [];
-        foreach (scandir(dirname($personPsychicalSkillReflection->getFileName())) as $file) {
+        $personSkillReflection = new \ReflectionClass($personSkillParentClass);
+        $skillClasses = [];
+        foreach (scandir(dirname($personSkillReflection->getFileName())) as $file) {
             if ($file === '..' || $file === '.') {
                 continue;
             }
-            $className = $personPsychicalSkillReflection->getNamespaceName() . '\\' . basename($file, '.php');
-            if (get_parent_class($className) !== PersonPsychicalSkill::class) {
+            $className = $personSkillReflection->getNamespaceName() . '\\' . basename($file, '.php');
+            if (!is_a($className, $personSkillParentClass, true)
+                || (new \ReflectionClass($className))->isAbstract()
+            ) {
                 continue;
             }
-            $psychicalSkillClasses[] = $className;
+            $skillClasses[] = $className;
         }
 
+        return $skillClasses;
+    }
+
+    private static function createPsychicalSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel)
+    {
+        $psychicalSkillClasses = self::getListOfSkillClasses(PersonPsychicalSkill::class);
         $psychicalSkillPoint = PsychicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
             $firstLevel,
             BackgroundSkillPoints::getIt(3, Heritage::getIt(5)),
@@ -262,21 +257,9 @@ class DoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         );
     }
 
-    public static function createCombinedSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel)
+    private static function createCombinedSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel)
     {
-        $personCombinedSkillReflection = new \ReflectionClass(PersonCombinedSkill::class);
-        $combinedSkillClasses = [];
-        foreach (scandir(dirname($personCombinedSkillReflection->getFileName())) as $file) {
-            if ($file === '..' || $file === '.') {
-                continue;
-            }
-            $className = $personCombinedSkillReflection->getNamespaceName() . '\\' . basename($file, '.php');
-            if (get_parent_class($className) !== PersonCombinedSkill::class) {
-                continue;
-            }
-            $combinedSkillClasses[] = $className;
-        }
-
+        $combinedSkillClasses = self::getListOfSkillClasses(PersonCombinedSkill::class);
         $combinedSkillPoint = CombinedSkillPoint::createFromFirstLevelBackgroundSkillPoints(
             $firstLevel,
             BackgroundSkillPoints::getIt(3, Heritage::getIt(5)),
