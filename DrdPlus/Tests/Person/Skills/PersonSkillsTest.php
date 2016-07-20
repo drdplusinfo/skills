@@ -925,7 +925,7 @@ class PersonSkillsTest extends TestWithMockery
     /**
      * @param ProfessionLevel $nextLevel
      * @param string $skillClass
-     * @return PersonPhysicalSkills
+     * @return PersonPhysicalSkills|\Mockery\MockInterface
      */
     private function createPhysicalSkillsWithTooHighSkillIncrementPerNextLevel(ProfessionLevel $nextLevel, $skillClass)
     {

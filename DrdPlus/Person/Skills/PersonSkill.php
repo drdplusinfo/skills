@@ -17,12 +17,20 @@ abstract class PersonSkill extends StrictObject implements Entity
      **/
     private $id;
 
+    /**
+     * @param PersonSkillRank $personSkillRank
+     * @throws \DrdPlus\Person\Skills\Exceptions\UnexpectedRankValue
+     */
     protected function addTypeVerifiedSkillRank(PersonSkillRank $personSkillRank)
     {
         $this->guardSkillRankSequence($personSkillRank);
         $this->getSkillRanks()->offsetSet($personSkillRank->getValue(), $personSkillRank);
     }
 
+    /**
+     * @param PersonSkillRank $personSkillRank
+     * @throws \DrdPlus\Person\Skills\Exceptions\UnexpectedRankValue
+     */
     private function guardSkillRankSequence(PersonSkillRank $personSkillRank)
     {
         if (($this->getMaxSkillRankValue() + 1) !== $personSkillRank->getValue()) {

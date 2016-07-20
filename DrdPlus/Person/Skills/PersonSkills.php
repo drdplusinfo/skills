@@ -485,6 +485,9 @@ class PersonSkills extends StrictObject implements \IteratorAggregate, \Countabl
         );
     }
 
+    /**
+     * @return array|string[]
+     */
     public function getCodesOfLearnedSkills()
     {
         $codesOfKnownSkills = [];
@@ -495,6 +498,9 @@ class PersonSkills extends StrictObject implements \IteratorAggregate, \Countabl
         return $codesOfKnownSkills;
     }
 
+    /**
+     * @return array|string[]
+     */
     public function getCodesOfNotLearnedSkills()
     {
         $namesOfKnownSkills = [];
@@ -505,11 +511,17 @@ class PersonSkills extends StrictObject implements \IteratorAggregate, \Countabl
         return array_diff($this->getCodesOfAllSkills(), $namesOfKnownSkills);
     }
 
+    /**
+     * @return \ArrayIterator
+     */
     public function getIterator()
     {
         return new \ArrayIterator($this->getSkills());
     }
 
+    /**
+     * @return int
+     */
     public function count()
     {
         return count($this->getSkills());
