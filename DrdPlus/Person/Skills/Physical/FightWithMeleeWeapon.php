@@ -1,12 +1,14 @@
 <?php
-namespace DrdPlus\Person\Skills\Combined;
+namespace DrdPlus\Person\Skills\Physical;
 
 use DrdPlus\Person\Skills\CausingMalusesToWeaponUsage;
 use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillsTable;
 
-abstract class FightWithShootingWeapons extends PersonCombinedSkill implements CausingMalusesToWeaponUsage
+/**
+ * For maluses see PPH page 93 left column
+ */
+abstract class FightWithMeleeWeapon extends PersonPhysicalSkill implements CausingMalusesToWeaponUsage
 {
-
     /**
      * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
      * @return int

@@ -41,7 +41,7 @@ use DrdPlus\Properties\Base\Will;
 use DrdPlus\Tables\Tables;
 use Granam\Integer\IntegerObject;
 
-class DoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
+class PersonSkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
 {
     protected function setUp()
     {

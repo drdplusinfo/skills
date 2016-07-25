@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity()
  */
-class FightWithThrowingWeapons extends FightWithWeapon
+class FightWithThrowingWeapons extends FightWithMeleeWeapon
 {
     const FIGHT_WITH_THROWING_WEAPONS = 'fight_with_throwing_weapons';
 

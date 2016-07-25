@@ -35,10 +35,15 @@ class PersonCombinedSkills extends PersonSameTypeSkills
      */
     private $duskSight;
     /**
-     * @var FightWithShootingWeapons|null
-     * @ORM\OneToOne(targetEntity="FightWithShootingWeapons")
+     * @var FightWithBows|null
+     * @ORM\OneToOne(targetEntity="FightWithBows")
      */
-    private $fightWithShootingWeapons;
+    private $fightWithBows;
+    /**
+     * @var FightWithCrossbows|null
+     * @ORM\OneToOne(targetEntity="FightWithCrossbows")
+     */
+    private $fightWithCrossbows;
     /**
      * @var FirstAid|null
      * @ORM\OneToOne(targetEntity="FirstAid")
@@ -149,7 +154,8 @@ class PersonCombinedSkills extends PersonSameTypeSkills
                 $this->getCooking(),
                 $this->getDancing(),
                 $this->getDuskSight(),
-                $this->getFightWithShootingWeapons(),
+                $this->getFightWithBows(),
+                $this->getFightWithCrossbows(),
                 $this->getFirstAid(),
                 $this->getGambling(),
                 $this->getHandlingWithAnimals(),
@@ -203,11 +209,17 @@ class PersonCombinedSkills extends PersonSameTypeSkills
                 }
                 $this->duskSight = $combinedSkill;
                 break;
-            case is_a($combinedSkill, FightWithShootingWeapons::class) :
-                if ($this->fightWithShootingWeapons !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Fight with shooting weapons is already set');
+            case is_a($combinedSkill, FightWithBows::class) :
+                if ($this->fightWithBows !== null) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Fight with bows is already set');
                 }
-                $this->fightWithShootingWeapons = $combinedSkill;
+                $this->fightWithBows = $combinedSkill;
+                break;
+            case is_a($combinedSkill, FightWithCrossbows::class) :
+                if ($this->fightWithCrossbows !== null) {
+                    throw new Exceptions\CombinedSkillAlreadySet('Fight with crossbows is already set');
+                }
+                $this->fightWithCrossbows = $combinedSkill;
                 break;
             case is_a($combinedSkill, FirstAid::class) :
                 if ($this->firstAid !== null) {
@@ -333,11 +345,19 @@ class PersonCombinedSkills extends PersonSameTypeSkills
     }
 
     /**
-     * @return FightWithShootingWeapons|null
+     * @return FightWithBows|null
      */
-    public function getFightWithShootingWeapons()
+    public function getFightWithBows()
     {
-        return $this->fightWithShootingWeapons;
+        return $this->fightWithBows;
+    }
+
+    /**
+     * @return FightWithCrossbows|null
+     */
+    public function getFightWithCrossbows()
+    {
+        return $this->fightWithCrossbows;
     }
 
     /**
