@@ -13,7 +13,9 @@ abstract class FightWithShootingWeapons extends PersonCombinedSkill implements C
      */
     public function getMalusToFightNumber(MissingWeaponSkillsTable $missingWeaponSkillsTable)
     {
-        return $missingWeaponSkillsTable->getFightNumberForWeaponSkill($this->getCurrentSkillRank()->getValue());
+        return $missingWeaponSkillsTable->getFightNumberForWeaponSkill(
+            $this->getCurrentSkillRank() ? $this->getCurrentSkillRank()->getValue() : 0
+        );
     }
 
     /**
@@ -22,7 +24,9 @@ abstract class FightWithShootingWeapons extends PersonCombinedSkill implements C
      */
     public function getMalusToAttackNumber(MissingWeaponSkillsTable $missingWeaponSkillsTable)
     {
-        return $missingWeaponSkillsTable->getAttackNumberForWeaponSkill($this->getCurrentSkillRank()->getValue());
+        return $missingWeaponSkillsTable->getAttackNumberForWeaponSkill(
+            $this->getCurrentSkillRank() ? $this->getCurrentSkillRank()->getValue() : 0
+        );
     }
 
     /**
@@ -31,7 +35,9 @@ abstract class FightWithShootingWeapons extends PersonCombinedSkill implements C
      */
     public function getMalusToCover(MissingWeaponSkillsTable $missingWeaponSkillsTable)
     {
-        return $missingWeaponSkillsTable->getCoverForWeaponSkill($this->getCurrentSkillRank()->getValue());
+        return $missingWeaponSkillsTable->getCoverForWeaponSkill(
+            $this->getCurrentSkillRank() ? $this->getCurrentSkillRank()->getValue() : 0
+        );
     }
 
     /**
@@ -40,6 +46,8 @@ abstract class FightWithShootingWeapons extends PersonCombinedSkill implements C
      */
     public function getMalusToBaseOfWounds(MissingWeaponSkillsTable $missingWeaponSkillsTable)
     {
-        return $missingWeaponSkillsTable->getBaseOfWoundsForWeaponSkill($this->getCurrentSkillRank()->getValue());
+        return $missingWeaponSkillsTable->getBaseOfWoundsForWeaponSkill(
+            $this->getCurrentSkillRank() ? $this->getCurrentSkillRank()->getValue() : 0
+        );
     }
 }

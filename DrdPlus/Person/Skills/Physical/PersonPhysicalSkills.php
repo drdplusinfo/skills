@@ -449,7 +449,7 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
     }
 
     /**
-     * @return FightWithWeaponUsingPhysicalSkill|null
+     * @return FightWithWeaponsUsingPhysicalSkill|null
      */
     public function getFightUnarmed()
     {
@@ -537,7 +537,7 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
     }
 
     /**
-     * @return array|FightWithWeaponUsingPhysicalSkill[]
+     * @return array|FightWithWeaponsUsingPhysicalSkill[]
      */
     public function getFightWithMeleeWeaponSkills()
     {

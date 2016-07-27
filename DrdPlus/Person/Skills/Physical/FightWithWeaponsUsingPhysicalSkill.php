@@ -7,7 +7,7 @@ use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillsTable;
 /**
  * For maluses see PPH page 93 left column
  */
-abstract class FightWithWeaponUsingPhysicalSkill extends PersonPhysicalSkill implements CausingMalusesToWeaponUsage
+abstract class FightWithWeaponsUsingPhysicalSkill extends PersonPhysicalSkill implements CausingMalusesToWeaponUsage
 {
     /**
      * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
