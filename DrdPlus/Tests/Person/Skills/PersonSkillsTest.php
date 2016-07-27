@@ -6,6 +6,8 @@ use DrdPlus\Codes\CombinedSkillCode;
 use DrdPlus\Codes\PhysicalSkillCode;
 use DrdPlus\Codes\PropertyCode;
 use DrdPlus\Codes\PsychicalSkillCode;
+use DrdPlus\Codes\RangeWeaponCode;
+use DrdPlus\Codes\WeaponCode;
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\LevelRank;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
@@ -26,6 +28,7 @@ use DrdPlus\Person\Skills\Psychical\PersonPsychicalSkills;
 use DrdPlus\Person\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Person\Skills\Psychical\ReadingAndWriting;
 use DrdPlus\Professions\Profession;
+use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillsTable;
 use DrdPlus\Tables\Tables;
 use /** @noinspection PhpUnusedAliasInspection due to a bug in PhPStorm */
     Granam\Tests\Tools\TestWithMockery;
@@ -155,7 +158,7 @@ class PersonSkillsTest extends TestWithMockery
     /**
      * @param ProfessionLevel $firstLevel
      * @param BackgroundSkillPoints $backgroundSkillPoints
-     * @return PersonPhysicalSkills
+     * @return \Mockery\MockInterface|PersonPhysicalSkills
      * */
     private function createPhysicalSkillsPaidByFirstLevelBackground(
         BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $firstLevel
@@ -187,7 +190,7 @@ class PersonSkillsTest extends TestWithMockery
     /**
      * @param ProfessionLevel $firstLevel
      * @param BackgroundSkillPoints $backgroundSkillPoints
-     * @return PersonCombinedSkills
+     * @return PersonCombinedSkills|\Mockery\MockInterface
      * */
     private function createCombinedSkillsPaidByFirstLevelBackground(
         BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $firstLevel
@@ -980,4 +983,242 @@ class PersonSkillsTest extends TestWithMockery
 
         return $kills;
     }
+
+    /**
+     * @test
+     */
+    public function I_can_get_malus_to_parameters_for_melee_weapon()
+    {
+        $this->I_can_get_melee_weapon_malus_to('fightNumber');
+        $this->I_can_get_melee_weapon_malus_to('attackNumber');
+        $this->I_can_get_melee_weapon_malus_to('cover');
+        $this->I_can_get_melee_weapon_malus_to('baseOfWounds');
+    }
+
+    /**
+     * @param string $malusTo
+     */
+    private function I_can_get_melee_weapon_malus_to($malusTo)
+    {
+        $professionLevels = $this->createProfessionLevels();
+        $backgroundSkillPoints = $this->createBackgroundSkillPoints(
+            $professionLevels->getFirstLevel()->getProfession()
+        );
+        $firstLevel = $professionLevels->getFirstLevel();
+        $personSkills = PersonSkills::createPersonSkills(
+            $professionLevels,
+            $backgroundSkillPoints,
+            new Tables(),
+            $physicalSkills = $this->createPhysicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
+            $this->createPsychicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
+            $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel)
+        );
+
+        $meleeWeaponCode = $this->createWeaponCode(
+            true /* is melee */,
+            false /* not throwing */,
+            false /* not shooting */
+        );
+        $missingWeaponSkillsTable = $this->createMissingWeaponSkillsTable();
+        $physicalSkills->shouldReceive($getMalusToParameter = 'getMalusTo' . ucfirst($malusTo))
+            ->with($meleeWeaponCode, $missingWeaponSkillsTable)
+            ->andReturn($meleeWeaponMalus = 'foo');
+        self::assertSame(
+            $meleeWeaponMalus,
+            $personSkills->$getMalusToParameter(
+                $meleeWeaponCode,
+                $missingWeaponSkillsTable
+            )
+        );
+    }
+
+    /**
+     * @param bool $isMelee
+     * @param bool $isThrowing
+     * @param bool $isShooting
+     * @return \Mockery\MockInterface|WeaponCode
+     */
+    private function createWeaponCode($isMelee, $isThrowing, $isShooting)
+    {
+        $weaponCode = $this->mockery(WeaponCode::class);
+        $weaponCode->shouldReceive('isMeleeWeapon')
+            ->andReturn($isMelee);
+        $weaponCode->shouldReceive('isThrowingWeapon')
+            ->andReturn($isThrowing);
+        $weaponCode->shouldReceive('isShootingWeapon')
+            ->andReturn($isShooting);
+
+        return $weaponCode;
+    }
+
+    /**
+     * @return \Mockery\MockInterface|MissingWeaponSkillsTable
+     */
+    private function createMissingWeaponSkillsTable()
+    {
+        return $this->mockery(MissingWeaponSkillsTable::class);
+    }
+
+    /**
+     * @test
+     */
+    public function I_can_get_malus_to_parameters_for_throwing_weapon()
+    {
+        $this->I_can_get_malus_for_throwing_weapon_to('fightNumber');
+        $this->I_can_get_malus_for_throwing_weapon_to('attackNumber');
+        $this->I_can_get_malus_for_throwing_weapon_to('cover');
+        $this->I_can_get_malus_for_throwing_weapon_to('baseOfWounds');
+    }
+
+    /**
+     * @param string $malusTo
+     */
+    private function I_can_get_malus_for_throwing_weapon_to($malusTo)
+    {
+        $professionLevels = $this->createProfessionLevels();
+        $backgroundSkillPoints = $this->createBackgroundSkillPoints(
+            $professionLevels->getFirstLevel()->getProfession()
+        );
+        $firstLevel = $professionLevels->getFirstLevel();
+        $personSkills = PersonSkills::createPersonSkills(
+            $professionLevels,
+            $backgroundSkillPoints,
+            new Tables(),
+            $physicalSkills = $this->createPhysicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
+            $this->createPsychicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
+            $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel)
+        );
+
+        $throwingWeaponCode = $this->createWeaponCode(
+            false /* not melee */,
+            true /* is throwing */,
+            false /* not shooting */
+        );
+        $missingWeaponSkillsTable = $this->createMissingWeaponSkillsTable();
+        $physicalSkills->shouldReceive($getMalusToParameter = 'getMalusTo' . ucfirst($malusTo))
+            ->with($throwingWeaponCode, $missingWeaponSkillsTable)
+            ->andReturn($throwingWeaponMalus = 'foo');
+        self::assertSame(
+            $throwingWeaponMalus,
+            /**
+             * @see \DrdPlus\Person\Skills\PersonSkills::getMalusToFightNumber
+             * @see \DrdPlus\Person\Skills\PersonSkills::getMalusToAttackNumber
+             * @see \DrdPlus\Person\Skills\PersonSkills::getMalusToCover
+             * @see \DrdPlus\Person\Skills\PersonSkills::getMalusToBaseOfWounds
+             */
+            $personSkills->$getMalusToParameter(
+                $throwingWeaponCode,
+                $missingWeaponSkillsTable
+            )
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function I_can_get_malus_to_parameters_for_shooting_weapon()
+    {
+        $this->I_can_get_malus_for_shooting_weapon_to('fightNumber');
+        $this->I_can_get_malus_for_shooting_weapon_to('attackNumber');
+        $this->I_can_get_malus_for_shooting_weapon_to('cover');
+        $this->I_can_get_malus_for_shooting_weapon_to('baseOfWounds');
+    }
+
+    /**
+     * @param string $malusTo
+     */
+    private function I_can_get_malus_for_shooting_weapon_to($malusTo)
+    {
+        $professionLevels = $this->createProfessionLevels();
+        $backgroundSkillPoints = $this->createBackgroundSkillPoints(
+            $professionLevels->getFirstLevel()->getProfession()
+        );
+        $firstLevel = $professionLevels->getFirstLevel();
+        $personSkills = PersonSkills::createPersonSkills(
+            $professionLevels,
+            $backgroundSkillPoints,
+            new Tables(),
+            $this->createPhysicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
+            $this->createPsychicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
+            $combinedSkills = $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel)
+        );
+
+        $shootingWeaponCode = $this->createWeaponCode(
+            false /* not melee */,
+            false /* not throwing */,
+            true /* is shooting */
+        );
+        $shootingWeaponCode->shouldReceive('convertToRangeWeaponCodeEquivalent')
+            ->andReturn($rangeWeaponCode = $this->createRangeWeaponCode());
+        $missingWeaponSkillsTable = $this->createMissingWeaponSkillsTable();
+        $combinedSkills->shouldReceive($malusToParameter = 'getMalusTo' . ucfirst($malusTo))
+            ->with($rangeWeaponCode, $missingWeaponSkillsTable)
+            ->andReturn($shootingWeaponMalus = 'foo');
+        self::assertSame(
+            $shootingWeaponMalus,
+            $personSkills->$malusToParameter(
+                $shootingWeaponCode,
+                $missingWeaponSkillsTable
+            )
+        );
+    }
+
+    /**
+     * @return \Mockery\MockInterface|RangeWeaponCode
+     */
+    private function createRangeWeaponCode()
+    {
+        return $this->mockery(RangeWeaponCode::class);
+    }
+
+    /**
+     * @test
+     */
+    public function I_get_zero_malus_to_every_parameter_for_projectiles()
+    {
+        $this->I_get_zero_malus_for_projectiles_to('fightNumber');
+        $this->I_get_zero_malus_for_projectiles_to('attackNumber');
+        $this->I_get_zero_malus_for_projectiles_to('cover');
+        $this->I_get_zero_malus_for_projectiles_to('baseOfWounds');
+    }
+
+    /**
+     * @param string $malusTo
+     */
+    private function I_get_zero_malus_for_projectiles_to($malusTo)
+    {
+        $professionLevels = $this->createProfessionLevels();
+        $backgroundSkillPoints = $this->createBackgroundSkillPoints(
+            $professionLevels->getFirstLevel()->getProfession()
+        );
+        $firstLevel = $professionLevels->getFirstLevel();
+        $personSkills = PersonSkills::createPersonSkills(
+            $professionLevels,
+            $backgroundSkillPoints,
+            new Tables(),
+            $this->createPhysicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
+            $this->createPsychicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
+            $combinedSkills = $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel)
+        );
+
+        $shootingWeaponCode = $this->createWeaponCode(
+            false /* not melee */,
+            false /* not throwing */,
+            false /* not shooting */
+        );
+        $shootingWeaponCode->shouldReceive('convertToRangeWeaponCodeEquivalent')
+            ->andReturn($rangeWeaponCode = $this->createRangeWeaponCode());
+        $missingWeaponSkillsTable = $this->createMissingWeaponSkillsTable();
+        $combinedSkills->shouldReceive($malusToParameter = 'getMalusTo' . ucfirst($malusTo))
+            ->with($rangeWeaponCode, $missingWeaponSkillsTable)
+            ->andReturn('foo');
+        self::assertSame(
+            0,
+            $personSkills->$malusToParameter(
+                $shootingWeaponCode,
+                $missingWeaponSkillsTable
+            )
+        );
+    }
+
 }

@@ -39,6 +39,8 @@ use Doctrine\ORM\Mapping as ORM;
  *  "shieldUsage" = "ShieldUsage",
  *  "swimming" = "Swimming",
  * })
+ *
+ * @method PhysicalSkillRank getCurrentSkillRank
  */
 abstract class PersonPhysicalSkill extends PersonSkill
 {
@@ -56,7 +58,7 @@ abstract class PersonPhysicalSkill extends PersonSkill
 
     /**
      * @param PhysicalSkillRank $physicalSkillRank
-     * @throws \DrdPlus\Person\Skills\Physical\Exceptions\InvalidSkillRankType
+     * @throws \DrdPlus\Person\Skills\Exceptions\UnexpectedRankValue
      */
     public function addSkillRank(PhysicalSkillRank $physicalSkillRank)
     {

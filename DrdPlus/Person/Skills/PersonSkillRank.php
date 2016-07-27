@@ -51,7 +51,7 @@ abstract class PersonSkillRank extends StrictObject implements IntegerInterface,
         }
         if ($personSkillPoint !== $this->getPersonSkillPoint()) {
             throw new Exceptions\CanNotVerifyPaidPersonSkillPoint(
-                'Person skil point should be already set in descendant constructor'
+                'Person skill point should be already set in descendant constructor'
             );
         }
         $this->checkRequiredRankValue($requiredRankValue);

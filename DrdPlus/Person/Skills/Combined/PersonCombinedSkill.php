@@ -33,6 +33,7 @@ use Doctrine\ORM\Mapping as ORM;
  * "singing" = "Singing",
  * "statuary" = "Statuary"
  * })
+ * @method CombinedSkillRank getCurrentSkillRank
  */
 abstract class PersonCombinedSkill extends PersonSkill
 {

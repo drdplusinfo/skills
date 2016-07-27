@@ -6,6 +6,7 @@ use Doctrineum\Entity\Entity;
 use DrdPlus\Codes\CombinedSkillCode;
 use DrdPlus\Codes\PhysicalSkillCode;
 use DrdPlus\Codes\PsychicalSkillCode;
+use DrdPlus\Codes\WeaponCode;
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
@@ -21,6 +22,7 @@ use DrdPlus\Person\Skills\Physical\PhysicalSkillPoint;
 use DrdPlus\Person\Skills\Physical\PersonPhysicalSkills;
 use DrdPlus\Person\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Person\Skills\Psychical\PersonPsychicalSkills;
+use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillsTable;
 use DrdPlus\Tables\Tables;
 use Granam\Strict\Object\StrictObject;
 
@@ -525,6 +527,94 @@ class PersonSkills extends StrictObject implements \IteratorAggregate, \Countabl
     public function count()
     {
         return count($this->getSkills());
+    }
+
+    /**
+     * @param WeaponCode $weaponCode
+     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @return int
+     */
+    public function getMalusToFightNumber(WeaponCode $weaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    {
+        if ($weaponCode->isMeleeWeapon() || $weaponCode->isThrowingWeapon()) {
+            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+            return $this->getPersonPhysicalSkills()->getMalusToFightNumber($weaponCode, $missingWeaponSkillsTable);
+        }
+        if ($weaponCode->isShootingWeapon()) {
+            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+            return $this->getPersonCombinedSkills()->getMalusToFightNumber(
+                $weaponCode->convertToRangeWeaponCodeEquivalent(),
+                $missingWeaponSkillsTable
+            );
+        }
+
+        return 0;
+    }
+
+    /**
+     * @param WeaponCode $weaponCode
+     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @return int
+     */
+    public function getMalusToAttackNumber(WeaponCode $weaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    {
+        if ($weaponCode->isMeleeWeapon() || $weaponCode->isThrowingWeapon()) {
+            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+            return $this->getPersonPhysicalSkills()->getMalusToAttackNumber($weaponCode, $missingWeaponSkillsTable);
+        }
+        if ($weaponCode->isShootingWeapon()) {
+            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+            return $this->getPersonCombinedSkills()->getMalusToAttackNumber(
+                $weaponCode->convertToRangeWeaponCodeEquivalent(),
+                $missingWeaponSkillsTable
+            );
+        }
+
+        return 0;
+    }
+
+    /**
+     * @param WeaponCode $weaponCode
+     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @return int
+     */
+    public function getMalusToCover(WeaponCode $weaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    {
+        if ($weaponCode->isMeleeWeapon() || $weaponCode->isThrowingWeapon()) {
+            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+            return $this->getPersonPhysicalSkills()->getMalusToCover($weaponCode, $missingWeaponSkillsTable);
+        }
+        if ($weaponCode->isShootingWeapon()) {
+            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+            return $this->getPersonCombinedSkills()->getMalusToCover(
+                $weaponCode->convertToRangeWeaponCodeEquivalent(),
+                $missingWeaponSkillsTable
+            );
+        }
+
+        return 0;
+    }
+
+    /**
+     * @param WeaponCode $weaponCode
+     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @return int
+     */
+    public function getMalusToBaseOfWounds(WeaponCode $weaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    {
+        if ($weaponCode->isMeleeWeapon() || $weaponCode->isThrowingWeapon()) {
+            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+            return $this->getPersonPhysicalSkills()->getMalusToBaseOfWounds($weaponCode, $missingWeaponSkillsTable);
+        }
+        if ($weaponCode->isShootingWeapon()) {
+            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+            return $this->getPersonCombinedSkills()->getMalusToBaseOfWounds(
+                $weaponCode->convertToRangeWeaponCodeEquivalent(),
+                $missingWeaponSkillsTable
+            );
+        }
+
+        return 0;
     }
 
 }

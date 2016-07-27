@@ -2,10 +2,12 @@
 namespace DrdPlus\Person\Skills\Combined;
 
 use DrdPlus\Codes\CombinedSkillCode;
+use DrdPlus\Codes\RangeWeaponCode;
 use DrdPlus\Codes\SkillTypeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Person\Skills\PersonSameTypeSkills;
 use Doctrine\ORM\Mapping as ORM;
+use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillsTable;
 
 /**
  * @ORM\Entity()
@@ -480,4 +482,73 @@ class PersonCombinedSkills extends PersonSameTypeSkills
         return CombinedSkillCode::getCombinedSkillCodes();
     }
 
+    /**
+     * @param RangeWeaponCode $rangeWeaponCode
+     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @return int
+     * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotAffectThatWeaponUsage
+     */
+    public function getMalusToFightNumber(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    {
+        $rank = $this->getFightWithShootingWeaponRank($rangeWeaponCode);
+
+        return $missingWeaponSkillsTable->getFightNumberForWeaponSkill($rank->getValue());
+    }
+
+    /**
+     * @param RangeWeaponCode $rangeWeaponCode
+     * @return CombinedSkillRank
+     * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotAffectThatWeaponUsage
+     */
+    private function getFightWithShootingWeaponRank(RangeWeaponCode $rangeWeaponCode)
+    {
+        if ($rangeWeaponCode->isBow()) {
+            return $this->getFightWithBows()->getCurrentSkillRank();
+        }
+        if ($rangeWeaponCode->isCrossbow()) {
+            return $this->getFightWithCrossbows()->getCurrentSkillRank();
+        }
+        throw new Exceptions\CombinedSkillsDoNotAffectThatWeaponUsage(
+            "Given range weapon {$rangeWeaponCode} is not affected by combined skills"
+        );
+    }
+
+    /**
+     * @param RangeWeaponCode $rangeWeaponCode
+     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @return int
+     * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotAffectThatWeaponUsage
+     */
+    public function getMalusToAttackNumber(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    {
+        $rank = $this->getFightWithShootingWeaponRank($rangeWeaponCode);
+
+        return $missingWeaponSkillsTable->getAttackNumberForWeaponSkill($rank->getValue());
+    }
+
+    /**
+     * @param RangeWeaponCode $rangeWeaponCode
+     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @return int
+     * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotAffectThatWeaponUsage
+     */
+    public function getMalusToCover(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    {
+        $rank = $this->getFightWithShootingWeaponRank($rangeWeaponCode);
+
+        return $missingWeaponSkillsTable->getCoverForWeaponSkill($rank->getValue());
+    }
+
+    /**
+     * @param RangeWeaponCode $rangeWeaponCode
+     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @return int
+     * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotAffectThatWeaponUsage
+     */
+    public function getMalusToBaseOfWounds(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    {
+        $rank = $this->getFightWithShootingWeaponRank($rangeWeaponCode);
+
+        return $missingWeaponSkillsTable->getBaseOfWoundsForWeaponSkill($rank->getValue());
+    }
 }

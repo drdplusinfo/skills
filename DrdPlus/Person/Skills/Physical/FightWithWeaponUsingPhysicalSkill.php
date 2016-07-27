@@ -7,7 +7,7 @@ use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillsTable;
 /**
  * For maluses see PPH page 93 left column
  */
-abstract class FightWithMeleeWeapon extends PersonPhysicalSkill implements CausingMalusesToWeaponUsage
+abstract class FightWithWeaponUsingPhysicalSkill extends PersonPhysicalSkill implements CausingMalusesToWeaponUsage
 {
     /**
      * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
@@ -15,7 +15,9 @@ abstract class FightWithMeleeWeapon extends PersonPhysicalSkill implements Causi
      */
     public function getMalusToFightNumber(MissingWeaponSkillsTable $missingWeaponSkillsTable)
     {
-        return $missingWeaponSkillsTable->getFightNumberForWeaponSkill($this->getCurrentSkillRank()->getValue());
+        return $missingWeaponSkillsTable->getFightNumberForWeaponSkill(
+            $this->getCurrentSkillRank() ? $this->getCurrentSkillRank()->getValue() : 0
+        );
     }
 
     /**
@@ -24,7 +26,9 @@ abstract class FightWithMeleeWeapon extends PersonPhysicalSkill implements Causi
      */
     public function getMalusToAttackNumber(MissingWeaponSkillsTable $missingWeaponSkillsTable)
     {
-        return $missingWeaponSkillsTable->getAttackNumberForWeaponSkill($this->getCurrentSkillRank()->getValue());
+        return $missingWeaponSkillsTable->getAttackNumberForWeaponSkill(
+            $this->getCurrentSkillRank() ? $this->getCurrentSkillRank()->getValue() : 0
+        );
     }
 
     /**
@@ -33,7 +37,9 @@ abstract class FightWithMeleeWeapon extends PersonPhysicalSkill implements Causi
      */
     public function getMalusToCover(MissingWeaponSkillsTable $missingWeaponSkillsTable)
     {
-        return $missingWeaponSkillsTable->getCoverForWeaponSkill($this->getCurrentSkillRank()->getValue());
+        return $missingWeaponSkillsTable->getCoverForWeaponSkill(
+            $this->getCurrentSkillRank() ? $this->getCurrentSkillRank()->getValue() : 0
+        );
     }
 
     /**
@@ -42,6 +48,8 @@ abstract class FightWithMeleeWeapon extends PersonPhysicalSkill implements Causi
      */
     public function getMalusToBaseOfWounds(MissingWeaponSkillsTable $missingWeaponSkillsTable)
     {
-        return $missingWeaponSkillsTable->getBaseOfWoundsForWeaponSkill($this->getCurrentSkillRank()->getValue());
+        return $missingWeaponSkillsTable->getBaseOfWoundsForWeaponSkill(
+            $this->getCurrentSkillRank() ? $this->getCurrentSkillRank()->getValue() : 0
+        );
     }
 }

@@ -1,11 +1,14 @@
 <?php
 namespace DrdPlus\Person\Skills\Physical;
 
+use DrdPlus\Codes\MeleeWeaponCode;
+use DrdPlus\Codes\WeaponCode;
 use DrdPlus\Codes\PhysicalSkillCode;
 use DrdPlus\Codes\SkillTypeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Person\Skills\PersonSameTypeSkills;
 use Doctrine\ORM\Mapping as ORM;
+use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillsTable;
 
 /**
  * @ORM\Entity()
@@ -446,7 +449,7 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
     }
 
     /**
-     * @return FightWithMeleeWeapon|null
+     * @return FightWithWeaponUsingPhysicalSkill|null
      */
     public function getFightUnarmed()
     {
@@ -534,7 +537,7 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
     }
 
     /**
-     * @return array|FightWithMeleeWeapon[]
+     * @return array|FightWithWeaponUsingPhysicalSkill[]
      */
     public function getFightWithMeleeWeaponSkills()
     {
@@ -617,4 +620,119 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
         return PhysicalSkillCode::getPhysicalSkillCodes();
     }
 
+    /**
+     * @param WeaponCode $weaponCode
+     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @return int
+     * @throws \DrdPlus\Person\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
+     */
+    public function getMalusToFightNumber(WeaponCode $weaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    {
+        $rank = $this->getSuitableFightWithWeaponHighestRank($weaponCode);
+
+        return $missingWeaponSkillsTable->getFightNumberForWeaponSkill($rank->getValue());
+    }
+
+    /**
+     * @param WeaponCode $weaponCode
+     * @return PhysicalSkillRank
+     * @throws \DrdPlus\Person\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
+     */
+    private function getSuitableFightWithWeaponHighestRank(WeaponCode $weaponCode)
+    {
+        $ranks = [];
+        if ($weaponCode->isMeleeWeapon()) {
+            /** @var MeleeWeaponCode $weaponCode */
+            $weaponCode = $weaponCode->convertToMeleeWeaponCodeEquivalent();
+            if ($weaponCode->isAxe()) {
+                $ranks[] = $this->getFightWithAxes()->getCurrentSkillRank();
+            }
+            if ($weaponCode->isKnifeOrDagger()) {
+                $ranks[] = $this->getFightWithKnifesAndDaggers()->getCurrentSkillRank();
+            }
+            if ($weaponCode->isMaceOrClub()) {
+                $ranks[] = $this->getFightWithMacesAndClubs()->getCurrentSkillRank();
+            }
+            if ($weaponCode->isMorningStarOrMorgenstern()) {
+                $ranks[] = $this->getFightWithMorningStarsAndMorgensterns()->getCurrentSkillRank();
+            }
+            if ($weaponCode->isSaberOrBowieKnife()) {
+                $ranks[] = $this->getFightWithSabersAndBowieKnifes()->getCurrentSkillRank();
+            }
+            if ($weaponCode->isStaffOrSpear()) {
+                $ranks[] = $this->getFightWithStaffsAndSpears()->getCurrentSkillRank();
+            }
+            if ($weaponCode->isSword()) {
+                $ranks[] = $this->getFightWithSwords()->getCurrentSkillRank();
+            }
+            if ($weaponCode->isUnarmed()) {
+                $ranks[] = $this->getFightUnarmed()->getCurrentSkillRank();
+            }
+            if ($weaponCode->isVoulgeOrTrident()) {
+                $ranks[] = $this->getFightWithVoulgesAndTridents()->getCurrentSkillRank();
+            }
+        }
+        if ($weaponCode->isRangeWeapon()
+            && $weaponCode->isShootingWeapon()
+        ) {
+            $ranks[] = $this->getFightWithThrowingWeapons()->getCurrentSkillRank();
+        }
+        if (count($ranks) === 1) {
+            $rank = current($ranks) ?: false;
+        } else {
+            // order by rank ascending
+            usort($ranks, function (PhysicalSkillRank $someRank, PhysicalSkillCode $anotherRank) {
+                return $someRank->getValue() - $anotherRank->getValue();
+            });
+            // returning the last, highest rank
+            $rank = array_pop($ranks) ?: false;
+        }
+        if (!$rank) {
+            throw new Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon(
+                "Given weapon {$weaponCode} is not usable by any physical skill"
+            );
+        }
+
+        /** @var PhysicalSkillRank $rank */
+        return $rank;
+    }
+
+    /**
+     * @param WeaponCode $weaponCode
+     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @return int
+     * @throws \DrdPlus\Person\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
+     */
+    public function getMalusToAttackNumber(WeaponCode $weaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    {
+        $rank = $this->getSuitableFightWithWeaponHighestRank($weaponCode);
+
+        return $missingWeaponSkillsTable->getAttackNumberForWeaponSkill($rank->getValue());
+    }
+
+    /**
+     * @param WeaponCode $weaponCode
+     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @return int
+     * @throws \DrdPlus\Person\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
+     */
+    public function getMalusToCover(WeaponCode $weaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    {
+        $rank = $this->getSuitableFightWithWeaponHighestRank($weaponCode);
+
+        return $missingWeaponSkillsTable->getCoverForWeaponSkill($rank->getValue());
+    }
+
+    /**
+     * @param WeaponCode $weaponCode
+     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @return int
+     * @throws \DrdPlus\Person\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
+     */
+    public function getMalusToBaseOfWounds(WeaponCode $weaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    {
+        $rank = $this->getSuitableFightWithWeaponHighestRank($weaponCode);
+
+        return $missingWeaponSkillsTable->getBaseOfWoundsForWeaponSkill($rank->getValue());
+    }
 }
