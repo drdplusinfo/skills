@@ -1,6 +1,8 @@
 <?php
 namespace DrdPlus\Tests\Person\Skills\Physical;
 
+use DrdPlus\Codes\WeaponCategoryCode;
+use DrdPlus\Codes\WeaponCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Person\Skills\PersonSkill;
@@ -23,6 +25,7 @@ use DrdPlus\Person\Skills\Physical\FightWithVoulgesAndTridents;
 use DrdPlus\Person\Skills\Physical\Flying;
 use DrdPlus\Person\Skills\Physical\PersonPhysicalSkill;
 use DrdPlus\Person\Skills\Physical\PersonPhysicalSkills;
+use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillsTable;
 use DrdPlus\Tests\Person\Skills\PersonSameTypeSkillsTest;
 
 class PersonPhysicalSkillsTest extends PersonSameTypeSkillsTest
@@ -192,6 +195,87 @@ class PersonPhysicalSkillsTest extends PersonSameTypeSkillsTest
             ],
             $skills->getFightWithMeleeWeaponSkills()
         );
+    }
+
+    /**
+     * @test
+     * @dataProvider provideWeaponCategories
+     * @param string $weaponCategory
+     */
+    public function I_can_get_malus_for_every_type_of_weapon($weaponCategory)
+    {
+        $skills = new PersonPhysicalSkills();
+        self::assertSame(
+            $expectedMalus = 'foo',
+            $skills->getMalusToFightNumber(
+                $this->createWeaponCode($weaponCategory),
+                $this->createMissingWeaponSkillsTable('fightNumber', 0 /* expected skill value */, $expectedMalus)
+            )
+        );
+        self::assertSame(
+            $expectedMalus = 'bar',
+            $skills->getMalusToAttackNumber(
+                $this->createWeaponCode($weaponCategory),
+                $this->createMissingWeaponSkillsTable('attackNumber', 0 /* expected skill value */, $expectedMalus)
+            )
+        );
+        self::assertSame(
+            $expectedMalus = 'baz',
+            $skills->getMalusToCover(
+                $this->createWeaponCode($weaponCategory),
+                $this->createMissingWeaponSkillsTable('cover', 0 /* expected skill value */, $expectedMalus)
+            )
+        );
+        self::assertSame(
+            $expectedMalus = 'qux',
+            $skills->getMalusToBaseOfWounds(
+                $this->createWeaponCode($weaponCategory),
+                $this->createMissingWeaponSkillsTable('baseOfWounds', 0 /* expected skill value */, $expectedMalus)
+            )
+        );
+    }
+
+    /**
+     * @return array|string[][]
+     */
+    public function provideWeaponCategories()
+    {
+        return array_map(
+            function ($code) {
+                return [$code];
+            },
+            WeaponCategoryCode::getWeaponCategoryCodes()
+        );
+    }
+
+    /**
+     * @param $weaponCategory
+     * @return \Mockery\MockInterface|WeaponCode
+     */
+    private function createWeaponCode($weaponCategory)
+    {
+        $code = $this->mockery(WeaponCode::class);
+        $code->shouldReceive('is' . ucfirst($weaponCategory))
+            ->andReturn('true');
+        $code->shouldIgnoreMissing(false /* return value for non-mocked methods */);
+
+        return $code;
+    }
+
+    /**
+     * @param string $weaponParameterName
+     * @param $expectedSkillValue
+     * @param $result
+     * @return \Mockery\MockInterface|MissingWeaponSkillsTable
+     */
+    private function createMissingWeaponSkillsTable($weaponParameterName, $expectedSkillValue, $result)
+    {
+        $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillsTable::class);
+        $missingWeaponSkillsTable->shouldReceive('get' . ucfirst($weaponParameterName) . 'ForWeaponSkill')
+            ->with($expectedSkillValue)
+            ->andReturn($result);
+
+        return $missingWeaponSkillsTable;
     }
 
 }

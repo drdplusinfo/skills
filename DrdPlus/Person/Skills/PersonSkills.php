@@ -392,6 +392,7 @@ class PersonSkills extends StrictObject implements \IteratorAggregate, \Countabl
     private static function getTooHighRankAdjustmentsDescription(array $tooHighRankAdjustments)
     {
         $descriptionParts = [];
+        /** @var PersonSkillRank[][] $ranksPerLevel */
         foreach ($tooHighRankAdjustments as $skillName => $ranksPerLevel) {
             $skillDescription = "skill '$skillName' over-increased on";
             $levelsDescriptions = [];

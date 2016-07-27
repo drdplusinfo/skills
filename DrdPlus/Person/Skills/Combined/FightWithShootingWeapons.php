@@ -13,9 +13,17 @@ abstract class FightWithShootingWeapons extends PersonCombinedSkill implements C
      */
     public function getMalusToFightNumber(MissingWeaponSkillsTable $missingWeaponSkillsTable)
     {
-        return $missingWeaponSkillsTable->getFightNumberForWeaponSkill(
-            $this->getCurrentSkillRank() ? $this->getCurrentSkillRank()->getValue() : 0
-        );
+        return $missingWeaponSkillsTable->getFightNumberForWeaponSkill($this->determineCurrentSkillRank());
+    }
+
+    /**
+     * @return int
+     */
+    private function determineCurrentSkillRank()
+    {
+        return $this->getCurrentSkillRank()
+            ? $this->getCurrentSkillRank()->getValue()
+            : 0;
     }
 
     /**
@@ -24,9 +32,7 @@ abstract class FightWithShootingWeapons extends PersonCombinedSkill implements C
      */
     public function getMalusToAttackNumber(MissingWeaponSkillsTable $missingWeaponSkillsTable)
     {
-        return $missingWeaponSkillsTable->getAttackNumberForWeaponSkill(
-            $this->getCurrentSkillRank() ? $this->getCurrentSkillRank()->getValue() : 0
-        );
+        return $missingWeaponSkillsTable->getAttackNumberForWeaponSkill($this->determineCurrentSkillRank());
     }
 
     /**
@@ -35,9 +41,7 @@ abstract class FightWithShootingWeapons extends PersonCombinedSkill implements C
      */
     public function getMalusToCover(MissingWeaponSkillsTable $missingWeaponSkillsTable)
     {
-        return $missingWeaponSkillsTable->getCoverForWeaponSkill(
-            $this->getCurrentSkillRank() ? $this->getCurrentSkillRank()->getValue() : 0
-        );
+        return $missingWeaponSkillsTable->getCoverForWeaponSkill($this->determineCurrentSkillRank());
     }
 
     /**
@@ -46,8 +50,6 @@ abstract class FightWithShootingWeapons extends PersonCombinedSkill implements C
      */
     public function getMalusToBaseOfWounds(MissingWeaponSkillsTable $missingWeaponSkillsTable)
     {
-        return $missingWeaponSkillsTable->getBaseOfWoundsForWeaponSkill(
-            $this->getCurrentSkillRank() ? $this->getCurrentSkillRank()->getValue() : 0
-        );
+        return $missingWeaponSkillsTable->getBaseOfWoundsForWeaponSkill($this->determineCurrentSkillRank());
     }
 }
