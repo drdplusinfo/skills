@@ -209,6 +209,8 @@ class PersonCombinedSkillsTest extends PersonSameTypeSkillsTest
         $code->shouldReceive('is' . ucfirst($weaponCategory))
             ->andReturn('true');
         $code->shouldIgnoreMissing(false /* return value for non-mocked methods */);
+        $code->shouldReceive('__toString')
+            ->andReturn((string)$weaponCategory);
 
         return $code;
     }
@@ -227,6 +229,22 @@ class PersonCombinedSkillsTest extends PersonSameTypeSkillsTest
             ->andReturn($result);
 
         return $missingWeaponSkillsTable;
+    }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
+     * @expectedExceptionMessageRegExp ~notBowNorCrossbowYouKnow~
+     */
+    public function I_can_not_get_malus_for_weapon_not_affected_by_combined_skill()
+    {
+        $personCombinedSkills = new PersonCombinedSkills();
+        /** @var MissingWeaponSkillsTable $missingWeaponSkillsTable */
+        $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillsTable::class);
+        $personCombinedSkills->getMalusToFightNumber(
+            $this->createRangeWeaponCode('notBowNorCrossbowYouKnow'),
+            $missingWeaponSkillsTable
+        );
     }
 
 }

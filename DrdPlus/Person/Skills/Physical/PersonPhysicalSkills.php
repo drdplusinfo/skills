@@ -676,12 +676,9 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
         if ($weaponCode->isThrowingWeapon()) {
             $rankValues[] = $this->determineCurrentSkillRankValue($this->getFightWithThrowingWeapons());
         }
-        if (count($rankValues) === 1) {
-            $rankValue = $rankValues[0];
-        } else {
-            $rankValue = count($rankValues) > 0
-                ? max($rankValues)
-                : 0;
+        $rankValue = false;
+        if (count($rankValues) > 0) {
+            $rankValue = max($rankValues);
         }
         if (!is_int($rankValue)) {
             throw new Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon(

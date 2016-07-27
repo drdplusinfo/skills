@@ -274,6 +274,8 @@ class PersonPhysicalSkillsTest extends PersonSameTypeSkillsTest
         $weaponCode->shouldReceive('is' . implode(array_map('ucfirst', explode('_', $weaponCategory))))
             ->andReturn('true');
         $weaponCode->shouldIgnoreMissing(false /* return value for non-mocked methods */);
+        $weaponCode->shouldReceive('__toString')
+            ->andReturn((string)$weaponCategory);
 
         return $weaponCode;
     }
@@ -294,4 +296,35 @@ class PersonPhysicalSkillsTest extends PersonSameTypeSkillsTest
         return $missingWeaponSkillsTable;
     }
 
+    /**
+     * @test
+     * @expectedException \DrdPlus\Person\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
+     * @expectedExceptionMessageRegExp ~plank~
+     */
+    public function I_can_not_get_malus_for_melee_weapon_of_unknown_category()
+    {
+        $personPhysicalSkills = new PersonPhysicalSkills();
+        /** @var MissingWeaponSkillsTable $missingWeaponSkillsTable */
+        $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillsTable::class);
+        $personPhysicalSkills->getMalusToFightNumber(
+            $this->createWeaponCode('plank', true /* is melee */, false /* not throwing */),
+            $missingWeaponSkillsTable
+        );
+    }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Person\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
+     * @expectedExceptionMessageRegExp ~artillery~
+     */
+    public function I_can_not_get_malus_for_non_melee_non_throwing_weapon()
+    {
+        $personPhysicalSkills = new PersonPhysicalSkills();
+        /** @var MissingWeaponSkillsTable $missingWeaponSkillsTable */
+        $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillsTable::class);
+        $personPhysicalSkills->getMalusToFightNumber(
+            $this->createWeaponCode('artillery', false /* not melee */, false /* not throwing */),
+            $missingWeaponSkillsTable
+        );
+    }
 }

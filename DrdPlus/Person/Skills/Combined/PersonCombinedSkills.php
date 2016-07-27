@@ -486,7 +486,7 @@ class PersonCombinedSkills extends PersonSameTypeSkills
      * @param RangeWeaponCode $rangeWeaponCode
      * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
      * @return int
-     * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotAffectThatWeaponUsage
+     * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
     public function getMalusToFightNumber(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
     {
@@ -498,7 +498,7 @@ class PersonCombinedSkills extends PersonSameTypeSkills
     /**
      * @param RangeWeaponCode $rangeWeaponCode
      * @return int
-     * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotAffectThatWeaponUsage
+     * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
     private function getFightWithShootingWeaponRankValue(RangeWeaponCode $rangeWeaponCode)
     {
@@ -512,7 +512,7 @@ class PersonCombinedSkills extends PersonSameTypeSkills
                 ? $this->getFightWithCrossbows()->getCurrentSkillRank()->getValue()
                 : 0;
         }
-        throw new Exceptions\CombinedSkillsDoNotAffectThatWeaponUsage(
+        throw new Exceptions\CombinedSkillsDoNotHowToUseThatWeapon(
             "Given range weapon {$rangeWeaponCode} is not affected by combined skills"
             . ' (only shooting weapons using knack are)'
         );
@@ -522,7 +522,7 @@ class PersonCombinedSkills extends PersonSameTypeSkills
      * @param RangeWeaponCode $rangeWeaponCode
      * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
      * @return int
-     * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotAffectThatWeaponUsage
+     * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
     public function getMalusToAttackNumber(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
     {
@@ -535,7 +535,7 @@ class PersonCombinedSkills extends PersonSameTypeSkills
      * @param RangeWeaponCode $rangeWeaponCode
      * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
      * @return int
-     * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotAffectThatWeaponUsage
+     * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
     public function getMalusToCover(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
     {
@@ -548,7 +548,7 @@ class PersonCombinedSkills extends PersonSameTypeSkills
      * @param RangeWeaponCode $rangeWeaponCode
      * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
      * @return int
-     * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotAffectThatWeaponUsage
+     * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
     public function getMalusToBaseOfWounds(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
     {
