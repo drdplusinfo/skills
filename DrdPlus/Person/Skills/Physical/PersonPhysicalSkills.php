@@ -672,9 +672,7 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
                 $rankValues[] = $this->determineCurrentSkillRankValue($this->getFightWithVoulgesAndTridents());
             }
         }
-        if ($weaponCode->isRangeWeapon()
-            && $weaponCode->isShootingWeapon()
-        ) {
+        if ($weaponCode->isThrowingWeapon()) {
             $rankValues[] = $this->determineCurrentSkillRankValue($this->getFightWithThrowingWeapons());
         }
         if (count($rankValues) === 1) {
