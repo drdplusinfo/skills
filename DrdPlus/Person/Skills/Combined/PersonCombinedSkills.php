@@ -514,6 +514,7 @@ class PersonCombinedSkills extends PersonSameTypeSkills
         }
         throw new Exceptions\CombinedSkillsDoNotAffectThatWeaponUsage(
             "Given range weapon {$rangeWeaponCode} is not affected by combined skills"
+            . ' (only shooting weapons using knack are)'
         );
     }
 
