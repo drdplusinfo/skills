@@ -642,8 +642,8 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
     {
         $rankValues = [];
         if ($weaponCode->isMeleeWeapon()) {
-            /** @var MeleeWeaponCode $weaponCode */
             $weaponCode = $weaponCode->convertToMeleeWeaponCodeEquivalent();
+            /** @var MeleeWeaponCode $weaponCode */
             if ($weaponCode->isAxe()) {
                 $rankValues[] = $this->determineCurrentSkillRankValue($this->getFightWithAxes());
             }
@@ -672,11 +672,12 @@ class PersonPhysicalSkills extends PersonSameTypeSkills
                 $rankValues[] = $this->determineCurrentSkillRankValue($this->getFightWithVoulgesAndTridents());
             }
         }
+        /** @var WeaponCode $weaponCode */
         if ($weaponCode->isThrowingWeapon()) {
             $rankValues[] = $this->determineCurrentSkillRankValue($this->getFightWithThrowingWeapons());
         }
         if (count($rankValues) === 1) {
-            $rankValue = current($rankValues) ?: false;
+            $rankValue = $rankValues[0];
         } else {
             $rankValue = count($rankValues) > 0
                 ? max($rankValues)

@@ -201,35 +201,38 @@ class PersonPhysicalSkillsTest extends PersonSameTypeSkillsTest
      * @test
      * @dataProvider provideWeaponCategories
      * @param string $weaponCategory
+     * @param $isMelee
+     * @param $isThrowing
      */
-    public function I_can_get_malus_for_every_type_of_weapon($weaponCategory)
+    public function I_can_get_malus_for_every_type_of_weapon($weaponCategory, $isMelee, $isThrowing)
     {
         $skills = new PersonPhysicalSkills();
+        $weaponCode = $this->createWeaponCode($weaponCategory, $isMelee, $isThrowing);
         self::assertSame(
             $expectedMalus = 'foo',
             $skills->getMalusToFightNumber(
-                $this->createWeaponCode($weaponCategory),
+                $weaponCode,
                 $this->createMissingWeaponSkillsTable('fightNumber', 0 /* expected skill value */, $expectedMalus)
             )
         );
         self::assertSame(
             $expectedMalus = 'bar',
             $skills->getMalusToAttackNumber(
-                $this->createWeaponCode($weaponCategory),
+                $weaponCode,
                 $this->createMissingWeaponSkillsTable('attackNumber', 0 /* expected skill value */, $expectedMalus)
             )
         );
         self::assertSame(
             $expectedMalus = 'baz',
             $skills->getMalusToCover(
-                $this->createWeaponCode($weaponCategory),
+                $weaponCode,
                 $this->createMissingWeaponSkillsTable('cover', 0 /* expected skill value */, $expectedMalus)
             )
         );
         self::assertSame(
             $expectedMalus = 'qux',
             $skills->getMalusToBaseOfWounds(
-                $this->createWeaponCode($weaponCategory),
+                $weaponCode,
                 $this->createMissingWeaponSkillsTable('baseOfWounds', 0 /* expected skill value */, $expectedMalus)
             )
         );
@@ -240,26 +243,39 @@ class PersonPhysicalSkillsTest extends PersonSameTypeSkillsTest
      */
     public function provideWeaponCategories()
     {
-        return array_map(
-            function ($code) {
-                return [$code];
-            },
-            WeaponCategoryCode::getWeaponCategoryCodes()
+        return array_merge(
+            array_map(
+                function ($code) {
+                    return [$code, true /* is melee */, false /* is not throwing */];
+                },
+                WeaponCategoryCode::getMeleeWeaponCategoryCodes()
+            ),
+            [['foo', false /* not melee */, true /* is throwing */]]
         );
     }
 
     /**
-     * @param $weaponCategory
+     * @param string $weaponCategory
+     * @param bool $isMelee
+     * @param bool $isThrowing
      * @return \Mockery\MockInterface|WeaponCode
      */
-    private function createWeaponCode($weaponCategory)
+    private function createWeaponCode($weaponCategory, $isMelee, $isThrowing)
     {
-        $code = $this->mockery(WeaponCode::class);
-        $code->shouldReceive('is' . ucfirst($weaponCategory))
+        $weaponCode = $this->mockery(WeaponCode::class);
+        $weaponCode->shouldReceive('isMeleeWeapon')
+            ->andReturn($isMelee);
+        if ($isMelee) {
+            $weaponCode->shouldReceive('convertToMeleeWeaponCodeEquivalent')
+                ->andReturn($weaponCode);
+        }
+        $weaponCode->shouldReceive('isThrowingWeapon')
+            ->andReturn($isThrowing);
+        $weaponCode->shouldReceive('is' . implode(array_map('ucfirst', explode('_', $weaponCategory))))
             ->andReturn('true');
-        $code->shouldIgnoreMissing(false /* return value for non-mocked methods */);
+        $weaponCode->shouldIgnoreMissing(false /* return value for non-mocked methods */);
 
-        return $code;
+        return $weaponCode;
     }
 
     /**
