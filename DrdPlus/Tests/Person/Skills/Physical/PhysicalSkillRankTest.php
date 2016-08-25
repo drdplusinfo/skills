@@ -21,7 +21,7 @@ class PhysicalSkillRankTest extends PersonSkillRankTest
 
     protected function createOwningPersonSkill()
     {
-        return new Flying();
+        return new Flying($this->createProfessionFirstLevel());
     }
 
 }

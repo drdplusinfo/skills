@@ -1,10 +1,9 @@
 <?php
 namespace DrdPlus\Person\Skills\Combined;
 
-use DrdPlus\Person\Skills\PersonSkillPoint;
 use DrdPlus\Person\Skills\PersonSkillRank;
 use Doctrine\ORM\Mapping as ORM;
-use Granam\Integer\IntegerInterface;
+use Granam\Integer\PositiveInteger;
 
 /**
  * @ORM\Entity()
@@ -22,10 +21,17 @@ class CombinedSkillRank extends PersonSkillRank
      */
     private $combinedSkillPoint;
 
+    /**
+     * @param PersonCombinedSkill $personCombinedSkill
+     * @param CombinedSkillPoint $combinedSkillPoint
+     * @param PositiveInteger $requiredRankValue
+     * @throws \DrdPlus\Person\Skills\Exceptions\CanNotVerifyOwningPersonSkill
+     * @throws \DrdPlus\Person\Skills\Exceptions\CanNotVerifyPaidPersonSkillPoint
+     */
     public function __construct(
         PersonCombinedSkill $personCombinedSkill,
         CombinedSkillPoint $combinedSkillPoint,
-        IntegerInterface $requiredRankValue
+        PositiveInteger $requiredRankValue
     )
     {
         $this->personCombinedSkill = $personCombinedSkill;
@@ -42,7 +48,7 @@ class CombinedSkillRank extends PersonSkillRank
     }
 
     /**
-     * @return PersonCombinedSkill
+     * @return CombinedSkillPoint
      */
     public function getPersonSkillPoint()
     {

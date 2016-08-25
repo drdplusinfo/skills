@@ -22,7 +22,7 @@ use DrdPlus\Person\Skills\Physical\PhysicalSkillPoint;
 use DrdPlus\Person\Skills\Physical\PersonPhysicalSkills;
 use DrdPlus\Person\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Person\Skills\Psychical\PersonPsychicalSkills;
-use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillsTable;
+use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
 use DrdPlus\Tables\Tables;
 use Granam\Strict\Object\StrictObject;
 
@@ -334,7 +334,7 @@ class PersonSkills extends StrictObject implements \IteratorAggregate, \Countabl
         }
     }
 
-    const PROPERTY_TO_SKILL_POINT_MULTIPLIER = PersonSkillPoint::SKILL_POINT_VALUE; // each point of property gives one skill point
+    const PROPERTY_TO_SKILL_POINT_MULTIPLIER = 1; // each point of property gives one skill point
 
     /**
      * @param int $propertyIncrease
@@ -355,8 +355,8 @@ class PersonSkills extends StrictObject implements \IteratorAggregate, \Countabl
     {
         $nextLevelSkills = [];
         foreach ([$physicalSkills, $psychicalSkills, $combinedSkills] as $sameTypeSkills) {
+            /** @var PersonSkill[] $sameTypeSkills */
             foreach ($sameTypeSkills as $skill) {
-                /** @var PersonSkill $skill */
                 $nextLevelSkills[$skill->getName()] = [];
                 foreach ($skill->getSkillRanks() as $skillRank) {
                     if ($skillRank->getProfessionLevel()->isNextLevel()) {
@@ -370,10 +370,18 @@ class PersonSkills extends StrictObject implements \IteratorAggregate, \Countabl
             }
         }
         $tooHighRankAdjustments = [];
+        /**
+         * @var string $skillName
+         * @var PersonSkillRank[][] $ranksPerLevel
+         */
         foreach ($nextLevelSkills as $skillName => $ranksPerLevel) {
+            /**
+             * @var int $levelValue
+             * @var PersonSkillRank[] $skillRanks
+             */
             foreach ($ranksPerLevel as $levelValue => $skillRanks) {
-                if (count($skillRanks) > self::MAX_SKILL_RANK_INCREASE_PER_NEXT_LEVEL
-                    && !isset($tooHighRankAdjustments[$skillName][$levelValue])
+                if (!isset($tooHighRankAdjustments[$skillName][$levelValue])
+                    && count($skillRanks) > self::MAX_SKILL_RANK_INCREASE_PER_NEXT_LEVEL
                 ) {
                     $tooHighRankAdjustments[$skillName][$levelValue] = $skillRanks;
                 }
@@ -532,12 +540,12 @@ class PersonSkills extends StrictObject implements \IteratorAggregate, \Countabl
 
     /**
      * @param WeaponCode $weaponCode
-     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
      */
-    public function getMalusToFightNumber(WeaponCode $weaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    public function getMalusToFightNumber(WeaponCode $weaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
-        if ($weaponCode->isMeleeWeapon() || $weaponCode->isThrowingWeapon()) {
+        if ($weaponCode->isMeleeArmament() || $weaponCode->isThrowingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getPersonPhysicalSkills()->getMalusToFightNumber($weaponCode, $missingWeaponSkillsTable);
         }
@@ -554,12 +562,12 @@ class PersonSkills extends StrictObject implements \IteratorAggregate, \Countabl
 
     /**
      * @param WeaponCode $weaponCode
-     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
      */
-    public function getMalusToAttackNumber(WeaponCode $weaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    public function getMalusToAttackNumber(WeaponCode $weaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
-        if ($weaponCode->isMeleeWeapon() || $weaponCode->isThrowingWeapon()) {
+        if ($weaponCode->isMeleeArmament() || $weaponCode->isThrowingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getPersonPhysicalSkills()->getMalusToAttackNumber($weaponCode, $missingWeaponSkillsTable);
         }
@@ -576,12 +584,12 @@ class PersonSkills extends StrictObject implements \IteratorAggregate, \Countabl
 
     /**
      * @param WeaponCode $weaponCode
-     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
      */
-    public function getMalusToCover(WeaponCode $weaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    public function getMalusToCover(WeaponCode $weaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
-        if ($weaponCode->isMeleeWeapon() || $weaponCode->isThrowingWeapon()) {
+        if ($weaponCode->isMeleeArmament() || $weaponCode->isThrowingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getPersonPhysicalSkills()->getMalusToCover($weaponCode, $missingWeaponSkillsTable);
         }
@@ -598,12 +606,12 @@ class PersonSkills extends StrictObject implements \IteratorAggregate, \Countabl
 
     /**
      * @param WeaponCode $weaponCode
-     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
      */
-    public function getMalusToBaseOfWounds(WeaponCode $weaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    public function getMalusToBaseOfWounds(WeaponCode $weaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
-        if ($weaponCode->isMeleeWeapon() || $weaponCode->isThrowingWeapon()) {
+        if ($weaponCode->isMeleeArmament() || $weaponCode->isThrowingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getPersonPhysicalSkills()->getMalusToBaseOfWounds($weaponCode, $missingWeaponSkillsTable);
         }

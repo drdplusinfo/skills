@@ -7,7 +7,7 @@ use DrdPlus\Codes\SkillTypeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Person\Skills\PersonSameTypeSkills;
 use Doctrine\ORM\Mapping as ORM;
-use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillsTable;
+use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
 
 /**
  * @ORM\Entity()
@@ -484,11 +484,11 @@ class PersonCombinedSkills extends PersonSameTypeSkills
 
     /**
      * @param RangeWeaponCode $rangeWeaponCode
-     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
      * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
-    public function getMalusToFightNumber(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    public function getMalusToFightNumber(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 
@@ -503,12 +503,12 @@ class PersonCombinedSkills extends PersonSameTypeSkills
     private function getFightWithShootingWeaponRankValue(RangeWeaponCode $rangeWeaponCode)
     {
         if ($rangeWeaponCode->isBow()) {
-            return $this->getFightWithBows() && $this->getFightWithBows()->getCurrentSkillRank()
+            return $this->getFightWithBows()
                 ? $this->getFightWithBows()->getCurrentSkillRank()->getValue()
                 : 0;
         }
         if ($rangeWeaponCode->isCrossbow()) {
-            return $this->getFightWithCrossbows() && $this->getFightWithCrossbows()->getCurrentSkillRank()
+            return $this->getFightWithCrossbows()
                 ? $this->getFightWithCrossbows()->getCurrentSkillRank()->getValue()
                 : 0;
         }
@@ -520,11 +520,11 @@ class PersonCombinedSkills extends PersonSameTypeSkills
 
     /**
      * @param RangeWeaponCode $rangeWeaponCode
-     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
      * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
-    public function getMalusToAttackNumber(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    public function getMalusToAttackNumber(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 
@@ -533,11 +533,11 @@ class PersonCombinedSkills extends PersonSameTypeSkills
 
     /**
      * @param RangeWeaponCode $rangeWeaponCode
-     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
      * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
-    public function getMalusToCover(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    public function getMalusToCover(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 
@@ -546,11 +546,11 @@ class PersonCombinedSkills extends PersonSameTypeSkills
 
     /**
      * @param RangeWeaponCode $rangeWeaponCode
-     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
      * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
-    public function getMalusToBaseOfWounds(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillsTable $missingWeaponSkillsTable)
+    public function getMalusToBaseOfWounds(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 

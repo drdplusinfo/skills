@@ -2,10 +2,12 @@
 namespace DrdPlus\Person\Skills\Combined;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\Skills\PersonSkill;
 use DrdPlus\Properties\Base\Charisma;
 use DrdPlus\Properties\Base\Knack;
 use Doctrine\ORM\Mapping as ORM;
+use Granam\Integer\PositiveIntegerObject;
 
 /**
  * @ORM\Entity()
@@ -44,14 +46,19 @@ abstract class PersonCombinedSkill extends PersonSkill
      */
     private $combinedSkillRanks;
 
-    public function __construct()
+    /**
+     * @param ProfessionLevel $professionLevel
+     */
+    public function __construct(ProfessionLevel $professionLevel)
     {
         $this->combinedSkillRanks = new ArrayCollection();
+        parent::__construct($professionLevel);
     }
 
     /**
      * @param CombinedSkillRank $combinedSkillRank
-     * @throws \DrdPlus\Person\Skills\Combined\Exceptions\CombinedSkillRankExpected
+     * @throws \DrdPlus\Person\Skills\Exceptions\UnexpectedRankValue
+     * @throws \DrdPlus\Person\Skills\Exceptions\CanNotVerifyOwningPersonSkill
      */
     public function addSkillRank(CombinedSkillRank $combinedSkillRank)
     {
@@ -59,9 +66,26 @@ abstract class PersonCombinedSkill extends PersonSkill
     }
 
     /**
+     * @param ProfessionLevel $professionLevel
+     * @return CombinedSkillRank
+     * @throws \DrdPlus\Person\Skills\Exceptions\UnknownPaymentForSkillPoint
+     * @throws \DrdPlus\Person\Skills\Exceptions\CanNotVerifyOwningPersonSkill
+     * @throws \DrdPlus\Person\Skills\Exceptions\CanNotVerifyPaidPersonSkillPoint
+     */
+    protected function createZeroSkillRank(ProfessionLevel $professionLevel)
+    {
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+        return new CombinedSkillRank(
+            $this,
+            CombinedSkillPoint::createZeroSkillPoint($professionLevel),
+            new PositiveIntegerObject(0)
+        );
+    }
+
+    /**
      * @return ArrayCollection|CombinedSkillRank[]
      */
-    public function getSkillRanks()
+    protected function getInnerSkillRanks()
     {
         return $this->combinedSkillRanks;
     }

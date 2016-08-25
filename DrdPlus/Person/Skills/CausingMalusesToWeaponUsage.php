@@ -1,31 +1,31 @@
 <?php
 namespace DrdPlus\Person\Skills;
 
-use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillsTable;
+use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
 
 interface CausingMalusesToWeaponUsage
 {
     /**
-     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
      */
-    public function getMalusToFightNumber(MissingWeaponSkillsTable $missingWeaponSkillsTable);
+    public function getMalusToFightNumber(MissingWeaponSkillTable $missingWeaponSkillsTable);
 
     /**
-     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
      */
-    public function getMalusToAttackNumber(MissingWeaponSkillsTable $missingWeaponSkillsTable);
+    public function getMalusToAttackNumber(MissingWeaponSkillTable $missingWeaponSkillsTable);
 
     /**
-     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
      */
-    public function getMalusToCover(MissingWeaponSkillsTable $missingWeaponSkillsTable);
+    public function getMalusToCover(MissingWeaponSkillTable $missingWeaponSkillsTable);
 
     /**
-     * @param MissingWeaponSkillsTable $missingWeaponSkillsTable
+     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
      */
-    public function getMalusToBaseOfWounds(MissingWeaponSkillsTable $missingWeaponSkillsTable);
+    public function getMalusToBaseOfWounds(MissingWeaponSkillTable $missingWeaponSkillsTable);
 }

@@ -21,7 +21,7 @@ class PsychicalSkillRankTest extends PersonSkillRankTest
 
     protected function createOwningPersonSkill()
     {
-        return new Botany();
+        return new Botany($this->createProfessionFirstLevel());
     }
 
 }

@@ -4,6 +4,7 @@ namespace DrdPlus\Person\Skills;
 use Doctrineum\Entity\Entity;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use Granam\Integer\IntegerInterface;
+use Granam\Integer\PositiveInteger;
 use Granam\Strict\Object\StrictObject;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,7 +27,7 @@ abstract class PersonSkillRank extends StrictObject implements IntegerInterface,
      */
     private $id;
     /**
-     * @var int
+     * @var integer
      * @ORM\Column(type="integer")
      */
     private $value;
@@ -34,14 +35,14 @@ abstract class PersonSkillRank extends StrictObject implements IntegerInterface,
     /**
      * @param PersonSkill $owningPersonSkill
      * @param PersonSkillPoint $personSkillPoint
-     * @param IntegerInterface $requiredRankValue
+     * @param PositiveInteger $requiredRankValue
      * @throws \DrdPlus\Person\Skills\Exceptions\CanNotVerifyOwningPersonSkill
      * @throws \DrdPlus\Person\Skills\Exceptions\CanNotVerifyPaidPersonSkillPoint
      */
     protected function __construct(
         PersonSkill $owningPersonSkill,
         PersonSkillPoint $personSkillPoint,
-        IntegerInterface $requiredRankValue
+        PositiveInteger $requiredRankValue
     )
     {
         if ($owningPersonSkill !== $this->getPersonSkill()) {
@@ -61,7 +62,7 @@ abstract class PersonSkillRank extends StrictObject implements IntegerInterface,
     const MIN_RANK_VALUE = 0; // heard about it
     const MAX_RANK_VALUE = 3; // great knowledge
 
-    private function checkRequiredRankValue(IntegerInterface $requiredRankValue)
+    private function checkRequiredRankValue(PositiveInteger $requiredRankValue)
     {
         if ($requiredRankValue->getValue() < self::MIN_RANK_VALUE) {
             throw new \LogicException(

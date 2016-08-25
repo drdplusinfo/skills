@@ -2,10 +2,12 @@
 namespace DrdPlus\Person\Skills\Physical;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\Skills\PersonSkill;
 use DrdPlus\Properties\Base\Agility;
 use DrdPlus\Properties\Base\Strength;
 use Doctrine\ORM\Mapping as ORM;
+use Granam\Integer\PositiveIntegerObject;
 
 /**
  * @ORM\Entity()
@@ -51,14 +53,36 @@ abstract class PersonPhysicalSkill extends PersonSkill
      */
     private $physicalSkillRanks;
 
-    public function __construct()
+    /**
+     * @param ProfessionLevel $professionLevel
+     */
+    public function __construct(ProfessionLevel $professionLevel)
     {
         $this->physicalSkillRanks = new ArrayCollection();
+        parent::__construct($professionLevel);
+    }
+
+    /**
+     * @param ProfessionLevel $professionLevel
+     * @return PhysicalSkillRank
+     * @throws \DrdPlus\Person\Skills\Exceptions\UnknownPaymentForSkillPoint
+     * @throws \DrdPlus\Person\Skills\Exceptions\CanNotVerifyOwningPersonSkill
+     * @throws \DrdPlus\Person\Skills\Exceptions\CanNotVerifyPaidPersonSkillPoint
+     */
+    protected function createZeroSkillRank(ProfessionLevel $professionLevel)
+    {
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+        return new PhysicalSkillRank(
+            $this,
+            PhysicalSkillPoint::createZeroSkillPoint($professionLevel),
+            new PositiveIntegerObject(0)
+        );
     }
 
     /**
      * @param PhysicalSkillRank $physicalSkillRank
      * @throws \DrdPlus\Person\Skills\Exceptions\UnexpectedRankValue
+     * @throws \DrdPlus\Person\Skills\Exceptions\CanNotVerifyOwningPersonSkill
      */
     public function addSkillRank(PhysicalSkillRank $physicalSkillRank)
     {
@@ -68,7 +92,7 @@ abstract class PersonPhysicalSkill extends PersonSkill
     /**
      * @return ArrayCollection|PhysicalSkillRank[]
      */
-    public function getSkillRanks()
+    protected function getInnerSkillRanks()
     {
         return $this->physicalSkillRanks;
     }

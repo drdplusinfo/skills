@@ -3,7 +3,7 @@ namespace DrdPlus\Person\Skills\Physical;
 
 use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Person\Skills\PersonSkillRank;
-use Granam\Integer\IntegerInterface;
+use Granam\Integer\PositiveInteger;
 
 /**
  * @ORM\Entity
@@ -21,10 +21,17 @@ class PhysicalSkillRank extends PersonSkillRank
      */
     private $physicalSkillPoint;
 
+    /**
+     * @param PersonPhysicalSkill $personPhysicalSkill
+     * @param PhysicalSkillPoint $physicalSkillPoint
+     * @param PositiveInteger $requiredRankValue
+     * @throws \DrdPlus\Person\Skills\Exceptions\CanNotVerifyOwningPersonSkill
+     * @throws \DrdPlus\Person\Skills\Exceptions\CanNotVerifyPaidPersonSkillPoint
+     */
     public function __construct(
         PersonPhysicalSkill $personPhysicalSkill,
         PhysicalSkillPoint $physicalSkillPoint,
-        IntegerInterface $requiredRankValue
+        PositiveInteger $requiredRankValue
     )
     {
         $this->personPhysicalSkill = $personPhysicalSkill;

@@ -87,7 +87,7 @@ abstract class PersonSameTypeSkills extends StrictObject implements \IteratorAgg
     /**
      * @return array|PersonSkillRank[]
      */
-    protected function getSkillRanks()
+    private function getSkillRanks()
     {
         $skillRanks = [];
         foreach ($this->getIterator() as $personSkill) {
@@ -129,7 +129,9 @@ abstract class PersonSameTypeSkills extends StrictObject implements \IteratorAgg
     {
         $namesOfKnownSkills = [];
         foreach ($this->getIterator() as $skill) {
-            $namesOfKnownSkills[] = $skill->getName();
+            if ($skill->getCurrentSkillRank()->getValue() > 0) {
+                $namesOfKnownSkills[] = $skill->getName();
+            }
         }
 
         return array_diff($this->getCodesOfAllSameTypeSkills(), $namesOfKnownSkills);

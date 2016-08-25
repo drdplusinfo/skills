@@ -15,7 +15,7 @@ use DrdPlus\Person\Skills\Physical\FightUnarmed;
 use DrdPlus\Person\Skills\Physical\FightWithAxes;
 use DrdPlus\Person\Skills\Physical\FightWithKnifesAndDaggers;
 use DrdPlus\Person\Skills\Physical\FightWithMacesAndClubs;
-use DrdPlus\Person\Skills\Physical\FightWithMorningStarsAndMorgensterns;
+use DrdPlus\Person\Skills\Physical\FightWithMorningstarsAndMorgensterns;
 use DrdPlus\Person\Skills\Physical\FightWithSabersAndBowieKnifes;
 use DrdPlus\Person\Skills\Physical\FightWithStaffsAndSpears;
 use DrdPlus\Person\Skills\Physical\FightWithSwords;
@@ -25,7 +25,7 @@ use DrdPlus\Person\Skills\Physical\FightWithVoulgesAndTridents;
 use DrdPlus\Person\Skills\Physical\Flying;
 use DrdPlus\Person\Skills\Physical\PersonPhysicalSkill;
 use DrdPlus\Person\Skills\Physical\PersonPhysicalSkills;
-use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillsTable;
+use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
 use DrdPlus\Tests\Person\Skills\PersonSameTypeSkillsTest;
 
 class PersonPhysicalSkillsTest extends PersonSameTypeSkillsTest
@@ -167,17 +167,17 @@ class PersonPhysicalSkillsTest extends PersonSameTypeSkillsTest
     public function I_can_get_all_fight_with_melee_weapon_skills_at_once()
     {
         $skills = new PersonPhysicalSkills();
-        $skills->addPhysicalSkill($fightUnarmed = new FightUnarmed());
-        $skills->addPhysicalSkill($fightWithAxes = new FightWithAxes());
-        $skills->addPhysicalSkill($fightWithKnifesAndDaggers = new FightWithKnifesAndDaggers());
-        $skills->addPhysicalSkill($fightWithMacesAndClubs = new FightWithMacesAndClubs());
-        $skills->addPhysicalSkill($fightWithMorningStarsAndMorgensterns = new FightWithMorningStarsAndMorgensterns());
-        $skills->addPhysicalSkill($fightWithSabersAndBowieKnifes = new FightWithSabersAndBowieKnifes());
-        $skills->addPhysicalSkill($fightWithStaffsAndSpears = new FightWithStaffsAndSpears());
-        $skills->addPhysicalSkill($fightWithSwords = new FightWithSwords());
-        $skills->addPhysicalSkill($fightWithThrowingWeapons = new FightWithThrowingWeapons());
-        $skills->addPhysicalSkill($fightWithTwoWeapons = new FightWithTwoWeapons());
-        $skills->addPhysicalSkill($fightWithVoulgesAndTridents = new FightWithVoulgesAndTridents());
+        $skills->addPhysicalSkill($fightUnarmed = new FightUnarmed($this->createProfessionFirstLevel()));
+        $skills->addPhysicalSkill($fightWithAxes = new FightWithAxes($this->createProfessionFirstLevel()));
+        $skills->addPhysicalSkill($fightWithKnifesAndDaggers = new FightWithKnifesAndDaggers($this->createProfessionFirstLevel()));
+        $skills->addPhysicalSkill($fightWithMacesAndClubs = new FightWithMacesAndClubs($this->createProfessionFirstLevel()));
+        $skills->addPhysicalSkill($fightWithMorningStarsAndMorgensterns = new FightWithMorningstarsAndMorgensterns($this->createProfessionFirstLevel()));
+        $skills->addPhysicalSkill($fightWithSabersAndBowieKnifes = new FightWithSabersAndBowieKnifes($this->createProfessionFirstLevel()));
+        $skills->addPhysicalSkill($fightWithStaffsAndSpears = new FightWithStaffsAndSpears($this->createProfessionFirstLevel()));
+        $skills->addPhysicalSkill($fightWithSwords = new FightWithSwords($this->createProfessionFirstLevel()));
+        $skills->addPhysicalSkill($fightWithThrowingWeapons = new FightWithThrowingWeapons($this->createProfessionFirstLevel()));
+        $skills->addPhysicalSkill($fightWithTwoWeapons = new FightWithTwoWeapons($this->createProfessionFirstLevel()));
+        $skills->addPhysicalSkill($fightWithVoulgesAndTridents = new FightWithVoulgesAndTridents($this->createProfessionFirstLevel()));
 
         self::assertSame(
             [
@@ -263,7 +263,7 @@ class PersonPhysicalSkillsTest extends PersonSameTypeSkillsTest
     private function createWeaponCode($weaponCategory, $isMelee, $isThrowing)
     {
         $weaponCode = $this->mockery(WeaponCode::class);
-        $weaponCode->shouldReceive('isMeleeWeapon')
+        $weaponCode->shouldReceive('isMeleeArmament')
             ->andReturn($isMelee);
         if ($isMelee) {
             $weaponCode->shouldReceive('convertToMeleeWeaponCodeEquivalent')
@@ -284,11 +284,11 @@ class PersonPhysicalSkillsTest extends PersonSameTypeSkillsTest
      * @param string $weaponParameterName
      * @param $expectedSkillValue
      * @param $result
-     * @return \Mockery\MockInterface|MissingWeaponSkillsTable
+     * @return \Mockery\MockInterface|MissingWeaponSkillTable
      */
     private function createMissingWeaponSkillsTable($weaponParameterName, $expectedSkillValue, $result)
     {
-        $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillsTable::class);
+        $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
         $missingWeaponSkillsTable->shouldReceive('get' . ucfirst($weaponParameterName) . 'ForWeaponSkill')
             ->with($expectedSkillValue)
             ->andReturn($result);
@@ -304,8 +304,8 @@ class PersonPhysicalSkillsTest extends PersonSameTypeSkillsTest
     public function I_can_not_get_malus_for_melee_weapon_of_unknown_category()
     {
         $personPhysicalSkills = new PersonPhysicalSkills();
-        /** @var MissingWeaponSkillsTable $missingWeaponSkillsTable */
-        $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillsTable::class);
+        /** @var MissingWeaponSkillTable $missingWeaponSkillsTable */
+        $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
         $personPhysicalSkills->getMalusToFightNumber(
             $this->createWeaponCode('plank', true /* is melee */, false /* not throwing */),
             $missingWeaponSkillsTable
@@ -320,8 +320,8 @@ class PersonPhysicalSkillsTest extends PersonSameTypeSkillsTest
     public function I_can_not_get_malus_for_non_melee_non_throwing_weapon()
     {
         $personPhysicalSkills = new PersonPhysicalSkills();
-        /** @var MissingWeaponSkillsTable $missingWeaponSkillsTable */
-        $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillsTable::class);
+        /** @var MissingWeaponSkillTable $missingWeaponSkillsTable */
+        $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
         $personPhysicalSkills->getMalusToFightNumber(
             $this->createWeaponCode('artillery', false /* not melee */, false /* not throwing */),
             $missingWeaponSkillsTable

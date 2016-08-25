@@ -28,10 +28,9 @@ use DrdPlus\Person\Skills\Psychical\PersonPsychicalSkills;
 use DrdPlus\Person\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Person\Skills\Psychical\ReadingAndWriting;
 use DrdPlus\Professions\Profession;
-use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillsTable;
+use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
 use DrdPlus\Tables\Tables;
-use /** @noinspection PhpUnusedAliasInspection due to a bug in PhPStorm */
-    Granam\Tests\Tools\TestWithMockery;
+use Granam\Tests\Tools\TestWithMockery;
 
 class PersonSkillsTest extends TestWithMockery
 {
@@ -1041,7 +1040,7 @@ class PersonSkillsTest extends TestWithMockery
     private function createWeaponCode($isMelee, $isThrowing, $isShooting)
     {
         $weaponCode = $this->mockery(WeaponCode::class);
-        $weaponCode->shouldReceive('isMeleeWeapon')
+        $weaponCode->shouldReceive('isMeleeArmament')
             ->andReturn($isMelee);
         $weaponCode->shouldReceive('isThrowingWeapon')
             ->andReturn($isThrowing);
@@ -1052,11 +1051,11 @@ class PersonSkillsTest extends TestWithMockery
     }
 
     /**
-     * @return \Mockery\MockInterface|MissingWeaponSkillsTable
+     * @return \Mockery\MockInterface|MissingWeaponSkillTable
      */
     private function createMissingWeaponSkillsTable()
     {
-        return $this->mockery(MissingWeaponSkillsTable::class);
+        return $this->mockery(MissingWeaponSkillTable::class);
     }
 
     /**

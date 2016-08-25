@@ -2,6 +2,7 @@
 namespace DrdPlus\Tests\Person\Skills;
 
 use DrdPlus\Codes\SkillCode;
+use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\Skills\Combined\CombinedSkillRank;
 use DrdPlus\Person\Skills\Combined\PersonCombinedSkill;
@@ -10,8 +11,7 @@ use DrdPlus\Person\Skills\PersonSkill;
 use DrdPlus\Person\Skills\PersonSkillRank;
 use DrdPlus\Person\Skills\Physical\PhysicalSkillRank;
 use DrdPlus\Person\Skills\Psychical\PsychicalSkillRank;
-use/** @noinspection PhpUnusedAliasInspection because of a bug in PhpStorm */
-    Granam\Tests\Tools\TestWithMockery;
+use Granam\Tests\Tools\TestWithMockery;
 
 abstract class PersonSameTypeSkillsTest extends TestWithMockery
 {
@@ -109,10 +109,10 @@ abstract class PersonSameTypeSkillsTest extends TestWithMockery
         $personSkills = [];
         foreach ($personSkillClasses as $personSkillClass) {
             /** @var PersonSkill|PersonCombinedSkill $personSkill */
-            $personSkill = new $personSkillClass();
-            $personSkill->addSkillRank($this->createPersonSkillRank(1, true /* from first level */));
-            $personSkill->addSkillRank($this->createPersonSkillRank(2, true /* from first level */));
-            $personSkill->addSkillRank($this->createPersonSkillRank(3, false /* from next level */));
+            $personSkill = new $personSkillClass($this->createProfessionFirstLevel());
+            $personSkill->addSkillRank($this->createPersonSkillRank($personSkill, 1, true /* from first level */));
+            $personSkill->addSkillRank($this->createPersonSkillRank($personSkill, 2, true /* from first level */));
+            $personSkill->addSkillRank($this->createPersonSkillRank($personSkill, 3, false /* from next level */));
             $personSkills[] = [$personSkill];
         }
 
@@ -180,14 +180,17 @@ abstract class PersonSameTypeSkillsTest extends TestWithMockery
 
     /**
      * @param int $skillRankValue
+     * @param PersonSkill $personSkill
      * @param bool $isFirstLevel
      * @return \Mockery\MockInterface|CombinedSkillRank|PsychicalSkillRank|PhysicalSkillRank
      */
-    private function createPersonSkillRank($skillRankValue, $isFirstLevel)
+    private function createPersonSkillRank(PersonSkill $personSkill, $skillRankValue, $isFirstLevel)
     {
         $personSkillRank = $this->mockery($this->getPersonSkillRankClass());
         $personSkillRank->shouldReceive('getValue')
             ->andReturn($skillRankValue);
+        $personSkillRank->shouldReceive('getPersonSkill')
+            ->andReturn($personSkill);
         $personSkillRank->shouldReceive('getProfessionLevel')
             ->andReturn($professionLevel = $this->mockery(ProfessionLevel::class));
         $professionLevel->shouldReceive('isFirstLevel')
@@ -235,6 +238,20 @@ abstract class PersonSameTypeSkillsTest extends TestWithMockery
     }
 
     /**
+     * @return \Mockery\MockInterface|ProfessionFirstLevel
+     */
+    protected function createProfessionFirstLevel()
+    {
+        $professionFirstLevel = $this->mockery(ProfessionFirstLevel::class);
+        $professionFirstLevel->shouldReceive('isFirstLevel')
+            ->andReturn(true);
+        $professionFirstLevel->shouldReceive('isNextLevel')
+            ->andReturn(false);
+
+        return $professionFirstLevel;
+    }
+
+    /**
      * @test
      * @dataProvider providePersonSkill
      * @param PersonSkill $personSkill
@@ -271,6 +288,7 @@ abstract class PersonSameTypeSkillsTest extends TestWithMockery
     public function I_can_iterate_through_all_skills()
     {
         $sutClass = $this->getSutClass();
+        /** @var PersonSameTypeSkills $skills */
         $skills = new $sutClass();
         self::assertCount(0, $skills);
         $collected = [];

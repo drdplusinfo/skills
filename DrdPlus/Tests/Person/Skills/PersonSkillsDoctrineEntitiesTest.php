@@ -39,7 +39,7 @@ use DrdPlus\Properties\Base\Knack;
 use DrdPlus\Properties\Base\Strength;
 use DrdPlus\Properties\Base\Will;
 use DrdPlus\Tables\Tables;
-use Granam\Integer\IntegerObject;
+use Granam\Integer\PositiveIntegerObject;
 
 class PersonSkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
 {
@@ -142,15 +142,15 @@ class PersonSkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             BackgroundSkillPoints::getIt(3, Heritage::getIt(5)),
             $tables
         );
-        $requiredRankValue = new IntegerObject(1);
-        $physicalSkillRank = new PhysicalSkillRank(
-            new Swimming(),
-            $physicalSkillPoint,
-            $requiredRankValue
-        );
+        $requiredRankValue = new PositiveIntegerObject(1);
         $personPhysicalSkillList = array_map(
-            function ($physicalSkillClass) use ($physicalSkillRank) {
-                return new $physicalSkillClass($physicalSkillRank);
+            function ($physicalSkillClass) use ($firstLevel, $physicalSkillPoint, $requiredRankValue) {
+                /** @var PersonPhysicalSkill $physicalSkill */
+                $physicalSkill = new $physicalSkillClass($firstLevel);
+                $physicalSkillRank = new PhysicalSkillRank($physicalSkill, $physicalSkillPoint, $requiredRankValue);
+                $physicalSkill->addSkillRank($physicalSkillRank);
+
+                return $physicalSkill;
             },
             $physicalSkillClasses
         );
@@ -165,13 +165,13 @@ class PersonSkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $tables
         );
         $physicalSkillRank = new PhysicalSkillRank(
-            new Swimming(),
+            new Swimming($firstLevel),
             PhysicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
                 $firstLevel,
                 BackgroundSkillPoints::getIt(4, Heritage::getIt(5)),
                 $tables
             ),
-            new IntegerObject(1)
+            new PositiveIntegerObject(1)
         );
 
         return array_merge(
@@ -212,16 +212,15 @@ class PersonSkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             BackgroundSkillPoints::getIt(3, Heritage::getIt(5)),
             $tables
         );
-        $requiredRankValue = new IntegerObject(1);
-        $psychicalSkillRank = new PsychicalSkillRank(
-            new Astronomy(),
-            $psychicalSkillPoint,
-            $requiredRankValue
-        );
-
+        $requiredRankValue = new PositiveIntegerObject(1);
         $personPsychicalSkillList = array_map(
-            function ($psychicalSkillClass) use ($psychicalSkillRank) {
-                return new $psychicalSkillClass($psychicalSkillRank);
+            function ($psychicalSkillClass) use ($firstLevel, $psychicalSkillPoint, $requiredRankValue) {
+                /** @var PersonPsychicalSkill $psychicalSkill */
+                $psychicalSkill = new $psychicalSkillClass($firstLevel);
+                $psychicalSkillRank = new PsychicalSkillRank($psychicalSkill, $psychicalSkillPoint, $requiredRankValue);
+                $psychicalSkill->addSkillRank($psychicalSkillRank);
+
+                return $psychicalSkill;
             },
             $psychicalSkillClasses
         );
@@ -238,13 +237,13 @@ class PersonSkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         );
 
         $psychicalSkillRank = new PsychicalSkillRank(
-            new Astronomy(),
+            new Astronomy($firstLevel),
             PsychicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
                 $firstLevel,
                 BackgroundSkillPoints::getIt(4, Heritage::getIt(5)),
                 $tables
             ),
-            new IntegerObject(1)
+            new PositiveIntegerObject(1)
         );
 
         return array_merge(
@@ -265,16 +264,16 @@ class PersonSkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             BackgroundSkillPoints::getIt(3, Heritage::getIt(5)),
             $tables
         );
-        $requiredRankValue = new IntegerObject(1);
-        $combinedSkillRank = new CombinedSkillRank(
-            new Cooking(),
-            $combinedSkillPoint,
-            $requiredRankValue
-        );
+        $requiredRankValue = new PositiveIntegerObject(1);
 
         $personCombinedSkillList = array_map(
-            function ($combinedSkillClass) use ($combinedSkillRank) {
-                return new $combinedSkillClass($combinedSkillRank);
+            function ($combinedSkillClass) use ($firstLevel, $combinedSkillPoint, $requiredRankValue) {
+                /** @var PersonCombinedSkill $combinedSkill */
+                $combinedSkill = new $combinedSkillClass($firstLevel);
+                $combinedSkillRank = new CombinedSkillRank($combinedSkill, $combinedSkillPoint, $requiredRankValue);
+                $combinedSkill->addSkillRank($combinedSkillRank);
+
+                return $combinedSkill;
             },
             $combinedSkillClasses
         );
@@ -289,13 +288,13 @@ class PersonSkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $tables
         );
         $combinedSkillRank = new CombinedSkillRank(
-            new Cooking(),
+            new Cooking($firstLevel),
             CombinedSkillPoint::createFromFirstLevelBackgroundSkillPoints(
                 $firstLevel,
                 BackgroundSkillPoints::getIt(4, Heritage::getIt(5)),
                 $tables
             ),
-            new IntegerObject(1)
+            new PositiveIntegerObject(1)
         );
 
         return array_merge(

@@ -1,6 +1,7 @@
 <?php
 namespace DrdPlus\Tests\Person\Skills;
 
+use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Person\Skills\Combined\CombinedSkillRank;
 use DrdPlus\Person\Skills\Combined\PersonCombinedSkill;
 use DrdPlus\Person\Skills\PersonSkill;
@@ -11,8 +12,7 @@ use DrdPlus\Person\Skills\Psychical\PersonPsychicalSkill;
 use DrdPlus\Person\Skills\Psychical\PsychicalSkillRank;
 use DrdPlus\Tests\Person\Skills\Physical\PersonPhysicalSkillsTest;
 use DrdPlus\Tests\Person\Skills\Psychical\PersonPsychicalSkillsTest;
-use /** @noinspection PhpUnusedAliasInspection because of a bug in PhpStorm */
-    Granam\Tests\Tools\TestWithMockery;
+use Granam\Tests\Tools\TestWithMockery;
 
 abstract class PersonSkillTest extends TestWithMockery
 {
@@ -24,10 +24,15 @@ abstract class PersonSkillTest extends TestWithMockery
     public function I_can_use_it($sutClass)
     {
         /** @var PersonSkill|PersonPhysicalSkill|PersonPsychicalSkill|PersonCombinedSkill $sut */
-        $sut = new $sutClass();
-        self::assertCount(0, $sut->getSkillRanks());
-        $sut->addSkillRank($personSkillRank = $this->createPersonSkillRank($sutClass));
-        self::assertSame([1 => $personSkillRank], $sut->getSkillRanks()->toArray());
+        $sut = new $sutClass($this->createProfessionFirstLevel());
+        self::assertCount(1, $sut->getSkillRanks());
+        $veryFirstSkillRanks = $sut->getSkillRanks()->toArray();
+        self::assertSame([0], array_keys($veryFirstSkillRanks));
+        self::assertInstanceOf($this->getPersonSkillRankClass($sutClass), $veryFirstSkillRanks[0]);
+        $sut->addSkillRank($personSkillRank = $this->createPersonSkillRank($sut, $sutClass));
+        self::assertCount(2, $sut->getSkillRanks());
+        self::assertSame([0, 1], $sut->getSkillRanks()->getKeys());
+        self::assertSame([0 => $veryFirstSkillRanks[0], 1 => $personSkillRank], $sut->getSkillRanks()->toArray());
         self::assertSame($personSkillRank, $sut->getCurrentSkillRank());
         self::assertNull($sut->getId());
 
@@ -59,7 +64,7 @@ abstract class PersonSkillTest extends TestWithMockery
             $fileBaseNames
         );
 
-        return array_filter($sutClassNames);
+        return array_values(array_filter($sutClassNames));
     }
 
     /**
@@ -92,19 +97,26 @@ abstract class PersonSkillTest extends TestWithMockery
     }
 
     /**
-     * @param string $sutClass
+     * @param PersonSkill $personSkill
+     * @param string $personSkillClass
      * @param int $value
      * @return \Mockery\MockInterface|PersonSkillRank|PsychicalSkillRank|PhysicalSkillRank|CombinedSkillRank
      */
-    protected function createPersonSkillRank($sutClass, $value = 1)
+    protected function createPersonSkillRank(PersonSkill $personSkill, $personSkillClass, $value = 1)
     {
-        $personSkillRank = $this->mockery($this->getPersonSkillRankClass($sutClass));
+        $personSkillRank = $this->mockery($this->getPersonSkillRankClass($personSkillClass));
+        $personSkillRank->shouldReceive('getPersonSkill')
+            ->andReturn($personSkill);
         $personSkillRank->shouldReceive('getValue')
             ->andReturn($value);
 
         return $personSkillRank;
     }
 
+    /**
+     * @param $sutClass
+     * @return string|PersonSkillRank
+     */
     private function getPersonSkillRankClass($sutClass)
     {
         $baseClass = PersonSkillRank::class;
@@ -206,7 +218,14 @@ abstract class PersonSkillTest extends TestWithMockery
     protected function shouldBePsychical()
     {
         return strpos(static::class, 'Psychical') !== false;
+    }
 
+    /**
+     * @return \Mockery\MockInterface|ProfessionFirstLevel
+     */
+    protected function createProfessionFirstLevel()
+    {
+        return $this->mockery(ProfessionFirstLevel::class);
     }
 
     /**
@@ -216,16 +235,16 @@ abstract class PersonSkillTest extends TestWithMockery
     {
         $sutClass = current($this->provideSutClass())[0]; // one is enough of this test
         /** @var PersonSkill|PersonPhysicalSkill|PersonPsychicalSkill|PersonCombinedSkill $sut */
-        $sut = new $sutClass();
-        self::assertCount(0, $sut->getSkillRanks());
-        self::assertFalse($sut->getCurrentSkillRank());
+        $sut = new $sutClass($this->createProfessionFirstLevel());
+        self::assertCount(1, $sut->getSkillRanks());
+        self::assertInstanceOf($this->getPersonSkillRankClass($sutClass), $zeroSkillRank = $sut->getCurrentSkillRank());
 
-        $sut->addSkillRank($firstSkillRank = $this->createPersonSkillRank($sutClass, $rankValue = 1));
-        self::assertSame([$rankValue => $firstSkillRank], $sut->getSkillRanks()->toArray());
+        $sut->addSkillRank($firstSkillRank = $this->createPersonSkillRank($sut, $sutClass, 1));
+        self::assertSame([0 => $zeroSkillRank, 1 => $firstSkillRank], $sut->getSkillRanks()->toArray());
         self::assertSame($firstSkillRank, $sut->getCurrentSkillRank());
-        $sut->addSkillRank($nextSkillRank = $this->createPersonSkillRank($sutClass, $nextRankValue = 2));
+        $sut->addSkillRank($nextSkillRank = $this->createPersonSkillRank($sut, $sutClass, 2));
         self::assertSame(
-            [$rankValue => $firstSkillRank, $nextRankValue => $nextSkillRank],
+            [0 => $zeroSkillRank, 1 => $firstSkillRank, 2 => $nextSkillRank],
             $sut->getSkillRanks()->toArray()
         );
         self::assertSame($nextSkillRank, $sut->getCurrentSkillRank());
@@ -242,11 +261,13 @@ abstract class PersonSkillTest extends TestWithMockery
     {
         $sutClass = current($this->provideSutClass())[0]; // one is enough of this test
         /** @var PersonSkill|PersonCombinedSkill|PersonPhysicalSkillsTest|PersonPsychicalSkillsTest $sut */
-        $sut = new $sutClass();
-        self::assertCount(0, $sut->getSkillRanks());
-        $sut->addSkillRank($firstSkillRank = $this->createPersonSkillRank($sutClass));
-        self::assertSame([1 => $firstSkillRank], $sut->getSkillRanks()->toArray());
-        $sut->addSkillRank($this->createPersonSkillRank($sutClass, $invalidRank));
+        $sut = new $sutClass($this->createProfessionFirstLevel());
+        self::assertCount(1, $sut->getSkillRanks());
+        $zeroSkillRank = $sut->getCurrentSkillRank();
+        self::assertInstanceOf($this->getPersonSkillRankClass($sutClass), $zeroSkillRank);
+        $sut->addSkillRank($firstSkillRank = $this->createPersonSkillRank($sut, $sutClass));
+        self::assertSame([0 => $zeroSkillRank, 1 => $firstSkillRank], $sut->getSkillRanks()->toArray());
+        $sut->addSkillRank($this->createPersonSkillRank($sut, $sutClass, $invalidRank));
     }
 
     public function provideInvalidSequence()
@@ -256,5 +277,36 @@ abstract class PersonSkillTest extends TestWithMockery
             [0], // lower rank
             [3], // skipped second rank
         ];
+    }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Person\Skills\Exceptions\CanNotVerifyOwningPersonSkill
+     * @expectedExceptionMessageRegExp ~belongs to different skill class~
+     */
+    public function I_can_not_add_rank_linked_with_another_skill()
+    {
+        $sutClass = current($this->provideSutClass())[0];
+        /** @var PersonSkill|PersonPhysicalSkill|PersonPsychicalSkill|PersonCombinedSkill $sut */
+        $sut = new $sutClass($this->createProfessionFirstLevel());
+        $anotherSutClass = $this->provideSutClass()[1][0];
+        /** @var PersonSkill|PersonPhysicalSkill|PersonPsychicalSkill|PersonCombinedSkill $anotherSut */
+        $anotherSut = new $anotherSutClass($this->createProfessionFirstLevel());
+        $sut->addSkillRank($firstSkillRank = $this->createPersonSkillRank($anotherSut, $sutClass, 1));
+    }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Person\Skills\Exceptions\CanNotVerifyOwningPersonSkill
+     * @expectedExceptionMessageRegExp ~belongs to different instance~
+     */
+    public function I_can_not_add_rank_linked_with_same_skill_but_different_instance()
+    {
+        $sutClass = current($this->provideSutClass())[0];
+        /** @var PersonSkill|PersonPhysicalSkill|PersonPsychicalSkill|PersonCombinedSkill $sut */
+        $sut = new $sutClass($this->createProfessionFirstLevel());
+        /** @var PersonSkill|PersonPhysicalSkill|PersonPsychicalSkill|PersonCombinedSkill $anotherInstance */
+        $anotherInstance = new $sutClass($this->createProfessionFirstLevel());
+        $sut->addSkillRank($firstSkillRank = $this->createPersonSkillRank($anotherInstance, $sutClass, 1));
     }
 }

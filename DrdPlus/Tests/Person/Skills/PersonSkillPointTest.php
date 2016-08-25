@@ -355,7 +355,7 @@ abstract class PersonSkillPointTest extends TestWithMockery
      */
     public function I_had_to_provide_some_level_to_create_a_point()
     {
-        new DeAbstractedPersonSkillPoint(new Tables());
+        new DeAbstractedPersonSkillPoint(1, $this->createProfessionFirstLevel('foo'), new Tables());
     }
 
     /**
@@ -364,7 +364,27 @@ abstract class PersonSkillPointTest extends TestWithMockery
      */
     public function I_had_to_provide_some_skill_points_payment_to_create_a_point()
     {
-        new DeAbstractedPersonSkillPoint(new Tables(), $this->createProfessionFirstLevel('foo'));
+        new DeAbstractedPersonSkillPoint(1, $this->createProfessionFirstLevel('foo'), new Tables());
+    }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Person\Skills\Exceptions\UnexpectedSkillPointValue
+     * @expectedExceptionMessageRegExp ~2~
+     */
+    public function I_can_not_create_skill_point_with_higher_value_than_one()
+    {
+        new DeAbstractedPersonSkillPoint(2, $this->createProfessionFirstLevel('bar'), new Tables());
+    }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Person\Skills\Exceptions\UnexpectedSkillPointValue
+     * @expectedExceptionMessageRegExp ~-1~
+     */
+    public function I_can_not_create_skill_point_with_lesser_value_than_zero()
+    {
+        new DeAbstractedPersonSkillPoint(-1, $this->createProfessionFirstLevel('bar'), new Tables());
     }
 
 }
@@ -375,15 +395,15 @@ class DeAbstractedPersonSkillPoint extends PersonSkillPoint
     const TYPE_NAME = 'foo';
 
     public function __construct(
-        Tables $tables,
-        ProfessionFirstLevel $professionFirstLevel = null,
-        ProfessionNextLevel $professionNextLevel = null,
+        $personSkillPoint,
+        ProfessionLevel $professionLevel,
+        Tables $tables = null,
         BackgroundSkillPoints $backgroundSkillPoints = null,
         PersonSkillPoint $firstPaidOtherSkillPoint = null,
         PersonSkillPoint $secondPaidOtherSkillPoint = null
     )
     {
-        parent::__construct($tables, $professionFirstLevel, $professionNextLevel, $backgroundSkillPoints, $firstPaidOtherSkillPoint, $secondPaidOtherSkillPoint);
+        parent::__construct($personSkillPoint, $professionLevel, $tables, $backgroundSkillPoints, $firstPaidOtherSkillPoint, $secondPaidOtherSkillPoint);
     }
 
     public function getTypeName()

@@ -21,7 +21,7 @@ class CombinedSkillRankTest extends PersonSkillRankTest
 
     protected function createOwningPersonSkill()
     {
-        return new Cooking();
+        return new Cooking($this->createProfessionFirstLevel());
     }
 
 }

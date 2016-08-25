@@ -15,20 +15,27 @@ use DrdPlus\Properties\Base\Strength;
 use DrdPlus\Properties\Base\Will;
 use DrdPlus\Tables\Tables;
 use Granam\Integer\IntegerInterface;
+use Granam\Integer\Tools\Exceptions\PositiveIntegerCanNotBeNegative;
+use Granam\Integer\Tools\ToInteger;
 use Granam\Strict\Object\StrictObject;
+use Granam\Tools\ValueDescriber;
 
 /**
  * @ORM\MappedSuperclass()
  */
 abstract class PersonSkillPoint extends StrictObject implements IntegerInterface, Entity
 {
-    const SKILL_POINT_VALUE = 1;
 
     /**
      * @var integer|null
      * @ORM\Id @ORM\Column(type="integer") @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    /**
+     * @var integer
+     * @ORM\Column(type="integer", length=1)
+     */
+    private $value;
     /**
      * @var ProfessionFirstLevel|null
      * @ORM\ManyToOne(targetEntity="\DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel", cascade={"persist"})
@@ -66,11 +73,22 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
     abstract public function getRelatedProperties();
 
     /**
+     * @param ProfessionLevel $professionLevel
+     * @return static|PersonSkillPoint
+     * @throws \DrdPlus\Person\Skills\Exceptions\UnknownPaymentForSkillPoint
+     */
+    public static function createZeroSkillPoint(ProfessionLevel $professionLevel)
+    {
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+        return new static(0 /* skill point value */, $professionLevel);
+    }
+
+    /**
      * @param ProfessionFirstLevel $professionFirstLevel
      * @param BackgroundSkillPoints $backgroundSkillPoints
      * @param Tables $tables
-     *
-     * @return static
+     * @return static|PersonSkillPoint
+     * @throws \DrdPlus\Person\Skills\Exceptions\UnknownPaymentForSkillPoint
      */
     public static function createFromFirstLevelBackgroundSkillPoints(
         ProfessionFirstLevel $professionFirstLevel,
@@ -78,7 +96,13 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
         Tables $tables
     )
     {
-        return new static($tables, $professionFirstLevel, null /* next levels */, $backgroundSkillPoints);
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+        return new static(
+            1, // skill point value
+            $professionFirstLevel,
+            $tables,
+            $backgroundSkillPoints
+        );
     }
 
     /**
@@ -86,8 +110,8 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
      * @param PersonSkillPoint $firstPaidSkillPoint
      * @param PersonSkillPoint $secondPaidSkillPoint
      * @param Tables $tables
-     *
-     * @return static
+     * @return static|PersonSkillPoint
+     * @throws \DrdPlus\Person\Skills\Exceptions\UnknownPaymentForSkillPoint
      */
     public static function createFromFirstLevelCrossTypeSkillPoints(
         ProfessionFirstLevel $professionFirstLevel,
@@ -96,10 +120,11 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
         Tables $tables
     )
     {
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return new static(
-            $tables,
+            1, // skill point value
             $professionFirstLevel,
-            null /* next levels */,
+            $tables,
             null /* background skill points */,
             $firstPaidSkillPoint,
             $secondPaidSkillPoint
@@ -109,56 +134,84 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
     /**
      * @param ProfessionNextLevel $professionNextLevel
      * @param Tables $tables
-     *
-     * @return static
+     * @return static|PersonSkillPoint
+     * @throws \DrdPlus\Person\Skills\Exceptions\UnknownPaymentForSkillPoint
      */
-    public static function createFromNextLevelPropertyIncrease(
-        ProfessionNextLevel $professionNextLevel,
-        Tables $tables
-    )
+    public static function createFromNextLevelPropertyIncrease(ProfessionNextLevel $professionNextLevel, Tables $tables)
     {
-        return new static($tables, null /* first level */, $professionNextLevel);
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+        return new static(1 /* skill point value */, $professionNextLevel, $tables);
     }
 
     /**
      * You can pay by a level (by its property adjustment respectively) or by two another skill points
      * (for example combined and psychical for a new physical).
      *
-     * @param Tables $tables
-     * @param ProfessionFirstLevel|null $professionFirstLevel = null
-     * @param ProfessionNextLevel|null $professionNextLevel = null
+     * @param int $skillPointValue zero or one
+     * @param ProfessionLevel $professionLevel
+     * @param Tables|null $tables = null
      * @param BackgroundSkillPoints|null $backgroundSkillPoints = null
      * @param PersonSkillPoint $firstPaidOtherSkillPoint = null
      * @param PersonSkillPoint $secondPaidOtherSkillPoint = null
+     * @throws \DrdPlus\Person\Skills\Exceptions\UnexpectedSkillPointValue
      * @throws \DrdPlus\Person\Skills\Exceptions\UnknownPaymentForSkillPoint
+     * @throws \Granam\Integer\Tools\Exceptions\WrongParameterType
+     * @throws \Granam\Integer\Tools\Exceptions\ValueLostOnCast
      */
     protected function __construct(
-        Tables $tables,
-        ProfessionFirstLevel $professionFirstLevel = null,
-        ProfessionNextLevel $professionNextLevel = null,
+        $skillPointValue,
+        ProfessionLevel $professionLevel,
+        Tables $tables = null,
         BackgroundSkillPoints $backgroundSkillPoints = null,
         PersonSkillPoint $firstPaidOtherSkillPoint = null,
         PersonSkillPoint $secondPaidOtherSkillPoint = null
     )
     {
+        try {
+            $skillPointValue = ToInteger::toPositiveInteger($skillPointValue);
+        } catch (PositiveIntegerCanNotBeNegative $positiveIntegerCanNotBeNegative) {
+            throw new Exceptions\UnexpectedSkillPointValue(
+                'Expected zero or one, got ' . ValueDescriber::describe($skillPointValue)
+            );
+        }
         $this->checkSkillPointPayment(
+            $skillPointValue,
             $tables,
-            $professionFirstLevel,
-            $professionNextLevel,
+            $professionLevel instanceof ProfessionFirstLevel
+                ? $professionLevel
+                : null,
+            $professionLevel instanceof ProfessionNextLevel
+                ? $professionLevel
+                : null,
             $backgroundSkillPoints,
             $firstPaidOtherSkillPoint,
             $secondPaidOtherSkillPoint
         );
-
-        $this->professionFirstLevel = $professionFirstLevel;
-        $this->professionNextLevel = $professionNextLevel;
+        $this->value = $skillPointValue;
+        if ($professionLevel instanceof ProfessionFirstLevel) {
+            $this->professionFirstLevel = $professionLevel;
+        } else {
+            $this->professionNextLevel = $professionLevel;
+        }
         $this->backgroundSkillPoints = $backgroundSkillPoints;
         $this->firstPaidOtherSkillPoint = $firstPaidOtherSkillPoint;
         $this->secondPaidOtherSkillPoint = $secondPaidOtherSkillPoint;
     }
 
+    /**
+     * @param int $skillPointValue
+     * @param Tables $tables
+     * @param ProfessionFirstLevel|null $professionFirstLevel
+     * @param ProfessionNextLevel|null $professionNextLevel
+     * @param BackgroundSkillPoints|null $backgroundSkillPoints
+     * @param PersonSkillPoint|null $firstPaidOtherSkillPoint
+     * @param PersonSkillPoint|null $secondPaidOtherSkillPoint
+     * @throws \DrdPlus\Person\Skills\Exceptions\UnknownPaymentForSkillPoint
+     * @throws \DrdPlus\Person\Skills\Exceptions\UnexpectedSkillPointValue
+     */
     private function checkSkillPointPayment(
-        Tables $tables,
+        $skillPointValue,
+        Tables $tables = null,
         ProfessionFirstLevel $professionFirstLevel = null,
         ProfessionNextLevel $professionNextLevel = null,
         BackgroundSkillPoints $backgroundSkillPoints = null,
@@ -166,18 +219,24 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
         PersonSkillPoint $secondPaidOtherSkillPoint = null
     )
     {
-        if ($professionFirstLevel) {
-            $this->checkFirstLevelPayment(
-                $professionFirstLevel,
-                $tables,
-                $backgroundSkillPoints,
-                $firstPaidOtherSkillPoint,
-                $secondPaidOtherSkillPoint
-            );
-        } else if ($professionNextLevel) {
-            $this->checkNextLevelPaymentByPropertyIncrement($professionNextLevel);
+        if ($skillPointValue === 1) {
+            if ($professionFirstLevel) {
+                $this->checkFirstLevelPayment(
+                    $professionFirstLevel,
+                    $tables,
+                    $backgroundSkillPoints,
+                    $firstPaidOtherSkillPoint,
+                    $secondPaidOtherSkillPoint
+                );
+            } else {
+                $this->checkNextLevelPaymentByPropertyIncrement($professionNextLevel);
+            }
+        } else if ($skillPointValue === 0) {
+            return; // ok
         } else {
-            throw new Exceptions\UnknownPaymentForSkillPoint('Required first level of next level, got nothing');
+            throw new Exceptions\UnexpectedSkillPointValue(
+                'Expected zero or one, got ' . ValueDescriber::describe($skillPointValue)
+            );
         }
     }
 
@@ -245,7 +304,10 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
         return true;
     }
 
-    private function checkPayByOtherFirstLevelSkillPoints(PersonSkillPoint $firstPaidSkillPoint, PersonSkillPoint $secondPaidSkillPoint)
+    private function checkPayByOtherFirstLevelSkillPoints(
+        PersonSkillPoint $firstPaidSkillPoint,
+        PersonSkillPoint $secondPaidSkillPoint
+    )
     {
         $this->checkPaidFirstLevelSkillPoint($firstPaidSkillPoint);
         $this->checkPaidFirstLevelSkillPoint($secondPaidSkillPoint);
@@ -325,7 +387,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
      */
     public function getValue()
     {
-        return static::SKILL_POINT_VALUE;
+        return $this->value;
     }
 
     /**
@@ -345,7 +407,7 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
     }
 
     /**
-     * @return ProfessionLevel|null
+     * @return ProfessionNextLevel|null
      */
     public function getProfessionNextLevel()
     {
@@ -357,7 +419,11 @@ abstract class PersonSkillPoint extends StrictObject implements IntegerInterface
      */
     public function getProfessionLevel()
     {
-        return $this->getProfessionFirstLevel() ?: $this->getProfessionNextLevel();
+        if ($this->getProfessionFirstLevel()) {
+            return $this->getProfessionFirstLevel();
+        }
+
+        return $this->getProfessionNextLevel();
     }
 
     /**

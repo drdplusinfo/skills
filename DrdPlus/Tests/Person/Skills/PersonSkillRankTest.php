@@ -1,11 +1,12 @@
 <?php
 namespace DrdPlus\Tests\Person\Skills;
 
+use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\Skills\PersonSkill;
 use DrdPlus\Person\Skills\PersonSkillPoint;
 use DrdPlus\Person\Skills\PersonSkillRank;
-use Granam\Integer\IntegerInterface;
+use Granam\Integer\PositiveInteger;
 use Mockery\MockInterface;
 use Granam\Tests\Tools\TestWithMockery;
 
@@ -59,6 +60,14 @@ abstract class PersonSkillRankTest extends TestWithMockery
     }
 
     /**
+     * @return MockInterface|ProfessionFirstLevel
+     */
+    protected function createProfessionFirstLevel()
+    {
+        return $this->mockery(ProfessionFirstLevel::class);
+    }
+
+    /**
      * @test
      * @expectedException \LogicException
      */
@@ -94,11 +103,11 @@ abstract class PersonSkillRankTest extends TestWithMockery
 
     /**
      * @param int $value
-     * @return \Mockery\MockInterface|IntegerInterface
+     * @return \Mockery\MockInterface|PositiveInteger
      */
     private function createRequiredRankValue($value)
     {
-        $requiredRankValue = $this->mockery(IntegerInterface::class);
+        $requiredRankValue = $this->mockery(PositiveInteger::class);
         $requiredRankValue->shouldReceive('getValue')
             ->atLeast()->once()
             ->andReturn($value);
@@ -112,8 +121,8 @@ abstract class PersonSkillRankTest extends TestWithMockery
      */
     public function Person_skill_has_to_be_set_in_descendant_constructor_first()
     {
-        /** @var IntegerInterface $requiredRankValue */
-        $requiredRankValue = $this->mockery(IntegerInterface::class);
+        /** @var PositiveInteger $requiredRankValue */
+        $requiredRankValue = $this->mockery(PositiveInteger::class);
 
         new BrokenBecauseOfSkillNotSetInConstructor(
             $this->createOwningPersonSkill(),
@@ -128,8 +137,8 @@ abstract class PersonSkillRankTest extends TestWithMockery
      */
     public function Person_skill_point_has_to_be_set_in_descendant_constructor_first()
     {
-        /** @var IntegerInterface $requiredRankValue */
-        $requiredRankValue = $this->mockery(IntegerInterface::class);
+        /** @var PositiveInteger $requiredRankValue */
+        $requiredRankValue = $this->mockery(PositiveInteger::class);
 
         new BrokenBecauseOfSkillPointNotSetInConstructor(
             $this->createOwningPersonSkill(),
@@ -144,7 +153,7 @@ class BrokenBecauseOfSkillNotSetInConstructor extends PersonSkillRank
     public function __construct(
         PersonSkill $owningPersonSkill,
         PersonSkillPoint $personSkillPoint,
-        IntegerInterface $requiredRankValue
+        PositiveInteger $requiredRankValue
     )
     {
         parent::__construct($owningPersonSkill, $personSkillPoint, $requiredRankValue);
@@ -167,7 +176,7 @@ class BrokenBecauseOfSkillPointNotSetInConstructor extends PersonSkillRank
     public function __construct(
         PersonSkill $owningPersonSkill,
         PersonSkillPoint $personSkillPoint,
-        IntegerInterface $requiredRankValue
+        PositiveInteger $requiredRankValue
     )
     {
         $this->personSkill = $owningPersonSkill;

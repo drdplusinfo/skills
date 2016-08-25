@@ -2,10 +2,12 @@
 namespace DrdPlus\Person\Skills\Psychical;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\Skills\PersonSkill;
 use DrdPlus\Properties\Base\Intelligence;
 use DrdPlus\Properties\Base\Will;
 use Doctrine\ORM\Mapping as ORM;
+use Granam\Integer\PositiveIntegerObject;
 
 /**
  * @ORM\Entity()
@@ -29,6 +31,7 @@ use Doctrine\ORM\Mapping as ORM;
  *  "theology" = "Theology",
  *  "zoology" = "Zoology"
  * })
+ * @method PsychicalSkillRank getCurrentSkillRank
  */
 abstract class PersonPsychicalSkill extends PersonSkill
 {
@@ -39,9 +42,30 @@ abstract class PersonPsychicalSkill extends PersonSkill
      */
     private $psychicalSkillRanks;
 
-    public function __construct()
+    /**
+     * @param ProfessionLevel $professionLevel
+     */
+    public function __construct(ProfessionLevel $professionLevel)
     {
         $this->psychicalSkillRanks = new ArrayCollection();
+        parent::__construct($professionLevel);
+    }
+
+    /**
+     * @param ProfessionLevel $professionLevel
+     * @return PsychicalSkillRank
+     * @throws \DrdPlus\Person\Skills\Exceptions\UnknownPaymentForSkillPoint
+     * @throws \DrdPlus\Person\Skills\Exceptions\CanNotVerifyOwningPersonSkill
+     * @throws \DrdPlus\Person\Skills\Exceptions\CanNotVerifyPaidPersonSkillPoint
+     */
+    protected function createZeroSkillRank(ProfessionLevel $professionLevel)
+    {
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+        return new PsychicalSkillRank(
+            $this,
+            PsychicalSkillPoint::createZeroSkillPoint($professionLevel),
+            new PositiveIntegerObject(0)
+        );
     }
 
     /**
@@ -55,17 +79,9 @@ abstract class PersonPsychicalSkill extends PersonSkill
     /**
      * @return ArrayCollection|PsychicalSkillRank[]
      */
-    public function getPsychicalSkillRanks()
+    protected function getInnerSkillRanks()
     {
         return $this->psychicalSkillRanks;
-    }
-
-    /**
-     * @return ArrayCollection|PsychicalSkillRank[]
-     */
-    public function getSkillRanks()
-    {
-        return $this->getPsychicalSkillRanks();
     }
 
     /**
