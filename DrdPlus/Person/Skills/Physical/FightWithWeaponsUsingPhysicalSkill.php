@@ -15,6 +15,7 @@ abstract class FightWithWeaponsUsingPhysicalSkill extends PersonPhysicalSkill im
      */
     public function getMalusToFightNumber(MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return $missingWeaponSkillsTable->getFightNumberForWeaponSkill($this->getCurrentSkillRank()->getValue());
     }
 
@@ -24,6 +25,7 @@ abstract class FightWithWeaponsUsingPhysicalSkill extends PersonPhysicalSkill im
      */
     public function getMalusToAttackNumber(MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return $missingWeaponSkillsTable->getAttackNumberForWeaponSkill($this->getCurrentSkillRank()->getValue());
     }
 
@@ -33,6 +35,7 @@ abstract class FightWithWeaponsUsingPhysicalSkill extends PersonPhysicalSkill im
      */
     public function getMalusToCover(MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return $missingWeaponSkillsTable->getCoverForWeaponSkill($this->getCurrentSkillRank()->getValue());
     }
 
@@ -42,6 +45,7 @@ abstract class FightWithWeaponsUsingPhysicalSkill extends PersonPhysicalSkill im
      */
     public function getMalusToBaseOfWounds(MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return $missingWeaponSkillsTable->getBaseOfWoundsForWeaponSkill($this->getCurrentSkillRank()->getValue());
     }
 }
