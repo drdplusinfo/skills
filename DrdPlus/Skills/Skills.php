@@ -6,7 +6,7 @@ use Doctrineum\Entity\Entity;
 use DrdPlus\Codes\CombinedSkillCode;
 use DrdPlus\Codes\PhysicalSkillCode;
 use DrdPlus\Codes\PsychicalSkillCode;
-use DrdPlus\Codes\WeaponCode;
+use DrdPlus\Codes\WeaponlikeCode;
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
@@ -539,20 +539,20 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     }
 
     /**
-     * @param WeaponCode $weaponCode
+     * @param WeaponlikeCode $weaponlikeCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
      */
-    public function getMalusToFightNumber(WeaponCode $weaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToFightNumber(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
-        if ($weaponCode->isMeleeArmament() || $weaponCode->isThrowingWeapon()) {
+        if ($weaponlikeCode->isMeleeArmament() || $weaponlikeCode->isThrowingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-            return $this->getPhysicalSkills()->getMalusToFightNumber($weaponCode, $missingWeaponSkillsTable);
+            return $this->getPhysicalSkills()->getMalusToFightNumber($weaponlikeCode, $missingWeaponSkillsTable);
         }
-        if ($weaponCode->isShootingWeapon()) {
+        if ($weaponlikeCode->isShootingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getCombinedSkills()->getMalusToFightNumber(
-                $weaponCode->convertToRangeWeaponCodeEquivalent(),
+                $weaponlikeCode->convertToRangeWeaponCodeEquivalent(),
                 $missingWeaponSkillsTable
             );
         }
@@ -561,20 +561,20 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     }
 
     /**
-     * @param WeaponCode $weaponCode
+     * @param WeaponlikeCode $weaponlikeCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
      */
-    public function getMalusToAttackNumber(WeaponCode $weaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToAttackNumber(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
-        if ($weaponCode->isMeleeArmament() || $weaponCode->isThrowingWeapon()) {
+        if ($weaponlikeCode->isMeleeArmament() || $weaponlikeCode->isThrowingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-            return $this->getPhysicalSkills()->getMalusToAttackNumber($weaponCode, $missingWeaponSkillsTable);
+            return $this->getPhysicalSkills()->getMalusToAttackNumber($weaponlikeCode, $missingWeaponSkillsTable);
         }
-        if ($weaponCode->isShootingWeapon()) {
+        if ($weaponlikeCode->isShootingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getCombinedSkills()->getMalusToAttackNumber(
-                $weaponCode->convertToRangeWeaponCodeEquivalent(),
+                $weaponlikeCode->convertToRangeWeaponCodeEquivalent(),
                 $missingWeaponSkillsTable
             );
         }
@@ -583,20 +583,20 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     }
 
     /**
-     * @param WeaponCode $weaponCode
+     * @param WeaponlikeCode $weaponlikeCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
      */
-    public function getMalusToCover(WeaponCode $weaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToCover(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
-        if ($weaponCode->isMeleeArmament() || $weaponCode->isThrowingWeapon()) {
+        if ($weaponlikeCode->isMeleeArmament() || $weaponlikeCode->isThrowingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-            return $this->getPhysicalSkills()->getMalusToCover($weaponCode, $missingWeaponSkillsTable);
+            return $this->getPhysicalSkills()->getMalusToCover($weaponlikeCode, $missingWeaponSkillsTable);
         }
-        if ($weaponCode->isShootingWeapon()) {
+        if ($weaponlikeCode->isShootingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getCombinedSkills()->getMalusToCover(
-                $weaponCode->convertToRangeWeaponCodeEquivalent(),
+                $weaponlikeCode->convertToRangeWeaponCodeEquivalent(),
                 $missingWeaponSkillsTable
             );
         }
@@ -605,20 +605,20 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     }
 
     /**
-     * @param WeaponCode $weaponCode
+     * @param WeaponlikeCode $weaponlikeCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
      */
-    public function getMalusToBaseOfWounds(WeaponCode $weaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToBaseOfWounds(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
-        if ($weaponCode->isMeleeArmament() || $weaponCode->isThrowingWeapon()) {
+        if ($weaponlikeCode->isMeleeArmament() || $weaponlikeCode->isThrowingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-            return $this->getPhysicalSkills()->getMalusToBaseOfWounds($weaponCode, $missingWeaponSkillsTable);
+            return $this->getPhysicalSkills()->getMalusToBaseOfWounds($weaponlikeCode, $missingWeaponSkillsTable);
         }
-        if ($weaponCode->isShootingWeapon()) {
+        if ($weaponlikeCode->isShootingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getCombinedSkills()->getMalusToBaseOfWounds(
-                $weaponCode->convertToRangeWeaponCodeEquivalent(),
+                $weaponlikeCode->convertToRangeWeaponCodeEquivalent(),
                 $missingWeaponSkillsTable
             );
         }

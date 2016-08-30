@@ -7,7 +7,7 @@ use DrdPlus\Codes\PhysicalSkillCode;
 use DrdPlus\Codes\PropertyCode;
 use DrdPlus\Codes\PsychicalSkillCode;
 use DrdPlus\Codes\RangeWeaponCode;
-use DrdPlus\Codes\WeaponCode;
+use DrdPlus\Codes\WeaponlikeCode;
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\LevelRank;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
@@ -1035,19 +1035,19 @@ class SkillsTest extends TestWithMockery
      * @param bool $isMelee
      * @param bool $isThrowing
      * @param bool $isShooting
-     * @return \Mockery\MockInterface|WeaponCode
+     * @return \Mockery\MockInterface|WeaponlikeCode
      */
     private function createWeaponCode($isMelee, $isThrowing, $isShooting)
     {
-        $weaponCode = $this->mockery(WeaponCode::class);
-        $weaponCode->shouldReceive('isMeleeArmament')
+        $weaponlikeCode = $this->mockery(WeaponlikeCode::class);
+        $weaponlikeCode->shouldReceive('isMeleeArmament')
             ->andReturn($isMelee);
-        $weaponCode->shouldReceive('isThrowingWeapon')
+        $weaponlikeCode->shouldReceive('isThrowingWeapon')
             ->andReturn($isThrowing);
-        $weaponCode->shouldReceive('isShootingWeapon')
+        $weaponlikeCode->shouldReceive('isShootingWeapon')
             ->andReturn($isShooting);
 
-        return $weaponCode;
+        return $weaponlikeCode;
     }
 
     /**
