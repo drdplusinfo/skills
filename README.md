@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/jaroslavtyc/drd-plus-person-skills.svg?branch=master)](https://travis-ci.org/jaroslavtyc/drd-plus-person-skills)
+[![Build Status](https://travis-ci.org/jaroslavtyc/drd-plus-skills.svg?branch=master)](https://travis-ci.org/jaroslavtyc/drd-plus-skills)
 
 Skills for DrD+
 
