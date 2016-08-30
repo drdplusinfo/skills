@@ -20,12 +20,12 @@ class PsychicalSkillsTest extends SameTypeSkillsTest
     /**
      * @test
      * @dataProvider provideSkill
-     * @param Skill $personSkill
+     * @param Skill $skill
      * @expectedException \DrdPlus\Skills\Psychical\Exceptions\PsychicalSkillAlreadySet
      */
-    public function I_can_not_replace_skill(Skill $personSkill)
+    public function I_can_not_replace_skill(Skill $skill)
     {
-        parent::I_can_not_replace_skill($personSkill);
+        parent::I_can_not_replace_skill($skill);
     }
 
     /**

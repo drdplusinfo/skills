@@ -50,9 +50,9 @@ abstract class SameTypeSkillsTest extends TestWithMockery
     /**
      * @test
      * @dataProvider provideSkill
-     * @param Skill $personSkill
+     * @param Skill $skill
      */
-    public function I_can_add_new_skill(Skill $personSkill)
+    public function I_can_add_new_skill(Skill $skill)
     {
         $sutClass = $this->getSutClass();
         /** @var SameTypeSkills $sut */
@@ -61,9 +61,9 @@ abstract class SameTypeSkillsTest extends TestWithMockery
         self::assertSame(0, $sut->getNextLevelsSkillRankSummary());
 
         $addSkill = $this->getSkillAdderName();
-        $sut->$addSkill($personSkill);
+        $sut->$addSkill($skill);
         self::assertSame(
-            $this->getSameTypeSkillCodesExcept($personSkill->getName()),
+            $this->getSameTypeSkillCodesExcept($skill->getName()),
             $sut->getCodesOfNotLearnedSameTypeSkills()
         );
         self::assertCount(1, $sut, 'Skill has not been included on count');
@@ -71,9 +71,9 @@ abstract class SameTypeSkillsTest extends TestWithMockery
         foreach ($sut as $placedSkill) {
             $collected[] = $placedSkill;
         }
-        self::assertSame([$personSkill], $collected, 'Skill has not been fetched by iteration');
-        $skillGetter = $this->getSkillGetter($personSkill);
-        self::assertSame($personSkill, $sut->$skillGetter());
+        self::assertSame([$skill], $collected, 'Skill has not been fetched by iteration');
+        $skillGetter = $this->getSkillGetter($skill);
+        self::assertSame($skill, $sut->$skillGetter());
         self::assertSame(
             1 + 2 /* first and second rank have been get on first level, see provider */,
             $sut->getFirstLevelSkillRankSummary(),
@@ -106,17 +106,17 @@ abstract class SameTypeSkillsTest extends TestWithMockery
     public function provideSkill()
     {
         $skillClasses = $this->getSkillClasses();
-        $personSkills = [];
+        $skills = [];
         foreach ($skillClasses as $skillClass) {
-            /** @var Skill|CombinedSkill $personSkill */
-            $personSkill = new $skillClass($professionLevel = $this->createProfessionFirstLevel());
-            $personSkill->addSkillRank($this->createSkillPoint($professionLevel));
-            $personSkill->addSkillRank($this->createSkillPoint($professionLevel));
-            $personSkill->addSkillRank($this->createSkillPoint($this->createProfessionNextLevel()));
-            $personSkills[] = [$personSkill];
+            /** @var Skill|CombinedSkill $skill */
+            $skill = new $skillClass($professionLevel = $this->createProfessionFirstLevel());
+            $skill->addSkillRank($this->createSkillPoint($professionLevel));
+            $skill->addSkillRank($this->createSkillPoint($professionLevel));
+            $skill->addSkillRank($this->createSkillPoint($this->createProfessionNextLevel()));
+            $skills[] = [$skill];
         }
 
-        return $personSkills;
+        return $skills;
     }
 
     /**
@@ -222,9 +222,9 @@ abstract class SameTypeSkillsTest extends TestWithMockery
         return 'add' . ucfirst($groupName) . 'Skill';
     }
 
-    protected function getSkillGetter(Skill $personSkill)
+    protected function getSkillGetter(Skill $skill)
     {
-        $class = get_class($personSkill);
+        $class = get_class($skill);
         self::assertSame(1, preg_match('~[\\\](?<basename>\w+)$~', $class, $matches));
 
         return 'get' . $matches['basename'];
@@ -261,17 +261,17 @@ abstract class SameTypeSkillsTest extends TestWithMockery
     /**
      * @test
      * @dataProvider provideSkill
-     * @param Skill $personSkill
+     * @param Skill $skill
      * @expectedException \DrdPlus\Skills\Exceptions\SkillAlreadySet
      */
-    public function I_can_not_replace_skill(Skill $personSkill)
+    public function I_can_not_replace_skill(Skill $skill)
     {
         $sutClass = $this->getSutClass();
         /** @var SameTypeSkills $sut */
         $sut = new $sutClass();
         $addSkill = $this->getSkillAdderName();
-        $sut->$addSkill($personSkill);
-        $sut->$addSkill($personSkill);
+        $sut->$addSkill($skill);
+        $sut->$addSkill($skill);
     }
 
     /**

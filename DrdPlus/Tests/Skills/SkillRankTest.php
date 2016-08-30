@@ -24,15 +24,15 @@ abstract class SkillRankTest extends TestWithMockery
         /** @var SkillRank $skillRank */
         $skillRank = new $sutClass(
             $this->createOwningSkill(),
-            $personSkillPoint = $this->createSkillPoint(),
+            $skillPoint = $this->createSkillPoint(),
             $this->createRequiredRankValue($skillRankValue)
         );
 
         self::assertNull($skillRank->getId());
         self::assertSame($skillRankValue, $skillRank->getValue());
         self::assertSame("$skillRankValue", (string)$skillRank);
-        self::assertSame($personSkillPoint->getProfessionLevel(), $skillRank->getProfessionLevel());
-        self::assertSame($personSkillPoint, $skillRank->getSkillPoint());
+        self::assertSame($skillPoint->getProfessionLevel(), $skillRank->getProfessionLevel());
+        self::assertSame($skillPoint, $skillRank->getSkillPoint());
     }
 
     public function allowedSkillRankValues()
@@ -152,11 +152,11 @@ class BrokenBecauseOfSkillNotSetInConstructor extends SkillRank
 {
     public function __construct(
         Skill $owningSkill,
-        SkillPoint $personSkillPoint,
+        SkillPoint $skillPoint,
         PositiveInteger $requiredRankValue
     )
     {
-        parent::__construct($owningSkill, $personSkillPoint, $requiredRankValue);
+        parent::__construct($owningSkill, $skillPoint, $requiredRankValue);
     }
 
     public function getSkillPoint()
@@ -171,16 +171,16 @@ class BrokenBecauseOfSkillNotSetInConstructor extends SkillRank
 
 class BrokenBecauseOfSkillPointNotSetInConstructor extends SkillRank
 {
-    private $personSkill;
+    private $skill;
 
     public function __construct(
         Skill $owningSkill,
-        SkillPoint $personSkillPoint,
+        SkillPoint $skillPoint,
         PositiveInteger $requiredRankValue
     )
     {
-        $this->personSkill = $owningSkill;
-        parent::__construct($owningSkill, $personSkillPoint, $requiredRankValue);
+        $this->skill = $owningSkill;
+        parent::__construct($owningSkill, $skillPoint, $requiredRankValue);
     }
 
     public function getSkillPoint()
@@ -189,7 +189,7 @@ class BrokenBecauseOfSkillPointNotSetInConstructor extends SkillRank
 
     public function getSkill()
     {
-        return $this->personSkill;
+        return $this->skill;
     }
 
 }

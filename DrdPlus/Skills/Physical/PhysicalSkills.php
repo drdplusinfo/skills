@@ -690,13 +690,13 @@ class PhysicalSkills extends SameTypeSkills
     }
 
     /**
-     * @param PhysicalSkill|null $personPhysicalSkill
+     * @param PhysicalSkill|null $physicalSkill
      * @return int
      */
-    private function determineCurrentSkillRankValue(PhysicalSkill $personPhysicalSkill = null)
+    private function determineCurrentSkillRankValue(PhysicalSkill $physicalSkill = null)
     {
-        return $personPhysicalSkill
-            ? $personPhysicalSkill->getCurrentSkillRank()->getValue()
+        return $physicalSkill
+            ? $physicalSkill->getCurrentSkillRank()->getValue()
             : 0;
     }
 

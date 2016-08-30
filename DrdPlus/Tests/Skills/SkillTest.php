@@ -110,20 +110,20 @@ abstract class SkillTest extends TestWithMockery
     }
 
     /**
-     * @param Skill $personSkill
-     * @param string $personSkillClass
+     * @param Skill $skill
+     * @param string $skillClass
      * @param int $value
      * @return \Mockery\MockInterface|SkillRank|PsychicalSkillRank|PhysicalSkillRank|CombinedSkillRank
      */
-    protected function createPersonSkillRank(Skill $personSkill, $personSkillClass, $value = 1)
+    protected function createSkillRank(Skill $skill, $skillClass, $value = 1)
     {
-        $personSkillRank = $this->mockery($this->getSkillRankClass($personSkillClass));
-        $personSkillRank->shouldReceive('getPersonSkill')
-            ->andReturn($personSkill);
-        $personSkillRank->shouldReceive('getValue')
+        $skillRank = $this->mockery($this->getSkillRankClass($skillClass));
+        $skillRank->shouldReceive('getSkill')
+            ->andReturn($skill);
+        $skillRank->shouldReceive('getValue')
             ->andReturn($value);
 
-        return $personSkillRank;
+        return $skillRank;
     }
 
     /**
@@ -135,7 +135,7 @@ abstract class SkillTest extends TestWithMockery
         $baseClass = SkillRank::class;
         $typeName = preg_quote(ucfirst($this->getTypeName($sutClass)));
         $class = preg_replace(
-            '~[\\\]PersonSkillRank$~',
+            '~[\\\]SkillRank$~',
             '\\' . $typeName . '\\' . $typeName . 'SkillRank',
             $baseClass
         );
@@ -199,13 +199,13 @@ abstract class SkillTest extends TestWithMockery
         return strtolower($underscoredSingleLetters);
     }
 
-    protected function I_can_get_its_name(Skill $personSkill)
+    protected function I_can_get_its_name(Skill $skill)
     {
-        $expectedSkillName = $this->getExpectedSkillName(get_class($personSkill));
-        self::assertSame($expectedSkillName, $personSkill->getName());
+        $expectedSkillName = $this->getExpectedSkillName(get_class($skill));
+        self::assertSame($expectedSkillName, $skill->getName());
         $constantName = $this->getConstantName($expectedSkillName);
-        self::assertTrue(defined(get_class($personSkill) . '::' . $constantName));
-        $reflection = new \ReflectionClass($personSkill);
+        self::assertTrue(defined(get_class($skill) . '::' . $constantName));
+        $reflection = new \ReflectionClass($skill);
         self::assertSame($expectedSkillName, $reflection->getConstant($constantName));
     }
 
@@ -214,11 +214,11 @@ abstract class SkillTest extends TestWithMockery
         return strtoupper($skillName);
     }
 
-    protected function I_can_get_related_property_codes(Skill $personSkill)
+    protected function I_can_get_related_property_codes(Skill $skill)
     {
         self::assertEquals(
             $this->sort($this->getExpectedRelatedPropertyCodes()),
-            $this->sort($personSkill->getRelatedPropertyCodes())
+            $this->sort($skill->getRelatedPropertyCodes())
         );
     }
 
@@ -234,13 +234,13 @@ abstract class SkillTest extends TestWithMockery
      */
     abstract protected function getExpectedRelatedPropertyCodes();
 
-    protected function I_can_ask_it_which_type_is_it(Skill $personSkill)
+    protected function I_can_ask_it_which_type_is_it(Skill $skill)
     {
         // should be only one type
         self::assertSame(1, $this->shouldBePhysical() + $this->shouldBePsychical() + $this->shouldBeCombined());
-        self::assertSame($this->shouldBePhysical(), $personSkill->isPhysical());
-        self::assertSame($this->shouldBePsychical(), $personSkill->isPsychical());
-        self::assertSame($this->shouldBeCombined(), $personSkill->isCombined());
+        self::assertSame($this->shouldBePhysical(), $skill->isPhysical());
+        self::assertSame($this->shouldBePsychical(), $skill->isPsychical());
+        self::assertSame($this->shouldBeCombined(), $skill->isCombined());
     }
 
     /**

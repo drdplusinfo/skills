@@ -34,12 +34,12 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     /**
      * @test
      * @dataProvider provideSkill
-     * @param Skill $personSkill
+     * @param Skill $skill
      * @expectedException \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillAlreadySet
      */
-    public function I_can_not_replace_skill(Skill $personSkill)
+    public function I_can_not_replace_skill(Skill $skill)
     {
-        parent::I_can_not_replace_skill($personSkill);
+        parent::I_can_not_replace_skill($skill);
     }
 
     /**
@@ -303,10 +303,10 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      */
     public function I_can_not_get_malus_for_melee_weapon_of_unknown_category()
     {
-        $personPhysicalSkills = new PhysicalSkills();
+        $physicalSkills = new PhysicalSkills();
         /** @var MissingWeaponSkillTable $missingWeaponSkillsTable */
         $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
-        $personPhysicalSkills->getMalusToFightNumber(
+        $physicalSkills->getMalusToFightNumber(
             $this->createWeaponCode('plank', true /* is melee */, false /* not throwing */),
             $missingWeaponSkillsTable
         );
@@ -319,10 +319,10 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      */
     public function I_can_not_get_malus_for_non_melee_non_throwing_weapon()
     {
-        $personPhysicalSkills = new PhysicalSkills();
+        $physicalSkills = new PhysicalSkills();
         /** @var MissingWeaponSkillTable $missingWeaponSkillsTable */
         $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
-        $personPhysicalSkills->getMalusToFightNumber(
+        $physicalSkills->getMalusToFightNumber(
             $this->createWeaponCode('artillery', false /* not melee */, false /* not throwing */),
             $missingWeaponSkillsTable
         );

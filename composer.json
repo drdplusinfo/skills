@@ -1,8 +1,8 @@
 {
-  "name": "drd-plus/person-skills",
+  "name": "drd-plus/skills",
   "license": "MIT",
   "type": "project",
-  "description": "Skills of a person for Drd+",
+  "description": "Skills for Drd+",
   "autoload": {
     "psr-4": {
       "DrdPlus\\": "DrdPlus/"

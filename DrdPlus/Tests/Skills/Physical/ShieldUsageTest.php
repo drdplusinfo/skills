@@ -56,14 +56,14 @@ class ShieldUsageTest extends PhysicalSkillTest
     }
 
     /**
-     * @param Skill $personSkill
+     * @param Skill $skill
      * @return \Mockery\MockInterface|PhysicalSkillRank
      */
-    private function createPhysicalSkillPoint(Skill $personSkill)
+    private function createPhysicalSkillPoint(Skill $skill)
     {
         $physicalSkillRank = $this->mockery(PhysicalSkillPoint::class);
         $physicalSkillRank->shouldReceive('getSkill')
-            ->andReturn($personSkill);
+            ->andReturn($skill);
 
         return $physicalSkillRank;
     }

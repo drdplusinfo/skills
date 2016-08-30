@@ -29,42 +29,42 @@ abstract class Skill extends StrictObject implements Entity
     }
 
     /**
-     * @param SkillRank $personSkillRank
+     * @param SkillRank $skillRank
      * @throws \DrdPlus\Skills\Exceptions\UnexpectedRankValue
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
      */
-    protected function addTypeVerifiedSkillRank(SkillRank $personSkillRank)
+    protected function addTypeVerifiedSkillRank(SkillRank $skillRank)
     {
-        $this->guardSkillRankSequence($personSkillRank);
-        $this->guardRelatedSkillOfRank($personSkillRank);
-        $this->getInnerSkillRanks()->offsetSet($personSkillRank->getValue(), $personSkillRank);
+        $this->guardSkillRankSequence($skillRank);
+        $this->guardRelatedSkillOfRank($skillRank);
+        $this->getInnerSkillRanks()->offsetSet($skillRank->getValue(), $skillRank);
     }
 
     /**
-     * @param SkillRank $personSkillRank
+     * @param SkillRank $skillRank
      * @throws \DrdPlus\Skills\Exceptions\UnexpectedRankValue
      */
-    private function guardSkillRankSequence(SkillRank $personSkillRank)
+    private function guardSkillRankSequence(SkillRank $skillRank)
     {
-        if (($this->getMaxSkillRankValue() + 1) !== $personSkillRank->getValue()) {
+        if (($this->getMaxSkillRankValue() + 1) !== $skillRank->getValue()) {
             throw new Exceptions\UnexpectedRankValue(
                 'New skill rank has to follow rank sequence, expected '
-                . ($this->getMaxSkillRankValue() + 1) . ", got {$personSkillRank->getValue()}"
+                . ($this->getMaxSkillRankValue() + 1) . ", got {$skillRank->getValue()}"
             );
         }
     }
 
     /**
-     * @param SkillRank $personSkillRank
+     * @param SkillRank $skillRank
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
      */
-    private function guardRelatedSkillOfRank(SkillRank $personSkillRank)
+    private function guardRelatedSkillOfRank(SkillRank $skillRank)
     {
-        if ($this !== $personSkillRank->getSkill()) {
-            if (static::class !== get_class($personSkillRank->getSkill())) {
+        if ($this !== $skillRank->getSkill()) {
+            if (static::class !== get_class($skillRank->getSkill())) {
                 throw new Exceptions\CanNotVerifyOwningSkill(
                     'New skill rank belongs to different skill class. Expected ' . static::class . ', got '
-                    . get_class($personSkillRank->getSkill())
+                    . get_class($skillRank->getSkill())
                 );
             } else {
                 throw new Exceptions\CanNotVerifyOwningSkill(

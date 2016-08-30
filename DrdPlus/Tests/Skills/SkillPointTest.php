@@ -96,7 +96,7 @@ abstract class SkillPointTest extends TestWithMockery
     }
 
     /**
-     * @return array [PersonSkillPoint, PersonLevel][]
+     * @return array [SkillPoint, PersonLevel][]
      */
     abstract protected function I_can_create_skill_point_by_cross_type_skill_points();
 
@@ -395,7 +395,7 @@ class DeAbstractedSkillPoint extends SkillPoint
     const TYPE_NAME = 'foo';
 
     public function __construct(
-        $personSkillPoint,
+        $skillPoint,
         ProfessionLevel $professionLevel,
         Tables $tables = null,
         BackgroundSkillPoints $backgroundSkillPoints = null,
@@ -403,7 +403,7 @@ class DeAbstractedSkillPoint extends SkillPoint
         SkillPoint $secondPaidOtherSkillPoint = null
     )
     {
-        parent::__construct($personSkillPoint, $professionLevel, $tables, $backgroundSkillPoints, $firstPaidOtherSkillPoint, $secondPaidOtherSkillPoint);
+        parent::__construct($skillPoint, $professionLevel, $tables, $backgroundSkillPoints, $firstPaidOtherSkillPoint, $secondPaidOtherSkillPoint);
     }
 
     public function getTypeName()

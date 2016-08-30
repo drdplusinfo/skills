@@ -33,25 +33,25 @@ abstract class SkillRank extends StrictObject implements PositiveInteger, Entity
 
     /**
      * @param Skill $owningSkill
-     * @param SkillPoint $personSkillPoint
+     * @param SkillPoint $skillPoint
      * @param PositiveInteger $requiredRankValue
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyPaidSkillPoint
      */
     protected function __construct(
         Skill $owningSkill,
-        SkillPoint $personSkillPoint,
+        SkillPoint $skillPoint,
         PositiveInteger $requiredRankValue
     )
     {
         if ($owningSkill !== $this->getSkill()) {
             throw new Exceptions\CanNotVerifyOwningSkill(
-                'Person skill should be already set in descendant constructor'
+                'Skill should be already set in descendant constructor'
             );
         }
-        if ($personSkillPoint !== $this->getSkillPoint()) {
+        if ($skillPoint !== $this->getSkillPoint()) {
             throw new Exceptions\CanNotVerifyPaidSkillPoint(
-                'Person skill point should be already set in descendant constructor'
+                'Skill point should be already set in descendant constructor'
             );
         }
         $this->checkRequiredRankValue($requiredRankValue);

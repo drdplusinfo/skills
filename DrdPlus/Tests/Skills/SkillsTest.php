@@ -52,7 +52,7 @@ class SkillsTest extends TestWithMockery
         CombinedSkills $combinedSkills
     )
     {
-        $personSkills = Skills::createSkills(
+        $skills = Skills::createSkills(
             $professionLevels,
             $backgroundSkillPoints,
             new Tables(),
@@ -61,17 +61,17 @@ class SkillsTest extends TestWithMockery
             $combinedSkills
         );
 
-        self::assertNull($personSkills->getId());
-        self::assertSame($physicalSkills, $personSkills->getPhysicalSkills());
-        self::assertSame($psychicalSkills, $personSkills->getPsychicalSkills());
-        self::assertSame($combinedSkills, $personSkills->getCombinedSkills());
+        self::assertNull($skills->getId());
+        self::assertSame($physicalSkills, $skills->getPhysicalSkills());
+        self::assertSame($psychicalSkills, $skills->getPsychicalSkills());
+        self::assertSame($combinedSkills, $skills->getCombinedSkills());
         self::assertEquals(
             $sortedExpectedSkills = $this->getSortedExpectedSkills(
                 $physicalSkills->getIterator()->getArrayCopy(),
                 $psychicalSkills->getIterator()->getArrayCopy(),
                 $combinedSkills->getIterator()->getArrayCopy()
             ),
-            $this->getSortedGivenSkills($personSkills)
+            $this->getSortedGivenSkills($skills)
         );
         self::assertSame(
             array_merge(
@@ -79,14 +79,14 @@ class SkillsTest extends TestWithMockery
                 PsychicalSkillCode::getPsychicalSkillCodes(),
                 CombinedSkillCode::getCombinedSkillCodes()
             ),
-            $personSkills->getCodesOfAllSkills()
+            $skills->getCodesOfAllSkills()
         );
-        $learnedSkills = $personSkills->getCodesOfLearnedSkills();
+        $learnedSkills = $skills->getCodesOfLearnedSkills();
         sort($learnedSkills);
         self::assertEquals(
             $expectedCodesOfLearnedSkills = array_map(
-                function (Skill $personSkill) {
-                    return $personSkill->getName();
+                function (Skill $skill) {
+                    return $skill->getName();
                 },
                 $sortedExpectedSkills
             ),
@@ -95,17 +95,17 @@ class SkillsTest extends TestWithMockery
         self::assertNotEmpty($expectedCodesOfLearnedSkills);
         self::assertEquals(
             array_diff($this->getAllSkillCodes(), $expectedCodesOfLearnedSkills),
-            $personSkills->getCodesOfNotLearnedSkills()
+            $skills->getCodesOfNotLearnedSkills()
         );
         self::assertEquals(
-            $personSkills->getIterator()->getArrayCopy(),
+            $skills->getIterator()->getArrayCopy(),
             array_merge(
                 $physicalSkills->getIterator()->getArrayCopy(),
                 $psychicalSkills->getIterator()->getArrayCopy(),
                 $combinedSkills->getIterator()->getArrayCopy()
             )
         );
-        self::assertCount(count($sortedExpectedSkills), $personSkills);
+        self::assertCount(count($sortedExpectedSkills), $skills);
     }
 
     /**
@@ -578,9 +578,9 @@ class SkillsTest extends TestWithMockery
         return $expectedSkills;
     }
 
-    private function getSortedGivenSkills(Skills $personSkills)
+    private function getSortedGivenSkills(Skills $skills)
     {
-        $givenSkills = $personSkills->getSkills();
+        $givenSkills = $skills->getSkills();
         usort($givenSkills, function (Skill $firstSkill, Skill $secondSkill) {
             return strcmp($firstSkill->getName(), $secondSkill->getName());
         });
@@ -1004,7 +1004,7 @@ class SkillsTest extends TestWithMockery
             $professionLevels->getFirstLevel()->getProfession()
         );
         $firstLevel = $professionLevels->getFirstLevel();
-        $personSkills = Skills::createSkills(
+        $skills = Skills::createSkills(
             $professionLevels,
             $backgroundSkillPoints,
             new Tables(),
@@ -1024,7 +1024,7 @@ class SkillsTest extends TestWithMockery
             ->andReturn($meleeWeaponMalus = 'foo');
         self::assertSame(
             $meleeWeaponMalus,
-            $personSkills->$getMalusToParameter(
+            $skills->$getMalusToParameter(
                 $meleeWeaponCode,
                 $missingWeaponSkillsTable
             )
@@ -1079,7 +1079,7 @@ class SkillsTest extends TestWithMockery
             $professionLevels->getFirstLevel()->getProfession()
         );
         $firstLevel = $professionLevels->getFirstLevel();
-        $personSkills = Skills::createSkills(
+        $skills = Skills::createSkills(
             $professionLevels,
             $backgroundSkillPoints,
             new Tables(),
@@ -1105,7 +1105,7 @@ class SkillsTest extends TestWithMockery
              * @see \DrdPlus\Skills\Skills::getMalusToCover
              * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWounds
              */
-            $personSkills->$getMalusToParameter(
+            $skills->$getMalusToParameter(
                 $throwingWeaponCode,
                 $missingWeaponSkillsTable
             )
@@ -1133,7 +1133,7 @@ class SkillsTest extends TestWithMockery
             $professionLevels->getFirstLevel()->getProfession()
         );
         $firstLevel = $professionLevels->getFirstLevel();
-        $personSkills = Skills::createSkills(
+        $skills = Skills::createSkills(
             $professionLevels,
             $backgroundSkillPoints,
             new Tables(),
@@ -1155,7 +1155,7 @@ class SkillsTest extends TestWithMockery
             ->andReturn($shootingWeaponMalus = 'foo');
         self::assertSame(
             $shootingWeaponMalus,
-            $personSkills->$malusToParameter(
+            $skills->$malusToParameter(
                 $shootingWeaponCode,
                 $missingWeaponSkillsTable
             )
@@ -1191,7 +1191,7 @@ class SkillsTest extends TestWithMockery
             $professionLevels->getFirstLevel()->getProfession()
         );
         $firstLevel = $professionLevels->getFirstLevel();
-        $personSkills = Skills::createSkills(
+        $skills = Skills::createSkills(
             $professionLevels,
             $backgroundSkillPoints,
             new Tables(),
@@ -1213,7 +1213,7 @@ class SkillsTest extends TestWithMockery
             ->andReturn('foo');
         self::assertSame(
             0,
-            $personSkills->$malusToParameter(
+            $skills->$malusToParameter(
                 $shootingWeaponCode,
                 $missingWeaponSkillsTable
             )

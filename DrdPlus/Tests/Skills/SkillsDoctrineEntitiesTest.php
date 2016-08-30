@@ -51,12 +51,12 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
 
     protected function getDirsWithEntities()
     {
-        $personSkillsReflection = new \ReflectionClass(Skills::class);
+        $skillsReflection = new \ReflectionClass(Skills::class);
         $professionLevelReflection = new \ReflectionClass(ProfessionLevel::class);
 
         return [
             dirname($professionLevelReflection->getFileName()),
-            dirname($personSkillsReflection->getFileName()),
+            dirname($skillsReflection->getFileName()),
         ];
     }
 
@@ -143,7 +143,7 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $tables
         );
         $requiredRankValue = new PositiveIntegerObject(1);
-        $personPhysicalSkillList = array_map(
+        $physicalSkillList = array_map(
             function ($physicalSkillClass) use ($firstLevel, $physicalSkillPoint, $requiredRankValue) {
                 /** @var PhysicalSkill $physicalSkill */
                 $physicalSkill = new $physicalSkillClass($firstLevel);
@@ -154,9 +154,9 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $physicalSkillClasses
         );
 
-        $personPhysicalSkills = new PhysicalSkills();
-        foreach ($personPhysicalSkillList as $personPhysicalSkill) {
-            $personPhysicalSkills->addPhysicalSkill($personPhysicalSkill);
+        $physicalSkills = new PhysicalSkills();
+        foreach ($physicalSkillList as $physicalSkill) {
+            $physicalSkills->addPhysicalSkill($physicalSkill);
         }
         $physicalSkillPoint = PhysicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
             $firstLevel,
@@ -174,25 +174,25 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         );
 
         return array_merge(
-            $personPhysicalSkillList,
+            $physicalSkillList,
             [
-                $personPhysicalSkills,
+                $physicalSkills,
                 $physicalSkillPoint,
                 $physicalSkillRank
             ]
         );
     }
 
-    private static function getListOfSkillClasses($personSkillParentClass)
+    private static function getListOfSkillClasses($skillParentClass)
     {
-        $personSkillReflection = new \ReflectionClass($personSkillParentClass);
+        $skillReflection = new \ReflectionClass($skillParentClass);
         $skillClasses = [];
-        foreach (scandir(dirname($personSkillReflection->getFileName())) as $file) {
+        foreach (scandir(dirname($skillReflection->getFileName())) as $file) {
             if ($file === '..' || $file === '.') {
                 continue;
             }
-            $className = $personSkillReflection->getNamespaceName() . '\\' . basename($file, '.php');
-            if (!is_a($className, $personSkillParentClass, true)
+            $className = $skillReflection->getNamespaceName() . '\\' . basename($file, '.php');
+            if (!is_a($className, $skillParentClass, true)
                 || (new \ReflectionClass($className))->isAbstract()
             ) {
                 continue;
@@ -212,7 +212,7 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $tables
         );
         $requiredRankValue = new PositiveIntegerObject(1);
-        $personPsychicalSkillList = array_map(
+        $psychicalSkillList = array_map(
             function ($psychicalSkillClass) use ($firstLevel, $psychicalSkillPoint, $requiredRankValue) {
                 /** @var PsychicalSkill $psychicalSkill */
                 $psychicalSkill = new $psychicalSkillClass($firstLevel);
@@ -223,9 +223,9 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $psychicalSkillClasses
         );
 
-        $personPsychicalSkills = new PsychicalSkills();
-        foreach ($personPsychicalSkillList as $personPsychicalSkill) {
-            $personPsychicalSkills->addPsychicalSkill($personPsychicalSkill);
+        $psychicalSkills = new PsychicalSkills();
+        foreach ($psychicalSkillList as $psychicalSkill) {
+            $psychicalSkills->addPsychicalSkill($psychicalSkill);
         }
 
         $psychicalSkillPoint = PsychicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
@@ -245,9 +245,9 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         );
 
         return array_merge(
-            $personPsychicalSkillList,
+            $psychicalSkillList,
             [
-                $personPsychicalSkills,
+                $psychicalSkills,
                 $psychicalSkillPoint,
                 $psychicalSkillRank
             ]
@@ -264,7 +264,7 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         );
         $requiredRankValue = new PositiveIntegerObject(1);
 
-        $personCombinedSkillList = array_map(
+        $combinedSkillList = array_map(
             function ($combinedSkillClass) use ($firstLevel, $combinedSkillPoint, $requiredRankValue) {
                 /** @var CombinedSkill $combinedSkill */
                 $combinedSkill = new $combinedSkillClass($firstLevel);
@@ -275,9 +275,9 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $combinedSkillClasses
         );
 
-        $personCombinedSkills = new CombinedSkills();
-        foreach ($personCombinedSkillList as $personCombinedSkill) {
-            $personCombinedSkills->addCombinedSkill($personCombinedSkill);
+        $combinedSkills = new CombinedSkills();
+        foreach ($combinedSkillList as $combinedSkill) {
+            $combinedSkills->addCombinedSkill($combinedSkill);
         }
         $combinedSkillPoint = CombinedSkillPoint::createFromFirstLevelBackgroundSkillPoints(
             $firstLevel,
@@ -295,9 +295,9 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         );
 
         return array_merge(
-            $personCombinedSkillList,
+            $combinedSkillList,
             [
-                $personCombinedSkills,
+                $combinedSkills,
                 $combinedSkillPoint,
                 $combinedSkillRank
             ]

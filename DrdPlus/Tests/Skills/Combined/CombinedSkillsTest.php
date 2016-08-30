@@ -23,12 +23,12 @@ class CombinedSkillsTest extends SameTypeSkillsTest
     /**
      * @test
      * @dataProvider provideSkill
-     * @param Skill $personSkill
+     * @param Skill $skill
      * @expectedException \DrdPlus\Skills\Combined\Exceptions\CombinedSkillAlreadySet
      */
-    public function I_can_not_replace_skill(Skill $personSkill)
+    public function I_can_not_replace_skill(Skill $skill)
     {
-        parent::I_can_not_replace_skill($personSkill);
+        parent::I_can_not_replace_skill($skill);
     }
 
     /**
@@ -157,31 +157,31 @@ class CombinedSkillsTest extends SameTypeSkillsTest
      */
     public function I_can_get_malus_for_every_type_of_weapon($rangeWeaponCategory)
     {
-        $personCombinedSkills = new CombinedSkills();
+        $combinedSkills = new CombinedSkills();
         self::assertSame(
             $expectedMalus = 'foo',
-            $personCombinedSkills->getMalusToFightNumber(
+            $combinedSkills->getMalusToFightNumber(
                 $this->createRangeWeaponCode($rangeWeaponCategory),
                 $this->createMissingWeaponSkillsTable('fightNumber', 0 /* expected skill value */, $expectedMalus)
             )
         );
         self::assertSame(
             $expectedMalus = 'bar',
-            $personCombinedSkills->getMalusToAttackNumber(
+            $combinedSkills->getMalusToAttackNumber(
                 $this->createRangeWeaponCode($rangeWeaponCategory),
                 $this->createMissingWeaponSkillsTable('attackNumber', 0 /* expected skill value */, $expectedMalus)
             )
         );
         self::assertSame(
             $expectedMalus = 'baz',
-            $personCombinedSkills->getMalusToCover(
+            $combinedSkills->getMalusToCover(
                 $this->createRangeWeaponCode($rangeWeaponCategory),
                 $this->createMissingWeaponSkillsTable('cover', 0 /* expected skill value */, $expectedMalus)
             )
         );
         self::assertSame(
             $expectedMalus = 'qux',
-            $personCombinedSkills->getMalusToBaseOfWounds(
+            $combinedSkills->getMalusToBaseOfWounds(
                 $this->createRangeWeaponCode($rangeWeaponCategory),
                 $this->createMissingWeaponSkillsTable('baseOfWounds', 0 /* expected skill value */, $expectedMalus)
             )
@@ -238,10 +238,10 @@ class CombinedSkillsTest extends SameTypeSkillsTest
      */
     public function I_can_not_get_malus_for_weapon_not_affected_by_combined_skill()
     {
-        $personCombinedSkills = new CombinedSkills();
+        $combinedSkills = new CombinedSkills();
         /** @var MissingWeaponSkillTable $missingWeaponSkillsTable */
         $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
-        $personCombinedSkills->getMalusToFightNumber(
+        $combinedSkills->getMalusToFightNumber(
             $this->createRangeWeaponCode('notBowNorCrossbowYouKnow'),
             $missingWeaponSkillsTable
         );
