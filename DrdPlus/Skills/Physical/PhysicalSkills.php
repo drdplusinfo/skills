@@ -1,8 +1,8 @@
 <?php
 namespace DrdPlus\Skills\Physical;
 
-use DrdPlus\Codes\MeleeWeaponCode;
-use DrdPlus\Codes\WeaponlikeCode;
+use DrdPlus\Codes\Armaments\MeleeWeaponCode;
+use DrdPlus\Codes\Armaments\WeaponlikeCode;
 use DrdPlus\Codes\PhysicalSkillCode;
 use DrdPlus\Codes\SkillTypeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;

@@ -2,7 +2,7 @@
 namespace DrdPlus\Skills\Combined;
 
 use DrdPlus\Codes\CombinedSkillCode;
-use DrdPlus\Codes\RangeWeaponCode;
+use DrdPlus\Codes\Armaments\RangeWeaponCode;
 use DrdPlus\Codes\SkillTypeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Skills\SameTypeSkills;

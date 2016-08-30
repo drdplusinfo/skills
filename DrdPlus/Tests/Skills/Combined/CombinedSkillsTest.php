@@ -1,8 +1,8 @@
 <?php
 namespace DrdPlus\Tests\Skills\Combined;
 
-use DrdPlus\Codes\RangeWeaponCode;
-use DrdPlus\Codes\WeaponCategoryCode;
+use DrdPlus\Codes\Armaments\RangeWeaponCode;
+use DrdPlus\Codes\Armaments\WeaponCategoryCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Skills\Combined\BigHandwork;

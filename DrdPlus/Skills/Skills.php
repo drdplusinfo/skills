@@ -6,7 +6,7 @@ use Doctrineum\Entity\Entity;
 use DrdPlus\Codes\CombinedSkillCode;
 use DrdPlus\Codes\PhysicalSkillCode;
 use DrdPlus\Codes\PsychicalSkillCode;
-use DrdPlus\Codes\WeaponlikeCode;
+use DrdPlus\Codes\Armaments\WeaponlikeCode;
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;

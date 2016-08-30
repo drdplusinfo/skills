@@ -1,8 +1,8 @@
 <?php
 namespace DrdPlus\Tests\Skills\Physical;
 
-use DrdPlus\Codes\WeaponCategoryCode;
-use DrdPlus\Codes\WeaponlikeCode;
+use DrdPlus\Codes\Armaments\WeaponCategoryCode;
+use DrdPlus\Codes\Armaments\WeaponlikeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Skills\Skill;
