@@ -617,7 +617,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
             );
         }
 
-        return 0;
+        return 0; // projectile
     }
 
     /**

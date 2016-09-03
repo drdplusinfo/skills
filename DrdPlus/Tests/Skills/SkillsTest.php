@@ -1026,6 +1026,12 @@ class SkillsTest extends TestWithMockery
             ->andReturn($meleeWeaponMalus = 'foo');
         self::assertSame(
             $meleeWeaponMalus,
+            /**
+             * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeapon
+             * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeapon
+             * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeapon
+             * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeapon
+             */
             $skills->$getMalusToParameter(
                 $meleeWeaponCode,
                 $missingWeaponSkillsTable
@@ -1157,6 +1163,12 @@ class SkillsTest extends TestWithMockery
             ->andReturn($shootingWeaponMalus = 'foo');
         self::assertSame(
             $shootingWeaponMalus,
+            /**
+             * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeapon
+             * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeapon
+             * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeapon
+             * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeapon
+             */
             $skills->$malusToParameter(
                 $shootingWeaponCode,
                 $missingWeaponSkillsTable
@@ -1215,6 +1227,12 @@ class SkillsTest extends TestWithMockery
             ->andReturn('foo');
         self::assertSame(
             0,
+            /**
+             * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeapon
+             * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeapon
+             * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeapon
+             * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeapon
+             */
             $skills->$malusToParameter(
                 $shootingWeaponCode,
                 $missingWeaponSkillsTable
