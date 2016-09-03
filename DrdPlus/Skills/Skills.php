@@ -130,8 +130,8 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     {
         $propertyPayments = self::getPaymentsSkeleton();
         foreach ([$physicalSkills, $psychicalSkills, $combinedSkill] as $sameTypeSkills) {
+            /** @var Skill[] $sameTypeSkills */
             foreach ($sameTypeSkills as $skill) {
-                /** @var Skill $skill */
                 foreach ($skill->getSkillRanks() as $skillRank) {
                     $paymentDetails = self::extractPaymentDetails($skillRank->getSkillPoint());
                     $propertyPayments = self::sumPayments([$propertyPayments, $paymentDetails]);
@@ -303,6 +303,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     {
         foreach ($nextLevelsPayment as $skillsType => $nextLevelPayment) {
             $increasedPropertySum = 0;
+            /** @var string[][] $nextLevelPayment */
             foreach ($nextLevelPayment['relatedProperties'] as $relatedProperty) {
                 switch ($relatedProperty) {
                     case Strength::STRENGTH :
@@ -327,6 +328,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
             }
             $maxSkillPoint = self::getSkillPointByPropertyIncrease($increasedPropertySum);
             if ($nextLevelPayment['spentNextLevelsSkillPoints'] > $maxSkillPoint) {
+                /** @noinspection PhpToStringImplementationInspection */
                 throw new Exceptions\HigherSkillRanksFromNextLevelsThanPossible(
                     "Skills from next levels of type '$skillsType' have higher ranks than possible."
                     . " Max increase by next levels can be $maxSkillPoint by $increasedPropertySum increase"
@@ -567,7 +569,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      * @param ProtectiveArmamentCode $protectiveArmamentCode
      * @param Armourer $armourer
      * @return int
-     * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThat
+     * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatArmament
      */
     public function getMalusToFightNumberWithProtective(ProtectiveArmamentCode $protectiveArmamentCode, Armourer $armourer)
     {
@@ -578,15 +580,15 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      * @param WeaponlikeCode $weaponlikeCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
+     * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
+     * @throws \DrdPlus\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
     public function getMalusToAttackNumberWithWeapon(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         if ($weaponlikeCode->isMeleeArmament() || $weaponlikeCode->isThrowingWeapon()) {
-            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getPhysicalSkills()->getMalusToAttackNumberWithWeapon($weaponlikeCode, $missingWeaponSkillsTable);
         }
         if ($weaponlikeCode->isShootingWeapon()) {
-            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getCombinedSkills()->getMalusToAttackNumberWithWeapon(
                 $weaponlikeCode->convertToRangeWeaponCodeEquivalent(),
                 $missingWeaponSkillsTable

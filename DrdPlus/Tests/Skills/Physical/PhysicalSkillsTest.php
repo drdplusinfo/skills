@@ -304,7 +304,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
 
     /**
      * @test
-     * @expectedException \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThat
+     * @expectedException \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      * @expectedExceptionMessageRegExp ~plank~
      */
     public function I_can_not_get_malus_for_melee_weapon_of_unknown_category()
@@ -320,7 +320,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
 
     /**
      * @test
-     * @expectedException \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThat
+     * @expectedException \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      * @expectedExceptionMessageRegExp ~artillery~
      */
     public function I_can_not_get_malus_for_non_melee_non_throwing_weapon()
@@ -402,7 +402,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
 
     /**
      * @test
-     * @expectedException \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThat
+     * @expectedException \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatArmament
      */
     public function I_do_not_get_malus_to_fight_for_unknown_protective()
     {
