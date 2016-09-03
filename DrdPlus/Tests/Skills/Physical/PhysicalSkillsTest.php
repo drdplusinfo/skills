@@ -1,6 +1,10 @@
 <?php
 namespace DrdPlus\Tests\Skills\Physical;
 
+use DrdPlus\Codes\Armaments\BodyArmorCode;
+use DrdPlus\Codes\Armaments\HelmCode;
+use DrdPlus\Codes\Armaments\ProtectiveArmamentCode;
+use DrdPlus\Codes\Armaments\ShieldCode;
 use DrdPlus\Codes\Armaments\WeaponCategoryCode;
 use DrdPlus\Codes\Armaments\WeaponlikeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
@@ -25,8 +29,10 @@ use DrdPlus\Skills\Physical\FightWithVoulgesAndTridents;
 use DrdPlus\Skills\Physical\Flying;
 use DrdPlus\Skills\Physical\PhysicalSkill;
 use DrdPlus\Skills\Physical\PhysicalSkills;
+use DrdPlus\Tables\Armaments\Armourer;
 use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
 use DrdPlus\Tests\Skills\SameTypeSkillsTest;
+use Granam\Integer\PositiveInteger;
 
 class PhysicalSkillsTest extends SameTypeSkillsTest
 {
@@ -191,7 +197,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
                 $fightWithSwords,
                 $fightWithThrowingWeapons,
                 $fightWithTwoWeapons,
-                $fightWithVoulgesAndTridents
+                $fightWithVoulgesAndTridents,
             ],
             $skills->getFightWithMeleeWeaponSkills()
         );
@@ -210,28 +216,28 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         $weaponlikeCode = $this->createWeaponCode($weaponCategory, $isMelee, $isThrowing);
         self::assertSame(
             $expectedMalus = 'foo',
-            $skills->getMalusToFightNumber(
+            $skills->getMalusToFightNumberWithWeapon(
                 $weaponlikeCode,
                 $this->createMissingWeaponSkillsTable('fightNumber', 0 /* expected skill value */, $expectedMalus)
             )
         );
         self::assertSame(
             $expectedMalus = 'bar',
-            $skills->getMalusToAttackNumber(
+            $skills->getMalusToAttackNumberWithWeapon(
                 $weaponlikeCode,
                 $this->createMissingWeaponSkillsTable('attackNumber', 0 /* expected skill value */, $expectedMalus)
             )
         );
         self::assertSame(
             $expectedMalus = 'baz',
-            $skills->getMalusToCover(
+            $skills->getMalusToCoverWithWeapon(
                 $weaponlikeCode,
                 $this->createMissingWeaponSkillsTable('cover', 0 /* expected skill value */, $expectedMalus)
             )
         );
         self::assertSame(
             $expectedMalus = 'qux',
-            $skills->getMalusToBaseOfWounds(
+            $skills->getMalusToBaseOfWoundsWithWeapon(
                 $weaponlikeCode,
                 $this->createMissingWeaponSkillsTable('baseOfWounds', 0 /* expected skill value */, $expectedMalus)
             )
@@ -289,7 +295,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     private function createMissingWeaponSkillsTable($weaponParameterName, $expectedSkillValue, $result)
     {
         $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
-        $missingWeaponSkillsTable->shouldReceive('get' . ucfirst($weaponParameterName) . 'ForWeaponSkill')
+        $missingWeaponSkillsTable->shouldReceive('get' . ucfirst($weaponParameterName) . 'MalusForSkill')
             ->with($expectedSkillValue)
             ->andReturn($result);
 
@@ -298,7 +304,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
 
     /**
      * @test
-     * @expectedException \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
+     * @expectedException \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThat
      * @expectedExceptionMessageRegExp ~plank~
      */
     public function I_can_not_get_malus_for_melee_weapon_of_unknown_category()
@@ -306,7 +312,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         $physicalSkills = new PhysicalSkills();
         /** @var MissingWeaponSkillTable $missingWeaponSkillsTable */
         $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
-        $physicalSkills->getMalusToFightNumber(
+        $physicalSkills->getMalusToFightNumberWithWeapon(
             $this->createWeaponCode('plank', true /* is melee */, false /* not throwing */),
             $missingWeaponSkillsTable
         );
@@ -314,7 +320,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
 
     /**
      * @test
-     * @expectedException \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
+     * @expectedException \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThat
      * @expectedExceptionMessageRegExp ~artillery~
      */
     public function I_can_not_get_malus_for_non_melee_non_throwing_weapon()
@@ -322,9 +328,88 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         $physicalSkills = new PhysicalSkills();
         /** @var MissingWeaponSkillTable $missingWeaponSkillsTable */
         $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
-        $physicalSkills->getMalusToFightNumber(
+        $physicalSkills->getMalusToFightNumberWithWeapon(
             $this->createWeaponCode('artillery', false /* not melee */, false /* not throwing */),
             $missingWeaponSkillsTable
         );
     }
+
+    /**
+     * @test
+     */
+    public function I_can_get_malus_to_fight_for_armor()
+    {
+        $skills = new PhysicalSkills();
+        $armourer = $this->mockery(Armourer::class);
+
+        $bodyArmor = $this->mockery(BodyArmorCode::class);
+        $armourer->shouldReceive('getProtectiveArmamentRestrictionForSkill')
+            ->andReturnUsing(function (BodyArmorCode $givenBodyArmorCode, PositiveInteger $rank) use ($bodyArmor) {
+                self::assertSame($givenBodyArmorCode, $bodyArmor);
+                self::assertSame(0, $rank->getValue());
+
+                return 'foo';
+            });
+        self::assertSame(
+            $expectedMalus = 'foo',
+            $skills->getMalusToFightNumberWithProtective($bodyArmor, $armourer)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function I_can_get_malus_to_fight_for_helm()
+    {
+        $skills = new PhysicalSkills();
+        $armourer = $this->mockery(Armourer::class);
+
+        $helm = $this->mockery(HelmCode::class);
+        $armourer->shouldReceive('getProtectiveArmamentRestrictionForSkill')
+            ->andReturnUsing(function (HelmCode $givenHelm, PositiveInteger $rank) use ($helm) {
+                self::assertSame($givenHelm, $helm);
+                self::assertSame(0, $rank->getValue());
+
+                return 'bar';
+            });
+        self::assertSame(
+            $expectedMalus = 'bar',
+            $skills->getMalusToFightNumberWithProtective($helm, $armourer)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function I_can_get_malus_to_fight_for_shield()
+    {
+        $skills = new PhysicalSkills();
+        $armourer = $this->mockery(Armourer::class);
+
+        $shield = $this->mockery(ShieldCode::class);
+        $armourer->shouldReceive('getProtectiveArmamentRestrictionForSkill')
+            ->andReturnUsing(function (ShieldCode $givenShield, PositiveInteger $rank) use ($shield) {
+                self::assertSame($givenShield, $shield);
+                self::assertSame(0, $rank->getValue());
+
+                return 'foo';
+            });
+        self::assertSame(
+            $expectedMalus = 'foo',
+            $skills->getMalusToFightNumberWithProtective($shield, $armourer)
+        );
+    }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThat
+     */
+    public function I_do_not_get_malus_to_fight_for_unknown_protective()
+    {
+        (new PhysicalSkills())->getMalusToFightNumberWithProtective(
+            $this->mockery(ProtectiveArmamentCode::class),
+            $this->mockery(Armourer::class)
+        );
+    }
+
 }

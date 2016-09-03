@@ -1,14 +1,20 @@
 <?php
 namespace DrdPlus\Skills\Physical;
 
+use DrdPlus\Codes\Armaments\ArmorCode;
 use DrdPlus\Codes\Armaments\MeleeWeaponCode;
+use DrdPlus\Codes\Armaments\ProtectiveArmamentCode;
+use DrdPlus\Codes\Armaments\ShieldCode;
 use DrdPlus\Codes\Armaments\WeaponlikeCode;
 use DrdPlus\Codes\PhysicalSkillCode;
 use DrdPlus\Codes\SkillTypeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Skills\SameTypeSkills;
 use Doctrine\ORM\Mapping as ORM;
+use DrdPlus\Tables\Armaments\Armourer;
 use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
+use Granam\Integer\PositiveInteger;
+use Granam\Integer\PositiveIntegerObject;
 
 /**
  * @ORM\Entity()
@@ -624,19 +630,20 @@ class PhysicalSkills extends SameTypeSkills
      * @param WeaponlikeCode $weaponlikeCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
-     * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
+     * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThat
      */
-    public function getMalusToFightNumber(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToFightNumberWithWeapon(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         $rankValue = $this->getSuitableFightWithWeaponHighestRank($weaponlikeCode);
 
-        return $missingWeaponSkillsTable->getFightNumberForWeaponSkill($rankValue);
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+        return $missingWeaponSkillsTable->getFightNumberMalusForSkill($rankValue);
     }
 
     /**
      * @param WeaponlikeCode $weaponlikeCode
      * @return int
-     * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
+     * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThat
      */
     private function getSuitableFightWithWeaponHighestRank(WeaponlikeCode $weaponlikeCode)
     {
@@ -672,7 +679,6 @@ class PhysicalSkills extends SameTypeSkills
                 $rankValues[] = $this->determineCurrentSkillRankValue($this->getFightWithVoulgesAndTridents());
             }
         }
-        /** @var WeaponlikeCode $weaponlikeCode */
         if ($weaponlikeCode->isThrowingWeapon()) {
             $rankValues[] = $this->determineCurrentSkillRankValue($this->getFightWithThrowingWeapons());
         }
@@ -681,7 +687,7 @@ class PhysicalSkills extends SameTypeSkills
             $rankValue = max($rankValues);
         }
         if (!is_int($rankValue)) {
-            throw new Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon(
+            throw new Exceptions\PhysicalSkillsDoNotKnowHowToUseThat(
                 "Given weapon '{$weaponlikeCode}' is not usable by any physical skill"
             );
         }
@@ -701,41 +707,83 @@ class PhysicalSkills extends SameTypeSkills
     }
 
     /**
-     * @param WeaponlikeCode $weaponlikeCode
-     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
+     * @param ProtectiveArmamentCode $protectiveArmamentCode
+     * @param $armourer $armourer
      * @return int
-     * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
+     * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThat
      */
-    public function getMalusToAttackNumber(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToFightNumberWithProtective(ProtectiveArmamentCode $protectiveArmamentCode, Armourer $armourer)
     {
-        $rankValue = $this->getSuitableFightWithWeaponHighestRank($weaponlikeCode);
+        if ($protectiveArmamentCode instanceof ArmorCode) {
+            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+            return $armourer->getProtectiveArmamentRestrictionForSkill(
+                $protectiveArmamentCode,
+                $this->determineCurrentSkillRank($this->getArmorWearing())
+            );
+        }
+        if ($protectiveArmamentCode instanceof ShieldCode) {
+            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+            return $armourer->getProtectiveArmamentRestrictionForSkill(
+                $protectiveArmamentCode,
+                $this->determineCurrentSkillRank($this->getShieldUsage())
+            );
+        }
+        throw new Exceptions\PhysicalSkillsDoNotKnowHowToUseThat(
+            "Given protective armament '{$protectiveArmamentCode}' is not usable by any physical skill"
+        );
+    }
 
-        return $missingWeaponSkillsTable->getAttackNumberForWeaponSkill($rankValue);
+    /**
+     * @param PhysicalSkill|null $physicalSkill
+     * @return PositiveInteger
+     */
+    private function determineCurrentSkillRank(PhysicalSkill $physicalSkill = null)
+    {
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+        return $physicalSkill
+            ? $physicalSkill->getCurrentSkillRank()
+            : new PositiveIntegerObject(0);
     }
 
     /**
      * @param WeaponlikeCode $weaponlikeCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
-     * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
+     * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThat
      */
-    public function getMalusToCover(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToAttackNumberWithWeapon(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         $rankValue = $this->getSuitableFightWithWeaponHighestRank($weaponlikeCode);
 
-        return $missingWeaponSkillsTable->getCoverForWeaponSkill($rankValue);
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+        return $missingWeaponSkillsTable->getAttackNumberMalusForSkill($rankValue);
     }
 
     /**
      * @param WeaponlikeCode $weaponlikeCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
-     * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
+     * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThat
      */
-    public function getMalusToBaseOfWounds(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToCoverWithWeapon(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         $rankValue = $this->getSuitableFightWithWeaponHighestRank($weaponlikeCode);
 
-        return $missingWeaponSkillsTable->getBaseOfWoundsForWeaponSkill($rankValue);
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+        return $missingWeaponSkillsTable->getCoverMalusForSkill($rankValue);
+    }
+
+    /**
+     * @param WeaponlikeCode $weaponlikeCode
+     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
+     * @return int
+     * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThat
+     */
+    public function getMalusToBaseOfWoundsWithWeapon(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    {
+        $rankValue = $this->getSuitableFightWithWeaponHighestRank($weaponlikeCode);
+
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+        return $missingWeaponSkillsTable->getBaseOfWoundsMalusForSkill($rankValue);
     }
 }

@@ -488,11 +488,11 @@ class CombinedSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
-    public function getMalusToFightNumber(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToFightNumberWithWeapon(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 
-        return $missingWeaponSkillsTable->getFightNumberForWeaponSkill($rankValue);
+        return $missingWeaponSkillsTable->getFightNumberMalusForSkill($rankValue);
     }
 
     /**
@@ -524,11 +524,11 @@ class CombinedSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
-    public function getMalusToAttackNumber(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToAttackNumberWithWeapon(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 
-        return $missingWeaponSkillsTable->getAttackNumberForWeaponSkill($rankValue);
+        return $missingWeaponSkillsTable->getAttackNumberMalusForSkill($rankValue);
     }
 
     /**
@@ -537,11 +537,11 @@ class CombinedSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
-    public function getMalusToCover(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToCoverWithWeapon(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 
-        return $missingWeaponSkillsTable->getCoverForWeaponSkill($rankValue);
+        return $missingWeaponSkillsTable->getCoverMalusForSkill($rankValue);
     }
 
     /**
@@ -550,10 +550,10 @@ class CombinedSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
-    public function getMalusToBaseOfWounds(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToBaseOfWoundsWithWeapon(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 
-        return $missingWeaponSkillsTable->getBaseOfWoundsForWeaponSkill($rankValue);
+        return $missingWeaponSkillsTable->getBaseOfWoundsMalusForSkill($rankValue);
     }
 }
