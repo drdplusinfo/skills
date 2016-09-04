@@ -18,12 +18,12 @@ class ShieldUsageTest extends PhysicalSkillTest
         $missingWeaponsSkillTable = $this->createMissingWeaponsSkillTable();
         $shieldUsage = new ShieldUsage($this->createProfessionFirstLevel());
 
-        $missingWeaponsSkillTable->shouldReceive('getFightNumberForWeaponSkill')
+        $missingWeaponsSkillTable->shouldReceive('getFightNumberMalusForSkill')
             ->with(0)
             ->atLeast()->once()
             ->andReturn(123);
         $missingShieldsSkillTable = $this->createMissingShieldsSkillTable();
-        $missingShieldsSkillTable->shouldReceive('getRestrictionBonusForSkillRank')
+        $missingShieldsSkillTable->shouldReceive('getRestrictionBonusForSkill')
             ->with(0)
             ->atLeast()->once()
             ->andReturn(456);
@@ -33,7 +33,7 @@ class ShieldUsageTest extends PhysicalSkillTest
         $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
         $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
         $missingShieldsSkillTable = $this->createMissingShieldsSkillTable();
-        $missingShieldsSkillTable->shouldReceive('getRestrictionBonusForSkillRank')
+        $missingShieldsSkillTable->shouldReceive('getRestrictionBonusForSkill')
             ->with(3)
             ->andReturn(3);
         self::assertSame(121, $shieldUsage->getMalusToFightNumber($missingShieldsSkillTable, -5, $missingWeaponsSkillTable));
@@ -76,13 +76,13 @@ class ShieldUsageTest extends PhysicalSkillTest
         $missingShieldsSkillTable = $this->createMissingShieldsSkillTable();
         $shieldUsage = new ShieldUsage($this->createProfessionFirstLevel());
 
-        $missingShieldsSkillTable->shouldReceive('getRestrictionBonusForSkillRank')
+        $missingShieldsSkillTable->shouldReceive('getRestrictionBonusForSkill')
             ->with(0)
             ->andReturn(3);
         self::assertSame(-2, $shieldUsage->getRestrictionWithShield($missingShieldsSkillTable, -5));
 
         $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
-        $missingShieldsSkillTable->shouldReceive('getRestrictionBonusForSkillRank')
+        $missingShieldsSkillTable->shouldReceive('getRestrictionBonusForSkill')
             ->with(1)
             ->andReturn(5);
         self::assertSame(-7, $shieldUsage->getRestrictionWithShield($missingShieldsSkillTable, -12));
@@ -96,14 +96,14 @@ class ShieldUsageTest extends PhysicalSkillTest
         $shieldUsage = new ShieldUsage($this->createProfessionFirstLevel());
         $missingShieldsSkillTable = $this->createMissingShieldsSkillTable();
 
-        $missingShieldsSkillTable->shouldReceive('getRestrictionBonusForSkillRank')
+        $missingShieldsSkillTable->shouldReceive('getRestrictionBonusForSkill')
             ->with(0)
             ->andReturn(456);
         self::assertSame(0, $shieldUsage->getRestrictionWithShield($missingShieldsSkillTable, -5));
 
         $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
         $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
-        $missingShieldsSkillTable->shouldReceive('getRestrictionBonusForSkillRank')
+        $missingShieldsSkillTable->shouldReceive('getRestrictionBonusForSkill')
             ->with(2)
             ->andReturn(10);
         self::assertSame(0, $shieldUsage->getRestrictionWithShield($missingShieldsSkillTable, -10));
@@ -117,7 +117,7 @@ class ShieldUsageTest extends PhysicalSkillTest
         $shieldUsage = new ShieldUsage($this->createProfessionFirstLevel());
         $missingWeaponsSkillTable = $this->createMissingWeaponsSkillTable();
 
-        $missingWeaponsSkillTable->shouldReceive('getAttackNumberForWeaponSkill')
+        $missingWeaponsSkillTable->shouldReceive('getAttackNumberMalusForSkill')
             ->with(0)// it should be always called with zero (because there is nothing like 'Fight with shield' skill)
             ->andReturn(-456);
         self::assertSame(-456, $shieldUsage->getMalusToAttackNumber($missingWeaponsSkillTable));
@@ -139,14 +139,14 @@ class ShieldUsageTest extends PhysicalSkillTest
         $shieldUsage = new ShieldUsage($this->createProfessionFirstLevel());
         $missingShieldsSkillTable = $this->createMissingShieldsSkillTable();
 
-        $missingShieldsSkillTable->shouldReceive('getCoverForSkillRank')
+        $missingShieldsSkillTable->shouldReceive('getCoverForSkill')
             ->with(0)
             ->andReturn(5);
         self::assertSame(5, $shieldUsage->getMalusToCover($missingShieldsSkillTable));
 
         $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
         $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
-        $missingShieldsSkillTable->shouldReceive('getCoverForSkillRank')
+        $missingShieldsSkillTable->shouldReceive('getCoverForSkill')
             ->with(2)
             ->andReturn(11);
         self::assertSame(11, $shieldUsage->getMalusToCover($missingShieldsSkillTable));
@@ -160,7 +160,7 @@ class ShieldUsageTest extends PhysicalSkillTest
         $shieldUsage = new ShieldUsage($this->createProfessionFirstLevel());
         $missingWeaponsSkillTable = $this->createMissingWeaponsSkillTable();
 
-        $missingWeaponsSkillTable->shouldReceive('getBaseOfWoundsForWeaponSkill')
+        $missingWeaponsSkillTable->shouldReceive('getBaseOfWoundsMalusForSkill')
             ->with(0)// it should be always called with zero (because there is nothing like 'Fight with shield' skill)
             ->andReturn(-123);
         self::assertSame(-123, $shieldUsage->getMalusToBaseOfWounds($missingWeaponsSkillTable));
