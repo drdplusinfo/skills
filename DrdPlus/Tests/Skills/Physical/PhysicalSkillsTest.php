@@ -216,28 +216,28 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         $weaponlikeCode = $this->createWeaponCode($weaponCategory, $isMelee, $isThrowing);
         self::assertSame(
             $expectedMalus = 'foo',
-            $skills->getMalusToFightNumberWithWeapon(
+            $skills->getMalusToFightNumberWithWeaponlike(
                 $weaponlikeCode,
                 $this->createMissingWeaponSkillsTable('fightNumber', 0 /* expected skill value */, $expectedMalus)
             )
         );
         self::assertSame(
             $expectedMalus = 'bar',
-            $skills->getMalusToAttackNumberWithWeapon(
+            $skills->getMalusToAttackNumberWithWeaponlike(
                 $weaponlikeCode,
                 $this->createMissingWeaponSkillsTable('attackNumber', 0 /* expected skill value */, $expectedMalus)
             )
         );
         self::assertSame(
             $expectedMalus = 'baz',
-            $skills->getMalusToCoverWithWeapon(
+            $skills->getMalusToCoverWithWeaponlike(
                 $weaponlikeCode,
                 $this->createMissingWeaponSkillsTable('cover', 0 /* expected skill value */, $expectedMalus)
             )
         );
         self::assertSame(
             $expectedMalus = 'qux',
-            $skills->getMalusToBaseOfWoundsWithWeapon(
+            $skills->getMalusToBaseOfWoundsWithWeaponlike(
                 $weaponlikeCode,
                 $this->createMissingWeaponSkillsTable('baseOfWounds', 0 /* expected skill value */, $expectedMalus)
             )
@@ -312,7 +312,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         $physicalSkills = new PhysicalSkills();
         /** @var MissingWeaponSkillTable $missingWeaponSkillsTable */
         $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
-        $physicalSkills->getMalusToFightNumberWithWeapon(
+        $physicalSkills->getMalusToFightNumberWithWeaponlike(
             $this->createWeaponCode('plank', true /* is melee */, false /* not throwing */),
             $missingWeaponSkillsTable
         );
@@ -328,7 +328,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         $physicalSkills = new PhysicalSkills();
         /** @var MissingWeaponSkillTable $missingWeaponSkillsTable */
         $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
-        $physicalSkills->getMalusToFightNumberWithWeapon(
+        $physicalSkills->getMalusToFightNumberWithWeaponlike(
             $this->createWeaponCode('artillery', false /* not melee */, false /* not throwing */),
             $missingWeaponSkillsTable
         );

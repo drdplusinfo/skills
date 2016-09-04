@@ -632,7 +632,7 @@ class PhysicalSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      */
-    public function getMalusToFightNumberWithWeapon(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToFightNumberWithWeaponlike(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         $rankValue = $this->getSuitableFightWithWeaponHighestRank($weaponlikeCode);
 
@@ -751,7 +751,7 @@ class PhysicalSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      */
-    public function getMalusToAttackNumberWithWeapon(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToAttackNumberWithWeaponlike(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         $rankValue = $this->getSuitableFightWithWeaponHighestRank($weaponlikeCode);
 
@@ -765,7 +765,7 @@ class PhysicalSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      */
-    public function getMalusToCoverWithWeapon(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToCoverWithWeaponlike(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         $rankValue = $this->getSuitableFightWithWeaponHighestRank($weaponlikeCode);
 
@@ -779,7 +779,7 @@ class PhysicalSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      */
-    public function getMalusToBaseOfWoundsWithWeapon(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToBaseOfWoundsWithWeaponlike(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         $rankValue = $this->getSuitableFightWithWeaponHighestRank($weaponlikeCode);
 

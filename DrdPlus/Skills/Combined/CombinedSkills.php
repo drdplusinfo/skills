@@ -488,7 +488,7 @@ class CombinedSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
-    public function getMalusToFightNumberWithWeapon(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToFightNumberWithShootingWeapon(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 
@@ -524,7 +524,7 @@ class CombinedSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
-    public function getMalusToAttackNumberWithWeapon(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToAttackNumberWithShootingWeapon(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 
@@ -537,7 +537,7 @@ class CombinedSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
-    public function getMalusToCoverWithWeapon(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToCoverWithShootingWeapon(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 
@@ -550,7 +550,7 @@ class CombinedSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
-    public function getMalusToBaseOfWoundsWithWeapon(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToBaseOfWoundsWithShootingWeapon(RangeWeaponCode $rangeWeaponCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 

@@ -1021,16 +1021,16 @@ class SkillsTest extends TestWithMockery
             false /* not shooting */
         );
         $missingWeaponSkillsTable = $this->createMissingWeaponSkillsTable();
-        $physicalSkills->shouldReceive($getMalusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeapon')
+        $physicalSkills->shouldReceive($getMalusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeaponlike')
             ->with($meleeWeaponCode, $missingWeaponSkillsTable)
             ->andReturn($meleeWeaponMalus = 'foo');
         self::assertSame(
             $meleeWeaponMalus,
             /**
-             * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeapon
-             * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeapon
-             * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeapon
-             * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeapon
+             * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeaponlike
+             * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeaponlike
+             * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeaponlike
+             * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeaponlike
              */
             $skills->$getMalusToParameter(
                 $meleeWeaponCode,
@@ -1102,16 +1102,16 @@ class SkillsTest extends TestWithMockery
             false /* not shooting */
         );
         $missingWeaponSkillsTable = $this->createMissingWeaponSkillsTable();
-        $physicalSkills->shouldReceive($getMalusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeapon')
+        $physicalSkills->shouldReceive($getMalusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeaponlike')
             ->with($throwingWeaponCode, $missingWeaponSkillsTable)
             ->andReturn($throwingWeaponMalus = 'foo');
         self::assertSame(
             $throwingWeaponMalus,
             /**
-             * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeapon
-             * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeapon
-             * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeapon
-             * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeapon
+             * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeaponlike
+             * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeaponlike
+             * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeaponlike
+             * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeaponlike
              */
             $skills->$getMalusToParameter(
                 $throwingWeaponCode,
@@ -1158,16 +1158,17 @@ class SkillsTest extends TestWithMockery
         $shootingWeaponCode->shouldReceive('convertToRangeWeaponCodeEquivalent')
             ->andReturn($rangeWeaponCode = $this->createRangeWeaponCode());
         $missingWeaponSkillsTable = $this->createMissingWeaponSkillsTable();
-        $combinedSkills->shouldReceive($malusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeapon')
+        $combinedSkills->shouldReceive('getMalusTo' . ucfirst($malusTo) . 'WithShootingWeapon')
             ->with($rangeWeaponCode, $missingWeaponSkillsTable)
             ->andReturn($shootingWeaponMalus = 'foo');
+        $malusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeaponlike';
         self::assertSame(
             $shootingWeaponMalus,
             /**
-             * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeapon
-             * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeapon
-             * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeapon
-             * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeapon
+             * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeaponlike
+             * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeaponlike
+             * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeaponlike
+             * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeaponlike
              */
             $skills->$malusToParameter(
                 $shootingWeaponCode,
@@ -1222,16 +1223,16 @@ class SkillsTest extends TestWithMockery
         $shootingWeaponCode->shouldReceive('convertToRangeWeaponCodeEquivalent')
             ->andReturn($rangeWeaponCode = $this->createRangeWeaponCode());
         $missingWeaponSkillsTable = $this->createMissingWeaponSkillsTable();
-        $combinedSkills->shouldReceive($malusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeapon')
+        $combinedSkills->shouldReceive($malusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeaponlike')
             ->with($rangeWeaponCode, $missingWeaponSkillsTable)
             ->andReturn('foo');
         self::assertSame(
             0,
             /**
-             * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeapon
-             * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeapon
-             * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeapon
-             * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeapon
+             * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeaponlike
+             * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeaponlike
+             * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeaponlike
+             * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeaponlike
              */
             $skills->$malusToParameter(
                 $shootingWeaponCode,
