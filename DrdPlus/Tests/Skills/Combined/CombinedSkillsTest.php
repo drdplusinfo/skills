@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Tests\Skills\Combined;
 
-use DrdPlus\Codes\Armaments\RangeWeaponCode;
+use DrdPlus\Codes\Armaments\RangedWeaponCode;
 use DrdPlus\Codes\Armaments\WeaponCategoryCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
@@ -201,11 +201,11 @@ class CombinedSkillsTest extends SameTypeSkillsTest
 
     /**
      * @param $weaponCategory
-     * @return \Mockery\MockInterface|RangeWeaponCode
+     * @return \Mockery\MockInterface|RangedWeaponCode
      */
     private function createRangeWeaponCode($weaponCategory)
     {
-        $code = $this->mockery(RangeWeaponCode::class);
+        $code = $this->mockery(RangedWeaponCode::class);
         $code->shouldReceive('is' . ucfirst($weaponCategory))
             ->andReturn('true');
         $code->shouldIgnoreMissing(false /* return value for non-mocked methods */);

@@ -7,7 +7,7 @@ use DrdPlus\Codes\CombinedSkillCode;
 use DrdPlus\Codes\PhysicalSkillCode;
 use DrdPlus\Codes\PropertyCode;
 use DrdPlus\Codes\PsychicalSkillCode;
-use DrdPlus\Codes\Armaments\RangeWeaponCode;
+use DrdPlus\Codes\Armaments\RangedWeaponCode;
 use DrdPlus\Codes\Armaments\WeaponlikeCode;
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\LevelRank;
@@ -1178,11 +1178,11 @@ class SkillsTest extends TestWithMockery
     }
 
     /**
-     * @return \Mockery\MockInterface|RangeWeaponCode
+     * @return \Mockery\MockInterface|RangedWeaponCode
      */
     private function createRangeWeaponCode()
     {
-        return $this->mockery(RangeWeaponCode::class);
+        return $this->mockery(RangedWeaponCode::class);
     }
 
     /**
