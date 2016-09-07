@@ -1155,7 +1155,7 @@ class SkillsTest extends TestWithMockery
             false /* not throwing */,
             true /* is shooting */
         );
-        $shootingWeaponCode->shouldReceive('convertToRangeWeaponCodeEquivalent')
+        $shootingWeaponCode->shouldReceive('convertToRangedWeaponCodeEquivalent')
             ->andReturn($rangeWeaponCode = $this->createRangeWeaponCode());
         $missingWeaponSkillsTable = $this->createMissingWeaponSkillsTable();
         $combinedSkills->shouldReceive('getMalusTo' . ucfirst($malusTo) . 'WithShootingWeapon')
@@ -1220,7 +1220,7 @@ class SkillsTest extends TestWithMockery
             false /* not throwing */,
             false /* not shooting */
         );
-        $shootingWeaponCode->shouldReceive('convertToRangeWeaponCodeEquivalent')
+        $shootingWeaponCode->shouldReceive('convertToRangedWeaponCodeEquivalent')
             ->andReturn($rangeWeaponCode = $this->createRangeWeaponCode());
         $missingWeaponSkillsTable = $this->createMissingWeaponSkillsTable();
         $combinedSkills->shouldReceive($malusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeaponlike')
