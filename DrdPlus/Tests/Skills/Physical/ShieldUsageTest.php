@@ -139,14 +139,14 @@ class ShieldUsageTest extends PhysicalSkillTest
         $shieldUsage = new ShieldUsage($this->createProfessionFirstLevel());
         $missingShieldsSkillTable = $this->createMissingShieldsSkillTable();
 
-        $missingShieldsSkillTable->shouldReceive('getCoverForSkill')
+        $missingShieldsSkillTable->shouldReceive('getCoverForSkillRank')
             ->with(0)
             ->andReturn(5);
         self::assertSame(5, $shieldUsage->getMalusToCover($missingShieldsSkillTable));
 
         $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
         $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
-        $missingShieldsSkillTable->shouldReceive('getCoverForSkill')
+        $missingShieldsSkillTable->shouldReceive('getCoverForSkillRank')
             ->with(2)
             ->andReturn(11);
         self::assertSame(11, $shieldUsage->getMalusToCover($missingShieldsSkillTable));
