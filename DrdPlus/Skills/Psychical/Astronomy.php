@@ -2,7 +2,7 @@
 namespace DrdPlus\Skills\Psychical;
 
 use Doctrine\ORM\Mapping as ORM;
-use DrdPlus\Codes\PsychicalSkillCode;
+use DrdPlus\Codes\Skills\PsychicalSkillCode;
 
 /**
  * @ORM\Entity()

@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Skills\Physical;
 
-use DrdPlus\Codes\SkillTypeCode;
+use DrdPlus\Codes\Skills\SkillTypeCode;
 use DrdPlus\Properties\Base\Agility;
 use DrdPlus\Properties\Base\Strength;
 use DrdPlus\Skills\SkillPoint;

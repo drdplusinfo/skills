@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Skills\Combined;
 
-use DrdPlus\Codes\SkillTypeCode;
+use DrdPlus\Codes\Skills\SkillTypeCode;
 use DrdPlus\Properties\Base\Charisma;
 use DrdPlus\Properties\Base\Knack;
 use DrdPlus\Skills\SkillPoint;

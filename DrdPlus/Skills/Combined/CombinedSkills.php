@@ -1,9 +1,9 @@
 <?php
 namespace DrdPlus\Skills\Combined;
 
-use DrdPlus\Codes\CombinedSkillCode;
+use DrdPlus\Codes\Skills\CombinedSkillCode;
 use DrdPlus\Codes\Armaments\RangedWeaponCode;
-use DrdPlus\Codes\SkillTypeCode;
+use DrdPlus\Codes\Skills\SkillTypeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Skills\SameTypeSkills;
 use Doctrine\ORM\Mapping as ORM;

@@ -1,8 +1,8 @@
 <?php
 namespace DrdPlus\Skills\Psychical;
 
-use DrdPlus\Codes\PsychicalSkillCode;
-use DrdPlus\Codes\SkillTypeCode;
+use DrdPlus\Codes\Skills\PsychicalSkillCode;
+use DrdPlus\Codes\Skills\SkillTypeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Skills\SameTypeSkills;
 use Doctrine\ORM\Mapping as ORM;

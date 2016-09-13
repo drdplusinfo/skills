@@ -3,10 +3,10 @@ namespace DrdPlus\Skills;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use DrdPlus\Codes\Armaments\ShieldCode;
-use DrdPlus\Codes\CombinedSkillCode;
-use DrdPlus\Codes\PhysicalSkillCode;
+use DrdPlus\Codes\Skills\CombinedSkillCode;
+use DrdPlus\Codes\Skills\PhysicalSkillCode;
 use DrdPlus\Codes\PropertyCode;
-use DrdPlus\Codes\PsychicalSkillCode;
+use DrdPlus\Codes\Skills\PsychicalSkillCode;
 use DrdPlus\Codes\Armaments\RangedWeaponCode;
 use DrdPlus\Codes\Armaments\WeaponlikeCode;
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;

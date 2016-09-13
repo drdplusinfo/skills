@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Skills\Physical;
 
-use DrdPlus\Codes\PhysicalSkillCode;
+use DrdPlus\Codes\Skills\PhysicalSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Tables\Armaments\Shields\MissingShieldSkillTable;
 use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
@@ -96,7 +96,7 @@ class ShieldUsage extends PhysicalSkill
     public function getMalusToCover(MissingShieldSkillTable $missingShieldSkillsTable)
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        return $missingShieldSkillsTable->getCoverForSkill($this->getCurrentSkillRank()->getValue());
+        return $missingShieldSkillsTable->getCoverForSkillRank($this->getCurrentSkillRank()->getValue());
     }
 
     /**

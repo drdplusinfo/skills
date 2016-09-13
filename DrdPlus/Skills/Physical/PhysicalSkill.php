@@ -29,6 +29,7 @@ use Granam\Integer\PositiveIntegerObject;
  *  "fightWithMorningStarsAndMorgensterns" = "FightWithMorningStarsAndMorgensterns",
  *  "fightWithSabersAndBowieKnifes" = "FightWithSabersAndBowieKnifes",
  *  "fightWithStaffsAndSpears" = "FightWithStaffsAndSpears",
+ *  "fightWithShields" = "FightWithShields",
  *  "fightWithSwords" = "FightWithSwords",
  *  "fightWithThrowingWeapons" = "FightWithThrowingWeapons",
  *  "fightWithTwoWeapons" = "FightWithTwoWeapons",

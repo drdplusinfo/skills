@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Tests\Skills;
 
-use DrdPlus\Codes\SkillCode;
+use DrdPlus\Codes\Skills\SkillCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Skills\Combined\CombinedSkillPoint;

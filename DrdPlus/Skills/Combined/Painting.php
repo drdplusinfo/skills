@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Skills\Combined;
 
-use DrdPlus\Codes\CombinedSkillCode;
+use DrdPlus\Codes\Skills\CombinedSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

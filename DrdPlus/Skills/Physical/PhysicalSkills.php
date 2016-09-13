@@ -6,8 +6,8 @@ use DrdPlus\Codes\Armaments\MeleeWeaponCode;
 use DrdPlus\Codes\Armaments\ProtectiveArmamentCode;
 use DrdPlus\Codes\Armaments\ShieldCode;
 use DrdPlus\Codes\Armaments\WeaponlikeCode;
-use DrdPlus\Codes\PhysicalSkillCode;
-use DrdPlus\Codes\SkillTypeCode;
+use DrdPlus\Codes\Skills\PhysicalSkillCode;
+use DrdPlus\Codes\Skills\SkillTypeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Skills\SameTypeSkills;
 use Doctrine\ORM\Mapping as ORM;
@@ -98,6 +98,11 @@ class PhysicalSkills extends SameTypeSkills
      * @ORM\OneToOne(targetEntity="FightWithStaffsAndSpears")
      */
     private $fightWithStaffsAndSpears;
+    /**
+     * @var FightWithShields|null
+     * @ORM\OneToOne(targetEntity="FightWithShields")
+     */
+    private $fightWithShields;
     /**
      * @var FightWithSwords|null
      * @ORM\OneToOne(targetEntity="FightWithSwords")
@@ -201,6 +206,7 @@ class PhysicalSkills extends SameTypeSkills
                 $this->getFightWithMorningStarsAndMorgensterns(),
                 $this->getFightWithSabersAndBowieKnifes(),
                 $this->getFightWithStaffsAndSpears(),
+                $this->getFightWithShields(),
                 $this->getFightWithSwords(),
                 $this->getFightWithThrowingWeapons(),
                 $this->getFightWithTwoWeapons(),
@@ -308,6 +314,12 @@ class PhysicalSkills extends SameTypeSkills
                     throw new Exceptions\PhysicalSkillAlreadySet('fightWithStaffsAndSpears is already set');
                 }
                 $this->fightWithStaffsAndSpears = $physicalSkill;
+                break;
+            case is_a($physicalSkill, FightWithShields::class) :
+                if ($this->fightWithShields !== null) {
+                    throw new Exceptions\PhysicalSkillAlreadySet('fightWithShields is already set');
+                }
+                $this->fightWithShields = $physicalSkill;
                 break;
             case is_a($physicalSkill, FightWithSwords::class) :
                 if ($this->fightWithSwords !== null) {
@@ -511,6 +523,14 @@ class PhysicalSkills extends SameTypeSkills
     }
 
     /**
+     * @return FightWithShields|null
+     */
+    public function getFightWithShields()
+    {
+        return $this->fightWithShields;
+    }
+
+    /**
      * @return FightWithSwords|null
      */
     public function getFightWithSwords()
@@ -677,6 +697,9 @@ class PhysicalSkills extends SameTypeSkills
             }
             if ($weaponlikeCode->isVoulgeOrTrident()) {
                 $rankValues[] = $this->determineCurrentSkillRankValue($this->getFightWithVoulgesAndTridents());
+            }
+            if ($weaponlikeCode->isShield()) {
+                $rankValues[] = $this->determineCurrentSkillRankValue($this->getFightWithShields());
             }
         }
         if ($weaponlikeCode->isThrowingWeapon()) {
