@@ -269,7 +269,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     private function createWeaponCode($weaponCategory, $isMelee, $isThrowing)
     {
         $weaponlikeCode = $this->mockery(WeaponlikeCode::class);
-        $weaponlikeCode->shouldReceive('isMeleeArmament')
+        $weaponlikeCode->shouldReceive('isMelee')
             ->andReturn($isMelee);
         if ($isMelee) {
             $weaponlikeCode->shouldReceive('convertToMeleeWeaponCodeEquivalent')

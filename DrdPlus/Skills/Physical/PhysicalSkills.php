@@ -647,6 +647,12 @@ class PhysicalSkills extends SameTypeSkills
     }
 
     /**
+     * Note about SHIELD: "weaponlike" means for attacking. If you provide a shield, it will considered as a weapon for direct attack.
+     * If yu want fight number malus with shield as a protective armament,
+     * use @see \DrdPlus\Skills\Physical\PhysicalSkills::getMalusToFightNumberWithProtective
+     * And one more note: RESTRICTION from shield is NOT applied if the shield is used as a weapon
+     * (malus is already included in FightWithShields skill).
+     *
      * @param WeaponlikeCode $weaponlikeCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
@@ -661,6 +667,9 @@ class PhysicalSkills extends SameTypeSkills
     }
 
     /**
+     * Note about SHIELD: "fight with" means attacking - for shield standard usage as
+     * a protective armament @see \DrdPlus\Skills\Physical\PhysicalSkills::getMalusToFightNumberWithProtective
+     *
      * @param WeaponlikeCode $weaponlikeCode
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
@@ -668,7 +677,7 @@ class PhysicalSkills extends SameTypeSkills
     private function getSuitableFightWithWeaponHighestRank(WeaponlikeCode $weaponlikeCode)
     {
         $rankValues = [];
-        if ($weaponlikeCode->isMeleeArmament()) {
+        if ($weaponlikeCode->isMelee()) {
             $weaponlikeCode = $weaponlikeCode->convertToMeleeWeaponCodeEquivalent();
             /** @var MeleeWeaponCode $weaponlikeCode */
             if ($weaponlikeCode->isAxe()) {
@@ -769,6 +778,9 @@ class PhysicalSkills extends SameTypeSkills
     }
 
     /**
+     * Note about SHIELD: "weaponlike" means for attacking - for shield standard usage as
+     * a protective armament @see \DrdPlus\Skills\Physical\PhysicalSkills::getMalusToFightNumberWithProtective
+     *
      * @param WeaponlikeCode $weaponlikeCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
@@ -783,6 +795,9 @@ class PhysicalSkills extends SameTypeSkills
     }
 
     /**
+     * Note about SHIELD: "weaponlike" means for attacking - for shield standard usage as
+     * a protective armament @see \DrdPlus\Skills\Physical\PhysicalSkills::getMalusToFightNumberWithProtective
+     *
      * @param WeaponlikeCode $weaponlikeCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
@@ -797,6 +812,9 @@ class PhysicalSkills extends SameTypeSkills
     }
 
     /**
+     * Note about SHIELD: "weaponlike" means for attacking - for shield standard usage as
+     * a protective armament @see \DrdPlus\Skills\Physical\PhysicalSkills::getMalusToFightNumberWithProtective
+     *
      * @param WeaponlikeCode $weaponlikeCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int

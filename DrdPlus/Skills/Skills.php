@@ -544,19 +544,20 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     }
 
     /**
-     * If shield is provided, is considered as a weapon and therefore zero skill is used for it.
-     * If you want fight number for shield as a protective item, use getMalusToFightNumberWithProtective instead.
+     * Note about SHIELD: shield is considered as a weapon and therefore zero skill is used for it (rare FightWithShield respectively).
+     * If you want fight number for shield as a PROTECTIVE item, use @see getMalusToFightNumberWithProtective instead.
      *
      * @param WeaponlikeCode $weaponOrShieldForAttack
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
+     * @throws \DrdPlus\Skills\Exceptions\UnknownTypeOfWeapon
      */
     public function getMalusToFightNumberWithWeaponlike(
         WeaponlikeCode $weaponOrShieldForAttack,
         MissingWeaponSkillTable $missingWeaponSkillsTable
     )
     {
-        if ($weaponOrShieldForAttack->isMeleeArmament() || $weaponOrShieldForAttack->isThrowingWeapon()) {
+        if ($weaponOrShieldForAttack->isMelee() || $weaponOrShieldForAttack->isThrowingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getPhysicalSkills()->getMalusToFightNumberWithWeaponlike($weaponOrShieldForAttack, $missingWeaponSkillsTable);
         }
@@ -567,8 +568,10 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
                 $missingWeaponSkillsTable
             );
         }
-
-        return 0;
+        if ($weaponOrShieldForAttack->isProjectile()) {
+            return 0;
+        }
+        throw new Exceptions\UnknownTypeOfWeapon($weaponOrShieldForAttack);
     }
 
     /**
@@ -583,15 +586,19 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     }
 
     /**
+     * Note about SHIELD: shield is considered as a weapon and therefore zero skill is used for it (rare FightWithShield respectively).
+     * If you want to use shield as a PROTECTIVE item, there is no attack number malus from that.
+     *
      * @param WeaponlikeCode $weaponlikeCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      * @throws \DrdPlus\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
+     * @throws \DrdPlus\Skills\Exceptions\UnknownTypeOfWeapon
      */
     public function getMalusToAttackNumberWithWeaponlike(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
-        if ($weaponlikeCode->isMeleeArmament() || $weaponlikeCode->isThrowingWeapon()) {
+        if ($weaponlikeCode->isMelee() || $weaponlikeCode->isThrowingWeapon()) {
             return $this->getPhysicalSkills()->getMalusToAttackNumberWithWeaponlike($weaponlikeCode, $missingWeaponSkillsTable);
         }
         if ($weaponlikeCode->isShootingWeapon()) {
@@ -600,40 +607,50 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
                 $missingWeaponSkillsTable
             );
         }
-
-        return 0;
+        if ($weaponlikeCode->isProjectile()) {
+            return 0;
+        }
+        throw new Exceptions\UnknownTypeOfWeapon($weaponlikeCode);
     }
 
     /**
-     * @param WeaponlikeCode $weaponlikeCode
+     * Usable both for weapons and shields.
+     *
+     * @param WeaponlikeCode $weaponOrShieldCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
+     * @throws Exceptions\UnknownTypeOfWeapon
      */
-    public function getMalusToCoverWithWeaponlike(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToCoverWithWeaponlike(WeaponlikeCode $weaponOrShieldCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
-        if ($weaponlikeCode->isMeleeArmament() || $weaponlikeCode->isThrowingWeapon()) {
+        if ($weaponOrShieldCode->isMelee() || $weaponOrShieldCode->isThrowingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-            return $this->getPhysicalSkills()->getMalusToCoverWithWeaponlike($weaponlikeCode, $missingWeaponSkillsTable);
+            return $this->getPhysicalSkills()->getMalusToCoverWithWeaponlike($weaponOrShieldCode, $missingWeaponSkillsTable);
         }
-        if ($weaponlikeCode->isShootingWeapon()) {
+        if ($weaponOrShieldCode->isShootingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getCombinedSkills()->getMalusToCoverWithShootingWeapon(
-                $weaponlikeCode->convertToRangedWeaponCodeEquivalent(),
+                $weaponOrShieldCode->convertToRangedWeaponCodeEquivalent(),
                 $missingWeaponSkillsTable
             );
         }
-
-        return 0; // projectile
+        if ($weaponOrShieldCode->isProjectile()) {
+            return 0;
+        }
+        throw new Exceptions\UnknownTypeOfWeapon($weaponOrShieldCode);
     }
 
     /**
+     * If you want to use shield as a PROTECTIVE item, there is no base of wounds malus from that.
+     *
      * @param WeaponlikeCode $weaponlikeCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @return int
+     * @throws Exceptions\UnknownTypeOfWeapon
      */
     public function getMalusToBaseOfWoundsWithWeaponlike(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
     {
-        if ($weaponlikeCode->isMeleeArmament() || $weaponlikeCode->isThrowingWeapon()) {
+        if ($weaponlikeCode->isMelee() || $weaponlikeCode->isThrowingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getPhysicalSkills()->getMalusToBaseOfWoundsWithWeaponlike($weaponlikeCode, $missingWeaponSkillsTable);
         }
@@ -644,8 +661,10 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
                 $missingWeaponSkillsTable
             );
         }
-
-        return 0;
+        if ($weaponlikeCode->isProjectile()) {
+            return 0;
+        }
+        throw new Exceptions\UnknownTypeOfWeapon($weaponlikeCode);
     }
 
 }

@@ -1015,11 +1015,7 @@ class SkillsTest extends TestWithMockery
             $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel)
         );
 
-        $meleeWeaponCode = $this->createWeaponCode(
-            true /* is melee */,
-            false /* not throwing */,
-            false /* not shooting */
-        );
+        $meleeWeaponCode = $this->createWeaponlikeCode(true /* is melee */);
         $missingWeaponSkillsTable = $this->createMissingWeaponSkillsTable();
         $physicalSkills->shouldReceive($getMalusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeaponlike')
             ->with($meleeWeaponCode, $missingWeaponSkillsTable)
@@ -1043,17 +1039,25 @@ class SkillsTest extends TestWithMockery
      * @param bool $isMelee
      * @param bool $isThrowing
      * @param bool $isShooting
+     * @param bool $isProjectile
      * @return \Mockery\MockInterface|WeaponlikeCode
      */
-    private function createWeaponCode($isMelee, $isThrowing, $isShooting)
+    private function createWeaponlikeCode(
+        $isMelee,
+        $isThrowing = false,
+        $isShooting = false,
+        $isProjectile = false
+    )
     {
         $weaponlikeCode = $this->mockery(WeaponlikeCode::class);
-        $weaponlikeCode->shouldReceive('isMeleeArmament')
+        $weaponlikeCode->shouldReceive('isMelee')
             ->andReturn($isMelee);
         $weaponlikeCode->shouldReceive('isThrowingWeapon')
             ->andReturn($isThrowing);
         $weaponlikeCode->shouldReceive('isShootingWeapon')
             ->andReturn($isShooting);
+        $weaponlikeCode->shouldReceive('isProjectile')
+            ->andReturn($isProjectile);
 
         return $weaponlikeCode;
     }
@@ -1096,10 +1100,9 @@ class SkillsTest extends TestWithMockery
             $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel)
         );
 
-        $throwingWeaponCode = $this->createWeaponCode(
+        $throwingWeaponCode = $this->createWeaponlikeCode(
             false /* not melee */,
-            true /* is throwing */,
-            false /* not shooting */
+            true /* is throwing */
         );
         $missingWeaponSkillsTable = $this->createMissingWeaponSkillsTable();
         $physicalSkills->shouldReceive($getMalusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeaponlike')
@@ -1150,7 +1153,7 @@ class SkillsTest extends TestWithMockery
             $combinedSkills = $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel)
         );
 
-        $shootingWeaponCode = $this->createWeaponCode(
+        $shootingWeaponCode = $this->createWeaponlikeCode(
             false /* not melee */,
             false /* not throwing */,
             true /* is shooting */
@@ -1215,12 +1218,13 @@ class SkillsTest extends TestWithMockery
             $combinedSkills = $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel)
         );
 
-        $shootingWeaponCode = $this->createWeaponCode(
+        $projectile = $this->createWeaponlikeCode(
             false /* not melee */,
             false /* not throwing */,
-            false /* not shooting */
+            false /* not shooting */,
+            true /* projectile */
         );
-        $shootingWeaponCode->shouldReceive('convertToRangedWeaponCodeEquivalent')
+        $projectile->shouldReceive('convertToRangedWeaponCodeEquivalent')
             ->andReturn($rangeWeaponCode = $this->createRangeWeaponCode());
         $missingWeaponSkillsTable = $this->createMissingWeaponSkillsTable();
         $combinedSkills->shouldReceive($malusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeaponlike')
@@ -1235,7 +1239,7 @@ class SkillsTest extends TestWithMockery
              * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeaponlike
              */
             $skills->$malusToParameter(
-                $shootingWeaponCode,
+                $projectile,
                 $missingWeaponSkillsTable
             )
         );
@@ -1247,8 +1251,8 @@ class SkillsTest extends TestWithMockery
     public function I_can_get_malus_to_fight_number_with_protective()
     {
         $professionLevels = $this->createProfessionLevels();
-        $backgroundSkillPoints = $this->createBackgroundSkillPoints($professionLevels->getFirstLevel()->getProfession());
         $firstLevel = $professionLevels->getFirstLevel();
+        $backgroundSkillPoints = $this->createBackgroundSkillPoints($firstLevel->getProfession());
         $skills = Skills::createSkills(
             $professionLevels,
             $backgroundSkillPoints,
@@ -1268,6 +1272,34 @@ class SkillsTest extends TestWithMockery
                 $shield,
                 $armourer
             )
+        );
+    }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Skills\Exceptions\UnknownTypeOfWeapon
+     */
+    public function I_can_not_get_fight_number_malus_for_unknown_weaponlike()
+    {
+        $professionLevels = $this->createProfessionLevels();
+        $backgroundSkillPoints = $this->createBackgroundSkillPoints($professionLevels->getFirstLevel()->getProfession());
+        $firstLevel = $professionLevels->getFirstLevel();
+        $skills = Skills::createSkills(
+            $professionLevels,
+            $backgroundSkillPoints,
+            new Tables(),
+            $this->createPhysicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
+            $this->createPsychicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
+            $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel)
+        );
+        $skills->getMalusToFightNumberWithWeaponlike(
+            $this->createWeaponlikeCode(
+                false, // not melee
+                false, // not throwing
+                false, // not ranged
+                false // not projectile
+            ),
+            $this->createMissingWeaponSkillsTable()
         );
     }
 
