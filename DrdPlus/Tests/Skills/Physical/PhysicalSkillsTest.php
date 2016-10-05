@@ -92,7 +92,10 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      * @return \Mockery\MockInterface|ProfessionLevels
      */
     private function createProfessionLevels(
-        $firstLevelStrengthModifier, $firstLevelAgilityModifier, $nextLevelsStrengthModifier, $nextLevelsAgilityModifier
+        $firstLevelStrengthModifier,
+        $firstLevelAgilityModifier,
+        $nextLevelsStrengthModifier,
+        $nextLevelsAgilityModifier
     )
     {
         $professionLevels = $this->mockery(ProfessionLevels::class);
@@ -116,17 +119,19 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      */
     private function createPhysicalSkill($finalSkillRankValue, $levelValue, $skillClass)
     {
-        $combinedSkill = $this->mockery($skillClass);
         $professionLevel = $this->mockery(ProfessionLevel::class);
         $professionLevel->shouldReceive('isFirstLevel')
             ->andReturn($levelValue === 1);
         $professionLevel->shouldReceive('isNextLevel')
             ->andReturn($levelValue > 1);
+        $physicalSkill = $this->mockery($skillClass);
         /** @var ProfessionLevel $professionLevel */
-        $combinedSkill->shouldReceive('getSkillRanks')
-            ->andReturn($this->createSkillRanks($finalSkillRankValue, $professionLevel));
+        $physicalSkill->shouldReceive('getSkillRanks')
+            ->andReturn($skillRanks = $this->createSkillRanks($finalSkillRankValue, $professionLevel));
+        $physicalSkill->shouldReceive('getCurrentSkillRank')
+            ->andReturn(end($skillRanks));
 
-        return $combinedSkill;
+        return $physicalSkill;
     }
 
     private function createSkillRanks($finalSkillRankValue, ProfessionLevel $professionLevel)
@@ -179,12 +184,24 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         $skills->addPhysicalSkill($fightWithMacesAndClubs = new FightWithMacesAndClubs($this->createProfessionFirstLevel()));
         $skills->addPhysicalSkill($fightWithMorningStarsAndMorgensterns = new FightWithMorningstarsAndMorgensterns($this->createProfessionFirstLevel()));
         $skills->addPhysicalSkill($fightWithSabersAndBowieKnifes = new FightWithSabersAndBowieKnifes($this->createProfessionFirstLevel()));
+        $skills->addPhysicalSkill($fightWithVoulgesAndTridents = new FightWithVoulgesAndTridents($this->createProfessionFirstLevel()));
+        self::assertSame(
+            [
+                $fightUnarmed,
+                $fightWithAxes,
+                $fightWithKnifesAndDaggers,
+                $fightWithMacesAndClubs,
+                $fightWithMorningStarsAndMorgensterns,
+                $fightWithSabersAndBowieKnifes,
+                $fightWithVoulgesAndTridents,
+            ],
+            $skills->getFightWithMeleeWeaponSkills()
+        );
+
         $skills->addPhysicalSkill($fightWithStaffsAndSpears = new FightWithStaffsAndSpears($this->createProfessionFirstLevel()));
         $skills->addPhysicalSkill($fightWithSwords = new FightWithSwords($this->createProfessionFirstLevel()));
         $skills->addPhysicalSkill($fightWithThrowingWeapons = new FightWithThrowingWeapons($this->createProfessionFirstLevel()));
         $skills->addPhysicalSkill($fightWithTwoWeapons = new FightWithTwoWeapons($this->createProfessionFirstLevel()));
-        $skills->addPhysicalSkill($fightWithVoulgesAndTridents = new FightWithVoulgesAndTridents($this->createProfessionFirstLevel()));
-
         self::assertSame(
             [
                 $fightUnarmed,
@@ -212,34 +229,105 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      */
     public function I_can_get_malus_for_every_type_of_weapon($weaponCategory, $isMelee, $isThrowing)
     {
-        $skills = new PhysicalSkills();
         $weaponlikeCode = $this->createWeaponCode($weaponCategory, $isMelee, $isThrowing);
+
+        $skills = new PhysicalSkills();
         self::assertSame(
             $expectedMalus = 'foo',
             $skills->getMalusToFightNumberWithWeaponlike(
                 $weaponlikeCode,
-                $this->createMissingWeaponSkillsTable('fightNumber', 0 /* expected skill value */, $expectedMalus)
+                $this->createMissingWeaponSkillsTable('fightNumber', 0 /* expected weapon skill value */, $expectedMalus),
+                false // fighting with single weapon only
             )
         );
+        $skills->addPhysicalSkill($this->createPhysicalSkill($fightWithTwoWeaponsRank = 1, 1, FightWithTwoWeapons::class));
+        self::assertSame(
+            ($expectedWeaponSkillMalus = 456) + ($expectedTwoWeaponsSkillMalus = 789),
+            $skills->getMalusToFightNumberWithWeaponlike(
+                $weaponlikeCode,
+                $this->createMissingWeaponSkillsTable(
+                    'fightNumber',
+                    0 /* expected weapon skill value */,
+                    $expectedWeaponSkillMalus,
+                    $fightWithTwoWeaponsRank, // expected fight with two weapons skill rank value
+                    $expectedTwoWeaponsSkillMalus
+                ),
+                true // fighting with two weapons
+            )
+        );
+
+        $skills = new PhysicalSkills();
         self::assertSame(
             $expectedMalus = 'bar',
             $skills->getMalusToAttackNumberWithWeaponlike(
                 $weaponlikeCode,
-                $this->createMissingWeaponSkillsTable('attackNumber', 0 /* expected skill value */, $expectedMalus)
+                $this->createMissingWeaponSkillsTable('attackNumber', 0 /* expected weapon skill value */, $expectedMalus),
+                false // fighting with single weapon only
             )
         );
+        $skills->addPhysicalSkill($this->createPhysicalSkill($fightWithTwoWeaponsRank = 2, 1, FightWithTwoWeapons::class));
+        self::assertSame(
+            ($expectedWeaponSkillMalus = 567) + ($expectedTwoWeaponsSkillMalus = 891),
+            $skills->getMalusToAttackNumberWithWeaponlike(
+                $weaponlikeCode,
+                $this->createMissingWeaponSkillsTable(
+                    'attackNumber',
+                    0 /* expected weapon skill value */,
+                    $expectedWeaponSkillMalus,
+                    $fightWithTwoWeaponsRank, // expected fight with two weapons skill rank value
+                    $expectedTwoWeaponsSkillMalus
+                ),
+                true // fighting with two weapons
+            )
+        );
+
+        $skills = new PhysicalSkills();
         self::assertSame(
             $expectedMalus = 'baz',
             $skills->getMalusToCoverWithWeaponlike(
                 $weaponlikeCode,
-                $this->createMissingWeaponSkillsTable('cover', 0 /* expected skill value */, $expectedMalus)
+                $this->createMissingWeaponSkillsTable('cover', 0 /* expected weapon skill value */, $expectedMalus),
+                false // fighting with single weapon only
             )
         );
+        $skills->addPhysicalSkill($this->createPhysicalSkill($fightWithTwoWeaponsRank = 3, 1, FightWithTwoWeapons::class));
+        self::assertSame(
+            ($expectedWeaponSkillMalus = 678) + ($expectedTwoWeaponsSkillMalus = 987),
+            $skills->getMalusToCoverWithWeaponlike(
+                $weaponlikeCode,
+                $this->createMissingWeaponSkillsTable(
+                    'cover',
+                    0 /* expected weapon skill value */,
+                    $expectedWeaponSkillMalus,
+                    $fightWithTwoWeaponsRank, // expected fight with two weapons skill rank value
+                    $expectedTwoWeaponsSkillMalus
+                ),
+                true // fighting with two weapons
+            )
+        );
+
+        $skills = new PhysicalSkills();
         self::assertSame(
             $expectedMalus = 'qux',
             $skills->getMalusToBaseOfWoundsWithWeaponlike(
                 $weaponlikeCode,
-                $this->createMissingWeaponSkillsTable('baseOfWounds', 0 /* expected skill value */, $expectedMalus)
+                $this->createMissingWeaponSkillsTable('baseOfWounds', 0 /* expected weapon skill value */, $expectedMalus),
+                false // fighting with single weapon only
+            )
+        );
+        $skills->addPhysicalSkill($this->createPhysicalSkill($fightWithTwoWeaponsRank = 1, 1, FightWithTwoWeapons::class));
+        self::assertSame(
+            ($expectedWeaponSkillMalus = 789) + ($expectedTwoWeaponsSkillMalus = 2223),
+            $skills->getMalusToBaseOfWoundsWithWeaponlike(
+                $weaponlikeCode,
+                $this->createMissingWeaponSkillsTable(
+                    'baseOfWounds',
+                    0 /* expected weapon skill value */,
+                    $expectedWeaponSkillMalus,
+                    $fightWithTwoWeaponsRank, // expected fight with two weapons skill rank value
+                    $expectedTwoWeaponsSkillMalus
+                ),
+                true // fighting with two weapons
             )
         );
     }
@@ -289,15 +377,29 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     /**
      * @param string $weaponParameterName
      * @param $expectedSkillValue
-     * @param $result
+     * @param $weaponSkillMalus
+     * @param int|null $fightsWithTwoWeaponsSkillRankValue
+     * @param $fightWithTwoWeaponsSkillMalus
      * @return \Mockery\MockInterface|MissingWeaponSkillTable
      */
-    private function createMissingWeaponSkillsTable($weaponParameterName, $expectedSkillValue, $result)
+    private function createMissingWeaponSkillsTable(
+        $weaponParameterName,
+        $expectedSkillValue,
+        $weaponSkillMalus,
+        $fightsWithTwoWeaponsSkillRankValue = null,
+        $fightWithTwoWeaponsSkillMalus = 123
+    )
     {
         $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
         $missingWeaponSkillsTable->shouldReceive('get' . ucfirst($weaponParameterName) . 'MalusForSkill')
             ->with($expectedSkillValue)
-            ->andReturn($result);
+            ->andReturn($weaponSkillMalus);
+        if ($fightsWithTwoWeaponsSkillRankValue) {
+            $missingWeaponSkillsTable->shouldReceive('get' . ucfirst($weaponParameterName) . 'MalusForSkill')
+                ->with($fightsWithTwoWeaponsSkillRankValue)
+                ->atLeast()->once()
+                ->andReturn($fightWithTwoWeaponsSkillMalus);
+        }
 
         return $missingWeaponSkillsTable;
     }
@@ -314,7 +416,8 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
         $physicalSkills->getMalusToFightNumberWithWeaponlike(
             $this->createWeaponCode('plank', true /* is melee */, false /* not throwing */),
-            $missingWeaponSkillsTable
+            $missingWeaponSkillsTable,
+            false // fighting with single weapon only
         );
     }
 
@@ -330,7 +433,8 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
         $physicalSkills->getMalusToFightNumberWithWeaponlike(
             $this->createWeaponCode('artillery', false /* not melee */, false /* not throwing */),
-            $missingWeaponSkillsTable
+            $missingWeaponSkillsTable,
+            false // fighting with single weapon only
         );
     }
 

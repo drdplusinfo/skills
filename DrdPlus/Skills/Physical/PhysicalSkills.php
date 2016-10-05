@@ -190,35 +190,37 @@ class PhysicalSkills extends SameTypeSkills
     public function getIterator()
     {
         return new \ArrayIterator(
-            array_filter([
-                $this->getArmorWearing(),
-                $this->getAthletics(),
-                $this->getBlacksmithing(),
-                $this->getBoatDriving(),
-                $this->getCartDriving(),
-                $this->getCityMoving(),
-                $this->getClimbingAndHillwalking(),
-                $this->getFastMarsh(),
-                $this->getFightUnarmed(),
-                $this->getFightWithAxes(),
-                $this->getFightWithKnifesAndDaggers(),
-                $this->getFightWithMacesAndClubs(),
-                $this->getFightWithMorningStarsAndMorgensterns(),
-                $this->getFightWithSabersAndBowieKnifes(),
-                $this->getFightWithStaffsAndSpears(),
-                $this->getFightWithShields(),
-                $this->getFightWithSwords(),
-                $this->getFightWithThrowingWeapons(),
-                $this->getFightWithTwoWeapons(),
-                $this->getFightWithVoulgesAndTridents(),
-                $this->getFlying(),
-                $this->getForestMoving(),
-                $this->getMovingInMountains(),
-                $this->getRiding(),
-                $this->getSailing(),
-                $this->getShieldUsage(),
-                $this->getSwimming(),
-            ])
+            array_values( // rebuild indexes sequence
+                array_filter([ // remove null
+                    $this->getArmorWearing(),
+                    $this->getAthletics(),
+                    $this->getBlacksmithing(),
+                    $this->getBoatDriving(),
+                    $this->getCartDriving(),
+                    $this->getCityMoving(),
+                    $this->getClimbingAndHillwalking(),
+                    $this->getFastMarsh(),
+                    $this->getFightUnarmed(),
+                    $this->getFightWithAxes(),
+                    $this->getFightWithKnifesAndDaggers(),
+                    $this->getFightWithMacesAndClubs(),
+                    $this->getFightWithMorningStarsAndMorgensterns(),
+                    $this->getFightWithSabersAndBowieKnifes(),
+                    $this->getFightWithStaffsAndSpears(),
+                    $this->getFightWithShields(),
+                    $this->getFightWithSwords(),
+                    $this->getFightWithThrowingWeapons(),
+                    $this->getFightWithTwoWeapons(),
+                    $this->getFightWithVoulgesAndTridents(),
+                    $this->getFlying(),
+                    $this->getForestMoving(),
+                    $this->getMovingInMountains(),
+                    $this->getRiding(),
+                    $this->getSailing(),
+                    $this->getShieldUsage(),
+                    $this->getSwimming(),
+                ])
+            )
         );
     }
 
@@ -567,19 +569,21 @@ class PhysicalSkills extends SameTypeSkills
      */
     public function getFightWithMeleeWeaponSkills()
     {
-        return [
-            $this->getFightUnarmed(),
-            $this->getFightWithAxes(),
-            $this->getFightWithKnifesAndDaggers(),
-            $this->getFightWithMacesAndClubs(),
-            $this->getFightWithMorningStarsAndMorgensterns(),
-            $this->getFightWithSabersAndBowieKnifes(),
-            $this->getFightWithStaffsAndSpears(),
-            $this->getFightWithSwords(),
-            $this->getFightWithThrowingWeapons(),
-            $this->getFightWithTwoWeapons(),
-            $this->getFightWithVoulgesAndTridents(),
-        ];
+        return array_values( // rebuild indexes sequence
+            array_filter([ // remove nulls
+                $this->getFightUnarmed(),
+                $this->getFightWithAxes(),
+                $this->getFightWithKnifesAndDaggers(),
+                $this->getFightWithMacesAndClubs(),
+                $this->getFightWithMorningStarsAndMorgensterns(),
+                $this->getFightWithSabersAndBowieKnifes(),
+                $this->getFightWithStaffsAndSpears(),
+                $this->getFightWithSwords(),
+                $this->getFightWithThrowingWeapons(),
+                $this->getFightWithTwoWeapons(),
+                $this->getFightWithVoulgesAndTridents(),
+            ])
+        );
     }
 
     /**
@@ -647,23 +651,35 @@ class PhysicalSkills extends SameTypeSkills
     }
 
     /**
-     * Note about SHIELD: "weaponlike" means for attacking. If you provide a shield, it will considered as a weapon for direct attack.
-     * If yu want fight number malus with shield as a protective armament,
-     * use @see \DrdPlus\Skills\Physical\PhysicalSkills::getMalusToFightNumberWithProtective
-     * And one more note: RESTRICTION from shield is NOT applied if the shield is used as a weapon
+     * Note about SHIELD: "weaponlike" means for attacking. If you provide a shield, it will considered as a weapon for
+     * direct attack. If yu want fight number malus with shield as a protective armament, use @see
+     * \DrdPlus\Skills\Physical\PhysicalSkills::getMalusToFightNumberWithProtective And one more note: RESTRICTION from
+     * shield is NOT applied if the shield is used as a weapon
      * (malus is already included in FightWithShields skill).
      *
      * @param WeaponlikeCode $weaponlikeCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
+     * @param bool $fightsWithTwoWeapons
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      */
-    public function getMalusToFightNumberWithWeaponlike(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToFightNumberWithWeaponlike(
+        WeaponlikeCode $weaponlikeCode,
+        MissingWeaponSkillTable $missingWeaponSkillsTable,
+        $fightsWithTwoWeapons
+    )
     {
-        $rankValue = $this->getSuitableFightWithWeaponHighestRank($weaponlikeCode);
-
+        $fightWithWeaponRankValue = $this->getHighestRankForSuitableFightWithWeapon($weaponlikeCode);
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        return $missingWeaponSkillsTable->getFightNumberMalusForSkill($rankValue);
+        $malus = $missingWeaponSkillsTable->getFightNumberMalusForSkill($fightWithWeaponRankValue);
+        if ($fightsWithTwoWeapons) {
+            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+            $malus += $missingWeaponSkillsTable->getFightNumberMalusForSkill(
+                $this->determineCurrentSkillRankValue($this->getFightWithTwoWeapons())
+            );
+        }
+
+        return $malus;
     }
 
     /**
@@ -674,7 +690,7 @@ class PhysicalSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      */
-    private function getSuitableFightWithWeaponHighestRank(WeaponlikeCode $weaponlikeCode)
+    private function getHighestRankForSuitableFightWithWeapon(WeaponlikeCode $weaponlikeCode)
     {
         $rankValues = [];
         if ($weaponlikeCode->isMelee()) {
@@ -744,7 +760,10 @@ class PhysicalSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatArmament
      */
-    public function getMalusToFightNumberWithProtective(ProtectiveArmamentCode $protectiveArmamentCode, Armourer $armourer)
+    public function getMalusToFightNumberWithProtective(
+        ProtectiveArmamentCode $protectiveArmamentCode,
+        Armourer $armourer
+    )
     {
         if ($protectiveArmamentCode instanceof ArmorCode) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
@@ -783,15 +802,27 @@ class PhysicalSkills extends SameTypeSkills
      *
      * @param WeaponlikeCode $weaponlikeCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
+     * @param bool $fightsWithTwoWeapons
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      */
-    public function getMalusToAttackNumberWithWeaponlike(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToAttackNumberWithWeaponlike(
+        WeaponlikeCode $weaponlikeCode,
+        MissingWeaponSkillTable $missingWeaponSkillsTable,
+        $fightsWithTwoWeapons
+    )
     {
-        $rankValue = $this->getSuitableFightWithWeaponHighestRank($weaponlikeCode);
-
+        $fightWithWeaponRankValue = $this->getHighestRankForSuitableFightWithWeapon($weaponlikeCode);
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        return $missingWeaponSkillsTable->getAttackNumberMalusForSkill($rankValue);
+        $malus = $missingWeaponSkillsTable->getAttackNumberMalusForSkill($fightWithWeaponRankValue);
+        if ($fightsWithTwoWeapons) {
+            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+            $malus += $missingWeaponSkillsTable->getAttackNumberMalusForSkill(
+                $this->getFightWithTwoWeapons()->getCurrentSkillRank()->getValue()
+            );
+        }
+
+        return $malus;
     }
 
     /**
@@ -800,15 +831,27 @@ class PhysicalSkills extends SameTypeSkills
      *
      * @param WeaponlikeCode $weaponlikeCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
+     * @param bool $fightsWithTwoWeapons
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      */
-    public function getMalusToCoverWithWeaponlike(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToCoverWithWeaponlike(
+        WeaponlikeCode $weaponlikeCode,
+        MissingWeaponSkillTable $missingWeaponSkillsTable,
+        $fightsWithTwoWeapons
+    )
     {
-        $rankValue = $this->getSuitableFightWithWeaponHighestRank($weaponlikeCode);
-
+        $fightWithWeaponRankValue = $this->getHighestRankForSuitableFightWithWeapon($weaponlikeCode);
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        return $missingWeaponSkillsTable->getCoverMalusForSkill($rankValue);
+        $malus = $missingWeaponSkillsTable->getCoverMalusForSkill($fightWithWeaponRankValue);
+        if ($fightsWithTwoWeapons) {
+            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+            $malus += $missingWeaponSkillsTable->getCoverMalusForSkill(
+                $this->getFightWithTwoWeapons()->getCurrentSkillRank()->getValue()
+            );
+        }
+
+        return $malus;
     }
 
     /**
@@ -817,14 +860,26 @@ class PhysicalSkills extends SameTypeSkills
      *
      * @param WeaponlikeCode $weaponlikeCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
+     * @param bool $fightsWithTwoWeapons
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      */
-    public function getMalusToBaseOfWoundsWithWeaponlike(WeaponlikeCode $weaponlikeCode, MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToBaseOfWoundsWithWeaponlike(
+        WeaponlikeCode $weaponlikeCode,
+        MissingWeaponSkillTable $missingWeaponSkillsTable,
+        $fightsWithTwoWeapons
+    )
     {
-        $rankValue = $this->getSuitableFightWithWeaponHighestRank($weaponlikeCode);
-
+        $fightWithWeaponRankValue = $this->getHighestRankForSuitableFightWithWeapon($weaponlikeCode);
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        return $missingWeaponSkillsTable->getBaseOfWoundsMalusForSkill($rankValue);
+        $malus = $missingWeaponSkillsTable->getBaseOfWoundsMalusForSkill($fightWithWeaponRankValue);
+        if ($fightsWithTwoWeapons) {
+            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+            $malus += $missingWeaponSkillsTable->getBaseOfWoundsMalusForSkill(
+                $this->getFightWithTwoWeapons()->getCurrentSkillRank()->getValue()
+            );
+        }
+
+        return $malus;
     }
 }

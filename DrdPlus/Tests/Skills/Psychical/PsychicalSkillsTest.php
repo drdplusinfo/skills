@@ -96,17 +96,17 @@ class PsychicalSkillsTest extends SameTypeSkillsTest
      */
     private function createPsychicalSkill($finalSkillRankValue, $levelValue, $skillClass)
     {
-        $combinedSkill = $this->mockery($skillClass);
         $professionLevel = $this->mockery(ProfessionLevel::class);
         $professionLevel->shouldReceive('isFirstLevel')
             ->andReturn($levelValue === 1);
         $professionLevel->shouldReceive('isNextLevel')
             ->andReturn($levelValue > 1);
+        $psychicalSkill = $this->mockery($skillClass);
         /** @var ProfessionLevel $professionLevel */
-        $combinedSkill->shouldReceive('getSkillRanks')
+        $psychicalSkill->shouldReceive('getSkillRanks')
             ->andReturn($this->createSkillRanks($finalSkillRankValue, $professionLevel));
 
-        return $combinedSkill;
+        return $psychicalSkill;
     }
 
     private function createSkillRanks($finalSkillRankValue, ProfessionLevel $professionLevel)

@@ -9,9 +9,9 @@ class ExceptionsHierarchyTest extends AbstractExceptionsHierarchyTest
 {
     protected function getTestedNamespace()
     {
-        $combinedSkills = new \ReflectionClass(PsychicalSkills::class);
+        $psychicalSkills = new \ReflectionClass(PsychicalSkills::class);
 
-        return $combinedSkills->getNamespaceName();
+        return $psychicalSkills->getNamespaceName();
     }
 
     protected function getRootNamespace()
