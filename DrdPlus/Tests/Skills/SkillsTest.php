@@ -987,19 +987,10 @@ class SkillsTest extends TestWithMockery
 
     /**
      * @test
-     */
-    public function I_can_get_malus_to_parameters_for_melee_weapon()
-    {
-        $this->I_can_get_melee_weapon_malus_to('fightNumber');
-        $this->I_can_get_melee_weapon_malus_to('attackNumber');
-        $this->I_can_get_melee_weapon_malus_to('cover');
-        $this->I_can_get_melee_weapon_malus_to('baseOfWounds');
-    }
-
-    /**
+     * @dataProvider provideBattleParameterNames
      * @param string $malusTo
      */
-    private function I_can_get_melee_weapon_malus_to($malusTo)
+    public function I_can_get_melee_weapon_malus($malusTo)
     {
         $professionLevels = $this->createProfessionLevels();
         $backgroundSkillPoints = $this->createBackgroundSkillPoints(
@@ -1058,7 +1049,7 @@ class SkillsTest extends TestWithMockery
      * @return \Mockery\MockInterface|WeaponlikeCode
      */
     private function createWeaponlikeCode(
-        $isMelee,
+        $isMelee = false,
         $isThrowing = false,
         $isShooting = false,
         $isProjectile = false
@@ -1087,19 +1078,10 @@ class SkillsTest extends TestWithMockery
 
     /**
      * @test
-     */
-    public function I_can_get_malus_to_parameters_for_throwing_weapon()
-    {
-        $this->I_can_get_malus_for_throwing_weapon_to('fightNumber');
-        $this->I_can_get_malus_for_throwing_weapon_to('attackNumber');
-        $this->I_can_get_malus_for_throwing_weapon_to('cover');
-        $this->I_can_get_malus_for_throwing_weapon_to('baseOfWounds');
-    }
-
-    /**
+     * @dataProvider provideBattleParameterNames
      * @param string $malusTo
      */
-    private function I_can_get_malus_for_throwing_weapon_to($malusTo)
+    public function I_can_get_malus_for_throwing_weapon($malusTo)
     {
         $professionLevels = $this->createProfessionLevels();
         $backgroundSkillPoints = $this->createBackgroundSkillPoints(
@@ -1155,19 +1137,10 @@ class SkillsTest extends TestWithMockery
 
     /**
      * @test
-     */
-    public function I_can_get_malus_to_parameters_for_shooting_weapon()
-    {
-        $this->I_can_get_malus_for_shooting_weapon_to('fightNumber');
-        $this->I_can_get_malus_for_shooting_weapon_to('attackNumber');
-        $this->I_can_get_malus_for_shooting_weapon_to('cover');
-        $this->I_can_get_malus_for_shooting_weapon_to('baseOfWounds');
-    }
-
-    /**
+     * @dataProvider provideBattleParameterNames
      * @param string $malusTo
      */
-    private function I_can_get_malus_for_shooting_weapon_to($malusTo)
+    public function I_can_get_malus_for_shooting_weapon($malusTo)
     {
         $professionLevels = $this->createProfessionLevels();
         $backgroundSkillPoints = $this->createBackgroundSkillPoints(
@@ -1229,19 +1202,10 @@ class SkillsTest extends TestWithMockery
 
     /**
      * @test
-     */
-    public function I_get_zero_malus_to_every_parameter_for_projectiles()
-    {
-        $this->I_get_zero_malus_for_projectiles_to('fightNumber');
-        $this->I_get_zero_malus_for_projectiles_to('attackNumber');
-        $this->I_get_zero_malus_for_projectiles_to('cover');
-        $this->I_get_zero_malus_for_projectiles_to('baseOfWounds');
-    }
-
-    /**
+     * @dataProvider provideBattleParameterNames
      * @param string $malusTo
      */
-    private function I_get_zero_malus_for_projectiles_to($malusTo)
+    public function I_get_zero_malus_for_projectiles($malusTo)
     {
         $professionLevels = $this->createProfessionLevels();
         $backgroundSkillPoints = $this->createBackgroundSkillPoints(
@@ -1291,6 +1255,16 @@ class SkillsTest extends TestWithMockery
         );
     }
 
+    public function provideBattleParameterNames()
+    {
+        return [
+            ['fightNumber'],
+            ['attackNumber'],
+            ['cover'],
+            ['baseOfWounds'],
+        ];
+    }
+
     /**
      * @test
      */
@@ -1324,8 +1298,10 @@ class SkillsTest extends TestWithMockery
     /**
      * @test
      * @expectedException \DrdPlus\Skills\Exceptions\UnknownTypeOfWeapon
+     * @dataProvider provideBattleParameterNames
+     * @param string $malusTo
      */
-    public function I_can_not_get_fight_number_malus_for_unknown_weaponlike()
+    public function I_can_not_get_attack_number_malus_for_unknown_weapon($malusTo)
     {
         $professionLevels = $this->createProfessionLevels();
         $backgroundSkillPoints = $this->createBackgroundSkillPoints($professionLevels->getFirstLevel()->getProfession());
@@ -1338,13 +1314,15 @@ class SkillsTest extends TestWithMockery
             $this->createPsychicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
             $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel)
         );
-        $skills->getMalusToFightNumberWithWeaponlike(
-            $this->createWeaponlikeCode(
-                false, // not melee
-                false, // not throwing
-                false, // not ranged
-                false // not projectile
-            ),
+        /**
+         * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeaponlike
+         * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeaponlike
+         * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeaponlike
+         * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeaponlike
+         */
+        $malusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeaponlike';
+        $skills->$malusToParameter(
+            $this->createWeaponlikeCode(),
             $this->createMissingWeaponSkillsTable(),
             false
         );
