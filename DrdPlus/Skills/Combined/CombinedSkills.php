@@ -146,33 +146,35 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return \ArrayIterator
+     * @return \ArrayIterator|CombinedSkill[]
      */
     public function getIterator()
     {
         return new \ArrayIterator(
-            array_filter([
-                $this->getBigHandwork(),
-                $this->getCooking(),
-                $this->getDancing(),
-                $this->getDuskSight(),
-                $this->getFightWithBows(),
-                $this->getFightWithCrossbows(),
-                $this->getFirstAid(),
-                $this->getGambling(),
-                $this->getHandlingWithAnimals(),
-                $this->getHandwork(),
-                $this->getHerbalism(),
-                $this->getHuntingAndFishing(),
-                $this->getKnotting(),
-                $this->getPainting(),
-                $this->getPedagogy(),
-                $this->getPlayingOnMusicInstrument(),
-                $this->getSeduction(),
-                $this->getShowmanship(),
-                $this->getSinging(),
-                $this->getStatuary()
-            ])
+            array_values( // rebuild indexes sequence
+                array_filter([ // remove null
+                    $this->getBigHandwork(),
+                    $this->getCooking(),
+                    $this->getDancing(),
+                    $this->getDuskSight(),
+                    $this->getFightWithBows(),
+                    $this->getFightWithCrossbows(),
+                    $this->getFirstAid(),
+                    $this->getGambling(),
+                    $this->getHandlingWithAnimals(),
+                    $this->getHandwork(),
+                    $this->getHerbalism(),
+                    $this->getHuntingAndFishing(),
+                    $this->getKnotting(),
+                    $this->getPainting(),
+                    $this->getPedagogy(),
+                    $this->getPlayingOnMusicInstrument(),
+                    $this->getSeduction(),
+                    $this->getShowmanship(),
+                    $this->getSinging(),
+                    $this->getStatuary(),
+                ])
+            )
         );
     }
 

@@ -187,6 +187,9 @@ class PhysicalSkills extends SameTypeSkills
         return $professionLevels->getNextLevelsStrengthModifier() + $professionLevels->getNextLevelsAgilityModifier();
     }
 
+    /**
+     * @return \ArrayIterator|PhysicalSkill[]
+     */
     public function getIterator()
     {
         return new \ArrayIterator(

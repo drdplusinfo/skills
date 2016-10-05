@@ -124,27 +124,32 @@ class PsychicalSkills extends SameTypeSkills
         return $professionLevels->getNextLevelsWillModifier() + $professionLevels->getNextLevelsIntelligenceModifier();
     }
 
+    /**
+     * @return \ArrayIterator|PsychicalSkill[]
+     */
     public function getIterator()
     {
         return new \ArrayIterator(
-            array_filter([
-                $this->getAstronomy(),
-                $this->getBotany(),
-                $this->getEtiquetteOfUnderworld(),
-                $this->getForeignLanguage(),
-                $this->getGeographyOfACountry(),
-                $this->getHandlingWithMagicalItems(),
-                $this->getHistoriography(),
-                $this->getKnowledgeOfACity(),
-                $this->getKnowledgeOfWorld(),
-                $this->getMapsDrawing(),
-                $this->getMythology(),
-                $this->getReadingAndWriting(),
-                $this->getSocialEtiquette(),
-                $this->getTechnology(),
-                $this->getTheology(),
-                $this->getZoology()
-            ])
+            array_values( // rebuild indexes sequence
+                array_filter([ // remove null
+                    $this->getAstronomy(),
+                    $this->getBotany(),
+                    $this->getEtiquetteOfUnderworld(),
+                    $this->getForeignLanguage(),
+                    $this->getGeographyOfACountry(),
+                    $this->getHandlingWithMagicalItems(),
+                    $this->getHistoriography(),
+                    $this->getKnowledgeOfACity(),
+                    $this->getKnowledgeOfWorld(),
+                    $this->getMapsDrawing(),
+                    $this->getMythology(),
+                    $this->getReadingAndWriting(),
+                    $this->getSocialEtiquette(),
+                    $this->getTechnology(),
+                    $this->getTheology(),
+                    $this->getZoology(),
+                ])
+            )
         );
     }
 
