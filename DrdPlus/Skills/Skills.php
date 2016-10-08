@@ -24,6 +24,7 @@ use DrdPlus\Skills\Physical\PhysicalSkills;
 use DrdPlus\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Skills\Psychical\PsychicalSkills;
 use DrdPlus\Tables\Armaments\Armourer;
+use DrdPlus\Tables\Armaments\Shields\MissingShieldSkillTable;
 use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
 use DrdPlus\Tables\Tables;
 use Granam\Strict\Object\StrictObject;
@@ -428,7 +429,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
 
     /**
      * Looking for a way how to create it?
-     * Try @see Skills::createSkills
+     * @see Skills::createSkills
      *
      * @param PhysicalSkills $physicalSkills
      * @param PsychicalSkills $psychicalSkills
@@ -669,11 +670,12 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     }
 
     /**
+     * @param MissingShieldSkillTable $missingShieldSkillTable
      * @return int
      */
-    public function getMalusToCoverWithShield()
+    public function getMalusToCoverWithShield(MissingShieldSkillTable $missingShieldSkillTable)
     {
-        return $this->getPhysicalSkills()->getMalusToCoverWithShield();
+        return $this->getPhysicalSkills()->getMalusToCoverWithShield($missingShieldSkillTable);
     }
 
     /**

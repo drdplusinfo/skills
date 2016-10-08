@@ -30,6 +30,7 @@ use DrdPlus\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Skills\Psychical\ReadingAndWriting;
 use DrdPlus\Professions\Profession;
 use DrdPlus\Tables\Armaments\Armourer;
+use DrdPlus\Tables\Armaments\Shields\MissingShieldSkillTable;
 use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
 use DrdPlus\Tables\Tables;
 use Granam\Tests\Tools\TestWithMockery;
@@ -1344,9 +1345,19 @@ class SkillsTest extends TestWithMockery
             $this->createPsychicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
             $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel)
         );
+        $missingShieldSkillTable = $this->createMissingShieldSkillTable();
         $physicalSkills->shouldReceive('getMalusToCoverWithShield')
+            ->with($missingShieldSkillTable)
             ->andReturn('foo');
-        self::assertSame('foo', $skills->getMalusToCoverWithShield());
+        self::assertSame('foo', $skills->getMalusToCoverWithShield($missingShieldSkillTable));
+    }
+
+    /**
+     * @return \Mockery\MockInterface|MissingShieldSkillTable
+     */
+    private function createMissingShieldSkillTable()
+    {
+        return $this->mockery(MissingShieldSkillTable::class);
     }
 
 }

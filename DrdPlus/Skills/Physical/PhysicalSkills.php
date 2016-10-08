@@ -11,8 +11,8 @@ use DrdPlus\Codes\Skills\SkillTypeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Skills\SameTypeSkills;
 use Doctrine\ORM\Mapping as ORM;
-use DrdPlus\Skills\SkillRank;
 use DrdPlus\Tables\Armaments\Armourer;
+use DrdPlus\Tables\Armaments\Shields\MissingShieldSkillTable;
 use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
 use Granam\Integer\PositiveInteger;
 use Granam\Integer\PositiveIntegerObject;
@@ -703,6 +703,7 @@ class PhysicalSkills extends SameTypeSkills
      */
     private function getHighestRankForSuitableFightWithWeapon(WeaponlikeCode $weaponlikeCode)
     {
+        // TODO what about 0 skill rank???
         $rankValues = [];
         if ($weaponlikeCode->isMelee()) {
             $weaponlikeCode = $weaponlikeCode->convertToMeleeWeaponCodeEquivalent();
@@ -866,17 +867,20 @@ class PhysicalSkills extends SameTypeSkills
     }
 
     /**
-     * Without highest skill with shield usage you have a malus to cover with it. See PPH page 86 right column.
+     * Warning: PPH gives you false info about malus to cover with shield (see PPH page 86 right column).
+     * Correct is as gives @see \DrdPlus\Tables\Armaments\Shields\MissingShieldSkillTable
      *
+     * @param MissingShieldSkillTable $missingShieldSkillTable
      * @return int
      */
-    public function getMalusToCoverWithShield()
+    public function getMalusToCoverWithShield(MissingShieldSkillTable $missingShieldSkillTable)
     {
-        if (!$this->getShieldUsage() || $this->shieldUsage->getCurrentSkillRank()->getValue() < SkillRank::MAX_RANK_VALUE) {
-            return -2;
-        }
-
-        return 0;
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
+        return $missingShieldSkillTable->getCoverMalusForSkill(
+            $this->getShieldUsage()
+                ? $this->getShieldUsage()->getCurrentSkillRank()
+                : 0
+        );
     }
 
     /**
