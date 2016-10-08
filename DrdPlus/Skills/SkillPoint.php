@@ -174,29 +174,22 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
                 'Expected zero or one, got ' . ValueDescriber::describe($skillPointValue)
             );
         }
-        $professionFirstLevel = null;
         if ($professionLevel instanceof ProfessionFirstLevel) {
-            $professionFirstLevel = $professionLevel;
+            $this->professionFirstLevel = $professionLevel;
         }
-        $professionNextLevel = null;
         if ($professionLevel instanceof ProfessionNextLevel) {
-            $professionNextLevel = $professionLevel;
+            $this->professionNextLevel = $professionLevel;
         }
         $this->checkSkillPointPayment(
             $skillPointValue,
             $tables,
-            $professionFirstLevel,
-            $professionNextLevel,
+            $this->professionFirstLevel,
+            $this->professionNextLevel,
             $backgroundSkillPoints,
             $firstPaidOtherSkillPoint,
             $secondPaidOtherSkillPoint
         );
         $this->value = $skillPointValue;
-        if ($professionLevel instanceof ProfessionFirstLevel) {
-            $this->professionFirstLevel = $professionLevel;
-        } else {
-            $this->professionNextLevel = $professionLevel;
-        }
         $this->backgroundSkillPoints = $backgroundSkillPoints;
         $this->firstPaidOtherSkillPoint = $firstPaidOtherSkillPoint;
         $this->secondPaidOtherSkillPoint = $secondPaidOtherSkillPoint;
