@@ -12,7 +12,7 @@ abstract class SameTypeSkills extends StrictObject implements \IteratorAggregate
     /**
      * @var integer
      *
-     * @ORM\Column(type="integer") @ORM\Id @ORM\GeneratedValue(strategy="AUTO")p
+     * @ORM\Column(type="integer") @ORM\Id @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 

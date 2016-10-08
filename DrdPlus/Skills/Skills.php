@@ -632,7 +632,8 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     }
 
     /**
-     * Usable both for weapons and shields.
+     * Usable both for weapons and shields, but SHIELD as "weaponlike" means for attacking - for shield standard usage as
+     * a protective armament @see getMalusToCoverWithShield
      *
      * @param WeaponlikeCode $weaponOrShieldCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
@@ -665,6 +666,14 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
             );
         }
         throw new Exceptions\UnknownTypeOfWeapon($weaponOrShieldCode);
+    }
+
+    /**
+     * @return int
+     */
+    public function getMalusToCoverWithShield()
+    {
+        return $this->getPhysicalSkills()->getMalusToCoverWithShield();
     }
 
     /**

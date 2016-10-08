@@ -1328,4 +1328,25 @@ class SkillsTest extends TestWithMockery
         );
     }
 
+    /**
+     * @test
+     */
+    public function I_can_get_malus_to_cover_with_shield()
+    {
+        $professionLevels = $this->createProfessionLevels();
+        $backgroundSkillPoints = $this->createBackgroundSkillPoints($professionLevels->getFirstLevel()->getProfession());
+        $firstLevel = $professionLevels->getFirstLevel();
+        $skills = Skills::createSkills(
+            $professionLevels,
+            $backgroundSkillPoints,
+            new Tables(),
+            $physicalSkills = $this->createPhysicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
+            $this->createPsychicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
+            $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel)
+        );
+        $physicalSkills->shouldReceive('getMalusToCoverWithShield')
+            ->andReturn('foo');
+        self::assertSame('foo', $skills->getMalusToCoverWithShield());
+    }
+
 }

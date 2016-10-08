@@ -9,6 +9,7 @@ use DrdPlus\Codes\Armaments\WeaponCategoryCode;
 use DrdPlus\Codes\Armaments\WeaponlikeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
+use DrdPlus\Skills\Physical\ShieldUsage;
 use DrdPlus\Skills\Skill;
 use DrdPlus\Skills\SkillRank;
 use DrdPlus\Skills\Physical\ArmorWearing;
@@ -402,6 +403,26 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         }
 
         return $missingWeaponSkillsTable;
+    }
+
+    /**
+     * @test
+     */
+    public function I_can_get_malus_to_cover_with_shield()
+    {
+        $physicalSkills = new PhysicalSkills();
+        self::assertSame(-2, (new PhysicalSkills())->getMalusToCoverWithShield());
+
+        $physicalSkills->addPhysicalSkill($this->createPhysicalSkill(1, 1, ShieldUsage::class));
+        self::assertSame(-2, $physicalSkills->getMalusToCoverWithShield());
+
+        $physicalSkills = new PhysicalSkills();
+        $physicalSkills->addPhysicalSkill($this->createPhysicalSkill(2, 1, ShieldUsage::class));
+        self::assertSame(-2, $physicalSkills->getMalusToCoverWithShield());
+
+        $physicalSkills = new PhysicalSkills();
+        $physicalSkills->addPhysicalSkill($this->createPhysicalSkill(3, 2, ShieldUsage::class));
+        self::assertSame(0, $physicalSkills->getMalusToCoverWithShield());
     }
 
     /**

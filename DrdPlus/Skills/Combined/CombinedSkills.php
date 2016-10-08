@@ -494,6 +494,7 @@ class CombinedSkills extends SameTypeSkills
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return $missingWeaponSkillsTable->getFightNumberMalusForSkill($rankValue);
     }
 
@@ -530,6 +531,7 @@ class CombinedSkills extends SameTypeSkills
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return $missingWeaponSkillsTable->getAttackNumberMalusForSkill($rankValue);
     }
 
@@ -543,6 +545,7 @@ class CombinedSkills extends SameTypeSkills
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return $missingWeaponSkillsTable->getCoverMalusForSkill($rankValue);
     }
 
@@ -556,6 +559,7 @@ class CombinedSkills extends SameTypeSkills
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 
+        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return $missingWeaponSkillsTable->getBaseOfWoundsMalusForSkill($rankValue);
     }
 }

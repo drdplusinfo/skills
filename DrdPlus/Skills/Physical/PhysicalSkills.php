@@ -11,6 +11,7 @@ use DrdPlus\Codes\Skills\SkillTypeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Skills\SameTypeSkills;
 use Doctrine\ORM\Mapping as ORM;
+use DrdPlus\Skills\SkillRank;
 use DrdPlus\Tables\Armaments\Armourer;
 use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
 use Granam\Integer\PositiveInteger;
@@ -227,6 +228,11 @@ class PhysicalSkills extends SameTypeSkills
         );
     }
 
+    /**
+     * @param PhysicalSkill $physicalSkill
+     * @throws Exceptions\PhysicalSkillAlreadySet
+     * @throws Exceptions\UnknownPhysicalSkill
+     */
     public function addPhysicalSkill(PhysicalSkill $physicalSkill)
     {
         switch (true) {
@@ -528,6 +534,8 @@ class PhysicalSkills extends SameTypeSkills
     }
 
     /**
+     * This skill is not part of PPH, but is as crazy as well as possible.
+     *
      * @return FightWithShields|null
      */
     public function getFightWithShields()
@@ -726,7 +734,7 @@ class PhysicalSkills extends SameTypeSkills
             if ($weaponlikeCode->isVoulgeOrTrident()) {
                 $rankValues[] = $this->determineCurrentSkillRankValue($this->getFightWithVoulgesAndTridents());
             }
-            if ($weaponlikeCode->isShield()) {
+            if ($weaponlikeCode->isShield()) { // shield as a weapon
                 $rankValues[] = $this->determineCurrentSkillRankValue($this->getFightWithShields());
             }
         }
@@ -855,6 +863,20 @@ class PhysicalSkills extends SameTypeSkills
         }
 
         return $malus;
+    }
+
+    /**
+     * Without highest skill with shield usage you have a malus to cover with it. See PPH page 86 right column.
+     *
+     * @return int
+     */
+    public function getMalusToCoverWithShield()
+    {
+        if (!$this->getShieldUsage() || $this->shieldUsage->getCurrentSkillRank()->getValue() < SkillRank::MAX_RANK_VALUE) {
+            return -2;
+        }
+
+        return 0;
     }
 
     /**
