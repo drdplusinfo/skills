@@ -61,7 +61,7 @@ abstract class CombinedSkill extends Skill
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyPaidSkillPoint
      */
-    public function addSkillRank(CombinedSkillPoint $combinedSkillPoint)
+    public function increaseSkillRank(CombinedSkillPoint $combinedSkillPoint)
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         parent::addTypeVerifiedSkillRank(

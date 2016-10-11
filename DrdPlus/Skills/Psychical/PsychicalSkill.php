@@ -74,7 +74,7 @@ abstract class PsychicalSkill extends Skill
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyPaidSkillPoint
      */
-    public function addSkillRank(PsychicalSkillPoint $psychicalSkillPoint)
+    public function increaseSkillRank(PsychicalSkillPoint $psychicalSkillPoint)
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         parent::addTypeVerifiedSkillRank(

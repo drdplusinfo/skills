@@ -10,9 +10,21 @@ use DrdPlus\Codes\Skills\PsychicalSkillCode;
 use DrdPlus\Codes\Armaments\RangedWeaponCode;
 use DrdPlus\Codes\Armaments\WeaponlikeCode;
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
+use DrdPlus\Person\Background\BackgroundParts\Heritage;
 use DrdPlus\Person\ProfessionLevels\LevelRank;
+use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
+use DrdPlus\Person\ProfessionLevels\ProfessionNextLevel;
+use DrdPlus\Person\ProfessionLevels\ProfessionZeroLevel;
+use DrdPlus\Professions\Commoner;
+use DrdPlus\Professions\Fighter;
+use DrdPlus\Properties\Base\Agility;
+use DrdPlus\Properties\Base\Charisma;
+use DrdPlus\Properties\Base\Intelligence;
+use DrdPlus\Properties\Base\Knack;
+use DrdPlus\Properties\Base\Strength;
+use DrdPlus\Properties\Base\Will;
 use DrdPlus\Skills\Combined\BigHandwork;
 use DrdPlus\Skills\Combined\CombinedSkillPoint;
 use DrdPlus\Skills\Combined\Cooking;
@@ -58,10 +70,10 @@ class SkillsTest extends TestWithMockery
         $skills = Skills::createSkills(
             $professionLevels,
             $backgroundSkillPoints,
-            new Tables(),
             $physicalSkills,
             $psychicalSkills,
-            $combinedSkills
+            $combinedSkills,
+            new Tables()
         );
 
         self::assertNull($skills->getId());
@@ -163,7 +175,8 @@ class SkillsTest extends TestWithMockery
      * @return \Mockery\MockInterface|PhysicalSkills
      * */
     private function createPhysicalSkillsPaidByFirstLevelBackground(
-        BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $firstLevel
+        BackgroundSkillPoints $backgroundSkillPoints,
+        ProfessionLevel $firstLevel
     )
     {
         $physicalSkills = $this->createSkillsPaidByFirstLevelBackground(
@@ -179,7 +192,8 @@ class SkillsTest extends TestWithMockery
      * @return PsychicalSkills|\Mockery\MockInterface
      * */
     private function createPsychicalSkillsPaidByFirstLevelBackground(
-        BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $firstLevel
+        BackgroundSkillPoints $backgroundSkillPoints,
+        ProfessionLevel $firstLevel
     )
     {
         $psychicalSkills = $this->createSkillsPaidByFirstLevelBackground(
@@ -195,18 +209,29 @@ class SkillsTest extends TestWithMockery
      * @return CombinedSkills|\Mockery\MockInterface
      * */
     private function createCombinedSkillsPaidByFirstLevelBackground(
-        BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $firstLevel
+        BackgroundSkillPoints $backgroundSkillPoints,
+        ProfessionLevel $firstLevel
     )
     {
         $combinedSkills = $this->createSkillsPaidByFirstLevelBackground(
-            $backgroundSkillPoints, $firstLevel, Cooking::class
+            $backgroundSkillPoints,
+            $firstLevel,
+            Cooking::class
         );
 
         return $combinedSkills;
     }
 
+    /**
+     * @param BackgroundSkillPoints $backgroundSkillPoints
+     * @param ProfessionLevel $firstLevel
+     * @param string $firstSkillClass
+     * @return \Mockery\MockInterface|CombinedSkills
+     */
     private function createSkillsPaidByFirstLevelBackground(
-        BackgroundSkillPoints $backgroundSkillPoints, ProfessionLevel $firstLevel, $firstSkillClass
+        BackgroundSkillPoints $backgroundSkillPoints,
+        ProfessionLevel $firstLevel,
+        $firstSkillClass
     )
     {
         $skillsClass = $this->determineSkillsClass($firstSkillClass);
@@ -239,6 +264,11 @@ class SkillsTest extends TestWithMockery
         return $skills;
     }
 
+    /**
+     * @param string $skillClass
+     * @return string
+     * @throws \LogicException
+     */
     private function determineSkillsClass($skillClass)
     {
         if (is_a($skillClass, PhysicalSkill::class, true)) {
@@ -608,10 +638,10 @@ class SkillsTest extends TestWithMockery
         Skills::createSkills(
             $professionLevels,
             $backgroundSkillPoints,
-            new Tables(),
             $physicalSkills,
             $psychicalSkills,
-            $combinedSkills
+            $combinedSkills,
+            new Tables()
         );
     }
 
@@ -675,10 +705,10 @@ class SkillsTest extends TestWithMockery
         Skills::createSkills(
             $professionLevels,
             $backgroundSkillPoints,
-            new Tables(),
             $physicalSkills,
             $psychicalSkills,
-            $combinedSkills
+            $combinedSkills,
+            new Tables()
         );
     }
 
@@ -751,10 +781,10 @@ class SkillsTest extends TestWithMockery
         Skills::createSkills(
             $professionLevels,
             $backgroundSkillPoints,
-            new Tables(),
             $physicalSkills,
             $psychicalSkills,
-            $combinedSkills
+            $combinedSkills,
+            new Tables()
         );
     }
 
@@ -886,10 +916,10 @@ class SkillsTest extends TestWithMockery
         Skills::createSkills(
             $professionLevels,
             $backgroundSkillPoints,
-            new Tables(),
             $physicalSkills,
             $psychicalSkills,
-            $combinedSkills
+            $combinedSkills,
+            new Tables()
         );
     }
 
@@ -920,10 +950,10 @@ class SkillsTest extends TestWithMockery
         Skills::createSkills(
             $professionLevels,
             $backgroundSkillPoints,
-            new Tables(),
             $physicalSkills,
             $psychicalSkills,
-            $combinedSkills
+            $combinedSkills,
+            new Tables()
         );
     }
 
@@ -1001,10 +1031,10 @@ class SkillsTest extends TestWithMockery
         $skills = Skills::createSkills(
             $professionLevels,
             $backgroundSkillPoints,
-            new Tables(),
             $physicalSkills = $this->createPhysicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
             $this->createPsychicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
-            $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel)
+            $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
+            new Tables()
         );
 
         $meleeWeaponCode = $this->createWeaponlikeCode(true /* is melee */);
@@ -1092,10 +1122,10 @@ class SkillsTest extends TestWithMockery
         $skills = Skills::createSkills(
             $professionLevels,
             $backgroundSkillPoints,
-            new Tables(),
             $physicalSkills = $this->createPhysicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
             $this->createPsychicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
-            $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel)
+            $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
+            new Tables()
         );
 
         $throwingWeaponCode = $this->createWeaponlikeCode(
@@ -1151,10 +1181,10 @@ class SkillsTest extends TestWithMockery
         $skills = Skills::createSkills(
             $professionLevels,
             $backgroundSkillPoints,
-            new Tables(),
             $this->createPhysicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
             $this->createPsychicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
-            $combinedSkills = $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel)
+            $combinedSkills = $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
+            new Tables()
         );
 
         $shootingWeaponCode = $this->createWeaponlikeCode(
@@ -1216,10 +1246,10 @@ class SkillsTest extends TestWithMockery
         $skills = Skills::createSkills(
             $professionLevels,
             $backgroundSkillPoints,
-            new Tables(),
             $this->createPhysicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
             $this->createPsychicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
-            $combinedSkills = $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel)
+            $combinedSkills = $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
+            new Tables()
         );
 
         $projectile = $this->createWeaponlikeCode(
@@ -1277,10 +1307,10 @@ class SkillsTest extends TestWithMockery
         $skills = Skills::createSkills(
             $professionLevels,
             $backgroundSkillPoints,
-            new Tables(),
             $physicalSkills = $this->createPhysicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
             $this->createPsychicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
-            $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel)
+            $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
+            new Tables()
         );
         $armourer = $this->mockery(Armourer::class);
         $shield = $this->mockery(ShieldCode::class);
@@ -1310,10 +1340,10 @@ class SkillsTest extends TestWithMockery
         $skills = Skills::createSkills(
             $professionLevels,
             $backgroundSkillPoints,
-            new Tables(),
             $this->createPhysicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
             $this->createPsychicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
-            $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel)
+            $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
+            new Tables()
         );
         /**
          * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeaponlike
@@ -1340,10 +1370,10 @@ class SkillsTest extends TestWithMockery
         $skills = Skills::createSkills(
             $professionLevels,
             $backgroundSkillPoints,
-            new Tables(),
             $physicalSkills = $this->createPhysicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
             $this->createPsychicalSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
-            $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel)
+            $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
+            new Tables()
         );
         $missingShieldSkillTable = $this->createMissingShieldSkillTable();
         $physicalSkills->shouldReceive('getMalusToCoverWithShield')
@@ -1358,6 +1388,38 @@ class SkillsTest extends TestWithMockery
     private function createMissingShieldSkillTable()
     {
         return $this->mockery(MissingShieldSkillTable::class);
+    }
+
+    /**
+     * @test
+     */
+    public function I_can_create_it_with_zero_profession_levels()
+    {
+       $skills = Skills::createSkills(
+            ProfessionLevels::createIt(
+                $professionZeroLevel = ProfessionZeroLevel::createZeroLevel(Commoner::getIt()),
+                ProfessionFirstLevel::createFirstLevel($profession = Fighter::getIt()),
+                [ProfessionNextLevel::createNextLevel(
+                    $profession,
+                    LevelRank::getIt(2),
+                    Strength::getIt(0),
+                    Agility::getIt(1),
+                    Knack::getIt(0),
+                    Will::getIt(0),
+                    Intelligence::getIt(1),
+                    Charisma::getIt(0)
+                )]
+            ),
+            BackgroundSkillPoints::getIt(2, Heritage::getIt(7)),
+            new PhysicalSkills($professionZeroLevel),
+            new PsychicalSkills($professionZeroLevel),
+            new CombinedSkills($professionZeroLevel),
+            new Tables()
+        );
+        self::assertSame(
+            $professionZeroLevel,
+            $skills->getCombinedSkills()->getBigHandwork()->getCurrentSkillRank()->getProfessionLevel()
+        );
     }
 
 }

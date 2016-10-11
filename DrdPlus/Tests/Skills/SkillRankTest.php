@@ -15,7 +15,7 @@ abstract class SkillRankTest extends TestWithMockery
 
     /**
      * @test
-     * @dataProvider allowedSkillRankValues
+     * @dataProvider provideAllowedSkillRankValues
      * @param int $skillRankValue
      */
     public function I_can_create_skill_rank($skillRankValue)
@@ -24,7 +24,7 @@ abstract class SkillRankTest extends TestWithMockery
         /** @var SkillRank $skillRank */
         $skillRank = new $sutClass(
             $this->createOwningSkill(),
-            $skillPoint = $this->createSkillPoint(),
+            $skillPoint = $this->createSkillPoint($skillRankValue > 0 ? 1 : 0),
             $this->createRequiredRankValue($skillRankValue)
         );
 
@@ -35,7 +35,7 @@ abstract class SkillRankTest extends TestWithMockery
         self::assertSame($skillPoint, $skillRank->getSkillPoint());
     }
 
-    public function allowedSkillRankValues()
+    public function provideAllowedSkillRankValues()
     {
         return [[0], [1], [2], [3]];
     }
@@ -77,7 +77,7 @@ abstract class SkillRankTest extends TestWithMockery
         $sutClass = $this->getSutClass();
         new $sutClass(
             $this->createOwningSkill(),
-            $this->createSkillPoint(),
+            $this->createSkillPoint(0),
             $this->createRequiredRankValue(-1)
         );
     }
@@ -91,15 +91,16 @@ abstract class SkillRankTest extends TestWithMockery
         $sutClass = $this->getSutClass();
         new $sutClass(
             $this->createOwningSkill(),
-            $this->createSkillPoint(),
+            $this->createSkillPoint(1),
             $this->createRequiredRankValue(4)
         );
     }
 
     /**
+     * @param $value
      * @return \Mockery\MockInterface|SkillPoint
      */
-    abstract protected function createSkillPoint();
+    abstract protected function createSkillPoint($value = null);
 
     /**
      * @param int $value

@@ -1,9 +1,6 @@
 <?php
 namespace DrdPlus\Tests\Skills\Physical;
 
-use DrdPlus\Skills\Physical\PhysicalSkillPoint;
-use DrdPlus\Skills\Skill;
-use DrdPlus\Skills\Physical\PhysicalSkillRank;
 use DrdPlus\Skills\Physical\ShieldUsage;
 use DrdPlus\Tables\Armaments\Shields\MissingShieldSkillTable;
 use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
@@ -29,9 +26,9 @@ class ShieldUsageTest extends PhysicalSkillTest
             ->andReturn(456);
         self::assertSame(123, $shieldUsage->getMalusToFightNumber($missingShieldsSkillTable, -5, $missingWeaponsSkillTable));
 
-        $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
-        $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
-        $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
+        $shieldUsage->increaseSkillRank($this->createSkillPoint());
+        $shieldUsage->increaseSkillRank($this->createSkillPoint());
+        $shieldUsage->increaseSkillRank($this->createSkillPoint());
         $missingShieldsSkillTable = $this->createMissingShieldsSkillTable();
         $missingShieldsSkillTable->shouldReceive('getRestrictionBonusForSkill')
             ->with(3)
@@ -56,19 +53,6 @@ class ShieldUsageTest extends PhysicalSkillTest
     }
 
     /**
-     * @param Skill $skill
-     * @return \Mockery\MockInterface|PhysicalSkillRank
-     */
-    private function createPhysicalSkillPoint(Skill $skill)
-    {
-        $physicalSkillRank = $this->mockery(PhysicalSkillPoint::class);
-        $physicalSkillRank->shouldReceive('getSkill')
-            ->andReturn($skill);
-
-        return $physicalSkillRank;
-    }
-
-    /**
      * @test
      */
     public function I_can_get_restriction_with_shield()
@@ -81,7 +65,7 @@ class ShieldUsageTest extends PhysicalSkillTest
             ->andReturn(3);
         self::assertSame(-2, $shieldUsage->getRestrictionWithShield($missingShieldsSkillTable, -5));
 
-        $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
+        $shieldUsage->increaseSkillRank($this->createSkillPoint());
         $missingShieldsSkillTable->shouldReceive('getRestrictionBonusForSkill')
             ->with(1)
             ->andReturn(5);
@@ -101,8 +85,8 @@ class ShieldUsageTest extends PhysicalSkillTest
             ->andReturn(456);
         self::assertSame(0, $shieldUsage->getRestrictionWithShield($missingShieldsSkillTable, -5));
 
-        $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
-        $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
+        $shieldUsage->increaseSkillRank($this->createSkillPoint());
+        $shieldUsage->increaseSkillRank($this->createSkillPoint());
         $missingShieldsSkillTable->shouldReceive('getRestrictionBonusForSkill')
             ->with(2)
             ->andReturn(10);
@@ -122,8 +106,8 @@ class ShieldUsageTest extends PhysicalSkillTest
             ->andReturn(-456);
         self::assertSame(-456, $shieldUsage->getMalusToAttackNumber($missingWeaponsSkillTable));
 
-        $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
-        $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
+        $shieldUsage->increaseSkillRank($this->createSkillPoint());
+        $shieldUsage->increaseSkillRank($this->createSkillPoint());
         self::assertSame(
             -456,
             $shieldUsage->getMalusToAttackNumber($missingWeaponsSkillTable),
@@ -144,8 +128,8 @@ class ShieldUsageTest extends PhysicalSkillTest
             ->andReturn(5);
         self::assertSame(5, $shieldUsage->getMalusToCover($missingShieldsSkillTable));
 
-        $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
-        $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
+        $shieldUsage->increaseSkillRank($this->createSkillPoint());
+        $shieldUsage->increaseSkillRank($this->createSkillPoint());
         $missingShieldsSkillTable->shouldReceive('getCoverForSkillRank')
             ->with(2)
             ->andReturn(11);
@@ -165,9 +149,9 @@ class ShieldUsageTest extends PhysicalSkillTest
             ->andReturn(-123);
         self::assertSame(-123, $shieldUsage->getMalusToBaseOfWounds($missingWeaponsSkillTable));
 
-        $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
-        $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
-        $shieldUsage->addSkillRank($this->createPhysicalSkillPoint($shieldUsage));
+        $shieldUsage->increaseSkillRank($this->createSkillPoint());
+        $shieldUsage->increaseSkillRank($this->createSkillPoint());
+        $shieldUsage->increaseSkillRank($this->createSkillPoint());
         self::assertSame(
             -123,
             $shieldUsage->getMalusToBaseOfWounds($missingWeaponsSkillTable),

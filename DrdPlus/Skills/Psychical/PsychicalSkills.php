@@ -1,8 +1,8 @@
 <?php
 namespace DrdPlus\Skills\Psychical;
 
-use DrdPlus\Codes\Skills\PsychicalSkillCode;
 use DrdPlus\Codes\Skills\SkillTypeCode;
+use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Skills\SameTypeSkills;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,85 +16,108 @@ class PsychicalSkills extends SameTypeSkills
     const PSYCHICAL = SkillTypeCode::PSYCHICAL;
 
     /**
-     * @var Astronomy|null
-     * @ORM\OneToOne(targetEntity="Astronomy")
+     * @var Astronomy
+     * @ORM\OneToOne(targetEntity="Astronomy", cascade={"persist"}, orphanRemoval=true)
      */
     private $astronomy;
     /**
-     * @var Botany|null
-     * @ORM\OneToOne(targetEntity="Botany")
+     * @var Botany
+     * @ORM\OneToOne(targetEntity="Botany", cascade={"persist"}, orphanRemoval=true)
      */
     private $botany;
     /**
-     * @var EtiquetteOfUnderworld|null
-     * @ORM\OneToOne(targetEntity="EtiquetteOfUnderworld")
+     * @var EtiquetteOfUnderworld
+     * @ORM\OneToOne(targetEntity="EtiquetteOfUnderworld", cascade={"persist"}, orphanRemoval=true)
      */
     private $etiquetteOfUnderworld;
     /**
-     * @var ForeignLanguage|null
-     * @ORM\OneToOne(targetEntity="ForeignLanguage")
+     * @var ForeignLanguage
+     * @ORM\OneToOne(targetEntity="ForeignLanguage", cascade={"persist"}, orphanRemoval=true)
      */
     private $foreignLanguage;
     /**
-     * @var GeographyOfACountry|null
-     * @ORM\OneToOne(targetEntity="GeographyOfACountry")
+     * @var GeographyOfACountry
+     * @ORM\OneToOne(targetEntity="GeographyOfACountry", cascade={"persist"}, orphanRemoval=true)
      */
     private $geographyOfACountry;
     /**
-     * @var HandlingWithMagicalItems|null
-     * @ORM\OneToOne(targetEntity="HandlingWithMagicalItems")
+     * @var HandlingWithMagicalItems
+     * @ORM\OneToOne(targetEntity="HandlingWithMagicalItems", cascade={"persist"}, orphanRemoval=true)
      */
     private $handlingWithMagicalItems;
     /**
-     * @var Historiography|null
-     * @ORM\OneToOne(targetEntity="Historiography")
+     * @var Historiography
+     * @ORM\OneToOne(targetEntity="Historiography", cascade={"persist"}, orphanRemoval=true)
      */
     private $historiography;
     /**
-     * @var KnowledgeOfACity|null
-     * @ORM\OneToOne(targetEntity="KnowledgeOfACity")
+     * @var KnowledgeOfACity
+     * @ORM\OneToOne(targetEntity="KnowledgeOfACity", cascade={"persist"}, orphanRemoval=true)
      */
     private $knowledgeOfACity;
     /**
-     * @var KnowledgeOfWorld|null
-     * @ORM\OneToOne(targetEntity="KnowledgeOfWorld")
+     * @var KnowledgeOfWorld
+     * @ORM\OneToOne(targetEntity="KnowledgeOfWorld", cascade={"persist"}, orphanRemoval=true)
      */
     private $knowledgeOfWorld;
     /**
-     * @var MapsDrawing|null
-     * @ORM\OneToOne(targetEntity="MapsDrawing")
+     * @var MapsDrawing
+     * @ORM\OneToOne(targetEntity="MapsDrawing", cascade={"persist"}, orphanRemoval=true)
      */
     private $mapsDrawing;
     /**
-     * @var Mythology|null
-     * @ORM\OneToOne(targetEntity="Mythology")
+     * @var Mythology
+     * @ORM\OneToOne(targetEntity="Mythology", cascade={"persist"}, orphanRemoval=true)
      */
     private $mythology;
     /**
-     * @var ReadingAndWriting|null
-     * @ORM\OneToOne(targetEntity="ReadingAndWriting")
+     * @var ReadingAndWriting
+     * @ORM\OneToOne(targetEntity="ReadingAndWriting", cascade={"persist"}, orphanRemoval=true)
      */
     private $readingAndWriting;
     /**
-     * @var SocialEtiquette|null
-     * @ORM\OneToOne(targetEntity="SocialEtiquette")
+     * @var SocialEtiquette
+     * @ORM\OneToOne(targetEntity="SocialEtiquette", cascade={"persist"}, orphanRemoval=true)
      */
     private $socialEtiquette;
     /**
-     * @var Technology|null
-     * @ORM\OneToOne(targetEntity="Technology")
+     * @var Technology
+     * @ORM\OneToOne(targetEntity="Technology", cascade={"persist"}, orphanRemoval=true)
      */
     private $technology;
     /**
-     * @var Theology|null
-     * @ORM\OneToOne(targetEntity="Theology")
+     * @var Theology
+     * @ORM\OneToOne(targetEntity="Theology", cascade={"persist"}, orphanRemoval=true)
      */
     private $theology;
     /**
-     * @var Zoology|null
-     * @ORM\OneToOne(targetEntity="Zoology")
+     * @var Zoology
+     * @ORM\OneToOne(targetEntity="Zoology", cascade={"persist"}, orphanRemoval=true)
      */
     private $zoology;
+
+    /**
+     * @param ProfessionLevel $professionLevel
+     */
+    protected function populateAllSkills(ProfessionLevel $professionLevel)
+    {
+        $this->astronomy = new Astronomy($professionLevel);
+        $this->botany = new Botany($professionLevel);
+        $this->etiquetteOfUnderworld = new EtiquetteOfUnderworld($professionLevel);
+        $this->foreignLanguage = new ForeignLanguage($professionLevel);
+        $this->geographyOfACountry = new GeographyOfACountry($professionLevel);
+        $this->handlingWithMagicalItems = new HandlingWithMagicalItems($professionLevel);
+        $this->historiography = new Historiography($professionLevel);
+        $this->knowledgeOfACity = new KnowledgeOfACity($professionLevel);
+        $this->knowledgeOfWorld = new KnowledgeOfWorld($professionLevel);
+        $this->mapsDrawing = new MapsDrawing($professionLevel);
+        $this->mythology = new Mythology($professionLevel);
+        $this->readingAndWriting = new ReadingAndWriting($professionLevel);
+        $this->socialEtiquette = new SocialEtiquette($professionLevel);
+        $this->technology = new Technology($professionLevel);
+        $this->theology = new Theology($professionLevel);
+        $this->zoology = new Zoology($professionLevel);
+    }
 
     /**
      * @param ProfessionLevels $professionLevels
@@ -105,6 +128,10 @@ class PsychicalSkills extends SameTypeSkills
         return $this->getUnusedFirstLevelSkillPointsValue($this->getFirstLevelPhysicalPropertiesSum($professionLevels));
     }
 
+    /**
+     * @param ProfessionLevels $professionLevels
+     * @return int
+     */
     private function getFirstLevelPhysicalPropertiesSum(ProfessionLevels $professionLevels)
     {
         return $professionLevels->getFirstLevelWillModifier() + $professionLevels->getFirstLevelIntelligenceModifier();
@@ -119,6 +146,10 @@ class PsychicalSkills extends SameTypeSkills
         return $this->getUnusedNextLevelsSkillPointsValue($this->getNextLevelsPsychicalPropertiesSum($professionLevels));
     }
 
+    /**
+     * @param ProfessionLevels $professionLevels
+     * @return int
+     */
     private function getNextLevelsPsychicalPropertiesSum(ProfessionLevels $professionLevels)
     {
         return $professionLevels->getNextLevelsWillModifier() + $professionLevels->getNextLevelsIntelligenceModifier();
@@ -129,146 +160,28 @@ class PsychicalSkills extends SameTypeSkills
      */
     public function getIterator()
     {
-        return new \ArrayIterator(
-            array_values( // rebuild indexes sequence
-                array_filter([ // remove null
-                    $this->getAstronomy(),
-                    $this->getBotany(),
-                    $this->getEtiquetteOfUnderworld(),
-                    $this->getForeignLanguage(),
-                    $this->getGeographyOfACountry(),
-                    $this->getHandlingWithMagicalItems(),
-                    $this->getHistoriography(),
-                    $this->getKnowledgeOfACity(),
-                    $this->getKnowledgeOfWorld(),
-                    $this->getMapsDrawing(),
-                    $this->getMythology(),
-                    $this->getReadingAndWriting(),
-                    $this->getSocialEtiquette(),
-                    $this->getTechnology(),
-                    $this->getTheology(),
-                    $this->getZoology(),
-                ])
-            )
-        );
-    }
-
-    public function addPsychicalSkill(PsychicalSkill $psychicalSkill)
-    {
-        switch (true) {
-            case is_a($psychicalSkill, Astronomy::class) :
-                if ($this->astronomy !== null) {
-                    throw new Exceptions\PsychicalSkillAlreadySet('astronomy  is already set');
-                }
-                $this->astronomy = $psychicalSkill;
-                break;
-            case is_a($psychicalSkill, Botany::class) :
-                if ($this->botany !== null) {
-                    throw new Exceptions\PsychicalSkillAlreadySet('botany  is already set');
-                }
-                $this->botany = $psychicalSkill;
-                break;
-            case is_a($psychicalSkill, EtiquetteOfUnderworld::class) :
-                if ($this->etiquetteOfUnderworld !== null) {
-                    throw new Exceptions\PsychicalSkillAlreadySet('etiquetteOfUnderworld  is already set');
-                }
-                $this->etiquetteOfUnderworld = $psychicalSkill;
-                break;
-            case is_a($psychicalSkill, ForeignLanguage::class) :
-                if ($this->foreignLanguage !== null) {
-                    throw new Exceptions\PsychicalSkillAlreadySet('foreignLanguage  is already set');
-                }
-                $this->foreignLanguage = $psychicalSkill;
-                break;
-            case is_a($psychicalSkill, GeographyOfACountry::class) :
-                if ($this->geographyOfACountry !== null) {
-                    throw new Exceptions\PsychicalSkillAlreadySet('geographyOfACountry  is already set');
-                }
-                $this->geographyOfACountry = $psychicalSkill;
-                break;
-            case is_a($psychicalSkill, HandlingWithMagicalItems::class) :
-                if ($this->handlingWithMagicalItems !== null) {
-                    throw new Exceptions\PsychicalSkillAlreadySet('handlingWithMagicalItems  is already set');
-                }
-                $this->handlingWithMagicalItems = $psychicalSkill;
-                break;
-            case is_a($psychicalSkill, Historiography::class) :
-                if ($this->historiography !== null) {
-                    throw new Exceptions\PsychicalSkillAlreadySet('historiography  is already set');
-                }
-                $this->historiography = $psychicalSkill;
-                break;
-            case is_a($psychicalSkill, KnowledgeOfACity::class) :
-                if ($this->knowledgeOfACity !== null) {
-                    throw new Exceptions\PsychicalSkillAlreadySet('knowledgeOfACity  is already set');
-                }
-                $this->knowledgeOfACity = $psychicalSkill;
-                break;
-            case is_a($psychicalSkill, KnowledgeOfWorld::class) :
-                if ($this->knowledgeOfWorld !== null) {
-                    throw new Exceptions\PsychicalSkillAlreadySet('knowledgeOfWorld  is already set');
-                }
-                $this->knowledgeOfWorld = $psychicalSkill;
-                break;
-            case is_a($psychicalSkill, MapsDrawing::class) :
-                if ($this->mapsDrawing !== null) {
-                    throw new Exceptions\PsychicalSkillAlreadySet('mapsDrawing  is already set');
-                }
-                $this->mapsDrawing = $psychicalSkill;
-                break;
-            case is_a($psychicalSkill, Mythology::class) :
-                if ($this->mythology !== null) {
-                    throw new Exceptions\PsychicalSkillAlreadySet('mythology  is already set');
-                }
-                $this->mythology = $psychicalSkill;
-                break;
-            case is_a($psychicalSkill, ReadingAndWriting::class) :
-                if ($this->readingAndWriting !== null) {
-                    throw new Exceptions\PsychicalSkillAlreadySet('readingAndWriting  is already set');
-                }
-                $this->readingAndWriting = $psychicalSkill;
-                break;
-            case is_a($psychicalSkill, SocialEtiquette::class) :
-                if ($this->socialEtiquette !== null) {
-                    throw new Exceptions\PsychicalSkillAlreadySet('socialEtiquette  is already set');
-                }
-                $this->socialEtiquette = $psychicalSkill;
-                break;
-            case is_a($psychicalSkill, Technology::class) :
-                if ($this->technology !== null) {
-                    throw new Exceptions\PsychicalSkillAlreadySet('technology  is already set');
-                }
-                $this->technology = $psychicalSkill;
-                break;
-            case is_a($psychicalSkill, Theology::class) :
-                if ($this->theology !== null) {
-                    throw new Exceptions\PsychicalSkillAlreadySet('theology  is already set');
-                }
-                $this->theology = $psychicalSkill;
-                break;
-            case is_a($psychicalSkill, Zoology::class) :
-                if ($this->zoology !== null) {
-                    throw new Exceptions\PsychicalSkillAlreadySet('zoology  is already set');
-                }
-                $this->zoology = $psychicalSkill;
-                break;
-            default :
-                throw new Exceptions\UnknownPsychicalSkill(
-                    'Unknown psychical skill ' . get_class($psychicalSkill)
-                );
-        }
+        return new \ArrayIterator([
+            $this->getAstronomy(),
+            $this->getBotany(),
+            $this->getEtiquetteOfUnderworld(),
+            $this->getForeignLanguage(),
+            $this->getGeographyOfACountry(),
+            $this->getHandlingWithMagicalItems(),
+            $this->getHistoriography(),
+            $this->getKnowledgeOfACity(),
+            $this->getKnowledgeOfWorld(),
+            $this->getMapsDrawing(),
+            $this->getMythology(),
+            $this->getReadingAndWriting(),
+            $this->getSocialEtiquette(),
+            $this->getTechnology(),
+            $this->getTheology(),
+            $this->getZoology(),
+        ]);
     }
 
     /**
-     * @return string
-     */
-    public function getSkillsGroupName()
-    {
-        return self::PSYCHICAL;
-    }
-
-    /**
-     * @return Astronomy|null
+     * @return Astronomy
      */
     public function getAstronomy()
     {
@@ -276,7 +189,7 @@ class PsychicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return Botany|null
+     * @return Botany
      */
     public function getBotany()
     {
@@ -284,7 +197,7 @@ class PsychicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return EtiquetteOfUnderworld|null
+     * @return EtiquetteOfUnderworld
      */
     public function getEtiquetteOfUnderworld()
     {
@@ -292,7 +205,7 @@ class PsychicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return ForeignLanguage|null
+     * @return ForeignLanguage
      */
     public function getForeignLanguage()
     {
@@ -300,7 +213,7 @@ class PsychicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return GeographyOfACountry|null
+     * @return GeographyOfACountry
      */
     public function getGeographyOfACountry()
     {
@@ -308,7 +221,7 @@ class PsychicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return HandlingWithMagicalItems|null
+     * @return HandlingWithMagicalItems
      */
     public function getHandlingWithMagicalItems()
     {
@@ -316,7 +229,7 @@ class PsychicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return Historiography|null
+     * @return Historiography
      */
     public function getHistoriography()
     {
@@ -324,7 +237,7 @@ class PsychicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return KnowledgeOfACity|null
+     * @return KnowledgeOfACity
      */
     public function getKnowledgeOfACity()
     {
@@ -332,7 +245,7 @@ class PsychicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return KnowledgeOfWorld|null
+     * @return KnowledgeOfWorld
      */
     public function getKnowledgeOfWorld()
     {
@@ -340,7 +253,7 @@ class PsychicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return MapsDrawing|null
+     * @return MapsDrawing
      */
     public function getMapsDrawing()
     {
@@ -348,7 +261,7 @@ class PsychicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return Mythology|null
+     * @return Mythology
      */
     public function getMythology()
     {
@@ -356,7 +269,7 @@ class PsychicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return ReadingAndWriting|null
+     * @return ReadingAndWriting
      */
     public function getReadingAndWriting()
     {
@@ -364,7 +277,7 @@ class PsychicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return SocialEtiquette|null
+     * @return SocialEtiquette
      */
     public function getSocialEtiquette()
     {
@@ -372,7 +285,7 @@ class PsychicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return Technology|null
+     * @return Technology
      */
     public function getTechnology()
     {
@@ -380,7 +293,7 @@ class PsychicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return Theology|null
+     * @return Theology
      */
     public function getTheology()
     {
@@ -388,19 +301,11 @@ class PsychicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return Zoology|null
+     * @return Zoology
      */
     public function getZoology()
     {
         return $this->zoology;
-    }
-
-    /**
-     * @return array|\string[]
-     */
-    public function getCodesOfAllSameTypeSkills()
-    {
-        return PsychicalSkillCode::getPsychicalSkillCodes();
     }
 
 }

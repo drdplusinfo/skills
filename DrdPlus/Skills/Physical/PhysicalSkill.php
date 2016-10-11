@@ -86,7 +86,7 @@ abstract class PhysicalSkill extends Skill
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyPaidSkillPoint
      */
-    public function addSkillRank(PhysicalSkillPoint $physicalSkillPoint)
+    public function increaseSkillRank(PhysicalSkillPoint $physicalSkillPoint)
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         parent::addTypeVerifiedSkillRank(

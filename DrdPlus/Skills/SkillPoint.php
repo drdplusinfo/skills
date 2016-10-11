@@ -7,6 +7,7 @@ use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionNextLevel;
+use DrdPlus\Person\ProfessionLevels\ProfessionZeroLevel;
 use DrdPlus\Properties\Base\Agility;
 use DrdPlus\Properties\Base\Charisma;
 use DrdPlus\Properties\Base\Intelligence;
@@ -36,6 +37,11 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
      * @ORM\Column(type="integer", length=1)
      */
     private $value;
+    /**
+     * @var ProfessionZeroLevel|null
+     * @ORM\ManyToOne(targetEntity="\DrdPlus\Person\ProfessionLevels\ProfessionZeroLevel", cascade={"persist"})
+     */
+    private $professionZeroLevel;
     /**
      * @var ProfessionFirstLevel|null
      * @ORM\ManyToOne(targetEntity="\DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel", cascade={"persist"})
@@ -174,17 +180,17 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
                 'Expected zero or one, got ' . ValueDescriber::describe($skillPointValue)
             );
         }
-        if ($professionLevel instanceof ProfessionFirstLevel) {
+        if ($professionLevel instanceof ProfessionZeroLevel) {
+            $this->professionZeroLevel = $professionLevel;
+        } else if ($professionLevel instanceof ProfessionFirstLevel) {
             $this->professionFirstLevel = $professionLevel;
-        }
-        if ($professionLevel instanceof ProfessionNextLevel) {
+        } else if ($professionLevel instanceof ProfessionNextLevel) {
             $this->professionNextLevel = $professionLevel;
         }
         $this->checkSkillPointPayment(
             $skillPointValue,
+            $professionLevel,
             $tables,
-            $this->professionFirstLevel,
-            $this->professionNextLevel,
             $backgroundSkillPoints,
             $firstPaidOtherSkillPoint,
             $secondPaidOtherSkillPoint
@@ -197,9 +203,8 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
 
     /**
      * @param int $skillPointValue
-     * @param Tables $tables
-     * @param ProfessionFirstLevel|null $professionFirstLevel
-     * @param ProfessionNextLevel|null $professionNextLevel
+     * @param ProfessionLevel $professionLevel
+     * @param Tables|null $tables
      * @param BackgroundSkillPoints|null $backgroundSkillPoints
      * @param SkillPoint|null $firstPaidOtherSkillPoint
      * @param SkillPoint|null $secondPaidOtherSkillPoint
@@ -208,25 +213,29 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
      */
     private function checkSkillPointPayment(
         $skillPointValue,
+        ProfessionLevel $professionLevel,
         Tables $tables = null,
-        ProfessionFirstLevel $professionFirstLevel = null,
-        ProfessionNextLevel $professionNextLevel = null,
         BackgroundSkillPoints $backgroundSkillPoints = null,
         SkillPoint $firstPaidOtherSkillPoint = null,
         SkillPoint $secondPaidOtherSkillPoint = null
     )
     {
         if ($skillPointValue === 1) {
-            if ($professionFirstLevel) {
+            if ($professionLevel instanceof ProfessionFirstLevel) {
                 $this->checkFirstLevelPayment(
-                    $professionFirstLevel,
+                    $professionLevel,
                     $tables,
                     $backgroundSkillPoints,
                     $firstPaidOtherSkillPoint,
                     $secondPaidOtherSkillPoint
                 );
+            } else if ($professionLevel instanceof ProfessionNextLevel) {
+                $this->checkNextLevelPaymentByPropertyIncrement($professionLevel);
             } else {
-                $this->checkNextLevelPaymentByPropertyIncrement($professionNextLevel);
+                throw new Exceptions\UnknownPaymentForSkillPoint(
+                    'For non-zero skill point is needed one of first level or next level of a profession, got '
+                    . $professionLevel->getProfession() . ' of level ' . $professionLevel->getLevelRank()
+                );
             }
         } else if ($skillPointValue === 0) {
             return; // ok
@@ -396,6 +405,14 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
     }
 
     /**
+     * @return ProfessionZeroLevel|null
+     */
+    public function getProfessionZeroLevel()
+    {
+        return $this->professionZeroLevel;
+    }
+
+    /**
      * @return ProfessionFirstLevel|null
      */
     public function getProfessionFirstLevel()
@@ -412,13 +429,17 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
     }
 
     /**
-     * @return ProfessionFirstLevel|ProfessionNextLevel
+     * @return ProfessionZeroLevel|ProfessionFirstLevel|ProfessionNextLevel
      */
     public function getProfessionLevel()
     {
+        if ($this->getProfessionZeroLevel()) {
+            return $this->getProfessionZeroLevel();
+        }
         if ($this->getProfessionFirstLevel()) {
             return $this->getProfessionFirstLevel();
         }
+        assert($this->getProfessionNextLevel() !== null);
 
         return $this->getProfessionNextLevel();
     }

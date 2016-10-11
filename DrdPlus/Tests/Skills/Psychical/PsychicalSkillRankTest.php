@@ -9,12 +9,17 @@ class PsychicalSkillRankTest extends SkillRankTest
 {
 
     /**
+     * @param $value
      * @return \Mockery\MockInterface|PsychicalSkillPoint
      */
-    protected function createSkillPoint()
+    protected function createSkillPoint($value = null)
     {
         $psychicalSkillPoint = $this->mockery(PsychicalSkillPoint::class);
         $this->addProfessionLevelGetter($psychicalSkillPoint);
+        if ($value !== null) {
+            $psychicalSkillPoint->shouldReceive('getValue')
+                ->andReturn($value);
+        }
 
         return $psychicalSkillPoint;
     }

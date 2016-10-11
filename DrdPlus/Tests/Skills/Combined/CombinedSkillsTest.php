@@ -3,17 +3,14 @@ namespace DrdPlus\Tests\Skills\Combined;
 
 use DrdPlus\Codes\Armaments\RangedWeaponCode;
 use DrdPlus\Codes\Armaments\WeaponCategoryCode;
-use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
+use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
-use DrdPlus\Skills\Combined\BigHandwork;
-use DrdPlus\Skills\Combined\Cooking;
-use DrdPlus\Skills\Combined\FirstAid;
-use DrdPlus\Skills\Combined\Gambling;
-use DrdPlus\Skills\Combined\CombinedSkill;
+use DrdPlus\Person\ProfessionLevels\ProfessionZeroLevel;
+use DrdPlus\Professions\Commoner;
+use DrdPlus\Professions\Fighter;
+use DrdPlus\Professions\Wizard;
+use DrdPlus\Skills\Combined\CombinedSkillPoint;
 use DrdPlus\Skills\Combined\CombinedSkills;
-use DrdPlus\Skills\Combined\Seduction;
-use DrdPlus\Skills\Skill;
-use DrdPlus\Skills\SkillRank;
 use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
 use DrdPlus\Tests\Skills\SameTypeSkillsTest;
 
@@ -22,35 +19,15 @@ class CombinedSkillsTest extends SameTypeSkillsTest
 
     /**
      * @test
-     * @dataProvider provideSkill
-     * @param Skill $skill
-     * @expectedException \DrdPlus\Skills\Combined\Exceptions\CombinedSkillAlreadySet
-     */
-    public function I_can_not_replace_skill(Skill $skill)
-    {
-        parent::I_can_not_replace_skill($skill);
-    }
-
-    /**
-     * @test
-     * @expectedException \DrdPlus\Skills\Combined\Exceptions\UnknownCombinedSkill
-     */
-    public function I_can_not_add_unknown_skill()
-    {
-        $skills = new CombinedSkills();
-        /** @var CombinedSkill $strangeCombinedSkill */
-        $strangeCombinedSkill = $this->mockery(CombinedSkill::class);
-        $skills->addCombinedSkill($strangeCombinedSkill);
-    }
-
-    /**
-     * @test
      */
     public function I_can_get_unused_skill_points_from_first_level()
     {
-        $skills = new CombinedSkills();
+        $skills = new CombinedSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $professionLevels = $this->createProfessionLevels(
-            $firstLevelKnack = 123, $firstLevelCharisma = 456, $nextLevelKnack = 321, $nextLevelCharisma = 654
+            $firstLevelKnack = 123,
+            $firstLevelCharisma = 456,
+            $nextLevelKnack = 321,
+            $nextLevelCharisma = 654
         );
 
         self::assertSame(
@@ -58,12 +35,14 @@ class CombinedSkillsTest extends SameTypeSkillsTest
             $skills->getUnusedFirstLevelCombinedSkillPointsValue($professionLevels)
         );
 
-        $skills->addCombinedSkill($this->createCombinedSkill($usedRank = 3, 1, BigHandwork::class));
-        $skills->addCombinedSkill($this->createCombinedSkill($unusedRank = 2, 2, Cooking::class));
+        $professionFirstLevel = ProfessionFirstLevel::createFirstLevel(Fighter::getIt());
+        $skills->getBigHandwork()->increaseSkillRank($this->createSkillPoint($professionFirstLevel)); // = 1
+        $skills->getBigHandwork()->increaseSkillRank($this->createSkillPoint($professionFirstLevel)); // = 2
+        $skills->getCooking()->increaseSkillRank($this->createSkillPoint($professionFirstLevel)); // = 1
         self::assertSame(
-            ($firstLevelKnack + $firstLevelCharisma) - array_sum(range(1, $usedRank)),
+            ($firstLevelKnack + $firstLevelCharisma) - 4 /* 1 + 2 +1 */,
             $skills->getUnusedFirstLevelCombinedSkillPointsValue($professionLevels),
-            'Expected ' . (($firstLevelKnack + $firstLevelCharisma) - array_sum(range(1, $usedRank)))
+            'Expected ' . (($firstLevelKnack + $firstLevelCharisma) - 4 /* 1 + 2 + 1 */)
         );
     }
 
@@ -75,7 +54,10 @@ class CombinedSkillsTest extends SameTypeSkillsTest
      * @return \Mockery\MockInterface|ProfessionLevels
      */
     private function createProfessionLevels(
-        $firstLevelKnackModifier, $firstLevelCharismaModifier, $nextLevelsKnackModifier, $nextLevelsCharismaModifier
+        $firstLevelKnackModifier,
+        $firstLevelCharismaModifier,
+        $nextLevelsKnackModifier,
+        $nextLevelsCharismaModifier
     )
     {
         $professionLevels = $this->mockery(ProfessionLevels::class);
@@ -92,39 +74,14 @@ class CombinedSkillsTest extends SameTypeSkillsTest
     }
 
     /**
-     * @param int $finalSkillRankValue
-     * @param int $levelValue
-     * @param string $skillClass
-     * @return \Mockery\MockInterface|CombinedSkill
+     * @test
+     * @expectedException \DrdPlus\Skills\Exceptions\CanNotUseZeroSkillPointForNonZeroSkillRank
+     * @expectedExceptionMessageRegExp ~0~
      */
-    private function createCombinedSkill($finalSkillRankValue, $levelValue, $skillClass)
+    public function I_can_not_increase_rank_by_zero_skill_point()
     {
-        $combinedSkill = $this->mockery($skillClass);
-        $professionLevel = $this->mockery(ProfessionLevel::class);
-        $professionLevel->shouldReceive('isFirstLevel')
-            ->andReturn($levelValue === 1);
-        $professionLevel->shouldReceive('isNextLevel')
-            ->andReturn($levelValue > 1);
-        /** @var ProfessionLevel $professionLevel */
-        $combinedSkill->shouldReceive('getSkillRanks')
-            ->andReturn($this->createSkillRanks($finalSkillRankValue, $professionLevel));
-
-        return $combinedSkill;
-    }
-
-    private function createSkillRanks($finalSkillRankValue, ProfessionLevel $professionLevel)
-    {
-        $skillRanks = [];
-        for ($value = 1; $value <= $finalSkillRankValue; $value++) {
-            $skillRank = $this->mockery(SkillRank::class);
-            $skillRank->shouldReceive('getValue')
-                ->andReturn($value);
-            $skillRank->shouldReceive('getProfessionLevel')
-                ->andReturn($professionLevel);
-            $skillRanks[] = $skillRank;
-        }
-
-        return $skillRanks;
+        $skills = new CombinedSkills($professionZeroLevel = ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
+        $skills->getCooking()->increaseSkillRank(CombinedSkillPoint::createZeroSkillPoint($professionZeroLevel));
     }
 
     /**
@@ -132,21 +89,43 @@ class CombinedSkillsTest extends SameTypeSkillsTest
      */
     public function I_can_get_unused_skill_points_from_next_levels()
     {
-        $skills = new CombinedSkills();
+        $skills = new CombinedSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $professionLevels = $this->createProfessionLevels(
-            $firstLevelKnack = 123, $firstLevelCharisma = 456, $nextLevelsKnack = 321, $nextLevelsCharisma = 654
+            $firstLevelKnack = 123,
+            $firstLevelCharisma = 456,
+            $nextLevelsKnack = 321,
+            $nextLevelsCharisma = 654
         );
 
-        self::assertSame($nextLevelsKnack + $nextLevelsCharisma, $skills->getUnusedNextLevelsCombinedSkillPointsValue($professionLevels));
-        $skills->addCombinedSkill($this->createCombinedSkill($rankFromFirstLevel = 2, 1, FirstAid::class));
-        self::assertSame($nextLevelsKnack + $nextLevelsCharisma, $skills->getUnusedNextLevelsCombinedSkillPointsValue($professionLevels));
-
-        $skills->addCombinedSkill($this->createCombinedSkill($aRankFromNextLevel = 3, 2, Gambling::class));
-        $skills->addCombinedSkill($this->createCombinedSkill($anotherRankFromNextLevel = 1, 3, Seduction::class));
         self::assertSame(
-            ($nextLevelsKnack + $nextLevelsCharisma) - (array_sum(range(1, $aRankFromNextLevel)) + array_sum(range(1, $anotherRankFromNextLevel))),
+            $nextLevelsKnack + $nextLevelsCharisma,
+            $skills->getUnusedNextLevelsCombinedSkillPointsValue($professionLevels)
+        );
+        $skills->getFirstAid()->increaseSkillRank( // = 1
+            $this->createSkillPoint(ProfessionFirstLevel::createFirstLevel(Wizard::getIt()))
+        );
+        $skills->getFirstAid()->increaseSkillRank( // = 2
+            $this->createSkillPoint(ProfessionFirstLevel::createFirstLevel(Wizard::getIt()))
+        );
+        self::assertSame(
+            $nextLevelsKnack + $nextLevelsCharisma,
             $skills->getUnusedNextLevelsCombinedSkillPointsValue($professionLevels),
-            'Expected ' . (($nextLevelsKnack + $nextLevelsCharisma) - (array_sum(range(1, $aRankFromNextLevel)) + array_sum(range(1, $anotherRankFromNextLevel))))
+            'Nothing should change'
+        );
+
+        $skills->getGambling()->increaseSkillRank( // 1
+            $this->createSkillPoint($this->createProfessionNextLevel())
+        );
+        $skills->getSeduction()->increaseSkillRank( // 1
+            $this->createSkillPoint($this->createProfessionNextLevel())
+        );
+        $skills->getSeduction()->increaseSkillRank( // 1
+            $this->createSkillPoint($this->createProfessionNextLevel())
+        );
+        self::assertSame(
+            ($nextLevelsKnack + $nextLevelsCharisma) - (1 + 1 + 2 ),
+            $skills->getUnusedNextLevelsCombinedSkillPointsValue($professionLevels),
+            'Expected ' . (($nextLevelsKnack + $nextLevelsCharisma) - (1 + 1 + 2))
         );
     }
 
@@ -157,7 +136,7 @@ class CombinedSkillsTest extends SameTypeSkillsTest
      */
     public function I_can_get_malus_for_every_type_of_weapon($rangeWeaponCategory)
     {
-        $combinedSkills = new CombinedSkills();
+        $combinedSkills = new CombinedSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         self::assertSame(
             $expectedMalus = 'foo',
             $combinedSkills->getMalusToFightNumberWithShootingWeapon(
@@ -238,7 +217,7 @@ class CombinedSkillsTest extends SameTypeSkillsTest
      */
     public function I_can_not_get_malus_for_weapon_not_affected_by_combined_skill()
     {
-        $combinedSkills = new CombinedSkills();
+        $combinedSkills = new CombinedSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         /** @var MissingWeaponSkillTable $missingWeaponSkillsTable */
         $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
         $combinedSkills->getMalusToFightNumberWithShootingWeapon(

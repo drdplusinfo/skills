@@ -21,7 +21,7 @@ abstract class SkillTest extends TestWithMockery
 {
     /**
      * @test
-     * @dataProvider provideSutClass
+     * @dataProvider provideSkillClasses
      * @param string $sutClass
      */
     public function I_can_use_it($sutClass)
@@ -32,7 +32,8 @@ abstract class SkillTest extends TestWithMockery
         $implicitSkillRanks = $sut->getSkillRanks()->toArray();
         self::assertSame([0], array_keys($implicitSkillRanks));
         self::assertInstanceOf($this->getSkillRankClass($sutClass), $implicitSkillRanks[0]);
-        $sut->addSkillRank($skillPoint = $this->createSkillPoint());
+
+        $sut->increaseSkillRank($skillPoint = $this->createSkillPoint());
         self::assertCount(2, $sut->getSkillRanks());
         self::assertSame([0, 1], $sut->getSkillRanks()->getKeys());
         $expectedSkillRank = 0;
@@ -56,7 +57,7 @@ abstract class SkillTest extends TestWithMockery
         $this->I_can_ask_it_which_type_is_it($sut);
     }
 
-    public function provideSutClass()
+    public function provideSkillClasses()
     {
         $namespace = $this->getNamespace();
         $fileBaseNames = $this->getFileBaseNames($namespace);
@@ -152,11 +153,16 @@ abstract class SkillTest extends TestWithMockery
     }
 
     /**
+     * @param int $value
      * @return \Mockery\MockInterface|SkillPoint|CombinedSkillPoint|PhysicalSkillPoint|PsychicalSkillPoint
      */
-    private function createSkillPoint()
+    protected function createSkillPoint($value = 1)
     {
-        return $this->mockery($this->getSkillPointClass());
+        $skillPoint = $this->mockery($this->getSkillPointClass());
+        $skillPoint->shouldReceive('getValue')
+            ->andReturn($value);
+
+        return $skillPoint;
     }
 
     /**
@@ -280,18 +286,18 @@ abstract class SkillTest extends TestWithMockery
      */
     public function I_can_add_more_ranks()
     {
-        $sutClass = current($this->provideSutClass())[0]; // one is enough of this test
+        $sutClass = current($this->provideSkillClasses())[0]; // one is enough of this test
         /** @var Skill|PhysicalSkill|PsychicalSkill|CombinedSkill $sut */
         $sut = new $sutClass($this->createProfessionFirstLevel());
         self::assertCount(1, $sut->getSkillRanks());
         self::assertInstanceOf($this->getSkillRankClass($sutClass), $zeroSkillRank = $sut->getCurrentSkillRank());
 
-        $sut->addSkillRank($skillPoint = $this->createSkillPoint());
+        $sut->increaseSkillRank($skillPoint = $this->createSkillPoint());
         $oneSkillRank = $sut->getCurrentSkillRank();
         self::assertSame($skillPoint, $oneSkillRank->getSkillPoint());
         self::assertSame([0 => $zeroSkillRank, 1 => $oneSkillRank], $sut->getSkillRanks()->toArray());
 
-        $sut->addSkillRank($skillPoint = $this->createSkillPoint());
+        $sut->increaseSkillRank($skillPoint = $this->createSkillPoint());
         $twoSkillRank = $sut->getCurrentSkillRank();
         self::assertSame(
             [0 => $zeroSkillRank, 1 => $oneSkillRank, 2 => $twoSkillRank],
@@ -317,34 +323,10 @@ abstract class SkillTest extends TestWithMockery
     {
         $sut = new CheatingSkill($this->createProfessionFirstLevel());
         self::assertCount(1, $sut->getSkillRanks());
-        $sut->addSkillRank($this->mockery(CombinedSkillPoint::class), 2);
-    }
-
-    /**
-     * @test
-     * @expectedException \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
-     * @expectedExceptionMessageRegExp ~belongs to different skill class~
-     */
-    public function I_can_not_add_rank_linked_with_another_skill()
-    {
-        $sut = new CheatingSkill($this->createProfessionFirstLevel());
-        self::assertCount(1, $sut->getSkillRanks());
-        /** @var CombinedSkill $anotherSut */
-        $anotherSut = $this->mockery(CombinedSkill::class);
-        $sut->addSkillRank($this->mockery(CombinedSkillPoint::class), 1, $anotherSut);
-    }
-
-    /**
-     * @test
-     * @expectedException \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
-     * @expectedExceptionMessageRegExp ~belongs to different instance~
-     */
-    public function I_can_not_add_rank_linked_with_same_skill_but_different_instance()
-    {
-        $sut = new CheatingSkill($this->createProfessionFirstLevel());
-        self::assertCount(1, $sut->getSkillRanks());
-        $anotherSut = new CheatingSkill($this->createProfessionFirstLevel());
-        $sut->addSkillRank($this->mockery(CombinedSkillPoint::class), 1, $anotherSut);
+        $skillPoint = $this->mockery(CombinedSkillPoint::class);
+        $skillPoint->shouldReceive('getValue')
+            ->andReturn(1);
+        $sut->increaseSkillRank($skillPoint, 2);
     }
 }
 
@@ -356,7 +338,7 @@ class CheatingSkill extends CombinedSkill
         return 'foo';
     }
 
-    public function addSkillRank(
+    public function increaseSkillRank(
         CombinedSkillPoint $combinedSkillPoint,
         $nextRankIncrement = 1,
         CombinedSkill $rankRelatedSkill = null

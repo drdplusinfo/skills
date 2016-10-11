@@ -67,23 +67,28 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     /**
      * @param ProfessionLevels $professionLevels
      * @param BackgroundSkillPoints $backgroundSkillPoints
-     * @param Tables $tables
      * @param PhysicalSkills $physicalSkills
      * @param PsychicalSkills $psychicalSkills
      * @param CombinedSkills $combinedSkills
+     * @param Tables $tables
      * @return Skills
      */
     public static function createSkills(
         ProfessionLevels $professionLevels,
         BackgroundSkillPoints $backgroundSkillPoints,
-        Tables $tables,
         PhysicalSkills $physicalSkills,
         PsychicalSkills $psychicalSkills,
-        CombinedSkills $combinedSkills
+        CombinedSkills $combinedSkills,
+        Tables $tables
     )
     {
         self::checkPaymentForSkillPoints(
-            $professionLevels, $backgroundSkillPoints, $tables, $physicalSkills, $psychicalSkills, $combinedSkills
+            $professionLevels,
+            $backgroundSkillPoints,
+            $physicalSkills,
+            $psychicalSkills,
+            $combinedSkills,
+            $tables
         );
         self::checkNextLevelsSkillRanks($physicalSkills, $psychicalSkills, $combinedSkills);
 
@@ -93,18 +98,18 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     /**
      * @param ProfessionLevels $professionLevels
      * @param BackgroundSkillPoints $backgroundSkillPoints
-     * @param Tables $tables
-     * @param PhysicalSkills $physicalSkills ,
-     * @param PsychicalSkills $psychicalSkills ,
+     * @param PhysicalSkills $physicalSkills
+     * @param PsychicalSkills $psychicalSkills
      * @param CombinedSkills $combinedSkills
+     * @param Tables $tables
      */
     private static function checkPaymentForSkillPoints(
         ProfessionLevels $professionLevels,
         BackgroundSkillPoints $backgroundSkillPoints,
-        Tables $tables,
         PhysicalSkills $physicalSkills,
         PsychicalSkills $psychicalSkills,
-        CombinedSkills $combinedSkills
+        CombinedSkills $combinedSkills,
+        Tables $tables
     )
     {
         $paymentsFoSkills = self::extractPropertyPayments($physicalSkills, $psychicalSkills, $combinedSkills);
@@ -122,6 +127,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      * @param PsychicalSkills $psychicalSkills ,
      * @param CombinedSkills $combinedSkill
      * @return array
+     * @throws Exceptions\UnknownPaymentForSkillPoint
      */
     private static function extractPropertyPayments(
         PhysicalSkills $physicalSkills,
@@ -146,6 +152,11 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     private static function getPaymentsSkeleton()
     {
         return [
+            'zeroLevel' => [
+                PhysicalSkillPoint::PHYSICAL => [],
+                PsychicalSkillPoint::PSYCHICAL => [],
+                CombinedSkillPoint::COMBINED => [],
+            ],
             'firstLevel' => [
                 PhysicalSkillPoint::PHYSICAL => ['spentFirstLevelSkillPoints' => 0, 'backgroundSkillPoints' => null],
                 PsychicalSkillPoint::PSYCHICAL => ['spentFirstLevelSkillPoints' => 0, 'backgroundSkillPoints' => null],
@@ -159,11 +170,15 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         ];
     }
 
+    /**
+     * @param SkillPoint $skillPoint
+     * @return array
+     * @throws Exceptions\UnknownPaymentForSkillPoint
+     */
     private static function extractPaymentDetails(SkillPoint $skillPoint)
     {
         $propertyPayment = self::getPaymentsSkeleton();
 
-        $type = $skillPoint->getTypeName();
         if ($skillPoint->isPaidByFirstLevelBackgroundSkillPoints()) {
             /**
              * There are limited first level background skill points,
@@ -172,27 +187,33 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
              * and @see \DrdPlus\Person\Background\Heritage
              * check their sum
              */
+            $type = $skillPoint->getTypeName();
             $propertyPayment['firstLevel'][$type]['spentFirstLevelSkillPoints'] += $skillPoint->getValue();
             $propertyPayment['firstLevel'][$type]['backgroundSkillPoints'] = $skillPoint->getBackgroundSkillPoints();
 
             return $propertyPayment;
-        } else if ($skillPoint->isPaidByOtherSkillPoints()) {
+        }
+        if ($skillPoint->isPaidByOtherSkillPoints()) {
             $firstPaidOtherSkillPoint = self::extractPaymentDetails($skillPoint->getFirstPaidOtherSkillPoint());
             $secondPaidOtherSkillPoint = self::extractPaymentDetails($skillPoint->getSecondPaidOtherSkillPoint());
 
             // the other skill points have to be extracted to first level background skills, see upper
             return self::sumPayments([$firstPaidOtherSkillPoint, $secondPaidOtherSkillPoint]);
-        } else if ($skillPoint->isPaidByNextLevelPropertyIncrease()) {
+        }
+        if ($skillPoint->isPaidByNextLevelPropertyIncrease()) {
             // for every skill point of this type has to exists level property increase
+            $type = $skillPoint->getTypeName();
             $propertyPayment['nextLevels'][$type]['spentNextLevelsSkillPoints'] += $skillPoint->getValue();
             $propertyPayment['nextLevels'][$type]['relatedProperties'] = $skillPoint->getRelatedProperties();
 
             return $propertyPayment;
-        } else {
-            throw new Exceptions\UnknownPaymentForSkillPoint(
-                'Unknown payment for skill point ' . get_class($skillPoint)
-            );
         }
+        if ($skillPoint->getValue() === 0) {
+            return $propertyPayment;
+        }
+        throw new Exceptions\UnknownPaymentForSkillPoint(
+            'Unknown payment for skill point ' . get_class($skillPoint)
+        );
     }
 
     /**
@@ -429,6 +450,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
 
     /**
      * Looking for a way how to create it?
+     *
      * @see Skills::createSkills
      *
      * @param PhysicalSkills $physicalSkills
@@ -633,8 +655,8 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     }
 
     /**
-     * Usable both for weapons and shields, but SHIELD as "weaponlike" means for attacking - for shield standard usage as
-     * a protective armament @see getMalusToCoverWithShield
+     * Usable both for weapons and shields, but SHIELD as "weaponlike" means for attacking - for shield standard usage
+     * as a protective armament @see getMalusToCoverWithShield
      *
      * @param WeaponlikeCode $weaponOrShieldCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable

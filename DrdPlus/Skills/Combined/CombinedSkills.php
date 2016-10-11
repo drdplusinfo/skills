@@ -1,9 +1,9 @@
 <?php
 namespace DrdPlus\Skills\Combined;
 
-use DrdPlus\Codes\Skills\CombinedSkillCode;
 use DrdPlus\Codes\Armaments\RangedWeaponCode;
 use DrdPlus\Codes\Skills\SkillTypeCode;
+use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Skills\SameTypeSkills;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,105 +17,132 @@ class CombinedSkills extends SameTypeSkills
     const COMBINED = SkillTypeCode::COMBINED;
 
     /**
-     * @var BigHandwork|null
-     * @ORM\OneToOne(targetEntity="BigHandwork")
+     * @var BigHandwork
+     * @ORM\OneToOne(targetEntity="BigHandwork", cascade={"persist"}, orphanRemoval=true)
      */
     private $bigHandwork;
     /**
-     * @var Cooking|null
-     * @ORM\OneToOne(targetEntity="Cooking")
+     * @var Cooking
+     * @ORM\OneToOne(targetEntity="Cooking", cascade={"persist"}, orphanRemoval=true)
      */
     private $cooking;
     /**
-     * @var Dancing|null
-     * @ORM\OneToOne(targetEntity="Dancing")
+     * @var Dancing
+     * @ORM\OneToOne(targetEntity="Dancing", cascade={"persist"}, orphanRemoval=true)
      */
     private $dancing;
     /**
-     * @var DuskSight|null
-     * @ORM\OneToOne(targetEntity="DuskSight")
+     * @var DuskSight
+     * @ORM\OneToOne(targetEntity="DuskSight", cascade={"persist"}, orphanRemoval=true)
      */
     private $duskSight;
     /**
-     * @var FightWithBows|null
-     * @ORM\OneToOne(targetEntity="FightWithBows")
+     * @var FightWithBows
+     * @ORM\OneToOne(targetEntity="FightWithBows", cascade={"persist"}, orphanRemoval=true)
      */
     private $fightWithBows;
     /**
-     * @var FightWithCrossbows|null
-     * @ORM\OneToOne(targetEntity="FightWithCrossbows")
+     * @var FightWithCrossbows
+     * @ORM\OneToOne(targetEntity="FightWithCrossbows", cascade={"persist"}, orphanRemoval=true)
      */
     private $fightWithCrossbows;
     /**
-     * @var FirstAid|null
-     * @ORM\OneToOne(targetEntity="FirstAid")
+     * @var FirstAid
+     * @ORM\OneToOne(targetEntity="FirstAid", cascade={"persist"}, orphanRemoval=true)
      */
     private $firstAid;
     /**
-     * @var HandlingWithAnimals|null
-     * @ORM\OneToOne(targetEntity="HandlingWithAnimals")
+     * @var HandlingWithAnimals
+     * @ORM\OneToOne(targetEntity="HandlingWithAnimals", cascade={"persist"}, orphanRemoval=true)
      */
     private $handlingWithAnimals;
     /**
-     * @var Handwork|null
-     * @ORM\OneToOne(targetEntity="Handwork")
+     * @var Handwork
+     * @ORM\OneToOne(targetEntity="Handwork", cascade={"persist"}, orphanRemoval=true)
      */
     private $handwork;
     /**
-     * @var Gambling|null
-     * @ORM\OneToOne(targetEntity="Gambling")
+     * @var Gambling
+     * @ORM\OneToOne(targetEntity="Gambling", cascade={"persist"}, orphanRemoval=true)
      */
     private $gambling;
     /**
-     * @var Herbalism|null
-     * @ORM\OneToOne(targetEntity="Herbalism")
+     * @var Herbalism
+     * @ORM\OneToOne(targetEntity="Herbalism", cascade={"persist"}, orphanRemoval=true)
      */
     private $herbalism;
     /**
-     * @var HuntingAndFishing|null
-     * @ORM\OneToOne(targetEntity="HuntingAndFishing")
+     * @var HuntingAndFishing
+     * @ORM\OneToOne(targetEntity="HuntingAndFishing", cascade={"persist"}, orphanRemoval=true)
      */
     private $huntingAndFishing;
     /**
-     * @var Knotting|null
-     * @ORM\OneToOne(targetEntity="Knotting")
+     * @var Knotting
+     * @ORM\OneToOne(targetEntity="Knotting", cascade={"persist"}, orphanRemoval=true)
      */
     private $knotting;
     /**
-     * @var Painting|null
-     * @ORM\OneToOne(targetEntity="Painting")
+     * @var Painting
+     * @ORM\OneToOne(targetEntity="Painting", cascade={"persist"}, orphanRemoval=true)
      */
     private $painting;
     /**
-     * @var Pedagogy|null
-     * @ORM\OneToOne(targetEntity="Pedagogy")
+     * @var Pedagogy
+     * @ORM\OneToOne(targetEntity="Pedagogy", cascade={"persist"}, orphanRemoval=true)
      */
     private $pedagogy;
     /**
-     * @var PlayingOnMusicInstrument|null
-     * @ORM\OneToOne(targetEntity="PlayingOnMusicInstrument")
+     * @var PlayingOnMusicInstrument
+     * @ORM\OneToOne(targetEntity="PlayingOnMusicInstrument", cascade={"persist"}, orphanRemoval=true)
      */
     private $playingOnMusicInstrument;
     /**
-     * @var Seduction|null
-     * @ORM\OneToOne(targetEntity="Seduction")
+     * @var Seduction
+     * @ORM\OneToOne(targetEntity="Seduction", cascade={"persist"}, orphanRemoval=true)
      */
     private $seduction;
     /**
-     * @var Showmanship|null
-     * @ORM\OneToOne(targetEntity="Showmanship")
+     * @var Showmanship
+     * @ORM\OneToOne(targetEntity="Showmanship", cascade={"persist"}, orphanRemoval=true)
      */
     private $showmanship;
     /**
-     * @var Singing|null
-     * @ORM\OneToOne(targetEntity="Singing")
+     * @var Singing
+     * @ORM\OneToOne(targetEntity="Singing", cascade={"persist"}, orphanRemoval=true)
      */
     private $singing;
     /**
-     * @var Statuary|null
-     * @ORM\OneToOne(targetEntity="Statuary")
+     * @var Statuary
+     * @ORM\OneToOne(targetEntity="Statuary", cascade={"persist"}, orphanRemoval=true)
      */
     private $statuary;
+
+    /**
+     * @param ProfessionLevel $professionLevel
+     */
+    protected function populateAllSkills(ProfessionLevel $professionLevel)
+    {
+        $this->bigHandwork = new BigHandwork($professionLevel);
+        $this->cooking = new Cooking($professionLevel);
+        $this->dancing = new Dancing($professionLevel);
+        $this->duskSight = new DuskSight($professionLevel);
+        $this->fightWithBows = new FightWithBows($professionLevel);
+        $this->fightWithCrossbows = new FightWithCrossbows($professionLevel);
+        $this->firstAid = new FirstAid($professionLevel);
+        $this->gambling = new Gambling($professionLevel);
+        $this->handlingWithAnimals = new HandlingWithAnimals($professionLevel);
+        $this->handwork = new Handwork($professionLevel);
+        $this->herbalism = new Herbalism($professionLevel);
+        $this->huntingAndFishing = new HuntingAndFishing($professionLevel);
+        $this->knotting = new Knotting($professionLevel);
+        $this->painting = new Painting($professionLevel);
+        $this->pedagogy = new Pedagogy($professionLevel);
+        $this->playingOnMusicInstrument = new PlayingOnMusicInstrument($professionLevel);
+        $this->seduction = new Seduction($professionLevel);
+        $this->showmanship = new Showmanship($professionLevel);
+        $this->singing = new Singing($professionLevel);
+        $this->statuary = new Statuary($professionLevel);
+    }
 
     /**
      * @param ProfessionLevels $professionLevels
@@ -126,6 +153,10 @@ class CombinedSkills extends SameTypeSkills
         return $this->getUnusedFirstLevelSkillPointsValue($this->getFirstLevelCombinedPropertiesSum($professionLevels));
     }
 
+    /**
+     * @param ProfessionLevels $professionLevels
+     * @return int
+     */
     private function getFirstLevelCombinedPropertiesSum(ProfessionLevels $professionLevels)
     {
         return $professionLevels->getFirstLevelKnackModifier() + $professionLevels->getFirstLevelCharismaModifier();
@@ -140,6 +171,10 @@ class CombinedSkills extends SameTypeSkills
         return $this->getUnusedNextLevelsSkillPointsValue($this->getNextLevelsCombinedPropertiesSum($professionLevels));
     }
 
+    /**
+     * @param ProfessionLevels $professionLevels
+     * @return int
+     */
     private function getNextLevelsCombinedPropertiesSum(ProfessionLevels $professionLevels)
     {
         return $professionLevels->getNextLevelsKnackModifier() + $professionLevels->getNextLevelsCharismaModifier();
@@ -150,174 +185,32 @@ class CombinedSkills extends SameTypeSkills
      */
     public function getIterator()
     {
-        return new \ArrayIterator(
-            array_values( // rebuild indexes sequence
-                array_filter([ // remove null
-                    $this->getBigHandwork(),
-                    $this->getCooking(),
-                    $this->getDancing(),
-                    $this->getDuskSight(),
-                    $this->getFightWithBows(),
-                    $this->getFightWithCrossbows(),
-                    $this->getFirstAid(),
-                    $this->getGambling(),
-                    $this->getHandlingWithAnimals(),
-                    $this->getHandwork(),
-                    $this->getHerbalism(),
-                    $this->getHuntingAndFishing(),
-                    $this->getKnotting(),
-                    $this->getPainting(),
-                    $this->getPedagogy(),
-                    $this->getPlayingOnMusicInstrument(),
-                    $this->getSeduction(),
-                    $this->getShowmanship(),
-                    $this->getSinging(),
-                    $this->getStatuary(),
-                ])
-            )
-        );
+        return new \ArrayIterator([
+            $this->getBigHandwork(),
+            $this->getCooking(),
+            $this->getDancing(),
+            $this->getDuskSight(),
+            $this->getFightWithBows(),
+            $this->getFightWithCrossbows(),
+            $this->getFirstAid(),
+            $this->getGambling(),
+            $this->getHandlingWithAnimals(),
+            $this->getHandwork(),
+            $this->getHerbalism(),
+            $this->getHuntingAndFishing(),
+            $this->getKnotting(),
+            $this->getPainting(),
+            $this->getPedagogy(),
+            $this->getPlayingOnMusicInstrument(),
+            $this->getSeduction(),
+            $this->getShowmanship(),
+            $this->getSinging(),
+            $this->getStatuary(),
+        ]);
     }
 
     /**
-     * @return string
-     */
-    public function getSkillsGroupName()
-    {
-        return self::COMBINED;
-    }
-
-    public function addCombinedSkill(CombinedSkill $combinedSkill)
-    {
-        switch (true) {
-            case is_a($combinedSkill, BigHandwork::class) :
-                if ($this->bigHandwork !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Big handwork is already set');
-                }
-                $this->bigHandwork = $combinedSkill;
-                break;
-            case is_a($combinedSkill, Cooking::class) :
-                if ($this->cooking !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Cooking is already set');
-                }
-                $this->cooking = $combinedSkill;
-                break;
-            case is_a($combinedSkill, Dancing::class) :
-                if ($this->dancing !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Dancing is already set');
-                }
-                $this->dancing = $combinedSkill;
-                break;
-            case is_a($combinedSkill, DuskSight::class) :
-                if ($this->duskSight !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Dusk sight is already set');
-                }
-                $this->duskSight = $combinedSkill;
-                break;
-            case is_a($combinedSkill, FightWithBows::class) :
-                if ($this->fightWithBows !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Fight with bows is already set');
-                }
-                $this->fightWithBows = $combinedSkill;
-                break;
-            case is_a($combinedSkill, FightWithCrossbows::class) :
-                if ($this->fightWithCrossbows !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Fight with crossbows is already set');
-                }
-                $this->fightWithCrossbows = $combinedSkill;
-                break;
-            case is_a($combinedSkill, FirstAid::class) :
-                if ($this->firstAid !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('First aid is already set');
-                }
-                $this->firstAid = $combinedSkill;
-                break;
-            case is_a($combinedSkill, HandlingWithAnimals::class) :
-                if ($this->handlingWithAnimals !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Handling with animals is already set');
-                }
-                $this->handlingWithAnimals = $combinedSkill;
-                break;
-            case is_a($combinedSkill, Handwork::class) :
-                if ($this->handwork !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Handwork is already set');
-                }
-                $this->handwork = $combinedSkill;
-                break;
-            case is_a($combinedSkill, Gambling::class) :
-                if ($this->gambling !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Gambling is already set');
-                }
-                $this->gambling = $combinedSkill;
-                break;
-            case is_a($combinedSkill, Herbalism::class) :
-                if ($this->herbalism !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Herbalism is already set');
-                }
-                $this->herbalism = $combinedSkill;
-                break;
-            case is_a($combinedSkill, HuntingAndFishing::class) :
-                if ($this->huntingAndFishing !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Hunting and fishing is already set');
-                }
-                $this->huntingAndFishing = $combinedSkill;
-                break;
-            case is_a($combinedSkill, Knotting::class) :
-                if ($this->knotting !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Knotting is already set');
-                }
-                $this->knotting = $combinedSkill;
-                break;
-            case is_a($combinedSkill, Painting::class) :
-                if ($this->painting !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Painting is already set');
-                }
-                $this->painting = $combinedSkill;
-                break;
-            case is_a($combinedSkill, Pedagogy::class) :
-                if ($this->pedagogy !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Pedagogy is already set');
-                }
-                $this->pedagogy = $combinedSkill;
-                break;
-            case is_a($combinedSkill, PlayingOnMusicInstrument::class) :
-                if ($this->playingOnMusicInstrument !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Playing on music instrument is already set');
-                }
-                $this->playingOnMusicInstrument = $combinedSkill;
-                break;
-            case is_a($combinedSkill, Seduction::class) :
-                if ($this->seduction !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Seduction is already set');
-                }
-                $this->seduction = $combinedSkill;
-                break;
-            case is_a($combinedSkill, Showmanship::class) :
-                if ($this->showmanship !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Showmanship is already set');
-                }
-                $this->showmanship = $combinedSkill;
-                break;
-            case is_a($combinedSkill, Singing::class) :
-                if ($this->singing !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Singing is already set');
-                }
-                $this->singing = $combinedSkill;
-                break;
-            case is_a($combinedSkill, Statuary::class) :
-                if ($this->statuary !== null) {
-                    throw new Exceptions\CombinedSkillAlreadySet('Statuary is already set');
-                }
-                $this->statuary = $combinedSkill;
-                break;
-            default :
-                throw new Exceptions\UnknownCombinedSkill(
-                    'Unknown combined skill ' . get_class($combinedSkill)
-                );
-        }
-    }
-
-    /**
-     * @return BigHandwork|null
+     * @return BigHandwork
      */
     public function getBigHandwork()
     {
@@ -325,7 +218,7 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return Cooking|null
+     * @return Cooking
      */
     public function getCooking()
     {
@@ -333,7 +226,7 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return Dancing|null
+     * @return Dancing
      */
     public function getDancing()
     {
@@ -341,7 +234,7 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return DuskSight|null
+     * @return DuskSight
      */
     public function getDuskSight()
     {
@@ -349,7 +242,7 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return FightWithBows|null
+     * @return FightWithBows
      */
     public function getFightWithBows()
     {
@@ -357,7 +250,7 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return FightWithCrossbows|null
+     * @return FightWithCrossbows
      */
     public function getFightWithCrossbows()
     {
@@ -365,7 +258,7 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return FirstAid|null
+     * @return FirstAid
      */
     public function getFirstAid()
     {
@@ -373,7 +266,7 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return HandlingWithAnimals|null
+     * @return HandlingWithAnimals
      */
     public function getHandlingWithAnimals()
     {
@@ -381,7 +274,7 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return Handwork|null
+     * @return Handwork
      */
     public function getHandwork()
     {
@@ -389,7 +282,7 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return Gambling|null
+     * @return Gambling
      */
     public function getGambling()
     {
@@ -397,7 +290,7 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return Herbalism|null
+     * @return Herbalism
      */
     public function getHerbalism()
     {
@@ -405,7 +298,7 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return HuntingAndFishing|null
+     * @return HuntingAndFishing
      */
     public function getHuntingAndFishing()
     {
@@ -413,7 +306,7 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return Knotting|null
+     * @return Knotting
      */
     public function getKnotting()
     {
@@ -421,7 +314,7 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return Painting|null
+     * @return Painting
      */
     public function getPainting()
     {
@@ -429,7 +322,7 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return Pedagogy|null
+     * @return Pedagogy
      */
     public function getPedagogy()
     {
@@ -437,7 +330,7 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return PlayingOnMusicInstrument|null
+     * @return PlayingOnMusicInstrument
      */
     public function getPlayingOnMusicInstrument()
     {
@@ -445,7 +338,7 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return Seduction|null
+     * @return Seduction
      */
     public function getSeduction()
     {
@@ -453,7 +346,7 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return Showmanship|null
+     * @return Showmanship
      */
     public function getShowmanship()
     {
@@ -461,7 +354,7 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return Singing|null
+     * @return Singing
      */
     public function getSinging()
     {
@@ -469,19 +362,11 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return Statuary|null
+     * @return Statuary
      */
     public function getStatuary()
     {
         return $this->statuary;
-    }
-
-    /**
-     * @return array|\string[]
-     */
-    public function getCodesOfAllSameTypeSkills()
-    {
-        return CombinedSkillCode::getCombinedSkillCodes();
     }
 
     /**
@@ -506,14 +391,10 @@ class CombinedSkills extends SameTypeSkills
     private function getFightWithShootingWeaponRankValue(RangedWeaponCode $rangeWeaponCode)
     {
         if ($rangeWeaponCode->isBow()) {
-            return $this->getFightWithBows()
-                ? $this->getFightWithBows()->getCurrentSkillRank()->getValue()
-                : 0;
+            return $this->getFightWithBows()->getCurrentSkillRank()->getValue();
         }
         if ($rangeWeaponCode->isCrossbow()) {
-            return $this->getFightWithCrossbows()
-                ? $this->getFightWithCrossbows()->getCurrentSkillRank()->getValue()
-                : 0;
+            return $this->getFightWithCrossbows()->getCurrentSkillRank()->getValue();
         }
         throw new Exceptions\CombinedSkillsDoNotHowToUseThatWeapon(
             "Given range weapon {$rangeWeaponCode} is not affected by combined skills"

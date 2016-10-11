@@ -62,15 +62,12 @@ abstract class Skill extends StrictObject implements Entity
     {
         if ($this !== $skillRank->getSkill()) {
             if (static::class !== get_class($skillRank->getSkill())) {
-                throw new Exceptions\CanNotVerifyOwningSkill(
-                    'New skill rank belongs to different skill class. Expected ' . static::class . ', got '
-                    . get_class($skillRank->getSkill())
-                );
+                $message = 'New skill rank belongs to different skill class. Expected ' . static::class . ', got '
+                    . get_class($skillRank->getSkill());
             } else {
-                throw new Exceptions\CanNotVerifyOwningSkill(
-                    'New skill rank belongs to different instance of skill class ' . static::class
-                );
+                $message = 'New skill rank belongs to different instance of skill class ' . static::class;
             }
+            throw new Exceptions\CanNotVerifyOwningSkill($message);
         }
     }
 

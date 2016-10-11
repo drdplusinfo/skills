@@ -4,8 +4,12 @@ namespace DrdPlus\Tests\Skills;
 use DrdPlus\Codes\Skills\SkillCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
+use DrdPlus\Person\ProfessionLevels\ProfessionZeroLevel;
+use DrdPlus\Professions\Commoner;
 use DrdPlus\Skills\Combined\CombinedSkillPoint;
 use DrdPlus\Skills\Combined\CombinedSkill;
+use DrdPlus\Skills\Physical\PhysicalSkill;
+use DrdPlus\Skills\Psychical\PsychicalSkill;
 use DrdPlus\Skills\SameTypeSkills;
 use DrdPlus\Skills\Skill;
 use DrdPlus\Skills\SkillPoint;
@@ -22,13 +26,11 @@ abstract class SameTypeSkillsTest extends TestWithMockery
     {
         $sutClass = $this->getSutClass();
         /** @var SameTypeSkills $sut */
-        $sut = new $sutClass();
-        self::assertSame(0, $sut->count());
+        $sut = new $sutClass(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
+        self::assertCount(count($this->getSameTypeSkillCodes()), $sut);
         self::assertSame(0, $sut->getFirstLevelSkillRankSummary());
         self::assertSame(0, $sut->getNextLevelsSkillRankSummary());
-        self::assertSame($this->getExpectedSkillsTypeName(), $sut->getSkillsGroupName());
         self::assertNull($sut->getId());
-        self::assertEquals([], $sut->getIterator()->getArrayCopy());
     }
 
     /**
@@ -49,40 +51,57 @@ abstract class SameTypeSkillsTest extends TestWithMockery
 
     /**
      * @test
-     * @dataProvider provideSkill
-     * @param Skill $skill
+     * @dataProvider provideSkillClasses
+     * @param string $skillClass
      */
-    public function I_can_add_new_skill(Skill $skill)
+    public function I_can_increase_skill($skillClass)
     {
         $sutClass = $this->getSutClass();
         /** @var SameTypeSkills $sut */
-        $sut = new $sutClass();
+        $sut = new $sutClass(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         self::assertSame(0, $sut->getFirstLevelSkillRankSummary());
         self::assertSame(0, $sut->getNextLevelsSkillRankSummary());
 
-        $addSkill = $this->getSkillAdderName();
-        $sut->$addSkill($skill);
-        self::assertSame(
-            $this->getSameTypeSkillCodesExcept($skill->getName()),
-            $sut->getCodesOfNotLearnedSameTypeSkills()
-        );
-        self::assertCount(1, $sut, 'Skill has not been included on count');
-        $collected = [];
-        foreach ($sut as $placedSkill) {
-            $collected[] = $placedSkill;
+        $getSkill = $this->getSkillGetterFromClassName($skillClass);
+        /** @var Skill|CombinedSkill|PhysicalSkill|PsychicalSkill $skill */
+        $skill = $sut->$getSkill();
+        self::assertSame(0, $skill->getCurrentSkillRank()->getValue());
+
+        $skill->increaseSkillRank($this->createSkillPoint($this->createProfessionFirstLevel()));
+        self::assertSame(1, $skill->getCurrentSkillRank()->getValue());
+        self::assertSame(1, $sut->getFirstLevelSkillRankSummary());
+        self::assertSame(0, $sut->getNextLevelsSkillRankSummary());
+
+        $skill->increaseSkillRank($this->createSkillPoint($this->createProfessionNextLevel()));
+        self::assertSame(2, $skill->getCurrentSkillRank()->getValue());
+        self::assertSame(1, $sut->getFirstLevelSkillRankSummary());
+        self::assertSame(2, $sut->getNextLevelsSkillRankSummary());
+
+        $skill->increaseSkillRank($this->createSkillPoint($this->createProfessionFirstLevel()));
+        self::assertSame(3, $skill->getCurrentSkillRank()->getValue());
+        self::assertSame(1+ 3, $sut->getFirstLevelSkillRankSummary());
+        self::assertSame(2, $sut->getNextLevelsSkillRankSummary());
+    }
+
+    public function provideSkillClasses()
+    {
+        $skillClasses = $this->getExpectedSkillClasses();
+        foreach ($skillClasses as &$skillClass) {
+            $skillClass = [$skillClass];
         }
-        self::assertSame([$skill], $collected, 'Skill has not been fetched by iteration');
-        $skillGetter = $this->getSkillGetter($skill);
-        self::assertSame($skill, $sut->$skillGetter());
-        self::assertSame(
-            1 + 2 /* first and second rank have been get on first level, see provider */,
-            $sut->getFirstLevelSkillRankSummary(),
-            'First level skill rank summary does not match with expected'
-        );
-        self::assertSame(
-            3 /* maximal skill rank has been get on second level, see provider */,
-            $sut->getNextLevelsSkillRankSummary()
-        );
+
+        return $skillClasses;
+    }
+
+    /**
+     * @param string $className
+     * @return string
+     */
+    private function getSkillGetterFromClassName($className)
+    {
+        $baseName = preg_replace('~.*[\\\]([^\\\]+)$~', '$1', $className);
+
+        return 'get' . $baseName;
     }
 
     protected function getSameTypeSkillCodesExcept($except)
@@ -101,28 +120,9 @@ abstract class SameTypeSkillsTest extends TestWithMockery
     }
 
     /**
-     * @return array|Skill[]
-     */
-    public function provideSkill()
-    {
-        $skillClasses = $this->getSkillClasses();
-        $skills = [];
-        foreach ($skillClasses as $skillClass) {
-            /** @var Skill|CombinedSkill $skill */
-            $skill = new $skillClass($professionLevel = $this->createProfessionFirstLevel());
-            $skill->addSkillRank($this->createSkillPoint($professionLevel));
-            $skill->addSkillRank($this->createSkillPoint($professionLevel));
-            $skill->addSkillRank($this->createSkillPoint($this->createProfessionNextLevel()));
-            $skills[] = [$skill];
-        }
-
-        return $skills;
-    }
-
-    /**
      * @return array|Skill[]|string[]
      */
-    protected function getSkillClasses()
+    protected function getExpectedSkillClasses()
     {
         $namespace = $this->getNamespace();
         $fileBaseNames = $this->getFileBaseNames($namespace);
@@ -182,11 +182,13 @@ abstract class SameTypeSkillsTest extends TestWithMockery
      * @param ProfessionLevel $professionLevel
      * @return \Mockery\MockInterface|SkillPoint|CombinedSkillPoint|PhysicalSkillPoint|PsychicalSkillPoint
      */
-    private function createSkillPoint(ProfessionLevel $professionLevel)
+    protected function createSkillPoint(ProfessionLevel $professionLevel)
     {
         $skillPointClass = $this->mockery($this->getSkillPointClass());
         $skillPointClass->shouldReceive('getProfessionLevel')
             ->andReturn($professionLevel);
+        $skillPointClass->shouldReceive('getValue')
+            ->andReturn(1);
 
         return $skillPointClass;
     }
@@ -260,24 +262,8 @@ abstract class SameTypeSkillsTest extends TestWithMockery
 
     /**
      * @test
-     * @dataProvider provideSkill
-     * @param Skill $skill
-     * @expectedException \DrdPlus\Skills\Exceptions\SkillAlreadySet
      */
-    public function I_can_not_replace_skill(Skill $skill)
-    {
-        $sutClass = $this->getSutClass();
-        /** @var SameTypeSkills $sut */
-        $sut = new $sutClass();
-        $addSkill = $this->getSkillAdderName();
-        $sut->$addSkill($skill);
-        $sut->$addSkill($skill);
-    }
-
-    /**
-     * @test
-     */
-    abstract public function I_can_not_add_unknown_skill();
+    abstract public function I_can_not_increase_rank_by_zero_skill_point();
 
     /**
      * @test
@@ -295,13 +281,21 @@ abstract class SameTypeSkillsTest extends TestWithMockery
     public function I_can_iterate_through_all_skills()
     {
         $sutClass = $this->getSutClass();
-        /** @var SameTypeSkills $skills */
-        $skills = new $sutClass();
-        self::assertCount(0, $skills);
-        $collected = [];
-        foreach ($skills as $skill) {
-            $collected[] = $skill;
+        /** @var SameTypeSkills $sut */
+        $sut = new $sutClass(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
+        $skills = [];
+        foreach ($sut as $skill) {
+            self::assertSame(0, $skill->getCurrentSkillRank()->getValue());
+            $skills[] = $skill;
         }
-        self::assertSame([], $collected);
+        self::assertSame($skills, $sut->getIterator()->getArrayCopy());
+        $skillClasses = [];
+        foreach ($skills as $skill) {
+            $skillClasses[] = get_class($skill);
+        }
+        sort($skillClasses);
+        $expectedSkillClasses = $this->getExpectedSkillClasses();
+        sort($expectedSkillClasses);
+        self::assertSame($skillClasses, $expectedSkillClasses);
     }
 }
