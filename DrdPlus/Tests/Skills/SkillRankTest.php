@@ -73,7 +73,7 @@ abstract class SkillRankTest extends TestWithMockery
      */
     public function I_can_not_create_negative_skill_rank()
     {
-        /** @var  $sutClass */
+        /** @var SkillRank $sutClass */
         $sutClass = $this->getSutClass();
         new $sutClass(
             $this->createOwningSkill(),
@@ -145,6 +145,21 @@ abstract class SkillRankTest extends TestWithMockery
             $this->createOwningSkill(),
             $this->createSkillPoint(),
             $requiredRankValue
+        );
+    }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Skills\Exceptions\WastedSkillPoint
+     */
+    public function I_can_not_pay_for_zero_skill_rank_by_non_zero_skill_point()
+    {
+        /** @var SkillRank|string $sutClass */
+        $sutClass = $this->getSutClass();
+        new $sutClass(
+            $this->createOwningSkill(),
+            $this->createSkillPoint(1),
+            $this->createRequiredRankValue(0)
         );
     }
 }

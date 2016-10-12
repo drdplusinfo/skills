@@ -6,6 +6,8 @@ use DrdPlus\Person\ProfessionLevels\LevelRank;
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionNextLevel;
+use DrdPlus\Person\ProfessionLevels\ProfessionZeroLevel;
+use DrdPlus\Professions\Commoner;
 use DrdPlus\Skills\Combined\CombinedSkillPoint;
 use DrdPlus\Skills\SkillPoint;
 use DrdPlus\Skills\Physical\PhysicalSkillPoint;
@@ -387,6 +389,15 @@ abstract class SkillPointTest extends TestWithMockery
         new DeAbstractedSkillPoint(-1, $this->createProfessionFirstLevel('bar'), new Tables());
     }
 
+    /**
+     * @test
+     * @expectedException \DrdPlus\Skills\Exceptions\InvalidRelatedProfessionLevel
+     */
+    public function I_can_not_create_non_zero_skill_point_with_profession_zero_level()
+    {
+        new DeAbstractedSkillPoint(1, ProfessionZeroLevel::createZeroLevel(Commoner::getIt()), new Tables());
+    }
+
 }
 
 /** inner */
@@ -395,7 +406,7 @@ class DeAbstractedSkillPoint extends SkillPoint
     const TYPE_NAME = 'foo';
 
     public function __construct(
-        $skillPoint,
+        $skillPointValue,
         ProfessionLevel $professionLevel,
         Tables $tables = null,
         BackgroundSkillPoints $backgroundSkillPoints = null,
@@ -403,7 +414,7 @@ class DeAbstractedSkillPoint extends SkillPoint
         SkillPoint $secondPaidOtherSkillPoint = null
     )
     {
-        parent::__construct($skillPoint, $professionLevel, $tables, $backgroundSkillPoints, $firstPaidOtherSkillPoint, $secondPaidOtherSkillPoint);
+        parent::__construct($skillPointValue, $professionLevel, $tables, $backgroundSkillPoints, $firstPaidOtherSkillPoint, $secondPaidOtherSkillPoint);
     }
 
     public function getTypeName()

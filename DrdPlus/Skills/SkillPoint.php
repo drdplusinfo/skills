@@ -208,8 +208,9 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
      * @param BackgroundSkillPoints|null $backgroundSkillPoints
      * @param SkillPoint|null $firstPaidOtherSkillPoint
      * @param SkillPoint|null $secondPaidOtherSkillPoint
-     * @throws \DrdPlus\Skills\Exceptions\UnknownPaymentForSkillPoint
-     * @throws \DrdPlus\Skills\Exceptions\UnexpectedSkillPointValue
+     * @throws Exceptions\UnknownPaymentForSkillPoint
+     * @throws Exceptions\UnexpectedSkillPointValue
+     * @throws Exceptions\InvalidRelatedProfessionLevel
      */
     private function checkSkillPointPayment(
         $skillPointValue,
@@ -232,7 +233,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
             } else if ($professionLevel instanceof ProfessionNextLevel) {
                 $this->checkNextLevelPaymentByPropertyIncrement($professionLevel);
             } else {
-                throw new Exceptions\UnknownPaymentForSkillPoint(
+                throw new Exceptions\InvalidRelatedProfessionLevel(
                     'For non-zero skill point is needed one of first level or next level of a profession, got '
                     . $professionLevel->getProfession() . ' of level ' . $professionLevel->getLevelRank()
                 );
