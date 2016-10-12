@@ -3,6 +3,7 @@ namespace DrdPlus\Skills;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use DrdPlus\Codes\Armaments\ShieldCode;
+use DrdPlus\Codes\Armaments\WeaponCode;
 use DrdPlus\Codes\Skills\CombinedSkillCode;
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
 use DrdPlus\Codes\PropertyCode;
@@ -1037,15 +1038,19 @@ class SkillsTest extends TestWithMockery
             new Tables()
         );
 
-        $meleeWeaponCode = $this->createWeaponlikeCode(true /* is melee */);
+        if ($malusTo === 'cover') {
+            $meleeWeaponCode = $this->createWeaponCode(true /* is melee */);
+        } else {
+            $meleeWeaponCode = $this->createWeaponlikeCode(true /* is melee */);
+        }
         $missingWeaponSkillsTable = $this->createMissingWeaponSkillsTable();
         /**
          * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeaponlike
          * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeaponlike
-         * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeaponlike
          * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeaponlike
+         * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeapon
          */
-        $getMalusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeaponlike';
+        $getMalusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeapon' . ($malusTo === 'cover' ? '' : 'like');
 
         $physicalSkills->shouldReceive($getMalusToParameter)
             ->with($meleeWeaponCode, $missingWeaponSkillsTable, false)
@@ -1079,14 +1084,28 @@ class SkillsTest extends TestWithMockery
      * @param bool $isProjectile
      * @return \Mockery\MockInterface|WeaponlikeCode
      */
-    private function createWeaponlikeCode(
+    private function createWeaponlikeCode($isMelee = false, $isThrowing = false, $isShooting = false, $isProjectile = false)
+    {
+        return $this->createCode(false /* not weapon only (wants weaponlike) */, $isMelee, $isThrowing, $isShooting, $isProjectile);
+    }
+
+    /**
+     * @param $weaponOnly
+     * @param bool $isMelee
+     * @param bool $isThrowing
+     * @param bool $isShooting
+     * @param bool $isProjectile
+     * @return \Mockery\MockInterface|WeaponCode|WeaponlikeCode
+     */
+    private function createCode(
+        $weaponOnly,
         $isMelee = false,
         $isThrowing = false,
         $isShooting = false,
         $isProjectile = false
     )
     {
-        $weaponlikeCode = $this->mockery(WeaponlikeCode::class);
+        $weaponlikeCode = $this->mockery($weaponOnly ? WeaponCode::class : WeaponlikeCode::class);
         $weaponlikeCode->shouldReceive('isMelee')
             ->andReturn($isMelee);
         $weaponlikeCode->shouldReceive('isThrowingWeapon')
@@ -1128,18 +1147,25 @@ class SkillsTest extends TestWithMockery
             new Tables()
         );
 
-        $throwingWeaponCode = $this->createWeaponlikeCode(
-            false /* not melee */,
-            true /* is throwing */
-        );
+        if ($malusTo === 'cover') {
+            $throwingWeaponCode = $this->createWeaponCode(
+                false /* not melee */,
+                true /* is throwing */
+            );
+        } else {
+            $throwingWeaponCode = $this->createWeaponlikeCode(
+                false /* not melee */,
+                true /* is throwing */
+            );
+        }
         $missingWeaponSkillsTable = $this->createMissingWeaponSkillsTable();
         /**
          * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeaponlike
          * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeaponlike
-         * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeaponlike
          * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeaponlike
+         * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeapon
          */
-        $getMalusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeaponlike';
+        $getMalusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeapon' . ($malusTo === 'cover' ? '' : 'like');
 
         $physicalSkills->shouldReceive($getMalusToParameter)
             ->with($throwingWeaponCode, $missingWeaponSkillsTable, false)
@@ -1187,11 +1213,19 @@ class SkillsTest extends TestWithMockery
             new Tables()
         );
 
-        $shootingWeaponCode = $this->createWeaponlikeCode(
-            false /* not melee */,
-            false /* not throwing */,
-            true /* is shooting */
-        );
+        if ($malusTo === 'cover') {
+            $shootingWeaponCode = $this->createWeaponCode(
+                false /* not melee */,
+                false /* not throwing */,
+                true /* is shooting */
+            );
+        } else {
+            $shootingWeaponCode = $this->createWeaponlikeCode(
+                false /* not melee */,
+                false /* not throwing */,
+                true /* is shooting */
+            );
+        }
         $shootingWeaponCode->shouldReceive('convertToRangedWeaponCodeEquivalent')
             ->andReturn($rangeWeaponCode = $this->createRangeWeaponCode());
         $missingWeaponSkillsTable = $this->createMissingWeaponSkillsTable();
@@ -1201,10 +1235,10 @@ class SkillsTest extends TestWithMockery
         /**
          * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeaponlike
          * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeaponlike
-         * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeaponlike
          * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeaponlike
+         * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeapon
          */
-        $malusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeaponlike';
+        $malusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeapon' . ($malusTo === 'cover' ? '' : 'like');
         self::assertSame(
             $shootingWeaponMalus,
             $skills->$malusToParameter(
@@ -1252,22 +1286,31 @@ class SkillsTest extends TestWithMockery
             new Tables()
         );
 
-        $projectile = $this->createWeaponlikeCode(
-            false /* not melee */,
-            false /* not throwing */,
-            false /* not shooting */,
-            true /* projectile */
-        );
+        if ($malusTo === 'cover') {
+            $projectile = $this->createWeaponCode(
+                false /* not melee */,
+                false /* not throwing */,
+                false /* not shooting */,
+                true /* projectile */
+            );
+        } else {
+            $projectile = $this->createWeaponlikeCode(
+                false /* not melee */,
+                false /* not throwing */,
+                false /* not shooting */,
+                true /* projectile */
+            );
+        }
         $projectile->shouldReceive('convertToRangedWeaponCodeEquivalent')
             ->andReturn($rangeWeaponCode = $this->createRangeWeaponCode());
         $missingWeaponSkillsTable = $this->createMissingWeaponSkillsTable();
         /**
          * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeaponlike
          * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeaponlike
-         * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeaponlike
          * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeaponlike
+         * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeapon
          */
-        $malusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeaponlike';
+        $malusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeapon' . ($malusTo === 'cover' ? '' : 'like');
         self::assertSame(
             0,
             $skills->$malusToParameter(
@@ -1332,7 +1375,7 @@ class SkillsTest extends TestWithMockery
      * @dataProvider provideBattleParameterNames
      * @param string $malusTo
      */
-    public function I_can_not_get_attack_number_malus_for_unknown_weapon($malusTo)
+    public function I_can_not_get_battle_number_malus_for_unknown_weapon($malusTo)
     {
         $professionLevels = $this->createProfessionLevels();
         $backgroundSkillPoints = $this->createBackgroundSkillPoints($professionLevels->getFirstLevel()->getProfession());
@@ -1348,15 +1391,32 @@ class SkillsTest extends TestWithMockery
         /**
          * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeaponlike
          * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeaponlike
-         * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeaponlike
          * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeaponlike
+         * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeapon
          */
-        $malusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeaponlike';
+        $malusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeapon' . ($malusTo === 'cover' ? '' : 'like');
         $skills->$malusToParameter(
-            $this->createWeaponlikeCode(),
+            ($malusTo === 'cover' ? $this->createWeaponCode() : $this->createWeaponlikeCode()),
             $this->createMissingWeaponSkillsTable(),
             false
         );
+    }
+
+    /**
+     * @param bool $isMelee
+     * @param bool $isThrowing
+     * @param bool $isShooting
+     * @param bool $isProjectile
+     * @return \Mockery\MockInterface|WeaponCode
+     */
+    private function createWeaponCode(
+        $isMelee = false,
+        $isThrowing = false,
+        $isShooting = false,
+        $isProjectile = false
+    )
+    {
+        return $this->createCode(true /* weapon only */, $isMelee, $isThrowing, $isShooting, $isProjectile);
     }
 
     /**
@@ -1395,7 +1455,7 @@ class SkillsTest extends TestWithMockery
      */
     public function I_can_create_it_with_zero_profession_levels()
     {
-       $skills = Skills::createSkills(
+        $skills = Skills::createSkills(
             ProfessionLevels::createIt(
                 $professionZeroLevel = ProfessionZeroLevel::createZeroLevel(Commoner::getIt()),
                 ProfessionFirstLevel::createFirstLevel($profession = Fighter::getIt()),

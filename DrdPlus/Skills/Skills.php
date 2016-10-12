@@ -4,6 +4,7 @@ namespace DrdPlus\Skills;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrineum\Entity\Entity;
 use DrdPlus\Codes\Armaments\ProtectiveArmamentCode;
+use DrdPlus\Codes\Armaments\WeaponCode;
 use DrdPlus\Codes\Skills\CombinedSkillCode;
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
 use DrdPlus\Codes\Skills\PsychicalSkillCode;
@@ -658,37 +659,37 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      * Usable both for weapons and shields, but SHIELD as "weaponlike" means for attacking - for shield standard usage
      * as a protective armament @see getMalusToCoverWithShield
      *
-     * @param WeaponlikeCode $weaponOrShieldCode
+     * @param WeaponCode $weaponCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @param bool $fightsWithTwoWeapons
      * @return int
      * @throws Exceptions\UnknownTypeOfWeapon
      */
-    public function getMalusToCoverWithWeaponlike(
-        WeaponlikeCode $weaponOrShieldCode,
+    public function getMalusToCoverWithWeapon(
+        WeaponCode $weaponCode,
         MissingWeaponSkillTable $missingWeaponSkillsTable,
         $fightsWithTwoWeapons
     )
     {
-        if ($weaponOrShieldCode->isProjectile()) {
+        if ($weaponCode->isProjectile()) {
             return 0;
         }
-        if ($weaponOrShieldCode->isMelee() || $weaponOrShieldCode->isThrowingWeapon()) {
+        if ($weaponCode->isMelee() || $weaponCode->isThrowingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-            return $this->getPhysicalSkills()->getMalusToCoverWithWeaponlike(
-                $weaponOrShieldCode,
+            return $this->getPhysicalSkills()->getMalusToCoverWithWeapon(
+                $weaponCode,
                 $missingWeaponSkillsTable,
                 $fightsWithTwoWeapons
             );
         }
-        if ($weaponOrShieldCode->isShootingWeapon()) {
+        if ($weaponCode->isShootingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getCombinedSkills()->getMalusToCoverWithShootingWeapon(
-                $weaponOrShieldCode->convertToRangedWeaponCodeEquivalent(),
+                $weaponCode->convertToRangedWeaponCodeEquivalent(),
                 $missingWeaponSkillsTable
             );
         }
-        throw new Exceptions\UnknownTypeOfWeapon($weaponOrShieldCode);
+        throw new Exceptions\UnknownTypeOfWeapon($weaponCode);
     }
 
     /**

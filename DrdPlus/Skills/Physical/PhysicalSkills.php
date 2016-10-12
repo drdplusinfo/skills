@@ -5,6 +5,7 @@ use DrdPlus\Codes\Armaments\ArmorCode;
 use DrdPlus\Codes\Armaments\MeleeWeaponCode;
 use DrdPlus\Codes\Armaments\ProtectiveArmamentCode;
 use DrdPlus\Codes\Armaments\ShieldCode;
+use DrdPlus\Codes\Armaments\WeaponCode;
 use DrdPlus\Codes\Armaments\WeaponlikeCode;
 use DrdPlus\Codes\Skills\SkillTypeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
@@ -513,10 +514,10 @@ class PhysicalSkills extends SameTypeSkills
     {
         $fightWithWeaponRankValue = $this->getHighestRankForSuitableFightWithWeapon($weaponlikeCode);
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        $malus = $missingWeaponSkillsTable->getFightNumberMalusForSkill($fightWithWeaponRankValue);
+        $malus = $missingWeaponSkillsTable->getFightNumberMalusForSkillRank($fightWithWeaponRankValue);
         if ($fightsWithTwoWeapons) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-            $malus += $missingWeaponSkillsTable->getFightNumberMalusForSkill(
+            $malus += $missingWeaponSkillsTable->getFightNumberMalusForSkillRank(
                 $this->getFightWithTwoWeapons()->getCurrentSkillRank()->getValue()
             );
         }
@@ -598,14 +599,14 @@ class PhysicalSkills extends SameTypeSkills
     {
         if ($protectiveArmamentCode instanceof ArmorCode) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-            return $armourer->getProtectiveArmamentRestrictionForSkill(
+            return $armourer->getProtectiveArmamentRestrictionForSkillRank(
                 $protectiveArmamentCode,
                 $this->getArmorWearing()->getCurrentSkillRank()
             );
         }
         if ($protectiveArmamentCode instanceof ShieldCode) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-            return $armourer->getProtectiveArmamentRestrictionForSkill(
+            return $armourer->getProtectiveArmamentRestrictionForSkillRank(
                 $protectiveArmamentCode,
                 $this->getShieldUsage()->getCurrentSkillRank()
             );
@@ -633,10 +634,10 @@ class PhysicalSkills extends SameTypeSkills
     {
         $fightWithWeaponRankValue = $this->getHighestRankForSuitableFightWithWeapon($weaponlikeCode);
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        $malus = $missingWeaponSkillsTable->getAttackNumberMalusForSkill($fightWithWeaponRankValue);
+        $malus = $missingWeaponSkillsTable->getAttackNumberMalusForSkillRank($fightWithWeaponRankValue);
         if ($fightsWithTwoWeapons) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-            $malus += $missingWeaponSkillsTable->getAttackNumberMalusForSkill(
+            $malus += $missingWeaponSkillsTable->getAttackNumberMalusForSkillRank(
                 $this->getFightWithTwoWeapons()->getCurrentSkillRank()->getValue()
             );
         }
@@ -645,27 +646,26 @@ class PhysicalSkills extends SameTypeSkills
     }
 
     /**
-     * Note about SHIELD: "weaponlike" means for attacking - for shield standard usage as
-     * a protective armament @see \DrdPlus\Skills\Physical\PhysicalSkills::getMalusToFightNumberWithProtective
+     * For SHIELD use @see getMalusToFightNumberWithProtective
      *
-     * @param WeaponlikeCode $weaponlikeCode
+     * @param WeaponCode $weaponCode
      * @param MissingWeaponSkillTable $missingWeaponSkillsTable
      * @param bool $fightsWithTwoWeapons
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      */
-    public function getMalusToCoverWithWeaponlike(
-        WeaponlikeCode $weaponlikeCode,
+    public function getMalusToCoverWithWeapon(
+        WeaponCode $weaponCode,
         MissingWeaponSkillTable $missingWeaponSkillsTable,
         $fightsWithTwoWeapons
     )
     {
-        $fightWithWeaponRankValue = $this->getHighestRankForSuitableFightWithWeapon($weaponlikeCode);
+        $fightWithWeaponRankValue = $this->getHighestRankForSuitableFightWithWeapon($weaponCode);
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        $malus = $missingWeaponSkillsTable->getCoverMalusForSkill($fightWithWeaponRankValue);
+        $malus = $missingWeaponSkillsTable->getCoverMalusForSkillRank($fightWithWeaponRankValue);
         if ($fightsWithTwoWeapons) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-            $malus += $missingWeaponSkillsTable->getCoverMalusForSkill(
+            $malus += $missingWeaponSkillsTable->getCoverMalusForSkillRank(
                 $this->getFightWithTwoWeapons()->getCurrentSkillRank()->getValue()
             );
         }
@@ -683,7 +683,7 @@ class PhysicalSkills extends SameTypeSkills
     public function getMalusToCoverWithShield(MissingShieldSkillTable $missingShieldSkillTable)
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        return $missingShieldSkillTable->getCoverMalusForSkill($this->getShieldUsage()->getCurrentSkillRank());
+        return $missingShieldSkillTable->getCoverMalusForSkillRank($this->getShieldUsage()->getCurrentSkillRank());
     }
 
     /**
@@ -704,10 +704,10 @@ class PhysicalSkills extends SameTypeSkills
     {
         $fightWithWeaponRankValue = $this->getHighestRankForSuitableFightWithWeapon($weaponlikeCode);
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        $malus = $missingWeaponSkillsTable->getBaseOfWoundsMalusForSkill($fightWithWeaponRankValue);
+        $malus = $missingWeaponSkillsTable->getBaseOfWoundsMalusForSkillRank($fightWithWeaponRankValue);
         if ($fightsWithTwoWeapons) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-            $malus += $missingWeaponSkillsTable->getBaseOfWoundsMalusForSkill(
+            $malus += $missingWeaponSkillsTable->getBaseOfWoundsMalusForSkillRank(
                 $this->getFightWithTwoWeapons()->getCurrentSkillRank()->getValue()
             );
         }
