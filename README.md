@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/jaroslavtyc/drd-plus-skills.svg?branch=master)](https://travis-ci.org/jaroslavtyc/drd-plus-skills)
+# Skills for DrD+
 
-Skills for DrD+
+[![Build Status](https://travis-ci.org/jaroslavtyc/drd-plus-skills.svg?branch=master)](https://travis-ci.org/jaroslavtyc/drd-plus-skills)
 
 Skills are all the person skills on one pile.
 -> SameTypeSkills are skills of same type, like physical, on one pile
