@@ -20,7 +20,7 @@ abstract class SkillRankTest extends TestWithMockery
      */
     public function I_can_create_skill_rank($skillRankValue)
     {
-        $sutClass = $this->getSutClass();
+        $sutClass = self::getSutClass();
         /** @var SkillRank $skillRank */
         $skillRank = new $sutClass(
             $this->createOwningSkill(),
@@ -38,14 +38,6 @@ abstract class SkillRankTest extends TestWithMockery
     public function provideAllowedSkillRankValues()
     {
         return [[0], [1], [2], [3]];
-    }
-
-    /**
-     * @return string|SkillRank
-     */
-    protected function getSutClass()
-    {
-        return preg_replace('~[\\\]Tests([\\\].+)Test$~', '$1', static::class);
     }
 
     /**
@@ -74,7 +66,7 @@ abstract class SkillRankTest extends TestWithMockery
     public function I_can_not_create_negative_skill_rank()
     {
         /** @var SkillRank $sutClass */
-        $sutClass = $this->getSutClass();
+        $sutClass = self::getSutClass();
         new $sutClass(
             $this->createOwningSkill(),
             $this->createSkillPoint(0),
@@ -88,7 +80,7 @@ abstract class SkillRankTest extends TestWithMockery
      */
     public function I_can_not_create_skill_rank_with_value_of_four()
     {
-        $sutClass = $this->getSutClass();
+        $sutClass = self::getSutClass();
         new $sutClass(
             $this->createOwningSkill(),
             $this->createSkillPoint(1),
@@ -155,7 +147,7 @@ abstract class SkillRankTest extends TestWithMockery
     public function I_can_not_pay_for_zero_skill_rank_by_non_zero_skill_point()
     {
         /** @var SkillRank|string $sutClass */
-        $sutClass = $this->getSutClass();
+        $sutClass = self::getSutClass();
         new $sutClass(
             $this->createOwningSkill(),
             $this->createSkillPoint(1),

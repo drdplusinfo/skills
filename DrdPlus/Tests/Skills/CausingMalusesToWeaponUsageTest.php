@@ -13,7 +13,7 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
      */
     public function I_can_get_malus_to_fight_number()
     {
-        $sutClasses = $this->getSutClasses();
+        $sutClasses = self::getSutClasses();
         foreach ($sutClasses as $sutClass) {
             /** @var CausingMalusesToWeaponUsage $sut */
             $sut = new $sutClass($this->createProfessionFirstLevel());
@@ -27,29 +27,21 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
     /**
      * @return string[]
      */
-    protected function getSutClasses()
+    protected static function getSutClasses()
     {
-        $reflection = new \ReflectionClass($this->getSutClass());
+        $reflection = new \ReflectionClass(self::getSutClass());
         $sutClasses = [];
         foreach (new \DirectoryIterator(dirname($reflection->getFileName())) as $file) {
             if ($file->isFile()) {
                 $baseName = $file->getBasename('.php');
                 $foundClass = $reflection->getNamespaceName() . '\\' . $baseName;
-                if (is_subclass_of($foundClass, $this->getSutClass(), true)) {
+                if (is_subclass_of($foundClass, self::getSutClass(), true)) {
                     $sutClasses[] = $foundClass;
                 }
             }
         }
 
         return $sutClasses;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getSutClass()
-    {
-        return preg_replace('~[\\\]Tests([\\\].+)Test$~', '$1', static::class);
     }
 
     /**
@@ -89,7 +81,7 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
      */
     public function I_can_get_malus_to_attack_number()
     {
-        $sutClasses = $this->getSutClasses();
+        $sutClasses = self::getSutClasses();
         foreach ($sutClasses as $sutClass) {
             /** @var CausingMalusesToWeaponUsage $sut */
             $sut = new $sutClass($this->createProfessionFirstLevel());
@@ -105,7 +97,7 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
      */
     public function I_can_get_malus_to_cover()
     {
-        $sutClasses = $this->getSutClasses();
+        $sutClasses = self::getSutClasses();
         foreach ($sutClasses as $sutClass) {
             /** @var CausingMalusesToWeaponUsage $sut */
             $sut = new $sutClass($this->createProfessionFirstLevel());
@@ -121,7 +113,7 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
      */
     public function I_can_get_malus_to_base_of_wounds()
     {
-        $sutClasses = $this->getSutClasses();
+        $sutClasses = self::getSutClasses();
         foreach ($sutClasses as $sutClass) {
             /** @var CausingMalusesToWeaponUsage $sut */
             $sut = new $sutClass($this->createProfessionFirstLevel());

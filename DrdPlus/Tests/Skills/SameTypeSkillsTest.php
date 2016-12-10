@@ -24,7 +24,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
      */
     public function I_can_use_it()
     {
-        $sutClass = $this->getSutClass();
+        $sutClass = self::getSutClass();
         /** @var SameTypeSkills $sut */
         $sut = new $sutClass(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         self::assertCount(count($this->getSameTypeSkillCodes()), $sut);
@@ -33,17 +33,9 @@ abstract class SameTypeSkillsTest extends TestWithMockery
         self::assertNull($sut->getId());
     }
 
-    /**
-     * @return SameTypeSkills
-     */
-    protected function getSutClass()
-    {
-        return preg_replace('~[\\\]Tests([\\\].+)Test$~', '$1', static::class);
-    }
-
     protected function getExpectedSkillsTypeName()
     {
-        $sutClass = $this->getSutClass();
+        $sutClass = self::getSutClass();
         self::assertSame(1, preg_match('~[\\\]?(?<groupName>\w+)Skills$~', $sutClass, $matches));
 
         return strtolower($matches['groupName']);
@@ -56,7 +48,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
      */
     public function I_can_increase_skill($skillClass)
     {
-        $sutClass = $this->getSutClass();
+        $sutClass = self::getSutClass();
         /** @var SameTypeSkills $sut */
         $sut = new $sutClass(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         self::assertSame(0, $sut->getFirstLevelSkillRankSummary());
@@ -111,7 +103,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
 
     protected function getSameTypeSkillCodes()
     {
-        $type = preg_replace('~.*[\\\](\w+)Skills$~', '$1', $this->getSutClass());
+        $type = preg_replace('~.*[\\\](\w+)Skills$~', '$1', self::getSutClass());
         $sameTypeGetter = "get{$type}SkillCodes";
         $skillCodeNamespace = (new \ReflectionClass(SkillCode::class))->getNamespaceName();
         $skillTypeCodeClass = "{$skillCodeNamespace}\\{$type}SkillCode";
@@ -173,7 +165,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
     private function getProjectRootDir()
     {
         $namespaceAsRelativePath = str_replace('\\', DIRECTORY_SEPARATOR, __NAMESPACE__);
-        $projectRootDir = preg_replace('~' . preg_quote($namespaceAsRelativePath) . '.*~', '', __DIR__);
+        $projectRootDir = preg_replace('~' . preg_quote($namespaceAsRelativePath, '~') . '.*~', '', __DIR__);
 
         return $projectRootDir;
     }
@@ -199,7 +191,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
     private function getSkillPointClass()
     {
         $baseClass = SkillPoint::class;
-        $typeName = preg_quote(ucfirst($this->getExpectedSkillsTypeName()));
+        $typeName = preg_quote(ucfirst($this->getExpectedSkillsTypeName()), '~');
         $class = preg_replace(
             '~[\\\]SkillPoint$~',
             '\\' . $typeName . '\\' . $typeName . 'SkillPoint',
@@ -280,7 +272,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
      */
     public function I_can_iterate_through_all_skills()
     {
-        $sutClass = $this->getSutClass();
+        $sutClass = self::getSutClass();
         /** @var SameTypeSkills $sut */
         $sut = new $sutClass(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $skills = [];
