@@ -519,9 +519,9 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     public function getCodesOfAllSkills()
     {
         return array_merge(
-            PhysicalSkillCode::getPhysicalSkillCodes(),
-            PsychicalSkillCode::getPsychicalSkillCodes(),
-            CombinedSkillCode::getCombinedSkillCodes()
+            PhysicalSkillCode::getPossibleValues(),
+            PsychicalSkillCode::getPossibleValues(),
+            CombinedSkillCode::getPossibleValues()
         );
     }
 

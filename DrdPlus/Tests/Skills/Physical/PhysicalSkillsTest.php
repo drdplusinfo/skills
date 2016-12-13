@@ -300,7 +300,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
                 function ($code) {
                     return [$code, true /* is melee */, false /* is not throwing */];
                 },
-                WeaponCategoryCode::getMeleeWeaponCategoryCodes()
+                WeaponCategoryCode::getMeleeWeaponCategoryValues()
             ),
             [['foo', false /* not melee */, true /* is throwing */]]
         );
@@ -336,7 +336,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         $weaponlikeCode->shouldReceive('isThrowingWeapon')
             ->andReturn($isThrowing);
         $weaponlikeCode->shouldReceive('is' . implode(array_map('ucfirst', explode('_', $weaponCategory))))
-            ->andReturn('true');
+            ->andReturn(true);
         $weaponlikeCode->shouldIgnoreMissing(false /* return value for non-mocked methods */);
         $weaponlikeCode->shouldReceive('__toString')
             ->andReturn((string)$weaponCategory);
@@ -493,8 +493,9 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     public function I_can_get_malus_to_fight_for_armor()
     {
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
-        $armourer = $this->mockery(Armourer::class);
+        $armourer = $this->createArmourer();
 
+        /** @var BodyArmorCode $bodyArmor */
         $bodyArmor = $this->mockery(BodyArmorCode::class);
         $armourer->shouldReceive('getProtectiveArmamentRestrictionForSkillRank')
             ->andReturnUsing(function (BodyArmorCode $givenBodyArmorCode, PositiveInteger $rank) use ($bodyArmor) {
@@ -510,13 +511,22 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     }
 
     /**
+     * @return \Mockery\MockInterface|Armourer
+     */
+    private function createArmourer()
+    {
+        return $this->mockery(Armourer::class);
+    }
+
+    /**
      * @test
      */
     public function I_can_get_malus_to_fight_for_helm()
     {
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
-        $armourer = $this->mockery(Armourer::class);
+        $armourer = $this->createArmourer();
 
+        /** @var HelmCode $helm */
         $helm = $this->mockery(HelmCode::class);
         $armourer->shouldReceive('getProtectiveArmamentRestrictionForSkillRank')
             ->andReturnUsing(function (HelmCode $givenHelm, PositiveInteger $rank) use ($helm) {
@@ -537,8 +547,9 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     public function I_can_get_malus_to_fight_for_shield()
     {
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
-        $armourer = $this->mockery(Armourer::class);
+        $armourer = $this->createArmourer();
 
+        /** @var ShieldCode $shield */
         $shield = $this->mockery(ShieldCode::class);
         $armourer->shouldReceive('getProtectiveArmamentRestrictionForSkillRank')
             ->andReturnUsing(function (ShieldCode $givenShield, PositiveInteger $rank) use ($shield) {
@@ -559,9 +570,11 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      */
     public function I_do_not_get_malus_to_fight_for_unknown_protective()
     {
+        /** @var ProtectiveArmamentCode $protectiveArmamentCode */
+        $protectiveArmamentCode = $this->mockery(ProtectiveArmamentCode::class);
         (new PhysicalSkills(ProfessionFirstLevel::createFirstLevel(Commoner::getIt())))->getMalusToFightNumberWithProtective(
-            $this->mockery(ProtectiveArmamentCode::class),
-            $this->mockery(Armourer::class)
+            $protectiveArmamentCode,
+            $this->createArmourer()
         );
     }
 

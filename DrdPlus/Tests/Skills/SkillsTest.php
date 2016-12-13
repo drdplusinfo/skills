@@ -91,9 +91,9 @@ class SkillsTest extends TestWithMockery
         );
         self::assertSame(
             array_merge(
-                PhysicalSkillCode::getPhysicalSkillCodes(),
-                PsychicalSkillCode::getPsychicalSkillCodes(),
-                CombinedSkillCode::getCombinedSkillCodes()
+                PhysicalSkillCode::getPossibleValues(),
+                PsychicalSkillCode::getPossibleValues(),
+                CombinedSkillCode::getPossibleValues()
             ),
             $skills->getCodesOfAllSkills()
         );
@@ -130,9 +130,9 @@ class SkillsTest extends TestWithMockery
     private function getAllSkillCodes()
     {
         return array_merge(
-            PhysicalSkillCode::getPhysicalSkillCodes(),
-            PsychicalSkillCode::getPsychicalSkillCodes(),
-            CombinedSkillCode::getCombinedSkillCodes()
+            PhysicalSkillCode::getPossibleValues(),
+            PsychicalSkillCode::getPossibleValues(),
+            CombinedSkillCode::getPossibleValues()
         );
     }
 
@@ -1355,17 +1355,16 @@ class SkillsTest extends TestWithMockery
             $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
             new Tables()
         );
+        /** @var Armourer $armourer */
         $armourer = $this->mockery(Armourer::class);
+        /** @var ShieldCode $shield */
         $shield = $this->mockery(ShieldCode::class);
         $physicalSkills->shouldReceive('getMalusToFightNumberWithProtective')
             ->with($shield, $armourer)
             ->andReturn('foo');
         self::assertSame(
             'foo',
-            $skills->getMalusToFightNumberWithProtective(
-                $shield,
-                $armourer
-            )
+            $skills->getMalusToFightNumberWithProtective($shield, $armourer)
         );
     }
 

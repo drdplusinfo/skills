@@ -104,11 +104,11 @@ abstract class SameTypeSkillsTest extends TestWithMockery
     protected function getSameTypeSkillCodes()
     {
         $type = preg_replace('~.*[\\\](\w+)Skills$~', '$1', self::getSutClass());
-        $sameTypeGetter = "get{$type}SkillCodes";
         $skillCodeNamespace = (new \ReflectionClass(SkillCode::class))->getNamespaceName();
+        /** @var SkillCode $skillTypeCodeClass */
         $skillTypeCodeClass = "{$skillCodeNamespace}\\{$type}SkillCode";
 
-        return $skillTypeCodeClass::$sameTypeGetter();
+        return $skillTypeCodeClass::getPossibleValues();
     }
 
     /**
