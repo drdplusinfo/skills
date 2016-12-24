@@ -226,15 +226,19 @@ abstract class SkillPointTest extends TestWithMockery
      * @param bool $paidByBackgroundPoints
      * @param bool $paidByNextLevelPropertyIncrease
      * @param bool $paidByOtherSkillPoints
+     * @param string $typeName
      *
      * @return \Mockery\MockInterface|PsychicalSkillPoint
      */
     protected function createPsychicalSkillPoint(
-        $paidByBackgroundPoints = true, $paidByNextLevelPropertyIncrease = false, $paidByOtherSkillPoints = false
+        $paidByBackgroundPoints = true,
+        $paidByNextLevelPropertyIncrease = false,
+        $paidByOtherSkillPoints = false,
+        $typeName = 'foo psychical'
     )
     {
         return $this->createSkillPoint(
-            PsychicalSkillPoint::class, 'foo psychical', $paidByBackgroundPoints, $paidByNextLevelPropertyIncrease, $paidByOtherSkillPoints
+            PsychicalSkillPoint::class, $typeName, $paidByBackgroundPoints, $paidByNextLevelPropertyIncrease, $paidByOtherSkillPoints
         );
     }
 
@@ -280,9 +284,9 @@ abstract class SkillPointTest extends TestWithMockery
      */
     public function I_can_not_create_skill_point_by_poor_first_level_background()
     {
-        DeAbstractedSkillPoint::createFromFirstLevelBackgroundSkillPoints(
+        CombinedSkillPoint::createFromFirstLevelBackgroundSkillPoints(
             $this->createProfessionFirstLevel('foo'),
-            $this->createBackgroundSkills(0, 'getPhysicalSkillPoints'),
+            $this->createBackgroundSkills(0, 'getCombinedSkillPoints'),
             new Tables()
         );
     }
@@ -298,7 +302,7 @@ abstract class SkillPointTest extends TestWithMockery
         $firstPaidByBackgroundPoints, $secondPaidByBackgroundPoints
     )
     {
-        DeAbstractedSkillPoint::createFromFirstLevelCrossTypeSkillPoints(
+        PhysicalSkillPoint::createFromFirstLevelCrossTypeSkillPoints(
             $this->createProfessionFirstLevel('foo'),
             $this->createCombinedSkillPoint($firstPaidByBackgroundPoints, true, true),
             $this->createCombinedSkillPoint($secondPaidByBackgroundPoints, true, true),
@@ -320,21 +324,16 @@ abstract class SkillPointTest extends TestWithMockery
      */
     public function I_can_not_pay_for_skill_point_by_same_type_skill_point()
     {
-        $sameTypeSkillPoint = $this->createSkillPoint(
-            DeAbstractedSkillPoint::class,
-            DeAbstractedSkillPoint::TYPE_NAME,
-            true
-        );
-        $sameTypeSkillPoint->shouldReceive('getProfessionFirstLevel')
-            ->andReturn($this->createProfessionFirstLevel('baz'));
-        $sameTypeSkillPoint->shouldReceive('getProfessionNextLevel')
-            ->andReturnNull();
-        $sameTypeSkillPoint->shouldDeferMissing();
+        $professionFirstLevel = $this->createProfessionFirstLevel('bar');
+        $psychicalSkillPoint = $this->createPsychicalSkillPoint(true, false, false, PsychicalSkillPoint::PSYCHICAL);
+        $psychicalSkillPoint->shouldReceive('getProfessionLevel')
+            ->andReturn($professionFirstLevel);
+        $combinedSkillPoint = $this->createCombinedSkillPoint();
 
-        DeAbstractedSkillPoint::createFromFirstLevelCrossTypeSkillPoints(
-            $this->createProfessionFirstLevel('bar'),
-            $sameTypeSkillPoint,
-            $this->createPhysicalSkillPoint(),
+        PsychicalSkillPoint::createFromFirstLevelCrossTypeSkillPoints(
+            $professionFirstLevel,
+            $psychicalSkillPoint,
+            $combinedSkillPoint,
             new Tables()
         );
     }
@@ -345,7 +344,7 @@ abstract class SkillPointTest extends TestWithMockery
      */
     public function I_can_not_pay_for_skill_point_by_next_level_without_property_increment()
     {
-        DeAbstractedSkillPoint::createFromNextLevelPropertyIncrease(
+        PhysicalSkillPoint::createFromNextLevelPropertyIncrease(
             $this->createProfessionNextLevel(Strength::class, Agility::class, false),
             new Tables()
         );
@@ -355,18 +354,15 @@ abstract class SkillPointTest extends TestWithMockery
      * @test
      * @expectedException \DrdPlus\Skills\Exceptions\UnknownPaymentForSkillPoint
      */
-    public function I_had_to_provide_some_level_to_create_a_point()
-    {
-        new DeAbstractedSkillPoint(1, $this->createProfessionFirstLevel('foo'), new Tables());
-    }
-
-    /**
-     * @test
-     * @expectedException \DrdPlus\Skills\Exceptions\UnknownPaymentForSkillPoint
-     */
     public function I_had_to_provide_some_skill_points_payment_to_create_a_point()
     {
-        new DeAbstractedSkillPoint(1, $this->createProfessionFirstLevel('foo'), new Tables());
+        $combinedSkillPoint = new \ReflectionClass(CombinedSkillPoint::class);
+        $constructor = $combinedSkillPoint->getConstructor();
+        $constructor->setAccessible(true);
+        $constructor->invokeArgs(
+            $combinedSkillPoint->newInstanceWithoutConstructor(),
+            [1, $this->createProfessionFirstLevel('foo'), new Tables()]
+        );
     }
 
     /**
@@ -376,7 +372,13 @@ abstract class SkillPointTest extends TestWithMockery
      */
     public function I_can_not_create_skill_point_with_higher_value_than_one()
     {
-        new DeAbstractedSkillPoint(2, $this->createProfessionFirstLevel('bar'), new Tables());
+        $combinedSkillPoint = new \ReflectionClass(CombinedSkillPoint::class);
+        $constructor = $combinedSkillPoint->getConstructor();
+        $constructor->setAccessible(true);
+        $constructor->invokeArgs(
+            $combinedSkillPoint->newInstanceWithoutConstructor(),
+            [2, $this->createProfessionFirstLevel('bar'), new Tables()]
+        );
     }
 
     /**
@@ -386,7 +388,13 @@ abstract class SkillPointTest extends TestWithMockery
      */
     public function I_can_not_create_skill_point_with_lesser_value_than_zero()
     {
-        new DeAbstractedSkillPoint(-1, $this->createProfessionFirstLevel('bar'), new Tables());
+        $combinedSkillPoint = new \ReflectionClass(CombinedSkillPoint::class);
+        $constructor = $combinedSkillPoint->getConstructor();
+        $constructor->setAccessible(true);
+        $constructor->invokeArgs(
+            $combinedSkillPoint->newInstanceWithoutConstructor(),
+            [-1, $this->createProfessionFirstLevel('bar'), new Tables()]
+        );
     }
 
     /**
@@ -395,36 +403,13 @@ abstract class SkillPointTest extends TestWithMockery
      */
     public function I_can_not_create_non_zero_skill_point_with_profession_zero_level()
     {
-        new DeAbstractedSkillPoint(1, ProfessionZeroLevel::createZeroLevel(Commoner::getIt()), new Tables());
-    }
-
-}
-
-/** inner */
-class DeAbstractedSkillPoint extends SkillPoint
-{
-    const TYPE_NAME = 'foo';
-
-    public function __construct(
-        $skillPointValue,
-        ProfessionLevel $professionLevel,
-        Tables $tables = null,
-        BackgroundSkillPoints $backgroundSkillPoints = null,
-        SkillPoint $firstPaidOtherSkillPoint = null,
-        SkillPoint $secondPaidOtherSkillPoint = null
-    )
-    {
-        parent::__construct($skillPointValue, $professionLevel, $tables, $backgroundSkillPoints, $firstPaidOtherSkillPoint, $secondPaidOtherSkillPoint);
-    }
-
-    public function getTypeName()
-    {
-        return self::TYPE_NAME;
-    }
-
-    public function getRelatedProperties()
-    {
-        return [Strength::STRENGTH, Agility::AGILITY];
+        $combinedSkillPoint = new \ReflectionClass(CombinedSkillPoint::class);
+        $constructor = $combinedSkillPoint->getConstructor();
+        $constructor->setAccessible(true);
+        $constructor->invokeArgs(
+            $combinedSkillPoint->newInstanceWithoutConstructor(),
+            [1, ProfessionZeroLevel::createZeroLevel(Commoner::getIt()), new Tables()]
+        );
     }
 
 }
