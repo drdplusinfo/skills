@@ -15,6 +15,7 @@ use DrdPlus\Properties\Base\Knack;
 use DrdPlus\Properties\Base\Strength;
 use DrdPlus\Properties\Base\Will;
 use DrdPlus\Tables\Tables;
+use Granam\Integer\IntegerInterface;
 use Granam\Integer\PositiveInteger;
 use Granam\Integer\Tools\Exceptions\PositiveIntegerCanNotBeNegative;
 use Granam\Integer\Tools\ToInteger;
@@ -153,7 +154,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
      * You can pay by a level (by its property adjustment respectively) or by two another skill points
      * (for example combined and psychical for a new physical).
      *
-     * @param int $skillPointValue zero or one
+     * @param int|IntegerInterface $skillPointValue zero or one
      * @param ProfessionLevel $professionLevel
      * @param Tables|null $tables = null
      * @param BackgroundSkillPoints|null $backgroundSkillPoints = null
@@ -163,6 +164,11 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
      * @throws \DrdPlus\Skills\Exceptions\UnknownPaymentForSkillPoint
      * @throws \Granam\Integer\Tools\Exceptions\WrongParameterType
      * @throws \Granam\Integer\Tools\Exceptions\ValueLostOnCast
+     * @throws \DrdPlus\Skills\Exceptions\UnknownProfessionLevelGroup
+     * @throws \DrdPlus\Skills\Exceptions\InvalidRelatedProfessionLevel
+     * @throws \DrdPlus\Skills\Exceptions\EmptyFirstLevelBackgroundSkillPoints
+     * @throws \DrdPlus\Skills\Exceptions\NonSensePaymentBySameType
+     * @throws \DrdPlus\Skills\Exceptions\ProhibitedOriginOfPaidBySkillPoint
      */
     protected function __construct(
         $skillPointValue,
@@ -186,6 +192,11 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
             $this->professionFirstLevel = $professionLevel;
         } else if ($professionLevel instanceof ProfessionNextLevel) {
             $this->professionNextLevel = $professionLevel;
+        } else {
+            throw new Exceptions\UnknownProfessionLevelGroup(
+                'Expected one of ' . ProfessionZeroLevel::class . ', ' . ProfessionFirstLevel::class
+                . ', ' . ProfessionNextLevel::class . ', got ' . ValueDescriber::describe($professionLevel)
+            );
         }
         $this->checkSkillPointPayment(
             $skillPointValue,
@@ -208,9 +219,12 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
      * @param BackgroundSkillPoints|null $backgroundSkillPoints
      * @param SkillPoint|null $firstPaidOtherSkillPoint
      * @param SkillPoint|null $secondPaidOtherSkillPoint
-     * @throws Exceptions\UnknownPaymentForSkillPoint
-     * @throws Exceptions\UnexpectedSkillPointValue
-     * @throws Exceptions\InvalidRelatedProfessionLevel
+     * @throws \DrdPlus\Skills\Exceptions\UnknownPaymentForSkillPoint
+     * @throws \DrdPlus\Skills\Exceptions\UnexpectedSkillPointValue
+     * @throws \DrdPlus\Skills\Exceptions\InvalidRelatedProfessionLevel
+     * @throws \DrdPlus\Skills\Exceptions\EmptyFirstLevelBackgroundSkillPoints
+     * @throws \DrdPlus\Skills\Exceptions\NonSensePaymentBySameType
+     * @throws \DrdPlus\Skills\Exceptions\ProhibitedOriginOfPaidBySkillPoint
      */
     private function checkSkillPointPayment(
         $skillPointValue,
@@ -247,6 +261,18 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
         }
     }
 
+    /**
+     * @param ProfessionFirstLevel $professionFirstLevel
+     * @param Tables $tables
+     * @param BackgroundSkillPoints|null $backgroundSkillPoints
+     * @param SkillPoint|null $firstPaidSkillPoint
+     * @param SkillPoint|null $secondPaidSkillPoint
+     * @return bool
+     * @throws \DrdPlus\Skills\Exceptions\EmptyFirstLevelBackgroundSkillPoints
+     * @throws \DrdPlus\Skills\Exceptions\UnknownPaymentForSkillPoint
+     * @throws \DrdPlus\Skills\Exceptions\NonSensePaymentBySameType
+     * @throws \DrdPlus\Skills\Exceptions\ProhibitedOriginOfPaidBySkillPoint
+     */
     private function checkFirstLevelPayment(
         ProfessionFirstLevel $professionFirstLevel,
         Tables $tables,
@@ -256,23 +282,23 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
     )
     {
         if ($backgroundSkillPoints) {
-            $this->checkPayByFirstLevelBackgroundSkillPoints($professionFirstLevel, $tables, $backgroundSkillPoints);
-        } else if ($firstPaidSkillPoint && $secondPaidSkillPoint) {
-            $this->checkPayByOtherFirstLevelSkillPoints($firstPaidSkillPoint, $secondPaidSkillPoint);
-        } else {
-            throw new Exceptions\UnknownPaymentForSkillPoint(
-                'Unknown payment for skill point on level '
-                . $professionFirstLevel->getLevelRank()->getValue()
-                . ' of profession ' . $professionFirstLevel->getProfession()->getValue()
-            );
+            return $this->checkPayByFirstLevelBackgroundSkillPoints($professionFirstLevel, $tables, $backgroundSkillPoints);
         }
+        if ($firstPaidSkillPoint && $secondPaidSkillPoint) {
+            return $this->checkPayByOtherFirstLevelSkillPoints($firstPaidSkillPoint, $secondPaidSkillPoint);
+        }
+
+        throw new Exceptions\UnknownPaymentForSkillPoint(
+            'Unknown payment for skill point on level '
+            . $professionFirstLevel->getLevelRank()->getValue()
+            . ' of profession ' . $professionFirstLevel->getProfession()->getValue()
+        );
     }
 
     /**
      * @param ProfessionFirstLevel $professionFirstLevel
      * @param Tables $tables
      * @param BackgroundSkillPoints $backgroundSkillPoints
-     *
      * @return bool
      * @throws \DrdPlus\Skills\Exceptions\EmptyFirstLevelBackgroundSkillPoints
      */
@@ -311,34 +337,36 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
         return true;
     }
 
-    private function checkPayByOtherFirstLevelSkillPoints(
-        SkillPoint $firstPaidSkillPoint,
-        SkillPoint $secondPaidSkillPoint
-    )
+    /**
+     * @param SkillPoint $firstPaidBySkillPoint
+     * @param SkillPoint $secondPaidBySkillPoint
+     * @return bool
+     * @throws \DrdPlus\Skills\Exceptions\NonSensePaymentBySameType
+     * @throws \DrdPlus\Skills\Exceptions\ProhibitedOriginOfPaidBySkillPoint
+     */
+    private function checkPayByOtherFirstLevelSkillPoints(SkillPoint $firstPaidBySkillPoint, SkillPoint $secondPaidBySkillPoint)
     {
-        $this->checkPaidFirstLevelSkillPoint($firstPaidSkillPoint);
-        $this->checkPaidFirstLevelSkillPoint($secondPaidSkillPoint);
-    }
+        foreach ([$firstPaidBySkillPoint, $secondPaidBySkillPoint] as $paidBySkillPoint) {
+            if (!$paidBySkillPoint->isPaidByFirstLevelBackgroundSkillPoints()) {
+                $message = 'Skill point to-pay-with has to origin from first level background skills.';
+                if ($paidBySkillPoint->isPaidByNextLevelPropertyIncrease()) {
+                    $message .= ' Next level skill point is not allowed to trade.';
+                }
+                if ($paidBySkillPoint->isPaidByOtherSkillPoints()) {
+                    $message .= ' There is no sense to trade first level skill point multiple times.';
+                }
+                throw new Exceptions\ProhibitedOriginOfPaidBySkillPoint($message);
+            }
+            if ($paidBySkillPoint->getTypeName() === $this->getTypeName()) {
+                throw new Exceptions\NonSensePaymentBySameType(
+                    "There is no sense to pay for skill point by another one of the very same type ({$this->getTypeName()})."
+                    . ' Got paid skill point from level ' . $paidBySkillPoint->getProfessionLevel()->getLevelRank()
+                    . ' of profession ' . $paidBySkillPoint->getProfessionLevel()->getProfession()->getValue() . '.'
+                );
+            }
+        }
 
-    private function checkPaidFirstLevelSkillPoint(SkillPoint $paidSkillPoint)
-    {
-        if (!$paidSkillPoint->isPaidByFirstLevelBackgroundSkillPoints()) {
-            $message = 'Skill point to-pay-with has to origin from first level background skills.';
-            if ($paidSkillPoint->isPaidByNextLevelPropertyIncrease()) {
-                $message .= ' Next level skill point is not allowed to trade.';
-            }
-            if ($paidSkillPoint->isPaidByOtherSkillPoints()) {
-                $message .= ' There is no sense to trade first level skill point multiple times.';
-            }
-            throw new Exceptions\ProhibitedOriginOfPaidBySkillPoint($message);
-        }
-        if ($paidSkillPoint->getTypeName() === $this->getTypeName()) {
-            throw new Exceptions\NonSensePaymentBySameType(
-                "There is no sense to pay for skill point by another one of the very same type ({$this->getTypeName()})."
-                . ' Got paid skill point from level ' . $paidSkillPoint->getProfessionLevel()->getLevelRank()
-                . ' of profession ' . $paidSkillPoint->getProfessionLevel()->getProfession()->getValue() . '.'
-            );
-        }
+        return true;
     }
 
     private function checkNextLevelPaymentByPropertyIncrement(ProfessionNextLevel $professionNextLevel)
@@ -491,8 +519,8 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
     public function isPaidByNextLevelPropertyIncrease()
     {
         return !$this->isPaidByFirstLevelBackgroundSkillPoints()
-        && !$this->isPaidByOtherSkillPoints()
-        && $this->getProfessionNextLevel() !== null;
+            && !$this->isPaidByOtherSkillPoints()
+            && $this->getProfessionNextLevel() !== null;
     }
 
 }

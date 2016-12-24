@@ -100,7 +100,7 @@ abstract class SkillRank extends StrictObject implements PositiveInteger, Entity
             assert($requiredRankValue->getValue() > 0);
             if ($skillPoint->getValue() !== 1) {
                 throw new Exceptions\CanNotUseZeroSkillPointForNonZeroSkillRank(
-                    'To increase s skill rank is required a skill point of value 1, got ' . $skillPoint
+                    'To increase a skill rank a skill point of value 1 is required, got ' . $skillPoint
                 );
             }
         }

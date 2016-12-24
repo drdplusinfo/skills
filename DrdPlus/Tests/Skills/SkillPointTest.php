@@ -412,4 +412,21 @@ abstract class SkillPointTest extends TestWithMockery
         );
     }
 
+    /**
+     * @test
+     * @expectedException \DrdPlus\Skills\Exceptions\UnknownProfessionLevelGroup
+     */
+    public function I_can_not_create_skill_point_by_new_type_of_level()
+    {
+        $combinedSkillPoint = new \ReflectionClass(CombinedSkillPoint::class);
+        $constructor = $combinedSkillPoint->getConstructor();
+        $constructor->setAccessible(true);
+        /** @var ProfessionLevel $professionLevel */
+        $professionLevel = $this->mockery(ProfessionLevel::class); // not zero, first nor next
+        $constructor->invokeArgs(
+            $combinedSkillPoint->newInstanceWithoutConstructor(),
+            [1, $professionLevel, new Tables()]
+        );
+    }
+
 }

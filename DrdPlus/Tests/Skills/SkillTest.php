@@ -105,7 +105,7 @@ abstract class SkillTest extends TestWithMockery
     private function getProjectRootDir()
     {
         $namespaceAsRelativePath = str_replace('\\', DIRECTORY_SEPARATOR, __NAMESPACE__);
-        $projectRootDir = preg_replace('~' . preg_quote($namespaceAsRelativePath) . '.*~', '', __DIR__);
+        $projectRootDir = preg_replace('~' . preg_quote($namespaceAsRelativePath, '~') . '.*~', '', __DIR__);
 
         return $projectRootDir;
     }
@@ -134,7 +134,7 @@ abstract class SkillTest extends TestWithMockery
     private function getSkillRankClass($sutClass)
     {
         $baseClass = SkillRank::class;
-        $typeName = preg_quote(ucfirst($this->getTypeName($sutClass)));
+        $typeName = preg_quote(ucfirst($this->getTypeName($sutClass)), '~');
         $class = preg_replace(
             '~[\\\]SkillRank$~',
             '\\' . $typeName . '\\' . $typeName . 'SkillRank',
@@ -171,7 +171,7 @@ abstract class SkillTest extends TestWithMockery
     private function getSkillPointClass()
     {
         $baseClass = SkillPoint::class;
-        $typeName = preg_quote(ucfirst($this->getExpectedSkillsTypeName()));
+        $typeName = preg_quote(ucfirst($this->getExpectedSkillsTypeName()), '~');
         $class = preg_replace(
             '~[\\\]SkillPoint$~',
             '\\' . $typeName . '\\' . $typeName . 'SkillPoint',
@@ -323,6 +323,7 @@ abstract class SkillTest extends TestWithMockery
     {
         $sut = new CheatingSkill($this->createProfessionFirstLevel());
         self::assertCount(1, $sut->getSkillRanks());
+        /** @var CombinedSkillPoint|\Mockery\MockInterface $skillPoint */
         $skillPoint = $this->mockery(CombinedSkillPoint::class);
         $skillPoint->shouldReceive('getValue')
             ->andReturn(1);
