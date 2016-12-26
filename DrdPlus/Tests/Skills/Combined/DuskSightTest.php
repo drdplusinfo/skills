@@ -1,6 +1,7 @@
 <?php
 namespace DrdPlus\Skills\Combined;
 
+use DrdPlus\Lighting\Partials\WithInsufficientLightingBonus;
 use DrdPlus\Person\ProfessionLevels\ProfessionZeroLevel;
 use DrdPlus\Professions\Commoner;
 use Granam\Tests\Tools\TestWithMockery;
@@ -13,6 +14,7 @@ class DuskSightTest extends TestWithMockery
     public function I_can_get_bonus_on_insufficient_lighting()
     {
         $duskSight = new DuskSight(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
+        self::assertInstanceOf(WithInsufficientLightingBonus::class, $duskSight);
         self::assertSame(0, $duskSight->getInsufficientLightingBonus());
         $duskSight->increaseSkillRank($this->createCombinedSkillPoint());
         self::assertSame(1, $duskSight->getInsufficientLightingBonus());

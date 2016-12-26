@@ -3,11 +3,12 @@ namespace DrdPlus\Skills\Combined;
 
 use DrdPlus\Codes\Skills\CombinedSkillCode;
 use Doctrine\ORM\Mapping as ORM;
+use DrdPlus\Lighting\Partials\WithInsufficientLightingBonus;
 
 /**
  * @ORM\Entity()
  */
-class DuskSight extends CombinedSkill
+class DuskSight extends CombinedSkill implements WithInsufficientLightingBonus
 {
     const DUSK_SIGHT = CombinedSkillCode::DUSK_SIGHT;
 
