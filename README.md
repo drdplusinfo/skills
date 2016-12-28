@@ -1,6 +1,8 @@
 # Skills for DrD+
 
 [![Build Status](https://travis-ci.org/jaroslavtyc/drd-plus-skills.svg?branch=master)](https://travis-ci.org/jaroslavtyc/drd-plus-skills)
+[![Test Coverage](https://codeclimate.com/github/jaroslavtyc/drd-plus-skills/badges/coverage.svg)](https://codeclimate.com/github/jaroslavtyc/drd-plus-skills/coverage)
+[![License](https://poser.pugx.org/drd-plus/skills/license)](https://packagist.org/packages/drd-plus/skills)
 
 Skills are all the person skills on one pile.
 -> SameTypeSkills are skills of same type, like physical, on one pile
