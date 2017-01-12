@@ -203,7 +203,7 @@ class CombinedSkillsTest extends SameTypeSkillsTest
     private function createMissingWeaponSkillsTable($weaponParameterName, $expectedSkillValue, $result)
     {
         $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
-        $missingWeaponSkillsTable->shouldReceive('get' . ucfirst($weaponParameterName) . 'MalusForSkill')
+        $missingWeaponSkillsTable->shouldReceive('get' . ucfirst($weaponParameterName) . 'MalusForSkillRank')
             ->with($expectedSkillValue)
             ->andReturn($result);
 
