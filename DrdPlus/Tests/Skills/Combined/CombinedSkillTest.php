@@ -1,8 +1,7 @@
 <?php
 namespace DrdPlus\Tests\Skills\Combined;
 
-use DrdPlus\Properties\Base\Charisma;
-use DrdPlus\Properties\Base\Knack;
+use DrdPlus\Codes\PropertyCode;
 use DrdPlus\Tests\Skills\SkillTest;
 
 class CombinedSkillTest extends SkillTest
@@ -10,6 +9,6 @@ class CombinedSkillTest extends SkillTest
 
     protected function getExpectedRelatedPropertyCodes()
     {
-        return [Knack::KNACK, Charisma::CHARISMA];
+        return [PropertyCode::KNACK, PropertyCode::CHARISMA];
     }
 }

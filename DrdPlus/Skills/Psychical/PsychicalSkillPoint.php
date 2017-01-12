@@ -2,9 +2,8 @@
 namespace DrdPlus\Skills\Psychical;
 
 use Doctrine\ORM\Mapping as ORM;
+use DrdPlus\Codes\PropertyCode;
 use DrdPlus\Codes\Skills\SkillTypeCode;
-use DrdPlus\Properties\Base\Intelligence;
-use DrdPlus\Properties\Base\Will;
 use DrdPlus\Skills\SkillPoint;
 
 /**
@@ -28,7 +27,7 @@ class PsychicalSkillPoint extends SkillPoint
      */
     public function getRelatedProperties()
     {
-        return [Will::WILL, Intelligence::INTELLIGENCE];
+        return [PropertyCode::WILL, PropertyCode::INTELLIGENCE];
     }
 
 }

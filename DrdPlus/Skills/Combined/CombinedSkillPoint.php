@@ -1,9 +1,8 @@
 <?php
 namespace DrdPlus\Skills\Combined;
 
+use DrdPlus\Codes\PropertyCode;
 use DrdPlus\Codes\Skills\SkillTypeCode;
-use DrdPlus\Properties\Base\Charisma;
-use DrdPlus\Properties\Base\Knack;
 use DrdPlus\Skills\SkillPoint;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,7 +27,7 @@ class CombinedSkillPoint extends SkillPoint
      */
     public function getRelatedProperties()
     {
-        return [Knack::KNACK, Charisma::CHARISMA];
+        return [PropertyCode::KNACK, PropertyCode::CHARISMA];
     }
 
 }

@@ -2,10 +2,9 @@
 namespace DrdPlus\Skills\Psychical;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use DrdPlus\Codes\PropertyCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Skills\Skill;
-use DrdPlus\Properties\Base\Intelligence;
-use DrdPlus\Properties\Base\Will;
 use Doctrine\ORM\Mapping as ORM;
 use Granam\Integer\PositiveIntegerObject;
 
@@ -99,7 +98,7 @@ abstract class PsychicalSkill extends Skill
      */
     public function getRelatedPropertyCodes()
     {
-        return [Intelligence::INTELLIGENCE, Will::WILL];
+        return [PropertyCode::INTELLIGENCE, PropertyCode::WILL];
     }
 
     /**

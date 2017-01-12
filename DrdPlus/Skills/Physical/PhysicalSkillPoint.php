@@ -1,9 +1,8 @@
 <?php
 namespace DrdPlus\Skills\Physical;
 
+use DrdPlus\Codes\PropertyCode;
 use DrdPlus\Codes\Skills\SkillTypeCode;
-use DrdPlus\Properties\Base\Agility;
-use DrdPlus\Properties\Base\Strength;
 use DrdPlus\Skills\SkillPoint;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,7 +27,7 @@ class PhysicalSkillPoint extends SkillPoint
      */
     public function getRelatedProperties()
     {
-        return [Strength::STRENGTH, Agility::AGILITY];
+        return [PropertyCode::STRENGTH, PropertyCode::AGILITY];
     }
 
 }

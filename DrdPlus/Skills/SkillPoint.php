@@ -3,17 +3,12 @@ namespace DrdPlus\Skills;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrineum\Entity\Entity;
+use DrdPlus\Codes\PropertyCode;
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionNextLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionZeroLevel;
-use DrdPlus\Properties\Base\Agility;
-use DrdPlus\Properties\Base\Charisma;
-use DrdPlus\Properties\Base\Intelligence;
-use DrdPlus\Properties\Base\Knack;
-use DrdPlus\Properties\Base\Strength;
-use DrdPlus\Properties\Base\Will;
 use DrdPlus\Tables\Tables;
 use Granam\Integer\IntegerInterface;
 use Granam\Integer\PositiveInteger;
@@ -311,17 +306,17 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
         $relatedProperties = $this->sortAlphabetically($this->getRelatedProperties());
         $firstLevelSkillPoints = 0;
         switch ($relatedProperties) {
-            case $this->sortAlphabetically([Strength::STRENGTH, Agility::AGILITY]) :
+            case $this->sortAlphabetically([PropertyCode::STRENGTH, PropertyCode::AGILITY]) :
                 $firstLevelSkillPoints = $backgroundSkillPoints->getPhysicalSkillPoints(
                     $professionFirstLevel->getProfession(), $tables
                 );
                 break;
-            case $this->sortAlphabetically([Will::WILL, Intelligence::INTELLIGENCE]) :
+            case $this->sortAlphabetically([PropertyCode::WILL, PropertyCode::INTELLIGENCE]) :
                 $firstLevelSkillPoints = $backgroundSkillPoints->getPsychicalSkillPoints(
                     $professionFirstLevel->getProfession(), $tables
                 );
                 break;
-            case $this->sortAlphabetically([Knack::KNACK, Charisma::CHARISMA]) :
+            case $this->sortAlphabetically([PropertyCode::KNACK, PropertyCode::CHARISMA]) :
                 $firstLevelSkillPoints = $backgroundSkillPoints->getCombinedSkillPoints(
                     $professionFirstLevel->getProfession(), $tables
                 );
@@ -374,15 +369,15 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
         $relatedProperties = $this->sortAlphabetically($this->getRelatedProperties());
         $missingPropertyAdjustment = false;
         switch ($relatedProperties) {
-            case $this->sortAlphabetically([Strength::STRENGTH, Agility::AGILITY]) :
+            case $this->sortAlphabetically([PropertyCode::STRENGTH, PropertyCode::AGILITY]) :
                 $missingPropertyAdjustment = $professionNextLevel->getStrengthIncrement()->getValue() === 0
                     && $professionNextLevel->getAgilityIncrement()->getValue() === 0;
                 break;
-            case $this->sortAlphabetically([Will::WILL, Intelligence::INTELLIGENCE]) :
+            case $this->sortAlphabetically([PropertyCode::WILL, PropertyCode::INTELLIGENCE]) :
                 $missingPropertyAdjustment = $professionNextLevel->getWillIncrement()->getValue() === 0
                     && $professionNextLevel->getIntelligenceIncrement()->getValue() === 0;
                 break;
-            case $this->sortAlphabetically([Knack::KNACK, Charisma::CHARISMA]) :
+            case $this->sortAlphabetically([PropertyCode::KNACK, PropertyCode::CHARISMA]) :
                 $missingPropertyAdjustment = $professionNextLevel->getKnackIncrement()->getValue() === 0
                     && $professionNextLevel->getCharismaIncrement()->getValue() === 0;
                 break;

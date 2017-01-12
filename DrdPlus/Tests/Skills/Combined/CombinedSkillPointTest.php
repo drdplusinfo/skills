@@ -1,7 +1,8 @@
 <?php
 namespace DrdPlus\Skills\Combined;
 
-use DrdPlus\Professions\Fighter;
+use DrdPlus\Codes\ProfessionCode;
+use DrdPlus\Codes\PropertyCode;
 use DrdPlus\Properties\Base\Charisma;
 use DrdPlus\Properties\Base\Knack;
 use DrdPlus\Tables\Tables;
@@ -12,14 +13,14 @@ class CombinedSkillPointTest extends SkillPointTest
     protected function I_can_create_skill_point_by_first_level_background_skills()
     {
         $combinedSkillPoint = CombinedSkillPoint::createFromFirstLevelBackgroundSkillPoints(
-            $level = $this->createProfessionFirstLevel(Fighter::FIGHTER),
+            $level = $this->createProfessionFirstLevel(ProfessionCode::FIGHTER),
             $backgroundSkillPoints = $this->createBackgroundSkills(123, 'getCombinedSkillPoints'),
             new Tables()
         );
         self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
         self::assertSame(1, $combinedSkillPoint->getValue());
         self::assertSame('combined', $combinedSkillPoint->getTypeName());
-        self::assertSame([Knack::KNACK, Charisma::CHARISMA], $combinedSkillPoint->getRelatedProperties());
+        self::assertSame([PropertyCode::KNACK, PropertyCode::CHARISMA], $combinedSkillPoint->getRelatedProperties());
         self::assertSame($backgroundSkillPoints, $combinedSkillPoint->getBackgroundSkillPoints());
         self::assertNull($combinedSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertNull($combinedSkillPoint->getSecondPaidOtherSkillPoint());

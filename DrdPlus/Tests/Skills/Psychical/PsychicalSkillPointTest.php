@@ -1,7 +1,8 @@
 <?php
 namespace DrdPlus\Skills\Psychical;
 
-use DrdPlus\Professions\Fighter;
+use DrdPlus\Codes\ProfessionCode;
+use DrdPlus\Codes\PropertyCode;
 use DrdPlus\Properties\Base\Intelligence;
 use DrdPlus\Properties\Base\Will;
 use DrdPlus\Tables\Tables;
@@ -12,14 +13,14 @@ class PsychicalSkillPointTest extends SkillPointTest
     protected function I_can_create_skill_point_by_first_level_background_skills()
     {
         $psychicalSkillPoint = PsychicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
-            $level = $this->createProfessionFirstLevel(Fighter::FIGHTER),
+            $level = $this->createProfessionFirstLevel(ProfessionCode::FIGHTER),
             $backgroundSkillPoints = $this->createBackgroundSkills(123, 'getPsychicalSkillPoints'),
             new Tables()
         );
         self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
         self::assertSame(1, $psychicalSkillPoint->getValue());
         self::assertSame('psychical', $psychicalSkillPoint->getTypeName());
-        self::assertSame([Will::WILL, Intelligence::INTELLIGENCE], $psychicalSkillPoint->getRelatedProperties());
+        self::assertSame([PropertyCode::WILL, PropertyCode::INTELLIGENCE], $psychicalSkillPoint->getRelatedProperties());
         self::assertSame($backgroundSkillPoints, $psychicalSkillPoint->getBackgroundSkillPoints());
         self::assertNull($psychicalSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertNull($psychicalSkillPoint->getSecondPaidOtherSkillPoint());

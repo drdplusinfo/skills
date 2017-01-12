@@ -1,7 +1,8 @@
 <?php
 namespace DrdPlus\Skills\Physical;
 
-use DrdPlus\Professions\Fighter;
+use DrdPlus\Codes\ProfessionCode;
+use DrdPlus\Codes\PropertyCode;
 use DrdPlus\Properties\Base\Agility;
 use DrdPlus\Properties\Base\Strength;
 use DrdPlus\Tables\Tables;
@@ -12,14 +13,14 @@ class PhysicalSkillPointTest extends SkillPointTest
     protected function I_can_create_skill_point_by_first_level_background_skills()
     {
         $physicalSkillPoint = PhysicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
-            $level = $this->createProfessionFirstLevel(Fighter::FIGHTER),
+            $level = $this->createProfessionFirstLevel(ProfessionCode::FIGHTER),
             $backgroundSkillPoints = $this->createBackgroundSkills(123, 'getPhysicalSkillPoints'),
             new Tables()
         );
         self::assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
         self::assertSame(1, $physicalSkillPoint->getValue());
         self::assertSame('physical', $physicalSkillPoint->getTypeName());
-        self::assertSame([Strength::STRENGTH, Agility::AGILITY], $physicalSkillPoint->getRelatedProperties());
+        self::assertSame([PropertyCode::STRENGTH, PropertyCode::AGILITY], $physicalSkillPoint->getRelatedProperties());
         self::assertSame($backgroundSkillPoints, $physicalSkillPoint->getBackgroundSkillPoints());
         self::assertNull($physicalSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertNull($physicalSkillPoint->getSecondPaidOtherSkillPoint());

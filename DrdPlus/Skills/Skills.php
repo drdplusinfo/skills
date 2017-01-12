@@ -5,6 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrineum\Entity\Entity;
 use DrdPlus\Codes\Armaments\ProtectiveArmamentCode;
 use DrdPlus\Codes\Armaments\WeaponCode;
+use DrdPlus\Codes\PropertyCode;
 use DrdPlus\Codes\Skills\CombinedSkillCode;
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
 use DrdPlus\Codes\Skills\PsychicalSkillCode;
@@ -12,12 +13,6 @@ use DrdPlus\Codes\Armaments\WeaponlikeCode;
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
-use DrdPlus\Properties\Base\Agility;
-use DrdPlus\Properties\Base\Charisma;
-use DrdPlus\Properties\Base\Intelligence;
-use DrdPlus\Properties\Base\Knack;
-use DrdPlus\Properties\Base\Strength;
-use DrdPlus\Properties\Base\Will;
 use DrdPlus\Skills\Combined\CombinedSkillPoint;
 use DrdPlus\Skills\Combined\CombinedSkills;
 use DrdPlus\Skills\Physical\PhysicalSkillPoint;
@@ -329,22 +324,22 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
             /** @var string[][] $nextLevelPayment */
             foreach ($nextLevelPayment['relatedProperties'] as $relatedProperty) {
                 switch ($relatedProperty) {
-                    case Strength::STRENGTH :
+                    case PropertyCode::STRENGTH :
                         $increasedPropertySum += $professionLevels->getNextLevelsStrengthModifier();
                         break;
-                    case Agility::AGILITY :
+                    case PropertyCode::AGILITY :
                         $increasedPropertySum += $professionLevels->getNextLevelsAgilityModifier();
                         break;
-                    case Knack::KNACK :
+                    case PropertyCode::KNACK :
                         $increasedPropertySum += $professionLevels->getNextLevelsKnackModifier();
                         break;
-                    case Will::WILL :
+                    case PropertyCode::WILL :
                         $increasedPropertySum += $professionLevels->getNextLevelsWillModifier();
                         break;
-                    case Intelligence::INTELLIGENCE :
+                    case PropertyCode::INTELLIGENCE :
                         $increasedPropertySum += $professionLevels->getNextLevelsIntelligenceModifier();
                         break;
-                    case Charisma::CHARISMA :
+                    case PropertyCode::CHARISMA :
                         $increasedPropertySum += $professionLevels->getNextLevelsCharismaModifier();
                         break;
                 }

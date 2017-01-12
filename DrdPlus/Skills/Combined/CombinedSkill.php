@@ -2,6 +2,7 @@
 namespace DrdPlus\Skills\Combined;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use DrdPlus\Codes\PropertyCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Skills\Skill;
 use DrdPlus\Properties\Base\Charisma;
@@ -103,7 +104,7 @@ abstract class CombinedSkill extends Skill
      */
     public function getRelatedPropertyCodes()
     {
-        return [Knack::KNACK, Charisma::CHARISMA];
+        return [PropertyCode::KNACK, PropertyCode::CHARISMA];
     }
 
     /**

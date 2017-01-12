@@ -1,8 +1,7 @@
 <?php
 namespace DrdPlus\Tests\Skills\Physical;
 
-use DrdPlus\Properties\Base\Agility;
-use DrdPlus\Properties\Base\Strength;
+use DrdPlus\Codes\PropertyCode;
 use DrdPlus\Tests\Skills\SkillTest;
 
 class PhysicalSkillTest extends SkillTest
@@ -10,7 +9,7 @@ class PhysicalSkillTest extends SkillTest
 
     protected function getExpectedRelatedPropertyCodes()
     {
-        return [Strength::STRENGTH, Agility::AGILITY];
+        return [PropertyCode::STRENGTH, PropertyCode::AGILITY];
     }
 
 }

@@ -2,10 +2,9 @@
 namespace DrdPlus\Skills\Physical;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use DrdPlus\Codes\PropertyCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Skills\Skill;
-use DrdPlus\Properties\Base\Agility;
-use DrdPlus\Properties\Base\Strength;
 use Doctrine\ORM\Mapping as ORM;
 use Granam\Integer\PositiveIntegerObject;
 
@@ -111,7 +110,7 @@ abstract class PhysicalSkill extends Skill
      */
     public function getRelatedPropertyCodes()
     {
-        return [Strength::STRENGTH, Agility::AGILITY];
+        return [PropertyCode::STRENGTH, PropertyCode::AGILITY];
     }
 
     /**
