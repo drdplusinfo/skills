@@ -11,7 +11,7 @@ use DrdPlus\Codes\Skills\PsychicalSkillCode;
 use DrdPlus\Codes\Armaments\RangedWeaponCode;
 use DrdPlus\Codes\Armaments\WeaponlikeCode;
 use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
-use DrdPlus\Person\Background\BackgroundParts\Heritage;
+use DrdPlus\Person\Background\BackgroundParts\Ancestry;
 use DrdPlus\Person\ProfessionLevels\LevelRank;
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
@@ -43,8 +43,8 @@ use DrdPlus\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Skills\Psychical\ReadingAndWriting;
 use DrdPlus\Professions\Profession;
 use DrdPlus\Tables\Armaments\Armourer;
-use DrdPlus\Tables\Armaments\Shields\MissingShieldSkillTable;
-use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
+use DrdPlus\Tables\Armaments\Shields\ShieldUsageSkillTable;
+use DrdPlus\Tables\Armaments\Weapons\WeaponSkillTable;
 use DrdPlus\Tables\Tables;
 use Granam\Tests\Tools\TestWithMockery;
 
@@ -1119,11 +1119,11 @@ class SkillsTest extends TestWithMockery
     }
 
     /**
-     * @return \Mockery\MockInterface|MissingWeaponSkillTable
+     * @return \Mockery\MockInterface|WeaponSkillTable
      */
     private function createMissingWeaponSkillsTable()
     {
-        return $this->mockery(MissingWeaponSkillTable::class);
+        return $this->mockery(WeaponSkillTable::class);
     }
 
     /**
@@ -1434,7 +1434,7 @@ class SkillsTest extends TestWithMockery
             $this->createCombinedSkillsPaidByFirstLevelBackground($backgroundSkillPoints, $firstLevel),
             new Tables()
         );
-        $missingShieldSkillTable = $this->createMissingShieldSkillTable();
+        $missingShieldSkillTable = $this->createShieldUsageSkillTable();
         $physicalSkills->shouldReceive('getMalusToCoverWithShield')
             ->with($missingShieldSkillTable)
             ->andReturn('foo');
@@ -1442,11 +1442,11 @@ class SkillsTest extends TestWithMockery
     }
 
     /**
-     * @return \Mockery\MockInterface|MissingShieldSkillTable
+     * @return \Mockery\MockInterface|ShieldUsageSkillTable
      */
-    private function createMissingShieldSkillTable()
+    private function createShieldUsageSkillTable()
     {
-        return $this->mockery(MissingShieldSkillTable::class);
+        return $this->mockery(ShieldUsageSkillTable::class);
     }
 
     /**
@@ -1469,7 +1469,7 @@ class SkillsTest extends TestWithMockery
                     Charisma::getIt(0)
                 )]
             ),
-            BackgroundSkillPoints::getIt(2, Heritage::getIt(7)),
+            BackgroundSkillPoints::getIt(2, Ancestry::getIt(7)),
             new PhysicalSkills($professionZeroLevel),
             new PsychicalSkills($professionZeroLevel),
             new CombinedSkills($professionZeroLevel),

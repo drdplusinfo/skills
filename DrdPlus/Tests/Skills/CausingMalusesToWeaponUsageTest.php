@@ -3,7 +3,7 @@ namespace DrdPlus\Tests\Skills\Combined;
 
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Skills\CausingMalusesToWeaponUsage;
-use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
+use DrdPlus\Tables\Armaments\Weapons\WeaponSkillTable;
 use Granam\Tests\Tools\TestWithMockery;
 
 abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
@@ -47,11 +47,11 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
     /**
      * @param $expectedSkillRank
      * @param $result
-     * @return \Mockery\MockInterface|MissingWeaponSkillTable
+     * @return \Mockery\MockInterface|WeaponSkillTable
      */
     protected function createMissingWeaponSkillsTable($expectedSkillRank, $result)
     {
-        $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
+        $missingWeaponSkillsTable = $this->mockery(WeaponSkillTable::class);
         $missingWeaponSkillsTable->shouldReceive('getFightNumberForWeaponSkill')
             ->with($expectedSkillRank)
             ->andReturn($result);

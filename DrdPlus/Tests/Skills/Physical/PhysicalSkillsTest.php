@@ -28,8 +28,8 @@ use DrdPlus\Skills\Physical\FightWithTwoWeapons;
 use DrdPlus\Skills\Physical\FightWithVoulgesAndTridents;
 use DrdPlus\Skills\Physical\PhysicalSkills;
 use DrdPlus\Tables\Armaments\Armourer;
-use DrdPlus\Tables\Armaments\Shields\MissingShieldSkillTable;
-use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
+use DrdPlus\Tables\Armaments\Shields\ShieldUsageSkillTable;
+use DrdPlus\Tables\Armaments\Weapons\WeaponSkillTable;
 use DrdPlus\Tests\Skills\SameTypeSkillsTest;
 use Granam\Integer\PositiveInteger;
 
@@ -361,7 +361,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      * @param $weaponSkillMalus
      * @param int|null $fightsWithTwoWeaponsSkillRankValue
      * @param $fightWithTwoWeaponsSkillMalus
-     * @return \Mockery\MockInterface|MissingWeaponSkillTable
+     * @return \Mockery\MockInterface|WeaponSkillTable
      */
     private function createMissingWeaponSkillsTable(
         $weaponParameterName,
@@ -371,7 +371,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         $fightWithTwoWeaponsSkillMalus = 123
     )
     {
-        $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
+        $missingWeaponSkillsTable = $this->mockery(WeaponSkillTable::class);
         $missingWeaponSkillsTable->shouldReceive('get' . ucfirst($weaponParameterName) . 'MalusForSkillRank')
             ->with($expectedSkillValue)
             ->andReturn($weaponSkillMalus);
@@ -446,11 +446,11 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     }
 
     /**
-     * @return \Mockery\MockInterface|MissingShieldSkillTable
+     * @return \Mockery\MockInterface|ShieldUsageSkillTable
      */
     private function createMissingShieldSkillsTable()
     {
-        return $this->mockery(MissingShieldSkillTable::class);
+        return $this->mockery(ShieldUsageSkillTable::class);
     }
 
     /**
@@ -461,8 +461,8 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     public function I_can_not_get_malus_for_melee_weapon_of_unknown_category()
     {
         $physicalSkills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
-        /** @var MissingWeaponSkillTable $missingWeaponSkillsTable */
-        $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
+        /** @var WeaponSkillTable $missingWeaponSkillsTable */
+        $missingWeaponSkillsTable = $this->mockery(WeaponSkillTable::class);
         $physicalSkills->getMalusToFightNumberWithWeaponlike(
             $this->createWeaponlikeCode('plank', true /* is melee */, false /* not throwing */),
             $missingWeaponSkillsTable,
@@ -478,8 +478,8 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     public function I_can_not_get_malus_for_non_melee_non_throwing_weapon()
     {
         $physicalSkills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
-        /** @var MissingWeaponSkillTable $missingWeaponSkillsTable */
-        $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
+        /** @var WeaponSkillTable $missingWeaponSkillsTable */
+        $missingWeaponSkillsTable = $this->mockery(WeaponSkillTable::class);
         $physicalSkills->getMalusToFightNumberWithWeaponlike(
             $this->createWeaponlikeCode('artillery', false /* not melee */, false /* not throwing */),
             $missingWeaponSkillsTable,

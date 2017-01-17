@@ -3,8 +3,8 @@ namespace DrdPlus\Skills\Physical;
 
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
 use Doctrine\ORM\Mapping as ORM;
-use DrdPlus\Tables\Armaments\Shields\MissingShieldSkillTable;
-use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
+use DrdPlus\Tables\Armaments\Shields\ShieldUsageSkillTable;
+use DrdPlus\Tables\Armaments\Weapons\WeaponSkillTable;
 use Granam\Integer\Tools\ToInteger;
 
 /**
@@ -25,18 +25,18 @@ class ShieldUsage extends PhysicalSkill
     /**
      * Only for using shield as a weapon!
      *
-     * @param MissingShieldSkillTable $missingShieldSkillsTable
+     * @param ShieldUsageSkillTable $missingShieldSkillsTable
      * @param int $shieldRestriction as a negative number
-     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
+     * @param WeaponSkillTable $missingWeaponSkillsTable
      * @return int negative number or zero
      * @throws \Granam\Integer\Tools\Exceptions\WrongParameterType
      * @throws \Granam\Integer\Tools\Exceptions\ValueLostOnCast
      * @throws \Granam\Integer\Tools\Exceptions\NegativeIntegerCanNotBePositive
      */
     public function getMalusToFightNumber(
-        MissingShieldSkillTable $missingShieldSkillsTable,
+        ShieldUsageSkillTable $missingShieldSkillsTable,
         $shieldRestriction,
-        MissingWeaponSkillTable $missingWeaponSkillsTable
+        WeaponSkillTable $missingWeaponSkillsTable
     )
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
@@ -53,14 +53,14 @@ class ShieldUsage extends PhysicalSkill
     /**
      * Applicable to lower shield Restriction (Fight number malus), but can not make it positive.
      *
-     * @param MissingShieldSkillTable $missingShieldSkillsTable
+     * @param ShieldUsageSkillTable $missingShieldSkillsTable
      * @param int $shieldRestriction
      * @return int
      * @throws \Granam\Integer\Tools\Exceptions\WrongParameterType
      * @throws \Granam\Integer\Tools\Exceptions\ValueLostOnCast
      * @throws \Granam\Integer\Tools\Exceptions\NegativeIntegerCanNotBePositive
      */
-    public function getRestrictionWithShield(MissingShieldSkillTable $missingShieldSkillsTable, $shieldRestriction)
+    public function getRestrictionWithShield(ShieldUsageSkillTable $missingShieldSkillsTable, $shieldRestriction)
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         $malusFromRestriction = ToInteger::toNegativeInteger($shieldRestriction)
@@ -75,10 +75,10 @@ class ShieldUsage extends PhysicalSkill
     /**
      * Only for shield as a weapon!
      *
-     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
+     * @param WeaponSkillTable $missingWeaponSkillsTable
      * @return int
      */
-    public function getMalusToAttackNumber(MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToAttackNumber(WeaponSkillTable $missingWeaponSkillsTable)
     {
         /**
          * using shield as a weapon means using something without skill (zero skill ShieldAsAWeapon respectively)
@@ -90,10 +90,10 @@ class ShieldUsage extends PhysicalSkill
     }
 
     /**
-     * @param MissingShieldSkillTable $missingShieldSkillsTable
+     * @param ShieldUsageSkillTable $missingShieldSkillsTable
      * @return int
      */
-    public function getMalusToCover(MissingShieldSkillTable $missingShieldSkillsTable)
+    public function getMalusToCover(ShieldUsageSkillTable $missingShieldSkillsTable)
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return $missingShieldSkillsTable->getCoverForSkillRank($this->getCurrentSkillRank()->getValue());
@@ -102,10 +102,10 @@ class ShieldUsage extends PhysicalSkill
     /**
      * Only for shield as a weapon!
      *
-     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
+     * @param WeaponSkillTable $missingWeaponSkillsTable
      * @return int
      */
-    public function getMalusToBaseOfWounds(MissingWeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToBaseOfWounds(WeaponSkillTable $missingWeaponSkillsTable)
     {
         /**
          * using shield as a weapon means using something without skill (zero skill ShieldAsAWeapon respectively)

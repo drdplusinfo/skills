@@ -2,8 +2,8 @@
 namespace DrdPlus\Tests\Skills\Physical;
 
 use DrdPlus\Skills\Physical\ShieldUsage;
-use DrdPlus\Tables\Armaments\Shields\MissingShieldSkillTable;
-use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
+use DrdPlus\Tables\Armaments\Shields\ShieldUsageSkillTable;
+use DrdPlus\Tables\Armaments\Weapons\WeaponSkillTable;
 
 class ShieldUsageTest extends PhysicalSkillTest
 {
@@ -37,19 +37,19 @@ class ShieldUsageTest extends PhysicalSkillTest
     }
 
     /**
-     * @return \Mockery\MockInterface|MissingShieldSkillTable
+     * @return \Mockery\MockInterface|ShieldUsageSkillTable
      */
     private function createMissingShieldsSkillTable()
     {
-        return $this->mockery(MissingShieldSkillTable::class);
+        return $this->mockery(ShieldUsageSkillTable::class);
     }
 
     /**
-     * @return \Mockery\MockInterface|MissingWeaponSkillTable
+     * @return \Mockery\MockInterface|WeaponSkillTable
      */
     private function createMissingWeaponsSkillTable()
     {
-        return $this->mockery(MissingWeaponSkillTable::class);
+        return $this->mockery(WeaponSkillTable::class);
     }
 
     /**

@@ -20,8 +20,8 @@ use DrdPlus\Skills\Physical\PhysicalSkills;
 use DrdPlus\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Skills\Psychical\PsychicalSkills;
 use DrdPlus\Tables\Armaments\Armourer;
-use DrdPlus\Tables\Armaments\Shields\MissingShieldSkillTable;
-use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
+use DrdPlus\Tables\Armaments\Shields\ShieldUsageSkillTable;
+use DrdPlus\Tables\Armaments\Weapons\WeaponSkillTable;
 use DrdPlus\Tables\Tables;
 use Granam\Strict\Object\StrictObject;
 
@@ -180,7 +180,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
              * There are limited first level background skill points,
              *
              * @see \DrdPlus\Person\Background\BackgroundSkillPoints
-             * and @see \DrdPlus\Person\Background\Heritage
+             * and @see \DrdPlus\Person\Background\Ancestry
              * check their sum
              */
             $type = $skillPoint->getTypeName();
@@ -569,14 +569,14 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      * fight-with-two-weapons skill as well.
      *
      * @param WeaponlikeCode $weaponOrShieldForAttack
-     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
+     * @param WeaponSkillTable $missingWeaponSkillsTable
      * @param bool $usesTwoWeapons
      * @return int
      * @throws \DrdPlus\Skills\Exceptions\UnknownTypeOfWeapon
      */
     public function getMalusToFightNumberWithWeaponlike(
         WeaponlikeCode $weaponOrShieldForAttack,
-        MissingWeaponSkillTable $missingWeaponSkillsTable,
+        WeaponSkillTable $missingWeaponSkillsTable,
         $usesTwoWeapons
     )
     {
@@ -618,7 +618,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      * from that.
      *
      * @param WeaponlikeCode $weaponlikeCode
-     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
+     * @param WeaponSkillTable $missingWeaponSkillsTable
      * @param bool $fightsWithTwoWeapons
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
@@ -627,7 +627,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      */
     public function getMalusToAttackNumberWithWeaponlike(
         WeaponlikeCode $weaponlikeCode,
-        MissingWeaponSkillTable $missingWeaponSkillsTable,
+        WeaponSkillTable $missingWeaponSkillsTable,
         $fightsWithTwoWeapons
     )
     {
@@ -655,14 +655,14 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      * as a protective armament @see getMalusToCoverWithShield
      *
      * @param WeaponCode $weaponCode
-     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
+     * @param WeaponSkillTable $missingWeaponSkillsTable
      * @param bool $fightsWithTwoWeapons
      * @return int
      * @throws Exceptions\UnknownTypeOfWeapon
      */
     public function getMalusToCoverWithWeapon(
         WeaponCode $weaponCode,
-        MissingWeaponSkillTable $missingWeaponSkillsTable,
+        WeaponSkillTable $missingWeaponSkillsTable,
         $fightsWithTwoWeapons
     )
     {
@@ -688,10 +688,10 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     }
 
     /**
-     * @param MissingShieldSkillTable $missingShieldSkillTable
+     * @param ShieldUsageSkillTable $missingShieldSkillTable
      * @return int
      */
-    public function getMalusToCoverWithShield(MissingShieldSkillTable $missingShieldSkillTable)
+    public function getMalusToCoverWithShield(ShieldUsageSkillTable $missingShieldSkillTable)
     {
         return $this->getPhysicalSkills()->getMalusToCoverWithShield($missingShieldSkillTable);
     }
@@ -700,14 +700,14 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      * If you want to use shield as a PROTECTIVE item, there is no base of wounds malus from that.
      *
      * @param WeaponlikeCode $weaponlikeCode
-     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
+     * @param WeaponSkillTable $missingWeaponSkillsTable
      * @param bool $fightsWithTwoWeapons
      * @return int
      * @throws Exceptions\UnknownTypeOfWeapon
      */
     public function getMalusToBaseOfWoundsWithWeaponlike(
         WeaponlikeCode $weaponlikeCode,
-        MissingWeaponSkillTable $missingWeaponSkillsTable,
+        WeaponSkillTable $missingWeaponSkillsTable,
         $fightsWithTwoWeapons
     )
     {

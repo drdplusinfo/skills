@@ -11,7 +11,7 @@ use DrdPlus\Professions\Fighter;
 use DrdPlus\Professions\Wizard;
 use DrdPlus\Skills\Combined\CombinedSkillPoint;
 use DrdPlus\Skills\Combined\CombinedSkills;
-use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
+use DrdPlus\Tables\Armaments\Weapons\WeaponSkillTable;
 use DrdPlus\Tests\Skills\SameTypeSkillsTest;
 
 class CombinedSkillsTest extends SameTypeSkillsTest
@@ -198,11 +198,11 @@ class CombinedSkillsTest extends SameTypeSkillsTest
      * @param string $weaponParameterName
      * @param $expectedSkillValue
      * @param $result
-     * @return \Mockery\MockInterface|MissingWeaponSkillTable
+     * @return \Mockery\MockInterface|WeaponSkillTable
      */
     private function createMissingWeaponSkillsTable($weaponParameterName, $expectedSkillValue, $result)
     {
-        $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
+        $missingWeaponSkillsTable = $this->mockery(WeaponSkillTable::class);
         $missingWeaponSkillsTable->shouldReceive('get' . ucfirst($weaponParameterName) . 'MalusForSkillRank')
             ->with($expectedSkillValue)
             ->andReturn($result);
@@ -218,8 +218,8 @@ class CombinedSkillsTest extends SameTypeSkillsTest
     public function I_can_not_get_malus_for_weapon_not_affected_by_combined_skill()
     {
         $combinedSkills = new CombinedSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
-        /** @var MissingWeaponSkillTable $missingWeaponSkillsTable */
-        $missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class);
+        /** @var WeaponSkillTable $missingWeaponSkillsTable */
+        $missingWeaponSkillsTable = $this->mockery(WeaponSkillTable::class);
         $combinedSkills->getMalusToFightNumberWithShootingWeapon(
             $this->createRangeWeaponCode('notBowNorCrossbowYouKnow'),
             $missingWeaponSkillsTable

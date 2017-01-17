@@ -13,8 +13,8 @@ use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Skills\SameTypeSkills;
 use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Tables\Armaments\Armourer;
-use DrdPlus\Tables\Armaments\Shields\MissingShieldSkillTable;
-use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
+use DrdPlus\Tables\Armaments\Shields\ShieldUsageSkillTable;
+use DrdPlus\Tables\Armaments\Weapons\WeaponSkillTable;
 
 /**
  * @ORM\Entity()
@@ -501,14 +501,14 @@ class PhysicalSkills extends SameTypeSkills
      * (malus is already included in FightWithShields skill).
      *
      * @param WeaponlikeCode $weaponlikeCode
-     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
+     * @param WeaponSkillTable $missingWeaponSkillsTable
      * @param bool $fightsWithTwoWeapons
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      */
     public function getMalusToFightNumberWithWeaponlike(
         WeaponlikeCode $weaponlikeCode,
-        MissingWeaponSkillTable $missingWeaponSkillsTable,
+        WeaponSkillTable $missingWeaponSkillsTable,
         $fightsWithTwoWeapons
     )
     {
@@ -621,14 +621,14 @@ class PhysicalSkills extends SameTypeSkills
      * a protective armament @see \DrdPlus\Skills\Physical\PhysicalSkills::getMalusToFightNumberWithProtective
      *
      * @param WeaponlikeCode $weaponlikeCode
-     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
+     * @param WeaponSkillTable $missingWeaponSkillsTable
      * @param bool $fightsWithTwoWeapons
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      */
     public function getMalusToAttackNumberWithWeaponlike(
         WeaponlikeCode $weaponlikeCode,
-        MissingWeaponSkillTable $missingWeaponSkillsTable,
+        WeaponSkillTable $missingWeaponSkillsTable,
         $fightsWithTwoWeapons
     )
     {
@@ -649,14 +649,14 @@ class PhysicalSkills extends SameTypeSkills
      * For SHIELD use @see getMalusToFightNumberWithProtective
      *
      * @param WeaponCode $weaponCode
-     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
+     * @param WeaponSkillTable $missingWeaponSkillsTable
      * @param bool $fightsWithTwoWeapons
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      */
     public function getMalusToCoverWithWeapon(
         WeaponCode $weaponCode,
-        MissingWeaponSkillTable $missingWeaponSkillsTable,
+        WeaponSkillTable $missingWeaponSkillsTable,
         $fightsWithTwoWeapons
     )
     {
@@ -675,12 +675,12 @@ class PhysicalSkills extends SameTypeSkills
 
     /**
      * Warning: PPH gives you false info about malus to cover with shield (see PPH page 86 right column).
-     * Correct is as gives @see \DrdPlus\Tables\Armaments\Shields\MissingShieldSkillTable
+     * Correct is as gives @see \DrdPlus\Tables\Armaments\Shields\ShieldUsageSkillTable
      *
-     * @param MissingShieldSkillTable $missingShieldSkillTable
+     * @param ShieldUsageSkillTable $missingShieldSkillTable
      * @return int
      */
-    public function getMalusToCoverWithShield(MissingShieldSkillTable $missingShieldSkillTable)
+    public function getMalusToCoverWithShield(ShieldUsageSkillTable $missingShieldSkillTable)
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return $missingShieldSkillTable->getCoverMalusForSkillRank($this->getShieldUsage()->getCurrentSkillRank());
@@ -691,14 +691,14 @@ class PhysicalSkills extends SameTypeSkills
      * a protective armament @see \DrdPlus\Skills\Physical\PhysicalSkills::getMalusToFightNumberWithProtective
      *
      * @param WeaponlikeCode $weaponlikeCode
-     * @param MissingWeaponSkillTable $missingWeaponSkillsTable
+     * @param WeaponSkillTable $missingWeaponSkillsTable
      * @param bool $fightsWithTwoWeapons
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      */
     public function getMalusToBaseOfWoundsWithWeaponlike(
         WeaponlikeCode $weaponlikeCode,
-        MissingWeaponSkillTable $missingWeaponSkillsTable,
+        WeaponSkillTable $missingWeaponSkillsTable,
         $fightsWithTwoWeapons
     )
     {
