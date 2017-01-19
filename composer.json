@@ -14,7 +14,7 @@
     "doctrine/orm": "^2.5",
     "granam/strict-object": "dev-master",
     "granam/integer": "dev-master",
-    "drd-plus/person-background": "dev-master",
+    "drd-plus/background": "dev-master",
     "doctrineum/entity": "dev-master",
     "doctrineum/datetime-immutable": "dev-master",
     "drd-plus/lighting": "dev-master"

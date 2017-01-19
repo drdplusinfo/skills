@@ -2,8 +2,8 @@
 namespace DrdPlus\Tests\Skills;
 
 use Doctrineum\Tests\Entity\AbstractDoctrineEntitiesTest;
-use DrdPlus\Person\Background\BackgroundParts\Ancestry;
-use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
+use DrdPlus\Background\BackgroundParts\Ancestry;
+use DrdPlus\Background\BackgroundParts\SkillsFromBackground;
 use DrdPlus\Person\ProfessionLevels\LevelRank;
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
@@ -131,7 +131,12 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
                     Charisma::getIt(0)
                 )]
             ),
-            BackgroundSkillPoints::getIt(2, Ancestry::getIt(7)),
+            SkillsFromBackground::getIt(
+                new PositiveIntegerObject(2),
+                Ancestry::getIt(new PositiveIntegerObject(7), $tables->getAncestryTable()),
+                $tables->getAncestryTable(),
+                $tables->getBackgroundPointsDistributionTable()
+            ),
             new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt())),
             new PsychicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt())),
             new CombinedSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt())),
@@ -142,9 +147,14 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
     private static function createPhysicalSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel)
     {
         $physicalSkillClasses = self::getListOfSkillClasses(PhysicalSkill::class);
-        $physicalSkillPoint = PhysicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
+        $physicalSkillPoint = PhysicalSkillPoint::createFromFirstLevelSkillsFromBackground(
             $firstLevel,
-            BackgroundSkillPoints::getIt(3, Ancestry::getIt(5)),
+            SkillsFromBackground::getIt(
+                new PositiveIntegerObject(3),
+                Ancestry::getIt(new PositiveIntegerObject(5), $tables->getAncestryTable()),
+                $tables->getAncestryTable(),
+                $tables->getBackgroundPointsDistributionTable()
+            ),
             $tables
         );
         $physicalSkills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
@@ -155,16 +165,26 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             /** @var PhysicalSkill $physicalSkill */
             $physicalSkill->increaseSkillRank($physicalSkillPoint);
         }
-        $physicalSkillPoint = PhysicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
+        $physicalSkillPoint = PhysicalSkillPoint::createFromFirstLevelSkillsFromBackground(
             $firstLevel,
-            BackgroundSkillPoints::getIt(3, Ancestry::getIt(5)),
+            SkillsFromBackground::getIt(
+                new PositiveIntegerObject(3),
+                Ancestry::getIt(new PositiveIntegerObject(5), $tables->getAncestryTable()),
+                $tables->getAncestryTable(),
+                $tables->getBackgroundPointsDistributionTable()
+            ),
             $tables
         );
         $physicalSkillRank = new PhysicalSkillRank(
             new Swimming($firstLevel),
-            PhysicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
+            PhysicalSkillPoint::createFromFirstLevelSkillsFromBackground(
                 $firstLevel,
-                BackgroundSkillPoints::getIt(4, Ancestry::getIt(5)),
+                SkillsFromBackground::getIt(
+                    new PositiveIntegerObject(4),
+                    Ancestry::getIt(new PositiveIntegerObject(5), $tables->getAncestryTable()),
+                    $tables->getAncestryTable(),
+                    $tables->getBackgroundPointsDistributionTable()
+                ),
                 $tables
             ),
             new PositiveIntegerObject(1)
@@ -214,9 +234,14 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
     private static function createPsychicalSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel)
     {
         $psychicalSkillClasses = self::getListOfSkillClasses(PsychicalSkill::class);
-        $psychicalSkillPoint = PsychicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
+        $psychicalSkillPoint = PsychicalSkillPoint::createFromFirstLevelSkillsFromBackground(
             $firstLevel,
-            BackgroundSkillPoints::getIt(3, Ancestry::getIt(5)),
+            SkillsFromBackground::getIt(
+                new PositiveIntegerObject(3),
+                Ancestry::getIt(new PositiveIntegerObject(5), $tables->getAncestryTable()),
+                $tables->getAncestryTable(),
+                $tables->getBackgroundPointsDistributionTable()
+            ),
             $tables
         );
         $psychicalSkills = new PsychicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
@@ -228,17 +253,27 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $psychicalSkill->increaseSkillRank($psychicalSkillPoint);
         }
 
-        $psychicalSkillPoint = PsychicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
+        $psychicalSkillPoint = PsychicalSkillPoint::createFromFirstLevelSkillsFromBackground(
             $firstLevel,
-            BackgroundSkillPoints::getIt(4, Ancestry::getIt(3)),
+            SkillsFromBackground::getIt(
+                new PositiveIntegerObject(4),
+                Ancestry::getIt(new PositiveIntegerObject(3), $tables->getAncestryTable()),
+                $tables->getAncestryTable(),
+                $tables->getBackgroundPointsDistributionTable()
+            ),
             $tables
         );
 
         $psychicalSkillRank = new PsychicalSkillRank(
             new Technology($firstLevel),
-            PsychicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
+            PsychicalSkillPoint::createFromFirstLevelSkillsFromBackground(
                 $firstLevel,
-                BackgroundSkillPoints::getIt(4, Ancestry::getIt(5)),
+                SkillsFromBackground::getIt(
+                    new PositiveIntegerObject(4),
+                    Ancestry::getIt(new PositiveIntegerObject(5), $tables->getAncestryTable()),
+                    $tables->getAncestryTable(),
+                    $tables->getBackgroundPointsDistributionTable()
+                ),
                 $tables
             ),
             new PositiveIntegerObject(1)
@@ -257,9 +292,14 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
     private static function createCombinedSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel)
     {
         $combinedSkillClasses = self::getListOfSkillClasses(CombinedSkill::class);
-        $combinedSkillPoint = CombinedSkillPoint::createFromFirstLevelBackgroundSkillPoints(
+        $combinedSkillPoint = CombinedSkillPoint::createFromFirstLevelSkillsFromBackground(
             $firstLevel,
-            BackgroundSkillPoints::getIt(3, Ancestry::getIt(5)),
+            SkillsFromBackground::getIt(
+                new PositiveIntegerObject(3),
+                Ancestry::getIt(new PositiveIntegerObject(5), $tables->getAncestryTable()),
+                $tables->getAncestryTable(),
+                $tables->getBackgroundPointsDistributionTable()
+            ),
             $tables
         );
         $combinedSkills = new CombinedSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
@@ -270,16 +310,26 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $combinedSkillList[] = $combinedSkill = $combinedSkills->$skillGetter();
             $combinedSkill->increaseSkillRank($combinedSkillPoint);
         }
-        $combinedSkillPoint = CombinedSkillPoint::createFromFirstLevelBackgroundSkillPoints(
+        $combinedSkillPoint = CombinedSkillPoint::createFromFirstLevelSkillsFromBackground(
             $firstLevel,
-            BackgroundSkillPoints::getIt(3, Ancestry::getIt(5)),
+            SkillsFromBackground::getIt(
+                new PositiveIntegerObject(3),
+                Ancestry::getIt(new PositiveIntegerObject(5), $tables->getAncestryTable()),
+                $tables->getAncestryTable(),
+                $tables->getBackgroundPointsDistributionTable()
+            ),
             $tables
         );
         $combinedSkillRank = new CombinedSkillRank(
             new Cooking($firstLevel),
-            CombinedSkillPoint::createFromFirstLevelBackgroundSkillPoints(
+            CombinedSkillPoint::createFromFirstLevelSkillsFromBackground(
                 $firstLevel,
-                BackgroundSkillPoints::getIt(4, Ancestry::getIt(5)),
+                SkillsFromBackground::getIt(
+                    new PositiveIntegerObject(4),
+                    Ancestry::getIt(new PositiveIntegerObject(5), $tables->getAncestryTable()),
+                    $tables->getAncestryTable(),
+                    $tables->getBackgroundPointsDistributionTable()
+                ),
                 $tables
             ),
             new PositiveIntegerObject(1)

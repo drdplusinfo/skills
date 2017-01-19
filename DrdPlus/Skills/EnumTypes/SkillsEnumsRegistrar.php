@@ -2,14 +2,14 @@
 namespace DrdPlus\Skills\EnumTypes;
 
 use Doctrineum\DateTimeImmutable\DateTimeImmutableType;
-use DrdPlus\Person\Background\EnumTypes\PersonBackgroundEnumRegistrar;
+use DrdPlus\Background\EnumTypes\BackgroundEnumRegistrar;
 use DrdPlus\Person\ProfessionLevels\EnumTypes\ProfessionLevelsEnumRegistrar;
 
 class SkillsEnumsRegistrar
 {
     public static function registerAll()
     {
-        PersonBackgroundEnumRegistrar::registerAll();
+        BackgroundEnumRegistrar::registerAll();
         ProfessionLevelsEnumRegistrar::registerAll();
         DateTimeImmutableType::registerSelf();
     }

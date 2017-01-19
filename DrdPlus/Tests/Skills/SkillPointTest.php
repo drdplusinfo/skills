@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Tests\Skills;
 
-use DrdPlus\Person\Background\BackgroundParts\BackgroundSkillPoints;
+use DrdPlus\Background\BackgroundParts\SkillsFromBackground;
 use DrdPlus\Person\ProfessionLevels\LevelRank;
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
@@ -15,6 +15,7 @@ use DrdPlus\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Professions\Profession;
 use DrdPlus\Properties\Base\Agility;
 use DrdPlus\Properties\Base\Strength;
+use DrdPlus\Tables\History\SkillsByBackgroundPointsTable;
 use DrdPlus\Tables\Tables;
 use /** @noinspection PhpUnusedAliasInspection because of a bug in PhpStorm */
     Granam\Tests\Tools\TestWithMockery;
@@ -61,22 +62,22 @@ abstract class SkillPointTest extends TestWithMockery
     protected function I_can_detect_way_of_payment(SkillPoint $skillPoint)
     {
         self::assertSame(
-            $skillPoint->getBackgroundSkillPoints() !== null,
-            $skillPoint->isPaidByFirstLevelBackgroundSkillPoints()
+            $skillPoint->getSkillsFromBackground() !== null,
+            $skillPoint->isPaidByFirstLevelSkillsFromBackground()
         );
         self::assertSame(
             $skillPoint->getFirstPaidOtherSkillPoint() !== null && $skillPoint->getSecondPaidOtherSkillPoint() !== null,
             $skillPoint->isPaidByOtherSkillPoints()
         );
         self::assertSame(
-            !$skillPoint->isPaidByFirstLevelBackgroundSkillPoints()
+            !$skillPoint->isPaidByFirstLevelSkillsFromBackground()
             && !$skillPoint->isPaidByOtherSkillPoints()
             && $skillPoint->getProfessionNextLevel() !== null,
             $skillPoint->isPaidByNextLevelPropertyIncrease()
         );
         self::assertSame(
             1,
-            $skillPoint->isPaidByFirstLevelBackgroundSkillPoints()
+            $skillPoint->isPaidByFirstLevelSkillsFromBackground()
             + $skillPoint->isPaidByNextLevelPropertyIncrease()
             + $skillPoint->isPaidByOtherSkillPoints()
         );
@@ -148,13 +149,13 @@ abstract class SkillPointTest extends TestWithMockery
      * @param int $skillPointsValue
      * @param string $getterName
      *
-     * @return \Mockery\MockInterface|BackgroundSkillPoints
+     * @return \Mockery\MockInterface|SkillsFromBackground
      */
     protected function createBackgroundSkills($skillPointsValue, $getterName)
     {
-        $backgroundSKills = $this->mockery(BackgroundSkillPoints::class);
+        $backgroundSKills = $this->mockery(SkillsFromBackground::class);
         $backgroundSKills->shouldReceive($getterName)
-            ->with(\Mockery::type(Profession::class), \Mockery::type(Tables::class))
+            ->with(\Mockery::type(Profession::class), \Mockery::type(SkillsByBackgroundPointsTable::class))
             ->atLeast()->once()
             ->andReturn($skillPointsValue);
 
@@ -194,7 +195,7 @@ abstract class SkillPointTest extends TestWithMockery
     )
     {
         $skillPoint = $this->mockery($skillPointClass);
-        $skillPoint->shouldReceive('isPaidByFirstLevelBackgroundSkillPoints')
+        $skillPoint->shouldReceive('isPaidByFirstLevelSkillsFromBackground')
             ->andReturn($paidByBackgroundPoints);
         $skillPoint->shouldReceive('getTypeName')
             ->andReturn($typeName);
@@ -280,11 +281,11 @@ abstract class SkillPointTest extends TestWithMockery
 
     /**
      * @test
-     * @expectedException \DrdPlus\Skills\Exceptions\EmptyFirstLevelBackgroundSkillPoints
+     * @expectedException \DrdPlus\Skills\Exceptions\EmptyFirstLevelSkillsFromBackground
      */
     public function I_can_not_create_skill_point_by_poor_first_level_background()
     {
-        CombinedSkillPoint::createFromFirstLevelBackgroundSkillPoints(
+        CombinedSkillPoint::createFromFirstLevelSkillsFromBackground(
             $this->createProfessionFirstLevel('foo'),
             $this->createBackgroundSkills(0, 'getCombinedSkillPoints'),
             new Tables()

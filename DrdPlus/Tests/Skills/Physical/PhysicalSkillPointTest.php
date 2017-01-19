@@ -12,7 +12,7 @@ class PhysicalSkillPointTest extends SkillPointTest
 {
     protected function I_can_create_skill_point_by_first_level_background_skills()
     {
-        $physicalSkillPoint = PhysicalSkillPoint::createFromFirstLevelBackgroundSkillPoints(
+        $physicalSkillPoint = PhysicalSkillPoint::createFromFirstLevelSkillsFromBackground(
             $level = $this->createProfessionFirstLevel(ProfessionCode::FIGHTER),
             $backgroundSkillPoints = $this->createBackgroundSkills(123, 'getPhysicalSkillPoints'),
             new Tables()
@@ -21,7 +21,7 @@ class PhysicalSkillPointTest extends SkillPointTest
         self::assertSame(1, $physicalSkillPoint->getValue());
         self::assertSame('physical', $physicalSkillPoint->getTypeName());
         self::assertSame([PropertyCode::STRENGTH, PropertyCode::AGILITY], $physicalSkillPoint->getRelatedProperties());
-        self::assertSame($backgroundSkillPoints, $physicalSkillPoint->getBackgroundSkillPoints());
+        self::assertSame($backgroundSkillPoints, $physicalSkillPoint->getSkillsFromBackground());
         self::assertNull($physicalSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertNull($physicalSkillPoint->getSecondPaidOtherSkillPoint());
 
@@ -47,7 +47,7 @@ class PhysicalSkillPointTest extends SkillPointTest
             new Tables()
         );
         self::assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
-        self::assertNull($physicalSkillPoint->getBackgroundSkillPoints());
+        self::assertNull($physicalSkillPoint->getSkillsFromBackground());
         self::assertSame($firstPaidSkillPoint, $physicalSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertSame($secondPaidSkillPoint, $physicalSkillPoint->getSecondPaidOtherSkillPoint());
 
@@ -63,7 +63,7 @@ class PhysicalSkillPointTest extends SkillPointTest
             new Tables()
         );
         self::assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
-        self::assertNull($physicalSkillPoint->getBackgroundSkillPoints());
+        self::assertNull($physicalSkillPoint->getSkillsFromBackground());
         self::assertSame($firstPaidSkillPoint, $physicalSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertSame($secondPaidSkillPoint, $physicalSkillPoint->getSecondPaidOtherSkillPoint());
 
@@ -79,7 +79,7 @@ class PhysicalSkillPointTest extends SkillPointTest
             new Tables()
         );
         self::assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
-        self::assertNull($physicalSkillPoint->getBackgroundSkillPoints());
+        self::assertNull($physicalSkillPoint->getSkillsFromBackground());
         self::assertSame($firstPaidSkillPoint, $physicalSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertSame($secondPaidSkillPoint, $physicalSkillPoint->getSecondPaidOtherSkillPoint());
 
@@ -102,7 +102,7 @@ class PhysicalSkillPointTest extends SkillPointTest
             new Tables()
         );
         self::assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
-        self::assertNull($physicalSkillPoint->getBackgroundSkillPoints());
+        self::assertNull($physicalSkillPoint->getSkillsFromBackground());
         self::assertNull($physicalSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertNull($physicalSkillPoint->getSecondPaidOtherSkillPoint());
 
@@ -116,7 +116,7 @@ class PhysicalSkillPointTest extends SkillPointTest
             new Tables()
         );
         self::assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
-        self::assertNull($physicalSkillPoint->getBackgroundSkillPoints());
+        self::assertNull($physicalSkillPoint->getSkillsFromBackground());
         self::assertNull($physicalSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertNull($physicalSkillPoint->getSecondPaidOtherSkillPoint());
 
