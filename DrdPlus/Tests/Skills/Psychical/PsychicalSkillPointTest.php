@@ -15,7 +15,7 @@ class PsychicalSkillPointTest extends SkillPointTest
         $psychicalSkillPoint = PsychicalSkillPoint::createFromFirstLevelSkillsFromBackground(
             $level = $this->createProfessionFirstLevel(ProfessionCode::FIGHTER),
             $backgroundSkillPoints = $this->createBackgroundSkills(123, 'getPsychicalSkillPoints'),
-            new Tables()
+            Tables::getIt()
         );
         self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
         self::assertSame(1, $psychicalSkillPoint->getValue());
@@ -44,7 +44,7 @@ class PsychicalSkillPointTest extends SkillPointTest
             $level = $this->createProfessionFirstLevel(),
             $firstPaidSkillPoint = $this->createCombinedSkillPoint(),
             $secondPaidSkillPoint = $this->createCombinedSkillPoint(),
-            new Tables()
+            Tables::getIt()
         );
         self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
         self::assertNull($psychicalSkillPoint->getSkillsFromBackground());
@@ -60,7 +60,7 @@ class PsychicalSkillPointTest extends SkillPointTest
             $level = $this->createProfessionFirstLevel(),
             $firstPaidSkillPoint = $this->createPhysicalSkillPoint(),
             $secondPaidSkillPoint = $this->createPhysicalSkillPoint(),
-            new Tables()
+            Tables::getIt()
         );
         self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
         self::assertNull($psychicalSkillPoint->getSkillsFromBackground());
@@ -76,7 +76,7 @@ class PsychicalSkillPointTest extends SkillPointTest
             $level = $this->createProfessionFirstLevel(),
             $firstPaidSkillPoint = $this->createPhysicalSkillPoint(),
             $secondPaidSkillPoint = $this->createCombinedSkillPoint(),
-            new Tables()
+            Tables::getIt()
         );
         self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
         self::assertNull($psychicalSkillPoint->getSkillsFromBackground());
@@ -99,7 +99,7 @@ class PsychicalSkillPointTest extends SkillPointTest
     {
         $psychicalSkillPoint = PsychicalSkillPoint::createFromNextLevelPropertyIncrease(
             $level = $this->createProfessionNextLevel(Intelligence::class, Will::class),
-            new Tables()
+            Tables::getIt()
         );
         self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
         self::assertNull($psychicalSkillPoint->getSkillsFromBackground());
@@ -113,7 +113,7 @@ class PsychicalSkillPointTest extends SkillPointTest
     {
         $psychicalSkillPoint = PsychicalSkillPoint::createFromNextLevelPropertyIncrease(
             $level = $this->createProfessionNextLevel(Will::class, Intelligence::class),
-            new Tables()
+            Tables::getIt()
         );
         self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
         self::assertNull($psychicalSkillPoint->getSkillsFromBackground());

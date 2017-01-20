@@ -310,17 +310,20 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
             switch ($skillType) {
                 case self::PHYSICAL :
                     $availableSkillPoints = $backgroundSkillPoints->getPhysicalSkillPoints(
-                        $firstLevel->getProfession(), $tables->getSkillsByBackgroundPointsTable()
+                        $firstLevel->getProfession(),
+                        $tables
                     );
                     break;
                 case self::PSYCHICAL :
                     $availableSkillPoints = $backgroundSkillPoints->getPsychicalSkillPoints(
-                        $firstLevel->getProfession(), $tables->getSkillsByBackgroundPointsTable()
+                        $firstLevel->getProfession(),
+                        $tables
                     );
                     break;
                 case self::COMBINED :
                     $availableSkillPoints = $backgroundSkillPoints->getCombinedSkillPoints(
-                        $firstLevel->getProfession(), $tables->getSkillsByBackgroundPointsTable()
+                        $firstLevel->getProfession(),
+                        $tables
                     );
                     break;
             }

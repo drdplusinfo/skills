@@ -308,17 +308,20 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
         switch ($relatedProperties) {
             case $this->sortAlphabetically([PropertyCode::STRENGTH, PropertyCode::AGILITY]) :
                 $firstLevelSkillPoints = $backgroundSkillPoints->getPhysicalSkillPoints(
-                    $professionFirstLevel->getProfession(), $tables->getSkillsByBackgroundPointsTable()
+                    $professionFirstLevel->getProfession(),
+                    $tables
                 );
                 break;
             case $this->sortAlphabetically([PropertyCode::WILL, PropertyCode::INTELLIGENCE]) :
                 $firstLevelSkillPoints = $backgroundSkillPoints->getPsychicalSkillPoints(
-                    $professionFirstLevel->getProfession(), $tables->getSkillsByBackgroundPointsTable()
+                    $professionFirstLevel->getProfession(),
+                    $tables
                 );
                 break;
             case $this->sortAlphabetically([PropertyCode::KNACK, PropertyCode::CHARISMA]) :
                 $firstLevelSkillPoints = $backgroundSkillPoints->getCombinedSkillPoints(
-                    $professionFirstLevel->getProfession(), $tables->getSkillsByBackgroundPointsTable()
+                    $professionFirstLevel->getProfession(),
+                    $tables
                 );
                 break;
         }

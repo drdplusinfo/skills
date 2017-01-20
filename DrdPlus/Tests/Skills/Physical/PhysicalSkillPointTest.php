@@ -15,7 +15,7 @@ class PhysicalSkillPointTest extends SkillPointTest
         $physicalSkillPoint = PhysicalSkillPoint::createFromFirstLevelSkillsFromBackground(
             $level = $this->createProfessionFirstLevel(ProfessionCode::FIGHTER),
             $backgroundSkillPoints = $this->createBackgroundSkills(123, 'getPhysicalSkillPoints'),
-            new Tables()
+            Tables::getIt()
         );
         self::assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
         self::assertSame(1, $physicalSkillPoint->getValue());
@@ -44,7 +44,7 @@ class PhysicalSkillPointTest extends SkillPointTest
             $level = $this->createProfessionFirstLevel(),
             $firstPaidSkillPoint = $this->createCombinedSkillPoint(),
             $secondPaidSkillPoint = $this->createCombinedSkillPoint(),
-            new Tables()
+            Tables::getIt()
         );
         self::assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
         self::assertNull($physicalSkillPoint->getSkillsFromBackground());
@@ -60,7 +60,7 @@ class PhysicalSkillPointTest extends SkillPointTest
             $level = $this->createProfessionFirstLevel(),
             $firstPaidSkillPoint = $this->createPsychicalSkillPoint(),
             $secondPaidSkillPoint = $this->createPsychicalSkillPoint(),
-            new Tables()
+            Tables::getIt()
         );
         self::assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
         self::assertNull($physicalSkillPoint->getSkillsFromBackground());
@@ -76,7 +76,7 @@ class PhysicalSkillPointTest extends SkillPointTest
             $level = $this->createProfessionFirstLevel(),
             $firstPaidSkillPoint = $this->createPsychicalSkillPoint(),
             $secondPaidSkillPoint = $this->createCombinedSkillPoint(),
-            new Tables()
+            Tables::getIt()
         );
         self::assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
         self::assertNull($physicalSkillPoint->getSkillsFromBackground());
@@ -99,7 +99,7 @@ class PhysicalSkillPointTest extends SkillPointTest
     {
         $physicalSkillPoint = PhysicalSkillPoint::createFromNextLevelPropertyIncrease(
             $level = $this->createProfessionNextLevel(Agility::class, Strength::class),
-            new Tables()
+            Tables::getIt()
         );
         self::assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
         self::assertNull($physicalSkillPoint->getSkillsFromBackground());
@@ -113,7 +113,7 @@ class PhysicalSkillPointTest extends SkillPointTest
     {
         $physicalSkillPoint = PhysicalSkillPoint::createFromNextLevelPropertyIncrease(
             $level = $this->createProfessionNextLevel(Strength::class, Agility::class),
-            new Tables()
+            Tables::getIt()
         );
         self::assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
         self::assertNull($physicalSkillPoint->getSkillsFromBackground());

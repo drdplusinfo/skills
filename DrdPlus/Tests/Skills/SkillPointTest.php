@@ -15,10 +15,8 @@ use DrdPlus\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Professions\Profession;
 use DrdPlus\Properties\Base\Agility;
 use DrdPlus\Properties\Base\Strength;
-use DrdPlus\Tables\History\SkillsByBackgroundPointsTable;
 use DrdPlus\Tables\Tables;
-use /** @noinspection PhpUnusedAliasInspection because of a bug in PhpStorm */
-    Granam\Tests\Tools\TestWithMockery;
+use Granam\Tests\Tools\TestWithMockery;
 
 abstract class SkillPointTest extends TestWithMockery
 {
@@ -155,7 +153,7 @@ abstract class SkillPointTest extends TestWithMockery
     {
         $backgroundSKills = $this->mockery(SkillsFromBackground::class);
         $backgroundSKills->shouldReceive($getterName)
-            ->with(\Mockery::type(Profession::class), \Mockery::type(SkillsByBackgroundPointsTable::class))
+            ->with(\Mockery::type(Profession::class), Tables::getIt())
             ->atLeast()->once()
             ->andReturn($skillPointsValue);
 
@@ -288,7 +286,7 @@ abstract class SkillPointTest extends TestWithMockery
         CombinedSkillPoint::createFromFirstLevelSkillsFromBackground(
             $this->createProfessionFirstLevel('foo'),
             $this->createBackgroundSkills(0, 'getCombinedSkillPoints'),
-            new Tables()
+            Tables::getIt()
         );
     }
 
@@ -307,7 +305,7 @@ abstract class SkillPointTest extends TestWithMockery
             $this->createProfessionFirstLevel('foo'),
             $this->createCombinedSkillPoint($firstPaidByBackgroundPoints, true, true),
             $this->createCombinedSkillPoint($secondPaidByBackgroundPoints, true, true),
-            new Tables()
+            Tables::getIt()
         );
     }
 
@@ -335,7 +333,7 @@ abstract class SkillPointTest extends TestWithMockery
             $professionFirstLevel,
             $psychicalSkillPoint,
             $combinedSkillPoint,
-            new Tables()
+            Tables::getIt()
         );
     }
 
@@ -347,7 +345,7 @@ abstract class SkillPointTest extends TestWithMockery
     {
         PhysicalSkillPoint::createFromNextLevelPropertyIncrease(
             $this->createProfessionNextLevel(Strength::class, Agility::class, false),
-            new Tables()
+            Tables::getIt()
         );
     }
 
@@ -362,7 +360,7 @@ abstract class SkillPointTest extends TestWithMockery
         $constructor->setAccessible(true);
         $constructor->invokeArgs(
             $combinedSkillPoint->newInstanceWithoutConstructor(),
-            [1, $this->createProfessionFirstLevel('foo'), new Tables()]
+            [1, $this->createProfessionFirstLevel('foo'), Tables::getIt()]
         );
     }
 
@@ -378,7 +376,7 @@ abstract class SkillPointTest extends TestWithMockery
         $constructor->setAccessible(true);
         $constructor->invokeArgs(
             $combinedSkillPoint->newInstanceWithoutConstructor(),
-            [2, $this->createProfessionFirstLevel('bar'), new Tables()]
+            [2, $this->createProfessionFirstLevel('bar'), Tables::getIt()]
         );
     }
 
@@ -394,7 +392,7 @@ abstract class SkillPointTest extends TestWithMockery
         $constructor->setAccessible(true);
         $constructor->invokeArgs(
             $combinedSkillPoint->newInstanceWithoutConstructor(),
-            [-1, $this->createProfessionFirstLevel('bar'), new Tables()]
+            [-1, $this->createProfessionFirstLevel('bar'), Tables::getIt()]
         );
     }
 
@@ -409,7 +407,7 @@ abstract class SkillPointTest extends TestWithMockery
         $constructor->setAccessible(true);
         $constructor->invokeArgs(
             $combinedSkillPoint->newInstanceWithoutConstructor(),
-            [1, ProfessionZeroLevel::createZeroLevel(Commoner::getIt()), new Tables()]
+            [1, ProfessionZeroLevel::createZeroLevel(Commoner::getIt()), Tables::getIt()]
         );
     }
 
@@ -426,7 +424,7 @@ abstract class SkillPointTest extends TestWithMockery
         $professionLevel = $this->mockery(ProfessionLevel::class); // not zero, first nor next
         $constructor->invokeArgs(
             $combinedSkillPoint->newInstanceWithoutConstructor(),
-            [1, $professionLevel, new Tables()]
+            [1, $professionLevel, Tables::getIt()]
         );
     }
 

@@ -64,7 +64,7 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
 
     protected function createEntitiesToPersist()
     {
-        $tables = new Tables();
+        $tables = Tables::getIt();
 
         return array_merge(
             [
@@ -133,9 +133,8 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             ),
             SkillsFromBackground::getIt(
                 new PositiveIntegerObject(2),
-                Ancestry::getIt(new PositiveIntegerObject(7), $tables->getAncestryTable()),
-                $tables->getAncestryTable(),
-                $tables->getBackgroundPointsDistributionTable()
+                Ancestry::getIt(new PositiveIntegerObject(7), $tables),
+                $tables
             ),
             new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt())),
             new PsychicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt())),
@@ -151,9 +150,8 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $firstLevel,
             SkillsFromBackground::getIt(
                 new PositiveIntegerObject(3),
-                Ancestry::getIt(new PositiveIntegerObject(5), $tables->getAncestryTable()),
-                $tables->getAncestryTable(),
-                $tables->getBackgroundPointsDistributionTable()
+                Ancestry::getIt(new PositiveIntegerObject(5), $tables),
+                $tables
             ),
             $tables
         );
@@ -169,9 +167,8 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $firstLevel,
             SkillsFromBackground::getIt(
                 new PositiveIntegerObject(3),
-                Ancestry::getIt(new PositiveIntegerObject(5), $tables->getAncestryTable()),
-                $tables->getAncestryTable(),
-                $tables->getBackgroundPointsDistributionTable()
+                Ancestry::getIt(new PositiveIntegerObject(5), $tables),
+                $tables
             ),
             $tables
         );
@@ -181,9 +178,8 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
                 $firstLevel,
                 SkillsFromBackground::getIt(
                     new PositiveIntegerObject(4),
-                    Ancestry::getIt(new PositiveIntegerObject(5), $tables->getAncestryTable()),
-                    $tables->getAncestryTable(),
-                    $tables->getBackgroundPointsDistributionTable()
+                    Ancestry::getIt(new PositiveIntegerObject(5), $tables),
+                    $tables
                 ),
                 $tables
             ),
@@ -238,9 +234,8 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $firstLevel,
             SkillsFromBackground::getIt(
                 new PositiveIntegerObject(3),
-                Ancestry::getIt(new PositiveIntegerObject(5), $tables->getAncestryTable()),
-                $tables->getAncestryTable(),
-                $tables->getBackgroundPointsDistributionTable()
+                Ancestry::getIt(new PositiveIntegerObject(5), $tables),
+                $tables
             ),
             $tables
         );
@@ -257,9 +252,8 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $firstLevel,
             SkillsFromBackground::getIt(
                 new PositiveIntegerObject(4),
-                Ancestry::getIt(new PositiveIntegerObject(3), $tables->getAncestryTable()),
-                $tables->getAncestryTable(),
-                $tables->getBackgroundPointsDistributionTable()
+                Ancestry::getIt(new PositiveIntegerObject(3), $tables),
+                $tables
             ),
             $tables
         );
@@ -270,9 +264,8 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
                 $firstLevel,
                 SkillsFromBackground::getIt(
                     new PositiveIntegerObject(4),
-                    Ancestry::getIt(new PositiveIntegerObject(5), $tables->getAncestryTable()),
-                    $tables->getAncestryTable(),
-                    $tables->getBackgroundPointsDistributionTable()
+                    Ancestry::getIt(new PositiveIntegerObject(5), $tables),
+                    $tables
                 ),
                 $tables
             ),
@@ -296,9 +289,8 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $firstLevel,
             SkillsFromBackground::getIt(
                 new PositiveIntegerObject(3),
-                Ancestry::getIt(new PositiveIntegerObject(5), $tables->getAncestryTable()),
-                $tables->getAncestryTable(),
-                $tables->getBackgroundPointsDistributionTable()
+                Ancestry::getIt(new PositiveIntegerObject(5), $tables),
+                $tables
             ),
             $tables
         );
@@ -314,9 +306,8 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
             $firstLevel,
             SkillsFromBackground::getIt(
                 new PositiveIntegerObject(3),
-                Ancestry::getIt(new PositiveIntegerObject(5), $tables->getAncestryTable()),
-                $tables->getAncestryTable(),
-                $tables->getBackgroundPointsDistributionTable()
+                Ancestry::getIt(new PositiveIntegerObject(5), $tables),
+                $tables
             ),
             $tables
         );
@@ -326,9 +317,8 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
                 $firstLevel,
                 SkillsFromBackground::getIt(
                     new PositiveIntegerObject(4),
-                    Ancestry::getIt(new PositiveIntegerObject(5), $tables->getAncestryTable()),
-                    $tables->getAncestryTable(),
-                    $tables->getBackgroundPointsDistributionTable()
+                    Ancestry::getIt(new PositiveIntegerObject(5), $tables),
+                    $tables
                 ),
                 $tables
             ),

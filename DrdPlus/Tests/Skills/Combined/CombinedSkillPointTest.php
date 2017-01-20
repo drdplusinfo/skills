@@ -15,7 +15,7 @@ class CombinedSkillPointTest extends SkillPointTest
         $combinedSkillPoint = CombinedSkillPoint::createFromFirstLevelSkillsFromBackground(
             $level = $this->createProfessionFirstLevel(ProfessionCode::FIGHTER),
             $backgroundSkillPoints = $this->createBackgroundSkills(123, 'getCombinedSkillPoints'),
-            new Tables()
+            Tables::getIt()
         );
         self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
         self::assertSame(1, $combinedSkillPoint->getValue());
@@ -44,7 +44,7 @@ class CombinedSkillPointTest extends SkillPointTest
             $level = $this->createProfessionFirstLevel(),
             $firstPaidSkillPoint = $this->createPhysicalSkillPoint(),
             $secondPaidSkillPoint = $this->createPhysicalSkillPoint(),
-            new Tables()
+            Tables::getIt()
         );
         self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
         self::assertNull($combinedSkillPoint->getSkillsFromBackground());
@@ -60,7 +60,7 @@ class CombinedSkillPointTest extends SkillPointTest
             $level = $this->createProfessionFirstLevel(),
             $firstPaidSkillPoint = $this->createPsychicalSkillPoint(),
             $secondPaidSkillPoint = $this->createPsychicalSkillPoint(),
-            new Tables()
+            Tables::getIt()
         );
         self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
         self::assertNull($combinedSkillPoint->getSkillsFromBackground());
@@ -76,7 +76,7 @@ class CombinedSkillPointTest extends SkillPointTest
             $level = $this->createProfessionFirstLevel(),
             $firstPaidSkillPoint = $this->createPsychicalSkillPoint(),
             $secondPaidSkillPoint = $this->createPhysicalSkillPoint(),
-            new Tables()
+            Tables::getIt()
         );
         self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
         self::assertNull($combinedSkillPoint->getSkillsFromBackground());
@@ -99,7 +99,7 @@ class CombinedSkillPointTest extends SkillPointTest
     {
         $combinedSkillPoint = CombinedSkillPoint::createFromNextLevelPropertyIncrease(
             $level = $this->createProfessionNextLevel(Knack::class, Charisma::class),
-            new Tables()
+            Tables::getIt()
         );
         self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
         self::assertNull($combinedSkillPoint->getSkillsFromBackground());
@@ -113,7 +113,7 @@ class CombinedSkillPointTest extends SkillPointTest
     {
         $combinedSkillPoint = CombinedSkillPoint::createFromNextLevelPropertyIncrease(
             $level = $this->createProfessionNextLevel(Charisma::class, Knack::class),
-            new Tables()
+            Tables::getIt()
         );
         self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
         self::assertNull($combinedSkillPoint->getSkillsFromBackground());
