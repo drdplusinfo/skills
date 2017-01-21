@@ -29,6 +29,7 @@ class CombinedSkillRank extends SkillRank
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyPaidSkillPoint
      * @throws \DrdPlus\Skills\Exceptions\WastedSkillPoint
      * @throws \DrdPlus\Skills\Exceptions\CanNotUseZeroSkillPointForNonZeroSkillRank
+     * @throws \DrdPlus\Skills\Exceptions\UnexpectedRankValue
      */
     public function __construct(
         CombinedSkill $combinedSkill,

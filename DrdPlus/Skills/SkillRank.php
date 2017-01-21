@@ -37,8 +37,9 @@ abstract class SkillRank extends StrictObject implements PositiveInteger, Entity
      * @param PositiveInteger $requiredRankValue
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyPaidSkillPoint
-     * @throws Exceptions\WastedSkillPoint
-     * @throws Exceptions\CanNotUseZeroSkillPointForNonZeroSkillRank
+     * @throws \DrdPlus\Skills\Exceptions\WastedSkillPoint
+     * @throws \DrdPlus\Skills\Exceptions\CanNotUseZeroSkillPointForNonZeroSkillRank
+     * @throws \DrdPlus\Skills\Exceptions\UnexpectedRankValue
      */
     protected function __construct(
         Skill $owningSkill,
@@ -66,17 +67,17 @@ abstract class SkillRank extends StrictObject implements PositiveInteger, Entity
 
     /**
      * @param PositiveInteger $requiredRankValue
-     * @throws \LogicException
+     * @throws \DrdPlus\Skills\Exceptions\UnexpectedRankValue
      */
     private function checkRequiredRankValue(PositiveInteger $requiredRankValue)
     {
         if ($requiredRankValue->getValue() < self::MIN_RANK_VALUE) {
-            throw new \LogicException(
+            throw new Exceptions\UnexpectedRankValue(
                 'Rank value can not be lower than ' . self::MIN_RANK_VALUE . ', got ' . $requiredRankValue
             );
         }
         if ($requiredRankValue->getValue() > self::MAX_RANK_VALUE) {
-            throw new \LogicException(
+            throw new Exceptions\UnexpectedRankValue(
                 'Rank value can not be greater than ' . self::MIN_RANK_VALUE . ' got ' . $requiredRankValue
             );
         }
@@ -85,8 +86,8 @@ abstract class SkillRank extends StrictObject implements PositiveInteger, Entity
     /**
      * @param SkillPoint $skillPoint
      * @param PositiveInteger $requiredRankValue
-     * @throws Exceptions\WastedSkillPoint
-     * @throws Exceptions\CanNotUseZeroSkillPointForNonZeroSkillRank
+     * @throws \DrdPlus\Skills\Exceptions\WastedSkillPoint
+     * @throws \DrdPlus\Skills\Exceptions\CanNotUseZeroSkillPointForNonZeroSkillRank
      */
     private function checkPaymentBySkillPoint(SkillPoint $skillPoint, PositiveInteger $requiredRankValue)
     {

@@ -5,8 +5,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use DrdPlus\Codes\PropertyCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Skills\Skill;
-use DrdPlus\Properties\Base\Charisma;
-use DrdPlus\Properties\Base\Knack;
 use Doctrine\ORM\Mapping as ORM;
 use Granam\Integer\PositiveIntegerObject;
 

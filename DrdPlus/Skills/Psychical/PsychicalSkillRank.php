@@ -27,6 +27,9 @@ class PsychicalSkillRank extends SkillRank
      * @param PositiveInteger $requiredRankValue
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyPaidSkillPoint
+     * @throws \DrdPlus\Skills\Exceptions\WastedSkillPoint
+     * @throws \DrdPlus\Skills\Exceptions\CanNotUseZeroSkillPointForNonZeroSkillRank
+     * @throws \DrdPlus\Skills\Exceptions\UnexpectedRankValue
      */
     public function __construct(
         PsychicalSkill $psychicalSkill,

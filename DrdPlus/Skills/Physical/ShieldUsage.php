@@ -3,8 +3,7 @@ namespace DrdPlus\Skills\Physical;
 
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
 use Doctrine\ORM\Mapping as ORM;
-use DrdPlus\Tables\Armaments\Shields\ShieldUsageSkillTable;
-use DrdPlus\Tables\Armaments\Weapons\WeaponSkillTable;
+use DrdPlus\Tables\Tables;
 use Granam\Integer\Tools\ToInteger;
 
 /**
@@ -25,46 +24,40 @@ class ShieldUsage extends PhysicalSkill
     /**
      * Only for using shield as a weapon!
      *
-     * @param ShieldUsageSkillTable $missingShieldSkillsTable
+     * @param Tables $tables
      * @param int $shieldRestriction as a negative number
-     * @param WeaponSkillTable $missingWeaponSkillsTable
      * @return int negative number or zero
      * @throws \Granam\Integer\Tools\Exceptions\WrongParameterType
      * @throws \Granam\Integer\Tools\Exceptions\ValueLostOnCast
      * @throws \Granam\Integer\Tools\Exceptions\NegativeIntegerCanNotBePositive
      */
-    public function getMalusToFightNumber(
-        ShieldUsageSkillTable $missingShieldSkillsTable,
-        $shieldRestriction,
-        WeaponSkillTable $missingWeaponSkillsTable
-    )
+    public function getMalusToFightNumber(Tables $tables, $shieldRestriction)
     {
+        /**
+         * using shield as a weapon means using something without skill (zero skill ShieldAsAWeapon respectively)
+         *, @see PPH page 86 right column top
+         */
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return
-            $this->getRestrictionWithShield($missingShieldSkillsTable, $shieldRestriction)
-            /**
-             * using shield as a weapon means using something without skill (zero skill ShieldAsAWeapon respectively)
-             *
-             * @see PPH page 86 right column top
-             */
-            + $missingWeaponSkillsTable->getFightNumberMalusForSkill(0);
+            $this->getRestrictionWithShield($tables, $shieldRestriction)
+            + $tables->getWeaponSkillTable()->getFightNumberMalusForSkillRank(0);
     }
 
     /**
      * Applicable to lower shield Restriction (Fight number malus), but can not make it positive.
      *
-     * @param ShieldUsageSkillTable $missingShieldSkillsTable
+     * @param Tables $tables
      * @param int $shieldRestriction
      * @return int
      * @throws \Granam\Integer\Tools\Exceptions\WrongParameterType
      * @throws \Granam\Integer\Tools\Exceptions\ValueLostOnCast
      * @throws \Granam\Integer\Tools\Exceptions\NegativeIntegerCanNotBePositive
      */
-    public function getRestrictionWithShield(ShieldUsageSkillTable $missingShieldSkillsTable, $shieldRestriction)
+    public function getRestrictionWithShield(Tables $tables, $shieldRestriction)
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         $malusFromRestriction = ToInteger::toNegativeInteger($shieldRestriction)
-            + $missingShieldSkillsTable->getRestrictionBonusForSkill($this->getCurrentSkillRank()->getValue());
+            + $tables->getShieldUsageSkillTable()->getRestrictionBonusForSkillRank($this->getCurrentSkillRank());
         if ($malusFromRestriction > 0) {
             return 0; // skill can lower the malus, but can not give bonus
         }
@@ -75,10 +68,10 @@ class ShieldUsage extends PhysicalSkill
     /**
      * Only for shield as a weapon!
      *
-     * @param WeaponSkillTable $missingWeaponSkillsTable
+     * @param Tables $tables
      * @return int
      */
-    public function getMalusToAttackNumber(WeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToAttackNumber(Tables $tables)
     {
         /**
          * using shield as a weapon means using something without skill (zero skill ShieldAsAWeapon respectively)
@@ -86,26 +79,26 @@ class ShieldUsage extends PhysicalSkill
          * @see PPH page 86 right column top
          */
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        return $missingWeaponSkillsTable->getAttackNumberMalusForSkill(0);
+        return $tables->getWeaponSkillTable()->getAttackNumberMalusForSkillRank(0);
     }
 
     /**
-     * @param ShieldUsageSkillTable $missingShieldSkillsTable
+     * @param Tables $tables
      * @return int
      */
-    public function getMalusToCover(ShieldUsageSkillTable $missingShieldSkillsTable)
+    public function getMalusToCover(Tables $tables)
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        return $missingShieldSkillsTable->getCoverForSkillRank($this->getCurrentSkillRank()->getValue());
+        return $tables->getShieldUsageSkillTable()->getCoverMalusForSkillRank($this->getCurrentSkillRank());
     }
 
     /**
      * Only for shield as a weapon!
      *
-     * @param WeaponSkillTable $missingWeaponSkillsTable
+     * @param Tables $tables
      * @return int
      */
-    public function getMalusToBaseOfWounds(WeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToBaseOfWounds(Tables $tables)
     {
         /**
          * using shield as a weapon means using something without skill (zero skill ShieldAsAWeapon respectively)
@@ -113,6 +106,6 @@ class ShieldUsage extends PhysicalSkill
          * @see PPH page 86 right column top
          */
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        return $missingWeaponSkillsTable->getBaseOfWoundsMalusForSkill(0);
+        return $tables->getWeaponSkillTable()->getBaseOfWoundsMalusForSkillRank(0);
     }
 }

@@ -3,7 +3,9 @@ namespace DrdPlus\Tests\Skills\Combined;
 
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Skills\CausingMalusesToWeaponUsage;
+use DrdPlus\Skills\SkillRank;
 use DrdPlus\Tables\Armaments\Weapons\WeaponSkillTable;
+use DrdPlus\Tables\Tables;
 use Granam\Tests\Tools\TestWithMockery;
 
 abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
@@ -19,7 +21,7 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
             $sut = new $sutClass($this->createProfessionFirstLevel());
             self::assertSame(
                 'bar',
-                $sut->getMalusToFightNumber($this->createMissingWeaponSkillsTable('foo', 'bar'))
+                $sut->getMalusToFightNumber($this->createTablesWithWeaponSkillsTable('bar'))
             );
         }
     }
@@ -45,27 +47,33 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
     }
 
     /**
-     * @param $expectedSkillRank
      * @param $result
-     * @return \Mockery\MockInterface|WeaponSkillTable
+     * @return \Mockery\MockInterface|Tables
      */
-    protected function createMissingWeaponSkillsTable($expectedSkillRank, $result)
+    private function createTablesWithWeaponSkillsTable($result)
     {
-        $missingWeaponSkillsTable = $this->mockery(WeaponSkillTable::class);
-        $missingWeaponSkillsTable->shouldReceive('getFightNumberForWeaponSkill')
-            ->with($expectedSkillRank)
-            ->andReturn($result);
-        $missingWeaponSkillsTable->shouldReceive('getAttackNumberForWeaponSkill')
-            ->with($expectedSkillRank)
-            ->andReturn($result);
-        $missingWeaponSkillsTable->shouldReceive('getCoverForWeaponSkill')
-            ->with($expectedSkillRank)
-            ->andReturn($result);
-        $missingWeaponSkillsTable->shouldReceive('getBaseOfWoundsForWeaponSkill')
-            ->with($expectedSkillRank)
-            ->andReturn($result);
+        $tables = $this->mockery(Tables::class);
+        $tables->shouldReceive('getWeaponSkillTable')
+            ->andReturn($weaponSkillTable = $this->mockery(WeaponSkillTable::class));
+        $returnFunction = function (SkillRank $skillRank) use ($result) {
+            self::assertSame(0, $skillRank->getValue());
 
-        return $missingWeaponSkillsTable;
+            return $result;
+        };
+        $weaponSkillTable->shouldReceive('getFightNumberMalusForSkillRank')
+            ->with($this->type(SkillRank::class))
+            ->andReturnUsing($returnFunction);
+        $weaponSkillTable->shouldReceive('getAttackNumberMalusForSkillRank')
+            ->with($this->type(SkillRank::class))
+            ->andReturnUsing($returnFunction);
+        $weaponSkillTable->shouldReceive('getCoverMalusForSkillRank')
+            ->with($this->type(SkillRank::class))
+            ->andReturnUsing($returnFunction);
+        $weaponSkillTable->shouldReceive('getBaseOfWoundsMalusForSkillRank')
+            ->with($this->type(SkillRank::class))
+            ->andReturnUsing($returnFunction);
+
+        return $tables;
     }
 
     /**
@@ -87,7 +95,7 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
             $sut = new $sutClass($this->createProfessionFirstLevel());
             self::assertSame(
                 'bar',
-                $sut->getMalusToAttackNumber($this->createMissingWeaponSkillsTable('foo', 'bar'))
+                $sut->getMalusToAttackNumber($this->createTablesWithWeaponSkillsTable('bar'))
             );
         }
     }
@@ -103,7 +111,7 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
             $sut = new $sutClass($this->createProfessionFirstLevel());
             self::assertSame(
                 'bar',
-                $sut->getMalusToCover($this->createMissingWeaponSkillsTable('foo', 'bar'))
+                $sut->getMalusToCover($this->createTablesWithWeaponSkillsTable('bar'))
             );
         }
     }
@@ -119,7 +127,7 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
             $sut = new $sutClass($this->createProfessionFirstLevel());
             self::assertSame(
                 'bar',
-                $sut->getMalusToBaseOfWounds($this->createMissingWeaponSkillsTable('foo', 'bar'))
+                $sut->getMalusToBaseOfWounds($this->createTablesWithWeaponSkillsTable('bar'))
             );
         }
     }

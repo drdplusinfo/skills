@@ -2,7 +2,7 @@
 namespace DrdPlus\Skills\Physical;
 
 use DrdPlus\Skills\CausingMalusesToWeaponUsage;
-use DrdPlus\Tables\Armaments\Weapons\WeaponSkillTable;
+use DrdPlus\Tables\Tables;
 
 /**
  * For maluses see PPH page 93 left column
@@ -10,42 +10,42 @@ use DrdPlus\Tables\Armaments\Weapons\WeaponSkillTable;
 abstract class FightWithWeaponsUsingPhysicalSkill extends PhysicalSkill implements CausingMalusesToWeaponUsage
 {
     /**
-     * @param WeaponSkillTable $missingWeaponSkillsTable
+     * @param Tables $tables
      * @return int
      */
-    public function getMalusToFightNumber(WeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToFightNumber(Tables $tables)
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        return $missingWeaponSkillsTable->getFightNumberForWeaponSkill($this->getCurrentSkillRank()->getValue());
+        return $tables->getWeaponSkillTable()->getFightNumberMalusForSkillRank($this->getCurrentSkillRank());
     }
 
     /**
-     * @param WeaponSkillTable $missingWeaponSkillsTable
+     * @param Tables $tables
      * @return int
      */
-    public function getMalusToAttackNumber(WeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToAttackNumber(Tables $tables)
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        return $missingWeaponSkillsTable->getAttackNumberForWeaponSkill($this->getCurrentSkillRank()->getValue());
+        return $tables->getWeaponSkillTable()->getAttackNumberMalusForSkillRank($this->getCurrentSkillRank());
     }
 
     /**
-     * @param WeaponSkillTable $missingWeaponSkillsTable
+     * @param Tables $tables
      * @return int
      */
-    public function getMalusToCover(WeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToCover(Tables $tables)
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        return $missingWeaponSkillsTable->getCoverForWeaponSkill($this->getCurrentSkillRank()->getValue());
+        return $tables->getWeaponSkillTable()->getCoverMalusForSkillRank($this->getCurrentSkillRank());
     }
 
     /**
-     * @param WeaponSkillTable $missingWeaponSkillsTable
+     * @param Tables $tables
      * @return int
      */
-    public function getMalusToBaseOfWounds(WeaponSkillTable $missingWeaponSkillsTable)
+    public function getMalusToBaseOfWounds(Tables $tables)
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        return $missingWeaponSkillsTable->getBaseOfWoundsForWeaponSkill($this->getCurrentSkillRank()->getValue());
+        return $tables->getWeaponSkillTable()->getBaseOfWoundsMalusForSkillRank($this->getCurrentSkillRank());
     }
 }

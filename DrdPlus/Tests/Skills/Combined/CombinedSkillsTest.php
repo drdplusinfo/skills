@@ -12,6 +12,7 @@ use DrdPlus\Professions\Wizard;
 use DrdPlus\Skills\Combined\CombinedSkillPoint;
 use DrdPlus\Skills\Combined\CombinedSkills;
 use DrdPlus\Tables\Armaments\Weapons\WeaponSkillTable;
+use DrdPlus\Tables\Tables;
 use DrdPlus\Tests\Skills\SameTypeSkillsTest;
 
 class CombinedSkillsTest extends SameTypeSkillsTest
@@ -123,7 +124,7 @@ class CombinedSkillsTest extends SameTypeSkillsTest
             $this->createSkillPoint($this->createProfessionNextLevel())
         );
         self::assertSame(
-            ($nextLevelsKnack + $nextLevelsCharisma) - (1 + 1 + 2 ),
+            ($nextLevelsKnack + $nextLevelsCharisma) - (1 + 1 + 2),
             $skills->getUnusedNextLevelsCombinedSkillPointsValue($professionLevels),
             'Expected ' . (($nextLevelsKnack + $nextLevelsCharisma) - (1 + 1 + 2))
         );
@@ -141,28 +142,28 @@ class CombinedSkillsTest extends SameTypeSkillsTest
             $expectedMalus = 'foo',
             $combinedSkills->getMalusToFightNumberWithShootingWeapon(
                 $this->createRangeWeaponCode($rangeWeaponCategory),
-                $this->createMissingWeaponSkillsTable('fightNumber', 0 /* expected skill value */, $expectedMalus)
+                $this->createTablesWithWeaponSkillTable('fightNumber', 0 /* expected skill value */, $expectedMalus)
             )
         );
         self::assertSame(
             $expectedMalus = 'bar',
             $combinedSkills->getMalusToAttackNumberWithShootingWeapon(
                 $this->createRangeWeaponCode($rangeWeaponCategory),
-                $this->createMissingWeaponSkillsTable('attackNumber', 0 /* expected skill value */, $expectedMalus)
+                $this->createTablesWithWeaponSkillTable('attackNumber', 0 /* expected skill value */, $expectedMalus)
             )
         );
         self::assertSame(
             $expectedMalus = 'baz',
             $combinedSkills->getMalusToCoverWithShootingWeapon(
                 $this->createRangeWeaponCode($rangeWeaponCategory),
-                $this->createMissingWeaponSkillsTable('cover', 0 /* expected skill value */, $expectedMalus)
+                $this->createTablesWithWeaponSkillTable('cover', 0 /* expected skill value */, $expectedMalus)
             )
         );
         self::assertSame(
             $expectedMalus = 'qux',
             $combinedSkills->getMalusToBaseOfWoundsWithShootingWeapon(
                 $this->createRangeWeaponCode($rangeWeaponCategory),
-                $this->createMissingWeaponSkillsTable('baseOfWounds', 0 /* expected skill value */, $expectedMalus)
+                $this->createTablesWithWeaponSkillTable('baseOfWounds', 0 /* expected skill value */, $expectedMalus)
             )
         );
     }
@@ -198,16 +199,18 @@ class CombinedSkillsTest extends SameTypeSkillsTest
      * @param string $weaponParameterName
      * @param $expectedSkillValue
      * @param $result
-     * @return \Mockery\MockInterface|WeaponSkillTable
+     * @return \Mockery\MockInterface|Tables
      */
-    private function createMissingWeaponSkillsTable($weaponParameterName, $expectedSkillValue, $result)
+    private function createTablesWithWeaponSkillTable($weaponParameterName, $expectedSkillValue, $result)
     {
-        $missingWeaponSkillsTable = $this->mockery(WeaponSkillTable::class);
+        $tables = $this->mockery(Tables::class);
+        $tables->shouldReceive('getWeaponSkillTable')
+            ->andReturn($missingWeaponSkillsTable = $this->mockery(WeaponSkillTable::class));
         $missingWeaponSkillsTable->shouldReceive('get' . ucfirst($weaponParameterName) . 'MalusForSkillRank')
             ->with($expectedSkillValue)
             ->andReturn($result);
 
-        return $missingWeaponSkillsTable;
+        return $tables;
     }
 
     /**
@@ -218,11 +221,9 @@ class CombinedSkillsTest extends SameTypeSkillsTest
     public function I_can_not_get_malus_for_weapon_not_affected_by_combined_skill()
     {
         $combinedSkills = new CombinedSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
-        /** @var WeaponSkillTable $missingWeaponSkillsTable */
-        $missingWeaponSkillsTable = $this->mockery(WeaponSkillTable::class);
         $combinedSkills->getMalusToFightNumberWithShootingWeapon(
             $this->createRangeWeaponCode('notBowNorCrossbowYouKnow'),
-            $missingWeaponSkillsTable
+            Tables::getIt()
         );
     }
 
