@@ -2,7 +2,7 @@
 namespace DrdPlus\Skills\Combined;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use DrdPlus\Codes\PropertyCode;
+use DrdPlus\Codes\Properties\PropertyCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Skills\Skill;
 use Doctrine\ORM\Mapping as ORM;

@@ -2,7 +2,7 @@
 namespace DrdPlus\Skills\Psychical;
 
 use DrdPlus\Codes\ProfessionCode;
-use DrdPlus\Codes\PropertyCode;
+use DrdPlus\Codes\Properties\PropertyCode;
 use DrdPlus\Properties\Base\Intelligence;
 use DrdPlus\Properties\Base\Will;
 use DrdPlus\Tables\Tables;

@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Skills\Physical;
 
-use DrdPlus\Codes\PropertyCode;
+use DrdPlus\Codes\Properties\PropertyCode;
 use DrdPlus\Codes\Skills\SkillTypeCode;
 use DrdPlus\Skills\SkillPoint;
 use Doctrine\ORM\Mapping as ORM;
