@@ -69,6 +69,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      * @throws \DrdPlus\Skills\Exceptions\HigherSkillRanksFromFirstLevelThanPossible
      * @throws \DrdPlus\Skills\Exceptions\UnknownPaymentForSkillPoint
      * @throws \DrdPlus\Skills\Exceptions\HigherSkillRanksFromNextLevelsThanPossible
+     * @throws \DrdPlus\Skills\Exceptions\TooHighSingleSkillIncrementPerNextLevel
      */
     public static function createSkills(
         ProfessionLevels $professionLevels,
@@ -149,6 +150,9 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         return $propertyPayments;
     }
 
+    /**
+     * @return array
+     */
     private static function getPaymentsSkeleton()
     {
         return [
@@ -390,6 +394,12 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
 
     const MAX_SKILL_RANK_INCREASE_PER_NEXT_LEVEL = 1;
 
+    /**
+     * @param PhysicalSkills $physicalSkills
+     * @param PsychicalSkills $psychicalSkills
+     * @param CombinedSkills $combinedSkills
+     * @throws \DrdPlus\Skills\Exceptions\TooHighSingleSkillIncrementPerNextLevel
+     */
     private static function checkNextLevelsSkillRanks(
         PhysicalSkills $physicalSkills,
         PsychicalSkills $psychicalSkills,
@@ -440,6 +450,10 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         }
     }
 
+    /**
+     * @param array $tooHighRankAdjustments
+     * @return string
+     */
     private static function getTooHighRankAdjustmentsDescription(array $tooHighRankAdjustments)
     {
         $descriptionParts = [];
