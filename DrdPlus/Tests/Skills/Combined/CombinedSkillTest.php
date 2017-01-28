@@ -6,7 +6,6 @@ use DrdPlus\Tests\Skills\SkillTest;
 
 class CombinedSkillTest extends SkillTest
 {
-
     protected function getExpectedRelatedPropertyCodes()
     {
         return [PropertyCode::KNACK, PropertyCode::CHARISMA];

@@ -116,6 +116,11 @@ class CombinedSkills extends SameTypeSkills
      * @ORM\OneToOne(targetEntity="Statuary", cascade={"persist"}, orphanRemoval=true)
      */
     private $statuary;
+    /**
+     * @var Teaching
+     * @ORM\OneToOne(targetEntity="Teaching", cascade={"persist"}, orphanRemoval=true)
+     */
+    private $teaching;
 
     /**
      * @param ProfessionLevel $professionLevel
@@ -142,6 +147,7 @@ class CombinedSkills extends SameTypeSkills
         $this->showmanship = new Showmanship($professionLevel);
         $this->singing = new Singing($professionLevel);
         $this->statuary = new Statuary($professionLevel);
+        $this->teaching = new Teaching($professionLevel);
     }
 
     /**
@@ -206,6 +212,7 @@ class CombinedSkills extends SameTypeSkills
             $this->getShowmanship(),
             $this->getSinging(),
             $this->getStatuary(),
+            $this->getTeaching(),
         ]);
     }
 
@@ -367,6 +374,14 @@ class CombinedSkills extends SameTypeSkills
     public function getStatuary()
     {
         return $this->statuary;
+    }
+
+    /**
+     * @return Teaching
+     */
+    public function getTeaching()
+    {
+        return $this->teaching;
     }
 
     /**

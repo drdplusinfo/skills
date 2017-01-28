@@ -32,7 +32,8 @@ use Granam\Integer\PositiveIntegerObject;
  * "seduction" = "Seduction",
  * "showmanship" = "Showmanship",
  * "singing" = "Singing",
- * "statuary" = "Statuary"
+ * "statuary" = "Statuary",
+ * "teaching" = "Teaching"
  * })
  * @method CombinedSkillRank getCurrentSkillRank
  */

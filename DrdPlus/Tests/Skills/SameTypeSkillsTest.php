@@ -71,7 +71,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
 
         $skill->increaseSkillRank($this->createSkillPoint($this->createProfessionFirstLevel()));
         self::assertSame(3, $skill->getCurrentSkillRank()->getValue());
-        self::assertSame(1+ 3, $sut->getFirstLevelSkillRankSummary());
+        self::assertSame(1 + 3, $sut->getFirstLevelSkillRankSummary());
         self::assertSame(2, $sut->getNextLevelsSkillRankSummary());
     }
 
@@ -96,11 +96,18 @@ abstract class SameTypeSkillsTest extends TestWithMockery
         return 'get' . $baseName;
     }
 
+    /**
+     * @param string $except
+     * @return array|string[]
+     */
     protected function getSameTypeSkillCodesExcept($except)
     {
         return array_diff($this->getSameTypeSkillCodes(), [$except]);
     }
 
+    /**
+     * @return array|\string[]
+     */
     protected function getSameTypeSkillCodes()
     {
         $type = preg_replace('~.*[\\\](\w+)Skills$~', '$1', self::getSutClass());
