@@ -4,7 +4,7 @@ namespace DrdPlus\Tests\Skills\Combined;
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Skills\CausingMalusesToWeaponUsage;
 use DrdPlus\Skills\SkillRank;
-use DrdPlus\Tables\Armaments\Weapons\WeaponSkillTable;
+use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
 use DrdPlus\Tables\Tables;
 use Granam\Tests\Tools\TestWithMockery;
 
@@ -53,8 +53,8 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
     private function createTablesWithWeaponSkillsTable($result)
     {
         $tables = $this->mockery(Tables::class);
-        $tables->shouldReceive('getWeaponSkillTable')
-            ->andReturn($weaponSkillTable = $this->mockery(WeaponSkillTable::class));
+        $tables->shouldReceive('getMissingWeaponSkillTable')
+            ->andReturn($weaponSkillTable = $this->mockery(MissingWeaponSkillTable::class));
         $returnFunction = function (SkillRank $skillRank) use ($result) {
             self::assertSame(0, $skillRank->getValue());
 

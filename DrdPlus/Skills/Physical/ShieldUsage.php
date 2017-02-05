@@ -40,7 +40,7 @@ class ShieldUsage extends PhysicalSkill
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return
             $this->getRestrictionWithShield($tables, $shieldRestriction)
-            + $tables->getWeaponSkillTable()->getFightNumberMalusForSkillRank(0);
+            + $tables->getMissingWeaponSkillTable()->getFightNumberMalusForSkillRank(0);
     }
 
     /**
@@ -79,7 +79,7 @@ class ShieldUsage extends PhysicalSkill
          * @see PPH page 86 right column top
          */
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        return $tables->getWeaponSkillTable()->getAttackNumberMalusForSkillRank(0);
+        return $tables->getMissingWeaponSkillTable()->getAttackNumberMalusForSkillRank(0);
     }
 
     /**
@@ -106,6 +106,6 @@ class ShieldUsage extends PhysicalSkill
          * @see PPH page 86 right column top
          */
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        return $tables->getWeaponSkillTable()->getBaseOfWoundsMalusForSkillRank(0);
+        return $tables->getMissingWeaponSkillTable()->getBaseOfWoundsMalusForSkillRank(0);
     }
 }

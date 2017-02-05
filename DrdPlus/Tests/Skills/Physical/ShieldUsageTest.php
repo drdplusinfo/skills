@@ -4,7 +4,7 @@ namespace DrdPlus\Tests\Skills\Physical;
 use DrdPlus\Skills\Physical\PhysicalSkillRank;
 use DrdPlus\Skills\Physical\ShieldUsage;
 use DrdPlus\Tables\Armaments\Shields\ShieldUsageSkillTable;
-use DrdPlus\Tables\Armaments\Weapons\WeaponSkillTable;
+use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
 use DrdPlus\Tables\Tables;
 
 class ShieldUsageTest extends PhysicalSkillTest
@@ -49,8 +49,8 @@ class ShieldUsageTest extends PhysicalSkillTest
                     return $shieldBonus;
                 });
         }
-        $tables->shouldReceive('getWeaponSkillTable')
-            ->andReturn($missingWeaponsSkillTable = $this->mockery(WeaponSkillTable::class));
+        $tables->shouldReceive('getMissingWeaponSkillTable')
+            ->andReturn($missingWeaponsSkillTable = $this->mockery(MissingWeaponSkillTable::class));
         if ($weaponBonusMethodName !== null) {
             $missingWeaponsSkillTable->shouldReceive($weaponBonusMethodName)
                 ->with(0)// it should be always called with zero (because there is nothing like 'Fight with shield' skill)

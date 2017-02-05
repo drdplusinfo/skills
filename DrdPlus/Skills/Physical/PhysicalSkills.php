@@ -513,10 +513,10 @@ class PhysicalSkills extends SameTypeSkills
     {
         $fightWithWeaponRankValue = $this->getHighestRankForSuitableFightWithWeapon($weaponlikeCode);
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        $malus = $tables->getWeaponSkillTable()->getFightNumberMalusForSkillRank($fightWithWeaponRankValue);
+        $malus = $tables->getMissingWeaponSkillTable()->getFightNumberMalusForSkillRank($fightWithWeaponRankValue);
         if ($fightsWithTwoWeapons) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-            $malus += $tables->getWeaponSkillTable()->getFightNumberMalusForSkillRank(
+            $malus += $tables->getMissingWeaponSkillTable()->getFightNumberMalusForSkillRank(
                 $this->getFightWithTwoWeapons()->getCurrentSkillRank()->getValue()
             );
         }
@@ -633,10 +633,10 @@ class PhysicalSkills extends SameTypeSkills
     {
         $fightWithWeaponRankValue = $this->getHighestRankForSuitableFightWithWeapon($weaponlikeCode);
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        $malus = $tables->getWeaponSkillTable()->getAttackNumberMalusForSkillRank($fightWithWeaponRankValue);
+        $malus = $tables->getMissingWeaponSkillTable()->getAttackNumberMalusForSkillRank($fightWithWeaponRankValue);
         if ($fightsWithTwoWeapons) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-            $malus += $tables->getWeaponSkillTable()->getAttackNumberMalusForSkillRank(
+            $malus += $tables->getMissingWeaponSkillTable()->getAttackNumberMalusForSkillRank(
                 $this->getFightWithTwoWeapons()->getCurrentSkillRank()->getValue()
             );
         }
@@ -661,10 +661,10 @@ class PhysicalSkills extends SameTypeSkills
     {
         $fightWithWeaponRankValue = $this->getHighestRankForSuitableFightWithWeapon($weaponCode);
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        $malus = $tables->getWeaponSkillTable()->getCoverMalusForSkillRank($fightWithWeaponRankValue);
+        $malus = $tables->getMissingWeaponSkillTable()->getCoverMalusForSkillRank($fightWithWeaponRankValue);
         if ($fightsWithTwoWeapons) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-            $malus += $tables->getWeaponSkillTable()->getCoverMalusForSkillRank(
+            $malus += $tables->getMissingWeaponSkillTable()->getCoverMalusForSkillRank(
                 $this->getFightWithTwoWeapons()->getCurrentSkillRank()->getValue()
             );
         }
@@ -703,10 +703,10 @@ class PhysicalSkills extends SameTypeSkills
     {
         $fightWithWeaponRankValue = $this->getHighestRankForSuitableFightWithWeapon($weaponlikeCode);
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        $malus = $tables->getWeaponSkillTable()->getBaseOfWoundsMalusForSkillRank($fightWithWeaponRankValue);
+        $malus = $tables->getMissingWeaponSkillTable()->getBaseOfWoundsMalusForSkillRank($fightWithWeaponRankValue);
         if ($fightsWithTwoWeapons) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-            $malus += $tables->getWeaponSkillTable()->getBaseOfWoundsMalusForSkillRank(
+            $malus += $tables->getMissingWeaponSkillTable()->getBaseOfWoundsMalusForSkillRank(
                 $this->getFightWithTwoWeapons()->getCurrentSkillRank()->getValue()
             );
         }

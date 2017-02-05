@@ -44,7 +44,7 @@ use DrdPlus\Skills\Psychical\ReadingAndWriting;
 use DrdPlus\Professions\Profession;
 use DrdPlus\Tables\Armaments\Armourer;
 use DrdPlus\Tables\Armaments\Shields\ShieldUsageSkillTable;
-use DrdPlus\Tables\Armaments\Weapons\WeaponSkillTable;
+use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
 use DrdPlus\Tables\Tables;
 use Granam\Integer\PositiveIntegerObject;
 use Granam\Tests\Tools\TestWithMockery;
@@ -1044,7 +1044,7 @@ class SkillsTest extends TestWithMockery
         } else {
             $meleeWeaponCode = $this->createWeaponlikeCode(true /* is melee */);
         }
-        $tables = $this->createTablesWithWeaponSkillTable();
+        $tables = $this->createTablesWithMissingWeaponSkillTable();
         /**
          * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeaponlike
          * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeaponlike
@@ -1122,11 +1122,11 @@ class SkillsTest extends TestWithMockery
     /**
      * @return \Mockery\MockInterface|Tables
      */
-    private function createTablesWithWeaponSkillTable()
+    private function createTablesWithMissingWeaponSkillTable()
     {
         $tables = $this->mockery(Tables::class);
-        $tables->shouldReceive('getWeaponSkillTable')
-            ->andReturn($this->mockery(WeaponSkillTable::class));
+        $tables->shouldReceive('getMissingWeaponSkillTable')
+            ->andReturn($this->mockery(MissingWeaponSkillTable::class));
 
         return $tables;
     }
@@ -1163,7 +1163,7 @@ class SkillsTest extends TestWithMockery
                 true /* is throwing */
             );
         }
-        $missingWeaponSkillsTable = $this->createTablesWithWeaponSkillTable();
+        $missingWeaponSkillsTable = $this->createTablesWithMissingWeaponSkillTable();
         /**
          * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeaponlike
          * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeaponlike
@@ -1233,7 +1233,7 @@ class SkillsTest extends TestWithMockery
         }
         $shootingWeaponCode->shouldReceive('convertToRangedWeaponCodeEquivalent')
             ->andReturn($rangeWeaponCode = $this->createRangeWeaponCode());
-        $missingWeaponSkillsTable = $this->createTablesWithWeaponSkillTable();
+        $missingWeaponSkillsTable = $this->createTablesWithMissingWeaponSkillTable();
         $combinedSkills->shouldReceive('getMalusTo' . ucfirst($malusTo) . 'WithShootingWeapon')
             ->with($rangeWeaponCode, $missingWeaponSkillsTable)
             ->andReturn($shootingWeaponMalus = 'foo');
@@ -1308,7 +1308,7 @@ class SkillsTest extends TestWithMockery
         }
         $projectile->shouldReceive('convertToRangedWeaponCodeEquivalent')
             ->andReturn($rangeWeaponCode = $this->createRangeWeaponCode());
-        $missingWeaponSkillsTable = $this->createTablesWithWeaponSkillTable();
+        $missingWeaponSkillsTable = $this->createTablesWithMissingWeaponSkillTable();
         /**
          * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeaponlike
          * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeaponlike
@@ -1401,7 +1401,7 @@ class SkillsTest extends TestWithMockery
         $malusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeapon' . ($malusTo === 'cover' ? '' : 'like');
         $skills->$malusToParameter(
             ($malusTo === 'cover' ? $this->createWeaponCode() : $this->createWeaponlikeCode()),
-            $this->createTablesWithWeaponSkillTable(),
+            $this->createTablesWithMissingWeaponSkillTable(),
             false
         );
     }
