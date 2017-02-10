@@ -158,6 +158,9 @@ class PhysicalSkills extends SameTypeSkills
      */
     private $swimming;
 
+    /**
+     * @param ProfessionLevel $professionLevel
+     */
     protected function populateAllSkills(ProfessionLevel $professionLevel)
     {
         $this->armorWearing = new ArmorWearing($professionLevel);
