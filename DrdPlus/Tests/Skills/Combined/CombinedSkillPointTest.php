@@ -14,14 +14,14 @@ class CombinedSkillPointTest extends SkillPointTest
     {
         $combinedSkillPoint = CombinedSkillPoint::createFromFirstLevelSkillsFromBackground(
             $level = $this->createProfessionFirstLevel(ProfessionCode::FIGHTER),
-            $backgroundSkillPoints = $this->createBackgroundSkills(123, 'getCombinedSkillPoints'),
+            $skillsFromBackground = $this->createSkillsFromBackground(123, 'getCombinedSkillPoints'),
             Tables::getIt()
         );
         self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
         self::assertSame(1, $combinedSkillPoint->getValue());
         self::assertSame('combined', $combinedSkillPoint->getTypeName());
         self::assertSame([PropertyCode::KNACK, PropertyCode::CHARISMA], $combinedSkillPoint->getRelatedProperties());
-        self::assertSame($backgroundSkillPoints, $combinedSkillPoint->getSkillsFromBackground());
+        self::assertSame($skillsFromBackground, $combinedSkillPoint->getSkillsFromBackground());
         self::assertNull($combinedSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertNull($combinedSkillPoint->getSecondPaidOtherSkillPoint());
 

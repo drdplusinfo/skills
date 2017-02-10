@@ -52,7 +52,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
      * @var SkillsFromBackground|null
      * @ORM\Column(type="skills_from_background", nullable=true)
      */
-    private $backgroundSkillPoints;
+    private $skillsFromBackground;
     /**
      * @var SkillPoint|null
      * @ORM\OneToOne(targetEntity="SkillPoint", cascade={"persist"})
@@ -87,14 +87,14 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
 
     /**
      * @param ProfessionFirstLevel $professionFirstLevel
-     * @param SkillsFromBackground $backgroundSkillPoints
+     * @param SkillsFromBackground $skillsFromBackground
      * @param Tables $tables
      * @return static|SkillPoint
      * @throws \DrdPlus\Skills\Exceptions\UnknownPaymentForSkillPoint
      */
     public static function createFromFirstLevelSkillsFromBackground(
         ProfessionFirstLevel $professionFirstLevel,
-        SkillsFromBackground $backgroundSkillPoints,
+        SkillsFromBackground $skillsFromBackground,
         Tables $tables
     )
     {
@@ -103,7 +103,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
             1, // skill point value
             $professionFirstLevel,
             $tables,
-            $backgroundSkillPoints
+            $skillsFromBackground
         );
     }
 
@@ -148,11 +148,12 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
     /**
      * You can pay by a level (by its property adjustment respectively) or by two another skill points
      * (for example combined and psychical for a new physical).
+
      *
-     * @param int|IntegerInterface $skillPointValue zero or one
+*@param int|IntegerInterface $skillPointValue zero or one
      * @param ProfessionLevel $professionLevel
      * @param Tables|null $tables = null
-     * @param SkillsFromBackground|null $backgroundSkillPoints = null
+     * @param SkillsFromBackground|null $skillsFromBackground = null
      * @param SkillPoint $firstPaidOtherSkillPoint = null
      * @param SkillPoint $secondPaidOtherSkillPoint = null
      * @throws \DrdPlus\Skills\Exceptions\UnexpectedSkillPointValue
@@ -169,7 +170,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
         $skillPointValue,
         ProfessionLevel $professionLevel,
         Tables $tables = null,
-        SkillsFromBackground $backgroundSkillPoints = null,
+        SkillsFromBackground $skillsFromBackground = null,
         SkillPoint $firstPaidOtherSkillPoint = null,
         SkillPoint $secondPaidOtherSkillPoint = null
     )
@@ -197,12 +198,12 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
             $skillPointValue,
             $professionLevel,
             $tables,
-            $backgroundSkillPoints,
+            $skillsFromBackground,
             $firstPaidOtherSkillPoint,
             $secondPaidOtherSkillPoint
         );
         $this->value = $skillPointValue;
-        $this->backgroundSkillPoints = $backgroundSkillPoints;
+        $this->skillsFromBackground = $skillsFromBackground;
         $this->firstPaidOtherSkillPoint = $firstPaidOtherSkillPoint;
         $this->secondPaidOtherSkillPoint = $secondPaidOtherSkillPoint;
     }
@@ -211,7 +212,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
      * @param int $skillPointValue
      * @param ProfessionLevel $professionLevel
      * @param Tables|null $tables
-     * @param SkillsFromBackground|null $backgroundSkillPoints
+     * @param SkillsFromBackground|null $skillsFromBackground
      * @param SkillPoint|null $firstPaidOtherSkillPoint
      * @param SkillPoint|null $secondPaidOtherSkillPoint
      * @throws \DrdPlus\Skills\Exceptions\UnknownPaymentForSkillPoint
@@ -225,7 +226,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
         $skillPointValue,
         ProfessionLevel $professionLevel,
         Tables $tables = null,
-        SkillsFromBackground $backgroundSkillPoints = null,
+        SkillsFromBackground $skillsFromBackground = null,
         SkillPoint $firstPaidOtherSkillPoint = null,
         SkillPoint $secondPaidOtherSkillPoint = null
     )
@@ -235,7 +236,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
                 $this->checkFirstLevelPayment(
                     $professionLevel,
                     $tables,
-                    $backgroundSkillPoints,
+                    $skillsFromBackground,
                     $firstPaidOtherSkillPoint,
                     $secondPaidOtherSkillPoint
                 );
@@ -259,7 +260,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
     /**
      * @param ProfessionFirstLevel $professionFirstLevel
      * @param Tables $tables
-     * @param SkillsFromBackground|null $backgroundSkillPoints
+     * @param SkillsFromBackground|null $skillsFromBackground
      * @param SkillPoint|null $firstPaidSkillPoint
      * @param SkillPoint|null $secondPaidSkillPoint
      * @return bool
@@ -271,13 +272,13 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
     private function checkFirstLevelPayment(
         ProfessionFirstLevel $professionFirstLevel,
         Tables $tables,
-        SkillsFromBackground $backgroundSkillPoints = null,
+        SkillsFromBackground $skillsFromBackground = null,
         SkillPoint $firstPaidSkillPoint = null,
         SkillPoint $secondPaidSkillPoint = null
     )
     {
-        if ($backgroundSkillPoints) {
-            return $this->checkPayByFirstLevelSkillsFromBackground($professionFirstLevel, $tables, $backgroundSkillPoints);
+        if ($skillsFromBackground) {
+            return $this->checkPayByFirstLevelSkillsFromBackground($professionFirstLevel, $tables, $skillsFromBackground);
         }
         if ($firstPaidSkillPoint && $secondPaidSkillPoint) {
             return $this->checkPayByOtherFirstLevelSkillPoints($firstPaidSkillPoint, $secondPaidSkillPoint);
@@ -293,33 +294,33 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
     /**
      * @param ProfessionFirstLevel $professionFirstLevel
      * @param Tables $tables
-     * @param SkillsFromBackground $backgroundSkillPoints
+     * @param SkillsFromBackground $skillsFromBackground
      * @return bool
      * @throws \DrdPlus\Skills\Exceptions\EmptyFirstLevelSkillsFromBackground
      */
     private function checkPayByFirstLevelSkillsFromBackground(
         ProfessionFirstLevel $professionFirstLevel,
         Tables $tables,
-        SkillsFromBackground $backgroundSkillPoints
+        SkillsFromBackground $skillsFromBackground
     )
     {
         $relatedProperties = $this->sortAlphabetically($this->getRelatedProperties());
         $firstLevelSkillPoints = 0;
         switch ($relatedProperties) {
             case $this->sortAlphabetically([PropertyCode::STRENGTH, PropertyCode::AGILITY]) :
-                $firstLevelSkillPoints = $backgroundSkillPoints->getPhysicalSkillPoints(
+                $firstLevelSkillPoints = $skillsFromBackground->getPhysicalSkillPoints(
                     $professionFirstLevel->getProfession(),
                     $tables
                 );
                 break;
             case $this->sortAlphabetically([PropertyCode::WILL, PropertyCode::INTELLIGENCE]) :
-                $firstLevelSkillPoints = $backgroundSkillPoints->getPsychicalSkillPoints(
+                $firstLevelSkillPoints = $skillsFromBackground->getPsychicalSkillPoints(
                     $professionFirstLevel->getProfession(),
                     $tables
                 );
                 break;
             case $this->sortAlphabetically([PropertyCode::KNACK, PropertyCode::CHARISMA]) :
-                $firstLevelSkillPoints = $backgroundSkillPoints->getCombinedSkillPoints(
+                $firstLevelSkillPoints = $skillsFromBackground->getCombinedSkillPoints(
                     $professionFirstLevel->getProfession(),
                     $tables
                 );
@@ -476,7 +477,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
      */
     public function getSkillsFromBackground()
     {
-        return $this->backgroundSkillPoints;
+        return $this->skillsFromBackground;
     }
 
     /**

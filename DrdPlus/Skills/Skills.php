@@ -60,7 +60,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
 
     /**
      * @param ProfessionLevels $professionLevels
-     * @param SkillsFromBackground $backgroundSkillPoints
+     * @param SkillsFromBackground $skillsFromBackground
      * @param PhysicalSkills $physicalSkills
      * @param PsychicalSkills $psychicalSkills
      * @param CombinedSkills $combinedSkills
@@ -73,7 +73,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      */
     public static function createSkills(
         ProfessionLevels $professionLevels,
-        SkillsFromBackground $backgroundSkillPoints,
+        SkillsFromBackground $skillsFromBackground,
         PhysicalSkills $physicalSkills,
         PsychicalSkills $psychicalSkills,
         CombinedSkills $combinedSkills,
@@ -82,7 +82,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     {
         self::checkPaymentForSkillPoints(
             $professionLevels,
-            $backgroundSkillPoints,
+            $skillsFromBackground,
             $physicalSkills,
             $psychicalSkills,
             $combinedSkills,
@@ -95,7 +95,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
 
     /**
      * @param ProfessionLevels $professionLevels
-     * @param SkillsFromBackground $backgroundSkillPoints
+     * @param SkillsFromBackground $skillsFromBackground
      * @param PhysicalSkills $physicalSkills
      * @param PsychicalSkills $psychicalSkills
      * @param CombinedSkills $combinedSkills
@@ -106,7 +106,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      */
     private static function checkPaymentForSkillPoints(
         ProfessionLevels $professionLevels,
-        SkillsFromBackground $backgroundSkillPoints,
+        SkillsFromBackground $skillsFromBackground,
         PhysicalSkills $physicalSkills,
         PsychicalSkills $psychicalSkills,
         CombinedSkills $combinedSkills,
@@ -117,7 +117,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         self::checkFirstLevelPayment(
             $paymentsFoSkills['firstLevel'],
             $professionLevels->getFirstLevel(),
-            $backgroundSkillPoints,
+            $skillsFromBackground,
             $tables
         );
         self::checkNextLevelsPayment($paymentsFoSkills['nextLevels'], $professionLevels);
@@ -289,14 +289,14 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     /**
      * @param array $firstLevelPayments
      * @param ProfessionLevel $firstLevel
-     * @param SkillsFromBackground $backgroundSkillPoints
+     * @param SkillsFromBackground $skillsFromBackground
      * @param Tables $tables
      * @throws \DrdPlus\Skills\Exceptions\HigherSkillRanksFromFirstLevelThanPossible
      */
     private static function checkFirstLevelPayment(
         array $firstLevelPayments,
         ProfessionLevel $firstLevel,
-        SkillsFromBackground $backgroundSkillPoints,
+        SkillsFromBackground $skillsFromBackground,
         Tables $tables
     )
     {
@@ -305,23 +305,23 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
                 continue; // no skills have been "bought" at all
             }
             $paymentBackgroundSkills = $payment['backgroundSkillPoints'];
-            self::checkIfSkillsFromBackgroundAreTheSame($paymentBackgroundSkills, $backgroundSkillPoints);
+            self::checkIfSkillsFromBackgroundAreTheSame($paymentBackgroundSkills, $skillsFromBackground);
             $availableSkillPoints = 0;
             switch ($skillType) {
                 case self::PHYSICAL :
-                    $availableSkillPoints = $backgroundSkillPoints->getPhysicalSkillPoints(
+                    $availableSkillPoints = $skillsFromBackground->getPhysicalSkillPoints(
                         $firstLevel->getProfession(),
                         $tables
                     );
                     break;
                 case self::PSYCHICAL :
-                    $availableSkillPoints = $backgroundSkillPoints->getPsychicalSkillPoints(
+                    $availableSkillPoints = $skillsFromBackground->getPsychicalSkillPoints(
                         $firstLevel->getProfession(),
                         $tables
                     );
                     break;
                 case self::COMBINED :
-                    $availableSkillPoints = $backgroundSkillPoints->getCombinedSkillPoints(
+                    $availableSkillPoints = $skillsFromBackground->getCombinedSkillPoints(
                         $firstLevel->getProfession(),
                         $tables
                     );

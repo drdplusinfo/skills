@@ -149,7 +149,7 @@ abstract class SkillPointTest extends TestWithMockery
      *
      * @return \Mockery\MockInterface|SkillsFromBackground
      */
-    protected function createBackgroundSkills($skillPointsValue, $getterName)
+    protected function createSkillsFromBackground($skillPointsValue, $getterName)
     {
         $backgroundSKills = $this->mockery(SkillsFromBackground::class);
         $backgroundSKills->shouldReceive($getterName)
@@ -285,7 +285,7 @@ abstract class SkillPointTest extends TestWithMockery
     {
         CombinedSkillPoint::createFromFirstLevelSkillsFromBackground(
             $this->createProfessionFirstLevel('foo'),
-            $this->createBackgroundSkills(0, 'getCombinedSkillPoints'),
+            $this->createSkillsFromBackground(0, 'getCombinedSkillPoints'),
             Tables::getIt()
         );
     }

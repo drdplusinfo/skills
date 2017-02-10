@@ -14,14 +14,14 @@ class PsychicalSkillPointTest extends SkillPointTest
     {
         $psychicalSkillPoint = PsychicalSkillPoint::createFromFirstLevelSkillsFromBackground(
             $level = $this->createProfessionFirstLevel(ProfessionCode::FIGHTER),
-            $backgroundSkillPoints = $this->createBackgroundSkills(123, 'getPsychicalSkillPoints'),
+            $skillsFromBackground = $this->createSkillsFromBackground(123, 'getPsychicalSkillPoints'),
             Tables::getIt()
         );
         self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
         self::assertSame(1, $psychicalSkillPoint->getValue());
         self::assertSame('psychical', $psychicalSkillPoint->getTypeName());
         self::assertSame([PropertyCode::WILL, PropertyCode::INTELLIGENCE], $psychicalSkillPoint->getRelatedProperties());
-        self::assertSame($backgroundSkillPoints, $psychicalSkillPoint->getSkillsFromBackground());
+        self::assertSame($skillsFromBackground, $psychicalSkillPoint->getSkillsFromBackground());
         self::assertNull($psychicalSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertNull($psychicalSkillPoint->getSecondPaidOtherSkillPoint());
 

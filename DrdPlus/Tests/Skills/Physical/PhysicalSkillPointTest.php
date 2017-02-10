@@ -14,14 +14,14 @@ class PhysicalSkillPointTest extends SkillPointTest
     {
         $physicalSkillPoint = PhysicalSkillPoint::createFromFirstLevelSkillsFromBackground(
             $level = $this->createProfessionFirstLevel(ProfessionCode::FIGHTER),
-            $backgroundSkillPoints = $this->createBackgroundSkills(123, 'getPhysicalSkillPoints'),
+            $skillsFromBackground = $this->createSkillsFromBackground(123, 'getPhysicalSkillPoints'),
             Tables::getIt()
         );
         self::assertInstanceOf(PhysicalSkillPoint::class, $physicalSkillPoint);
         self::assertSame(1, $physicalSkillPoint->getValue());
         self::assertSame('physical', $physicalSkillPoint->getTypeName());
         self::assertSame([PropertyCode::STRENGTH, PropertyCode::AGILITY], $physicalSkillPoint->getRelatedProperties());
-        self::assertSame($backgroundSkillPoints, $physicalSkillPoint->getSkillsFromBackground());
+        self::assertSame($skillsFromBackground, $physicalSkillPoint->getSkillsFromBackground());
         self::assertNull($physicalSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertNull($physicalSkillPoint->getSecondPaidOtherSkillPoint());
 
