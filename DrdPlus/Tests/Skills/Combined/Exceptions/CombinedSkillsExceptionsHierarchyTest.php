@@ -3,10 +3,13 @@ namespace DrdPlus\Tests\Skills\Combined\Exceptions;
 
 use DrdPlus\Skills\Combined\CombinedSkills;
 use DrdPlus\Skills\Skills;
-use Granam\Tests\Exceptions\Tools\AbstractExceptionsHierarchyTest;
+use Granam\Tests\ExceptionsHierarchy\Exceptions\AbstractExceptionsHierarchyTest;
 
-class ExceptionsHierarchyTest extends AbstractExceptionsHierarchyTest
+class CombinedSkillsExceptionsHierarchyTest extends AbstractExceptionsHierarchyTest
 {
+    /**
+     * @return string
+     */
     protected function getTestedNamespace()
     {
         $combinedSkills = new \ReflectionClass(CombinedSkills::class);
@@ -14,6 +17,9 @@ class ExceptionsHierarchyTest extends AbstractExceptionsHierarchyTest
         return $combinedSkills->getNamespaceName();
     }
 
+    /**
+     * @return string
+     */
     protected function getRootNamespace()
     {
         $skills = new \ReflectionClass(Skills::class);
