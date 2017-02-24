@@ -14,7 +14,7 @@ class ReadingAndWriting extends PsychicalSkill
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::READING_AND_WRITING;
     }

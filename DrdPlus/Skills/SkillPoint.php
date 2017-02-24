@@ -67,19 +67,19 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
     /**
      * @return string
      */
-    abstract public function getTypeName();
+    abstract public function getTypeName(): string;
 
     /**
-     * @return string[]
+     * @return array|string[]
      */
-    abstract public function getRelatedProperties();
+    abstract public function getRelatedProperties(): array;
 
     /**
      * @param ProfessionLevel $professionLevel
      * @return static|SkillPoint
      * @throws \DrdPlus\Skills\Exceptions\UnknownPaymentForSkillPoint
      */
-    public static function createZeroSkillPoint(ProfessionLevel $professionLevel)
+    public static function createZeroSkillPoint(ProfessionLevel $professionLevel): self
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return new static(0 /* skill point value */, $professionLevel);
@@ -96,7 +96,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
         ProfessionFirstLevel $professionFirstLevel,
         SkillsFromBackground $skillsFromBackground,
         Tables $tables
-    )
+    ): self
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return new static(
@@ -120,7 +120,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
         SkillPoint $firstPaidSkillPoint,
         SkillPoint $secondPaidSkillPoint,
         Tables $tables
-    )
+    ): self
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return new static(
@@ -139,7 +139,10 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
      * @return static|SkillPoint
      * @throws \DrdPlus\Skills\Exceptions\UnknownPaymentForSkillPoint
      */
-    public static function createFromNextLevelPropertyIncrease(ProfessionNextLevel $professionNextLevel, Tables $tables)
+    public static function createFromNextLevelPropertyIncrease(
+        ProfessionNextLevel $professionNextLevel,
+        Tables $tables
+    ): self
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return new static(1 /* skill point value */, $professionNextLevel, $tables);
@@ -148,9 +151,8 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
     /**
      * You can pay by a level (by its property adjustment respectively) or by two another skill points
      * (for example combined and psychical for a new physical).
-
      *
-*@param int|IntegerInterface $skillPointValue zero or one
+     * @param int|IntegerInterface $skillPointValue zero or one
      * @param ProfessionLevel $professionLevel
      * @param Tables|null $tables = null
      * @param SkillsFromBackground|null $skillsFromBackground = null
@@ -165,6 +167,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
      * @throws \DrdPlus\Skills\Exceptions\EmptyFirstLevelSkillsFromBackground
      * @throws \DrdPlus\Skills\Exceptions\NonSensePaymentBySameType
      * @throws \DrdPlus\Skills\Exceptions\ProhibitedOriginOfPaidBySkillPoint
+     * @throws \DrdPlus\Skills\Exceptions\MissingPropertyAdjustmentForPayment
      */
     protected function __construct(
         $skillPointValue,
@@ -221,6 +224,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
      * @throws \DrdPlus\Skills\Exceptions\EmptyFirstLevelSkillsFromBackground
      * @throws \DrdPlus\Skills\Exceptions\NonSensePaymentBySameType
      * @throws \DrdPlus\Skills\Exceptions\ProhibitedOriginOfPaidBySkillPoint
+     * @throws \DrdPlus\Skills\Exceptions\MissingPropertyAdjustmentForPayment
      */
     private function checkSkillPointPayment(
         $skillPointValue,
@@ -275,7 +279,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
         SkillsFromBackground $skillsFromBackground = null,
         SkillPoint $firstPaidSkillPoint = null,
         SkillPoint $secondPaidSkillPoint = null
-    )
+    ): bool
     {
         if ($skillsFromBackground) {
             return $this->checkPayByFirstLevelSkillsFromBackground($professionFirstLevel, $tables, $skillsFromBackground);
@@ -302,7 +306,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
         ProfessionFirstLevel $professionFirstLevel,
         Tables $tables,
         SkillsFromBackground $skillsFromBackground
-    )
+    ): bool
     {
         $relatedProperties = $this->sortAlphabetically($this->getRelatedProperties());
         $firstLevelSkillPoints = 0;
@@ -343,7 +347,10 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
      * @throws \DrdPlus\Skills\Exceptions\NonSensePaymentBySameType
      * @throws \DrdPlus\Skills\Exceptions\ProhibitedOriginOfPaidBySkillPoint
      */
-    private function checkPayByOtherFirstLevelSkillPoints(SkillPoint $firstPaidBySkillPoint, SkillPoint $secondPaidBySkillPoint)
+    private function checkPayByOtherFirstLevelSkillPoints(
+        SkillPoint $firstPaidBySkillPoint,
+        SkillPoint $secondPaidBySkillPoint
+    ): bool
     {
         foreach ([$firstPaidBySkillPoint, $secondPaidBySkillPoint] as $paidBySkillPoint) {
             if (!$paidBySkillPoint->isPaidByFirstLevelSkillsFromBackground()) {
@@ -368,6 +375,10 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
         return true;
     }
 
+    /**
+     * @param ProfessionNextLevel $professionNextLevel
+     * @throws \DrdPlus\Skills\Exceptions\MissingPropertyAdjustmentForPayment
+     */
     private function checkNextLevelPaymentByPropertyIncrement(ProfessionNextLevel $professionNextLevel)
     {
         $relatedProperties = $this->sortAlphabetically($this->getRelatedProperties());
@@ -398,10 +409,9 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
 
     /**
      * @param array $array
-     *
      * @return array
      */
-    private function sortAlphabetically(array $array)
+    private function sortAlphabetically(array $array): array
     {
         sort($array);
 
@@ -409,7 +419,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getId()
     {
@@ -419,7 +429,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
     /**
      * @return int
      */
-    public function getValue()
+    public function getValue(): int
     {
         return $this->value;
     }
@@ -427,7 +437,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string)$this->getValue();
     }
@@ -457,9 +467,9 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
     }
 
     /**
-     * @return ProfessionZeroLevel|ProfessionFirstLevel|ProfessionNextLevel
+     * @return ProfessionLevel|ProfessionZeroLevel|ProfessionFirstLevel|ProfessionNextLevel
      */
-    public function getProfessionLevel()
+    public function getProfessionLevel(): ProfessionLevel
     {
         if ($this->getProfessionZeroLevel()) {
             return $this->getProfessionZeroLevel();
@@ -497,25 +507,25 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function isPaidByFirstLevelSkillsFromBackground()
+    public function isPaidByFirstLevelSkillsFromBackground(): bool
     {
         return $this->getSkillsFromBackground() !== null;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function isPaidByOtherSkillPoints()
+    public function isPaidByOtherSkillPoints(): bool
     {
         return $this->getFirstPaidOtherSkillPoint() && $this->getSecondPaidOtherSkillPoint();
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function isPaidByNextLevelPropertyIncrease()
+    public function isPaidByNextLevelPropertyIncrease(): bool
     {
         return !$this->isPaidByFirstLevelSkillsFromBackground()
             && !$this->isPaidByOtherSkillPoints()

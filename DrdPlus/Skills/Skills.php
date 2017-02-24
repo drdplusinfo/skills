@@ -153,7 +153,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     /**
      * @return array
      */
-    private static function getPaymentsSkeleton()
+    private static function getPaymentsSkeleton(): array
     {
         return [
             'zeroLevel' => [
@@ -508,7 +508,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     /**
      * @return PhysicalSkills
      */
-    public function getPhysicalSkills()
+    public function getPhysicalSkills(): PhysicalSkills
     {
         return $this->physicalSkills;
     }
@@ -516,7 +516,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     /**
      * @return PsychicalSkills
      */
-    public function getPsychicalSkills()
+    public function getPsychicalSkills(): PsychicalSkills
     {
         return $this->psychicalSkills;
     }
@@ -524,7 +524,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     /**
      * @return CombinedSkills
      */
-    public function getCombinedSkills()
+    public function getCombinedSkills(): CombinedSkills
     {
         return $this->combinedSkills;
     }
@@ -532,7 +532,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     /**
      * @return array|Skill[]
      */
-    public function getSkills()
+    public function getSkills(): array
     {
         return array_merge(
             $this->getPhysicalSkills()->getIterator()->getArrayCopy(),
@@ -544,7 +544,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     /**
      * @return array|string[]
      */
-    public function getCodesOfAllSkills()
+    public function getCodesOfAllSkills(): array
     {
         return array_merge(
             PhysicalSkillCode::getPossibleValues(),
@@ -556,7 +556,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     /**
      * @return array|string[]
      */
-    public function getCodesOfLearnedSkills()
+    public function getCodesOfLearnedSkills(): array
     {
         $codesOfKnownSkills = [];
         foreach ($this->getSkills() as $skill) {
@@ -569,7 +569,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     /**
      * @return array|string[]
      */
-    public function getCodesOfNotLearnedSkills()
+    public function getCodesOfNotLearnedSkills(): array
     {
         $namesOfKnownSkills = [];
         foreach ($this->getSkills() as $skill) {
@@ -580,9 +580,9 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     }
 
     /**
-     * @return \ArrayIterator
+     * @return \Traversable|\ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->getSkills());
     }
@@ -590,7 +590,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     /**
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->getSkills());
     }
@@ -611,7 +611,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         WeaponlikeCode $weaponOrShieldForAttack,
         Tables $tables,
         $usesTwoWeapons
-    )
+    ): int
     {
         if ($weaponOrShieldForAttack->isProjectile()) {
             return 0;
@@ -640,7 +640,10 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatArmament
      */
-    public function getMalusToFightNumberWithProtective(ProtectiveArmamentCode $protectiveArmamentCode, Armourer $armourer)
+    public function getMalusToFightNumberWithProtective(
+        ProtectiveArmamentCode $protectiveArmamentCode,
+        Armourer $armourer
+    ): int
     {
         return $this->getPhysicalSkills()->getMalusToFightNumberWithProtective($protectiveArmamentCode, $armourer);
     }
@@ -662,7 +665,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         WeaponlikeCode $weaponlikeCode,
         Tables $tables,
         $fightsWithTwoWeapons
-    )
+    ): int
     {
         if ($weaponlikeCode->isProjectile()) {
             return 0;
@@ -693,7 +696,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      * @return int
      * @throws Exceptions\UnknownTypeOfWeapon
      */
-    public function getMalusToCoverWithWeapon(WeaponCode $weaponCode, Tables $tables, $fightsWithTwoWeapons)
+    public function getMalusToCoverWithWeapon(WeaponCode $weaponCode, Tables $tables, $fightsWithTwoWeapons): int
     {
         if ($weaponCode->isProjectile()) {
             return 0;
@@ -720,7 +723,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      * @param Tables $tables
      * @return int
      */
-    public function getMalusToCoverWithShield(Tables $tables)
+    public function getMalusToCoverWithShield(Tables $tables): int
     {
         return $this->getPhysicalSkills()->getMalusToCoverWithShield($tables);
     }
@@ -738,7 +741,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         WeaponlikeCode $weaponlikeCode,
         Tables $tables,
         $fightsWithTwoWeapons
-    )
+    ): int
     {
         if ($weaponlikeCode->isMelee() || $weaponlikeCode->isThrowingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */

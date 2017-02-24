@@ -108,7 +108,7 @@ abstract class SkillRank extends StrictObject implements PositiveInteger, Entity
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getId()
     {
@@ -118,7 +118,7 @@ abstract class SkillRank extends StrictObject implements PositiveInteger, Entity
     /**
      * @return ProfessionLevel
      */
-    public function getProfessionLevel()
+    public function getProfessionLevel(): ProfessionLevel
     {
         return $this->getSkillPoint()->getProfessionLevel();
     }
@@ -126,12 +126,12 @@ abstract class SkillRank extends StrictObject implements PositiveInteger, Entity
     /**
      * @return SkillPoint
      */
-    abstract public function getSkillPoint();
+    abstract public function getSkillPoint(): SkillPoint;
 
     /**
      * @return int
      */
-    public function getValue()
+    public function getValue(): int
     {
         return $this->value;
     }
@@ -139,12 +139,12 @@ abstract class SkillRank extends StrictObject implements PositiveInteger, Entity
     /**
      * @return Skill
      */
-    abstract public function getSkill();
+    abstract public function getSkill(): Skill;
 
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string)$this->getValue();
     }

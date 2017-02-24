@@ -13,7 +13,7 @@ class FightWithSabersAndBowieKnifes extends FightWithWeaponsUsingPhysicalSkill
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::FIGHT_WITH_SABERS_AND_BOWIE_KNIFES;
     }

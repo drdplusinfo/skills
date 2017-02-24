@@ -12,7 +12,7 @@ class Theology extends PsychicalSkill
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::THEOLOGY;
     }

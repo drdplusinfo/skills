@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Skills;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrineum\Entity\Entity;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use Granam\Strict\Object\StrictObject;
@@ -74,13 +74,13 @@ abstract class Skill extends StrictObject implements Entity
     /**
      * @return int
      */
-    private function getMaxSkillRankValue()
+    private function getMaxSkillRankValue(): int
     {
         return $this->getCurrentSkillRank()->getValue();
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getId()
     {
@@ -90,22 +90,22 @@ abstract class Skill extends StrictObject implements Entity
     /**
      * Gives cloned original skill ranks
      *
-     * @return SkillRank[]|ArrayCollection
+     * @return SkillRank[]|Collection
      */
-    public function getSkillRanks()
+    public function getSkillRanks(): Collection
     {
         return clone $this->getInnerSkillRanks();
     }
 
     /**
-     * @return SkillRank[]|ArrayCollection
+     * @return SkillRank[]|Collection
      */
-    abstract protected function getInnerSkillRanks();
+    abstract protected function getInnerSkillRanks(): Collection;
 
     /**
      * @return SkillRank
      */
-    public function getCurrentSkillRank()
+    public function getCurrentSkillRank(): SkillRank
     {
         return $this->getSkillRanks()->last();
     }
@@ -114,31 +114,31 @@ abstract class Skill extends StrictObject implements Entity
      * @param ProfessionLevel $professionLevel
      * @return SkillRank
      */
-    abstract protected function createZeroSkillRank(ProfessionLevel $professionLevel);
+    abstract protected function createZeroSkillRank(ProfessionLevel $professionLevel): SkillRank;
 
     /**
      * @return string
      */
-    abstract public function getName();
+    abstract public function getName(): string;
 
     /**
-     * @return string[]
+     * @return array|string[]
      */
-    abstract public function getRelatedPropertyCodes();
-
-    /**
-     * @return bool
-     */
-    abstract public function isPhysical();
+    abstract public function getRelatedPropertyCodes(): array;
 
     /**
      * @return bool
      */
-    abstract public function isPsychical();
+    abstract public function isPhysical(): bool;
 
     /**
      * @return bool
      */
-    abstract public function isCombined();
+    abstract public function isPsychical(): bool;
+
+    /**
+     * @return bool
+     */
+    abstract public function isCombined(): bool;
 
 }

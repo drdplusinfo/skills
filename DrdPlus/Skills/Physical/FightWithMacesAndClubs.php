@@ -13,7 +13,7 @@ class FightWithMacesAndClubs extends FightWithWeaponsUsingPhysicalSkill
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::FIGHT_WITH_MACES_AND_CLUBS;
     }

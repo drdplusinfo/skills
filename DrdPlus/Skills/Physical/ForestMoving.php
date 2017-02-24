@@ -14,7 +14,7 @@ class ForestMoving extends PhysicalSkill
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::FOREST_MOVING;
     }

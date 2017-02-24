@@ -12,7 +12,7 @@ class GeographyOfACountry extends PsychicalSkill
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::GEOGRAPHY_OF_A_COUNTRY;
     }

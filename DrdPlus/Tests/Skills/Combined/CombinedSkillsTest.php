@@ -139,28 +139,28 @@ class CombinedSkillsTest extends SameTypeSkillsTest
     {
         $combinedSkills = new CombinedSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         self::assertSame(
-            $expectedMalus = 'foo',
+            $expectedMalus = 123,
             $combinedSkills->getMalusToFightNumberWithShootingWeapon(
                 $this->createRangeWeaponCode($rangeWeaponCategory),
                 $this->createTablesWithMissingWeaponSkillTable('fightNumber', 0 /* expected skill value */, $expectedMalus)
             )
         );
         self::assertSame(
-            $expectedMalus = 'bar',
+            $expectedMalus = 456,
             $combinedSkills->getMalusToAttackNumberWithShootingWeapon(
                 $this->createRangeWeaponCode($rangeWeaponCategory),
                 $this->createTablesWithMissingWeaponSkillTable('attackNumber', 0 /* expected skill value */, $expectedMalus)
             )
         );
         self::assertSame(
-            $expectedMalus = 'baz',
+            $expectedMalus = 789,
             $combinedSkills->getMalusToCoverWithShootingWeapon(
                 $this->createRangeWeaponCode($rangeWeaponCategory),
                 $this->createTablesWithMissingWeaponSkillTable('cover', 0 /* expected skill value */, $expectedMalus)
             )
         );
         self::assertSame(
-            $expectedMalus = 'qux',
+            $expectedMalus = 101,
             $combinedSkills->getMalusToBaseOfWoundsWithShootingWeapon(
                 $this->createRangeWeaponCode($rangeWeaponCategory),
                 $this->createTablesWithMissingWeaponSkillTable('baseOfWounds', 0 /* expected skill value */, $expectedMalus)

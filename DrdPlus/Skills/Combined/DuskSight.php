@@ -15,7 +15,7 @@ class DuskSight extends CombinedSkill implements WithInsufficientLightingBonus
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::DUSK_SIGHT;
     }
@@ -23,7 +23,7 @@ class DuskSight extends CombinedSkill implements WithInsufficientLightingBonus
     /**
      * @return int
      */
-    public function getInsufficientLightingBonus()
+    public function getInsufficientLightingBonus(): int
     {
         return $this->getCurrentSkillRank()->getValue(); // equal to skill rank value
     }

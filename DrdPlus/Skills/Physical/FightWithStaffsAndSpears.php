@@ -13,7 +13,7 @@ class FightWithStaffsAndSpears extends FightWithWeaponsUsingPhysicalSkill
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::FIGHT_WITH_STAFFS_AND_SPEARS;
     }

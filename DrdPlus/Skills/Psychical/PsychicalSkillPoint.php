@@ -17,15 +17,15 @@ class PsychicalSkillPoint extends SkillPoint
     /**
      * return @string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return static::PSYCHICAL;
     }
 
     /**
-     * @return string[]
+     * @return array|string[]
      */
-    public function getRelatedProperties()
+    public function getRelatedProperties(): array
     {
         return [PropertyCode::WILL, PropertyCode::INTELLIGENCE];
     }

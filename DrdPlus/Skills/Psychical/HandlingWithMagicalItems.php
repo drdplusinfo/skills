@@ -14,7 +14,7 @@ class HandlingWithMagicalItems extends PsychicalSkill
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::HANDLING_WITH_MAGICAL_ITEMS;
     }

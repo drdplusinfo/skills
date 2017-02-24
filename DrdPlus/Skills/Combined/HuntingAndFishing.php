@@ -14,7 +14,7 @@ class HuntingAndFishing extends CombinedSkill
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::HUNTING_AND_FISHING;
     }

@@ -221,9 +221,9 @@ class PhysicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return \ArrayIterator|PhysicalSkill[]
+     * @return \Traversable|\ArrayIterator|PhysicalSkill[]
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator([
             $this->getArmorWearing(),
@@ -259,7 +259,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return ArmorWearing
      */
-    public function getArmorWearing()
+    public function getArmorWearing(): ArmorWearing
     {
         return $this->armorWearing;
     }
@@ -267,7 +267,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return Athletics
      */
-    public function getAthletics()
+    public function getAthletics(): Athletics
     {
         return $this->athletics;
     }
@@ -275,7 +275,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return Blacksmithing
      */
-    public function getBlacksmithing()
+    public function getBlacksmithing(): Blacksmithing
     {
         return $this->blacksmithing;
     }
@@ -283,7 +283,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return BoatDriving
      */
-    public function getBoatDriving()
+    public function getBoatDriving(): BoatDriving
     {
         return $this->boatDriving;
     }
@@ -291,7 +291,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return CartDriving
      */
-    public function getCartDriving()
+    public function getCartDriving(): CartDriving
     {
         return $this->cartDriving;
     }
@@ -299,7 +299,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return CityMoving
      */
-    public function getCityMoving()
+    public function getCityMoving(): CityMoving
     {
         return $this->cityMoving;
     }
@@ -307,7 +307,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return ClimbingAndHillwalking
      */
-    public function getClimbingAndHillwalking()
+    public function getClimbingAndHillwalking(): ClimbingAndHillwalking
     {
         return $this->climbingAndHillwalking;
     }
@@ -315,15 +315,15 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return FastMarsh
      */
-    public function getFastMarsh()
+    public function getFastMarsh(): FastMarsh
     {
         return $this->fastMarsh;
     }
 
     /**
-     * @return FightWithWeaponsUsingPhysicalSkill
+     * @return FightUnarmed|FightWithWeaponsUsingPhysicalSkill
      */
-    public function getFightUnarmed()
+    public function getFightUnarmed(): FightUnarmed
     {
         return $this->fightUnarmed;
     }
@@ -331,7 +331,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return FightWithAxes
      */
-    public function getFightWithAxes()
+    public function getFightWithAxes(): FightWithAxes
     {
         return $this->fightWithAxes;
     }
@@ -339,7 +339,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return FightWithKnifesAndDaggers
      */
-    public function getFightWithKnifesAndDaggers()
+    public function getFightWithKnifesAndDaggers(): FightWithKnifesAndDaggers
     {
         return $this->fightWithKnifesAndDaggers;
     }
@@ -347,7 +347,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return FightWithMacesAndClubs
      */
-    public function getFightWithMacesAndClubs()
+    public function getFightWithMacesAndClubs(): FightWithMacesAndClubs
     {
         return $this->fightWithMacesAndClubs;
     }
@@ -355,7 +355,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return FightWithMorningstarsAndMorgensterns
      */
-    public function getFightWithMorningstarsAndMorgensterns()
+    public function getFightWithMorningstarsAndMorgensterns(): FightWithMorningstarsAndMorgensterns
     {
         return $this->fightWithMorningstarsAndMorgensterns;
     }
@@ -363,7 +363,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return FightWithSabersAndBowieKnifes
      */
-    public function getFightWithSabersAndBowieKnifes()
+    public function getFightWithSabersAndBowieKnifes(): FightWithSabersAndBowieKnifes
     {
         return $this->fightWithSabersAndBowieKnifes;
     }
@@ -371,7 +371,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return FightWithStaffsAndSpears
      */
-    public function getFightWithStaffsAndSpears()
+    public function getFightWithStaffsAndSpears(): FightWithStaffsAndSpears
     {
         return $this->fightWithStaffsAndSpears;
     }
@@ -381,7 +381,7 @@ class PhysicalSkills extends SameTypeSkills
      *
      * @return FightWithShields
      */
-    public function getFightWithShields()
+    public function getFightWithShields(): FightWithShields
     {
         return $this->fightWithShields;
     }
@@ -389,7 +389,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return FightWithSwords
      */
-    public function getFightWithSwords()
+    public function getFightWithSwords(): FightWithSwords
     {
         return $this->fightWithSwords;
     }
@@ -397,7 +397,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return FightWithThrowingWeapons
      */
-    public function getFightWithThrowingWeapons()
+    public function getFightWithThrowingWeapons(): FightWithThrowingWeapons
     {
         return $this->fightWithThrowingWeapons;
     }
@@ -405,7 +405,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return FightWithTwoWeapons
      */
-    public function getFightWithTwoWeapons()
+    public function getFightWithTwoWeapons(): FightWithTwoWeapons
     {
         return $this->fightWithTwoWeapons;
     }
@@ -413,7 +413,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return FightWithVoulgesAndTridents
      */
-    public function getFightWithVoulgesAndTridents()
+    public function getFightWithVoulgesAndTridents(): FightWithVoulgesAndTridents
     {
         return $this->fightWithVoulgesAndTridents;
     }
@@ -421,7 +421,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return array|FightWithWeaponsUsingPhysicalSkill[]
      */
-    public function getFightWithMeleeWeaponSkills()
+    public function getFightWithWeaponsUsingPhysicalSkills(): array
     {
         return [
             $this->getFightUnarmed(),
@@ -442,7 +442,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return Flying
      */
-    public function getFlying()
+    public function getFlying(): Flying
     {
         return $this->flying;
     }
@@ -450,7 +450,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return ForestMoving
      */
-    public function getForestMoving()
+    public function getForestMoving(): ForestMoving
     {
         return $this->forestMoving;
     }
@@ -458,7 +458,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return MovingInMountains
      */
-    public function getMovingInMountains()
+    public function getMovingInMountains(): MovingInMountains
     {
         return $this->movingInMountains;
     }
@@ -466,7 +466,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return Riding
      */
-    public function getRiding()
+    public function getRiding(): Riding
     {
         return $this->riding;
     }
@@ -474,7 +474,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return Sailing
      */
-    public function getSailing()
+    public function getSailing(): Sailing
     {
         return $this->sailing;
     }
@@ -482,7 +482,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return ShieldUsage
      */
-    public function getShieldUsage()
+    public function getShieldUsage(): ShieldUsage
     {
         return $this->shieldUsage;
     }
@@ -490,7 +490,7 @@ class PhysicalSkills extends SameTypeSkills
     /**
      * @return Swimming
      */
-    public function getSwimming()
+    public function getSwimming(): Swimming
     {
         return $this->swimming;
     }
@@ -512,7 +512,7 @@ class PhysicalSkills extends SameTypeSkills
         WeaponlikeCode $weaponlikeCode,
         Tables $tables,
         $fightsWithTwoWeapons
-    )
+    ): int
     {
         $fightWithWeaponRankValue = $this->getHighestRankForSuitableFightWithWeapon($weaponlikeCode);
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
@@ -535,7 +535,7 @@ class PhysicalSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      */
-    private function getHighestRankForSuitableFightWithWeapon(WeaponlikeCode $weaponlikeCode)
+    private function getHighestRankForSuitableFightWithWeapon(WeaponlikeCode $weaponlikeCode): int
     {
         $rankValues = [];
         if ($weaponlikeCode->isMelee()) {
@@ -597,7 +597,7 @@ class PhysicalSkills extends SameTypeSkills
     public function getMalusToFightNumberWithProtective(
         ProtectiveArmamentCode $protectiveArmamentCode,
         Armourer $armourer
-    )
+    ): int
     {
         if ($protectiveArmamentCode instanceof ArmorCode) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
@@ -632,7 +632,7 @@ class PhysicalSkills extends SameTypeSkills
         WeaponlikeCode $weaponlikeCode,
         Tables $tables,
         $fightsWithTwoWeapons
-    )
+    ): int
     {
         $fightWithWeaponRankValue = $this->getHighestRankForSuitableFightWithWeapon($weaponlikeCode);
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
@@ -660,7 +660,7 @@ class PhysicalSkills extends SameTypeSkills
         WeaponCode $weaponCode,
         Tables $tables,
         $fightsWithTwoWeapons
-    )
+    ): int
     {
         $fightWithWeaponRankValue = $this->getHighestRankForSuitableFightWithWeapon($weaponCode);
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
@@ -682,7 +682,7 @@ class PhysicalSkills extends SameTypeSkills
      * @param Tables $tables
      * @return int
      */
-    public function getMalusToCoverWithShield(Tables $tables)
+    public function getMalusToCoverWithShield(Tables $tables): int
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return $tables->getShieldUsageSkillTable()->getCoverMalusForSkillRank($this->getShieldUsage()->getCurrentSkillRank());
@@ -702,7 +702,7 @@ class PhysicalSkills extends SameTypeSkills
         WeaponlikeCode $weaponlikeCode,
         Tables $tables,
         $fightsWithTwoWeapons
-    )
+    ): int
     {
         $fightWithWeaponRankValue = $this->getHighestRankForSuitableFightWithWeapon($weaponlikeCode);
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */

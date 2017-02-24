@@ -12,7 +12,7 @@ class EtiquetteOfUnderworld extends PsychicalSkill
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::ETIQUETTE_OF_UNDERWORLD;
     }

@@ -14,7 +14,7 @@ class HandlingWithAnimals extends CombinedSkill
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::HANDLING_WITH_ANIMALS;
     }

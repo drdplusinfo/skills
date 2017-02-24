@@ -156,9 +156,9 @@ class PsychicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return \ArrayIterator|PsychicalSkill[]
+     * @return \Traversable|\ArrayIterator|PsychicalSkill[]
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator([
             $this->getAstronomy(),
@@ -183,7 +183,7 @@ class PsychicalSkills extends SameTypeSkills
     /**
      * @return Astronomy
      */
-    public function getAstronomy()
+    public function getAstronomy(): Astronomy
     {
         return $this->astronomy;
     }
@@ -191,7 +191,7 @@ class PsychicalSkills extends SameTypeSkills
     /**
      * @return Botany
      */
-    public function getBotany()
+    public function getBotany(): Botany
     {
         return $this->botany;
     }
@@ -207,7 +207,7 @@ class PsychicalSkills extends SameTypeSkills
     /**
      * @return ForeignLanguage
      */
-    public function getForeignLanguage()
+    public function getForeignLanguage(): ForeignLanguage
     {
         return $this->foreignLanguage;
     }
@@ -231,7 +231,7 @@ class PsychicalSkills extends SameTypeSkills
     /**
      * @return Historiography
      */
-    public function getHistoriography()
+    public function getHistoriography(): Historiography
     {
         return $this->historiography;
     }
@@ -255,7 +255,7 @@ class PsychicalSkills extends SameTypeSkills
     /**
      * @return MapsDrawing
      */
-    public function getMapsDrawing()
+    public function getMapsDrawing(): MapsDrawing
     {
         return $this->mapsDrawing;
     }
@@ -263,7 +263,7 @@ class PsychicalSkills extends SameTypeSkills
     /**
      * @return Mythology
      */
-    public function getMythology()
+    public function getMythology(): Mythology
     {
         return $this->mythology;
     }
@@ -279,7 +279,7 @@ class PsychicalSkills extends SameTypeSkills
     /**
      * @return SocialEtiquette
      */
-    public function getSocialEtiquette()
+    public function getSocialEtiquette(): SocialEtiquette
     {
         return $this->socialEtiquette;
     }
@@ -287,7 +287,7 @@ class PsychicalSkills extends SameTypeSkills
     /**
      * @return Technology
      */
-    public function getTechnology()
+    public function getTechnology(): Technology
     {
         return $this->technology;
     }
@@ -295,7 +295,7 @@ class PsychicalSkills extends SameTypeSkills
     /**
      * @return Theology
      */
-    public function getTheology()
+    public function getTheology(): Theology
     {
         return $this->theology;
     }
@@ -303,7 +303,7 @@ class PsychicalSkills extends SameTypeSkills
     /**
      * @return Zoology
      */
-    public function getZoology()
+    public function getZoology(): Zoology
     {
         return $this->zoology;
     }

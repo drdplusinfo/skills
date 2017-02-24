@@ -1,6 +1,8 @@
 <?php
 namespace DrdPlus\Skills\Psychical;
 
+use DrdPlus\Skills\Skill;
+use DrdPlus\Skills\SkillPoint;
 use DrdPlus\Skills\SkillRank;
 use Doctrine\ORM\Mapping as ORM;
 use Granam\Integer\PositiveInteger;
@@ -43,17 +45,17 @@ class PsychicalSkillRank extends SkillRank
     }
 
     /**
-     * @return PsychicalSkill
+     * @return Skill|PsychicalSkill
      */
-    public function getSkill()
+    public function getSkill(): Skill
     {
         return $this->psychicalSkill;
     }
 
     /**
-     * @return PsychicalSkillPoint
+     * @return SkillPoint|PsychicalSkillPoint
      */
-    public function getSkillPoint()
+    public function getSkillPoint(): SkillPoint
     {
         return $this->psychicalSkillPoint;
     }

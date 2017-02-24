@@ -17,15 +17,15 @@ class CombinedSkillPoint extends SkillPoint
     /**
      * return @string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return static::COMBINED;
     }
 
     /**
-     * @return string[]
+     * @return array|string[]
      */
-    public function getRelatedProperties()
+    public function getRelatedProperties(): array
     {
         return [PropertyCode::KNACK, PropertyCode::CHARISMA];
     }

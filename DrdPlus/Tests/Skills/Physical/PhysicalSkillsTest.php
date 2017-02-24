@@ -163,7 +163,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         ];
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $givenFightWithSkillClasses = [];
-        $fightWithSkills = $skills->getFightWithMeleeWeaponSkills();
+        $fightWithSkills = $skills->getFightWithWeaponsUsingPhysicalSkills();
         foreach ($fightWithSkills as $fightWithSkill) {
             self::assertSame(0, $fightWithSkill->getCurrentSkillRank()->getValue());
             $givenFightWithSkillClasses[] = get_class($fightWithSkill);
@@ -191,7 +191,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
 
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         self::assertSame(
-            $expectedMalus = 'foo',
+            $expectedMalus = 123,
             $skills->getMalusToFightNumberWithWeaponlike(
                 $weaponlikeCode,
                 $this->createTablesWithMissingWeaponSkillTable('fightNumber', 0 /* expected weapon skill value */, $expectedMalus),
@@ -216,7 +216,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
 
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         self::assertSame(
-            $expectedMalus = 'bar',
+            $expectedMalus = 456,
             $skills->getMalusToAttackNumberWithWeaponlike(
                 $weaponlikeCode,
                 $this->createTablesWithMissingWeaponSkillTable('attackNumber', 0 /* expected weapon skill value */, $expectedMalus),
@@ -242,7 +242,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $weaponCode = $this->createWeaponCode($weaponCategory, $isMelee, $isThrowing);
         self::assertSame(
-            $expectedMalus = 'baz',
+            $expectedMalus = 789,
             $skills->getMalusToCoverWithWeapon(
                 $weaponCode,
                 $this->createTablesWithMissingWeaponSkillTable('cover', 0 /* expected weapon skill value */, $expectedMalus),
@@ -267,7 +267,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
 
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         self::assertSame(
-            $expectedMalus = 'qux',
+            $expectedMalus = 101,
             $skills->getMalusToBaseOfWoundsWithWeaponlike(
                 $weaponlikeCode,
                 $this->createTablesWithMissingWeaponSkillTable('baseOfWounds', 0 /* expected weapon skill value */, $expectedMalus),
@@ -394,20 +394,20 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     public function I_can_get_malus_to_cover_with_shield()
     {
         $physicalSkills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
-        $tables = $this->createTablesWithShieldUsageSkillTable(0, 'foo');
-        self::assertSame('foo', $physicalSkills->getMalusToCoverWithShield($tables));
+        $tables = $this->createTablesWithShieldUsageSkillTable(0, 123);
+        self::assertSame(123, $physicalSkills->getMalusToCoverWithShield($tables));
 
         $physicalSkills->getShieldUsage()->increaseSkillRank($this->createSkillPoint($this->createProfessionFirstLevel()));
-        $tables = $this->createTablesWithShieldUsageSkillTable(1, 'bar');
-        self::assertSame('bar', $physicalSkills->getMalusToCoverWithShield($tables));
+        $tables = $this->createTablesWithShieldUsageSkillTable(1, 456);
+        self::assertSame(456, $physicalSkills->getMalusToCoverWithShield($tables));
 
         $physicalSkills->getShieldUsage()->increaseSkillRank($this->createSkillPoint($this->createProfessionFirstLevel()));
-        $tables = $this->createTablesWithShieldUsageSkillTable(2, 'baz');
-        self::assertSame('baz', $physicalSkills->getMalusToCoverWithShield($tables));
+        $tables = $this->createTablesWithShieldUsageSkillTable(2, 789);
+        self::assertSame(789, $physicalSkills->getMalusToCoverWithShield($tables));
 
         $physicalSkills->getShieldUsage()->increaseSkillRank($this->createSkillPoint($this->createProfessionFirstLevel()));
-        $tables = $this->createTablesWithShieldUsageSkillTable(3, 'qux');
-        self::assertSame('qux', $physicalSkills->getMalusToCoverWithShield($tables));
+        $tables = $this->createTablesWithShieldUsageSkillTable(3, 101);
+        self::assertSame(101, $physicalSkills->getMalusToCoverWithShield($tables));
     }
 
     /**
@@ -477,10 +477,10 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
                 self::assertSame($givenBodyArmorCode, $bodyArmor);
                 self::assertSame(0, $rank->getValue());
 
-                return 'foo';
+                return 123;
             });
         self::assertSame(
-            $expectedMalus = 'foo',
+            123,
             $skills->getMalusToFightNumberWithProtective($bodyArmor, $armourer)
         );
     }
@@ -508,10 +508,10 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
                 self::assertSame($givenHelm, $helm);
                 self::assertSame(0, $rank->getValue());
 
-                return 'bar';
+                return 456;
             });
         self::assertSame(
-            $expectedMalus = 'bar',
+            456,
             $skills->getMalusToFightNumberWithProtective($helm, $armourer)
         );
     }
@@ -531,10 +531,10 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
                 self::assertSame($givenShield, $shield);
                 self::assertSame(0, $rank->getValue());
 
-                return 'foo';
+                return 789;
             });
         self::assertSame(
-            $expectedMalus = 'foo',
+            789,
             $skills->getMalusToFightNumberWithProtective($shield, $armourer)
         );
     }

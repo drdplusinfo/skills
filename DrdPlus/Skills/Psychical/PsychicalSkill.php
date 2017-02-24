@@ -2,10 +2,12 @@
 namespace DrdPlus\Skills\Psychical;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use DrdPlus\Codes\Properties\PropertyCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Skills\Skill;
 use Doctrine\ORM\Mapping as ORM;
+use DrdPlus\Skills\SkillRank;
 use Granam\Integer\PositiveIntegerObject;
 
 /**
@@ -52,12 +54,12 @@ abstract class PsychicalSkill extends Skill
 
     /**
      * @param ProfessionLevel $professionLevel
-     * @return PsychicalSkillRank
+     * @return PsychicalSkillRank|SkillRank
      * @throws \DrdPlus\Skills\Exceptions\UnknownPaymentForSkillPoint
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyPaidSkillPoint
      */
-    protected function createZeroSkillRank(ProfessionLevel $professionLevel)
+    protected function createZeroSkillRank(ProfessionLevel $professionLevel): SkillRank
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return new PsychicalSkillRank(
@@ -86,9 +88,9 @@ abstract class PsychicalSkill extends Skill
     }
 
     /**
-     * @return ArrayCollection|PsychicalSkillRank[]
+     * @return Collection|ArrayCollection|PsychicalSkillRank[]
      */
-    protected function getInnerSkillRanks()
+    protected function getInnerSkillRanks(): Collection
     {
         return $this->psychicalSkillRanks;
     }
@@ -96,7 +98,7 @@ abstract class PsychicalSkill extends Skill
     /**
      * @return string[]
      */
-    public function getRelatedPropertyCodes()
+    public function getRelatedPropertyCodes(): array
     {
         return [PropertyCode::INTELLIGENCE, PropertyCode::WILL];
     }
@@ -104,7 +106,7 @@ abstract class PsychicalSkill extends Skill
     /**
      * @return bool
      */
-    public function isPsychical()
+    public function isPsychical(): bool
     {
         return true;
     }
@@ -112,7 +114,7 @@ abstract class PsychicalSkill extends Skill
     /**
      * @return bool
      */
-    public function isPhysical()
+    public function isPhysical(): bool
     {
         return false;
     }
@@ -120,7 +122,7 @@ abstract class PsychicalSkill extends Skill
     /**
      * @return bool
      */
-    public function isCombined()
+    public function isCombined(): bool
     {
         return false;
     }

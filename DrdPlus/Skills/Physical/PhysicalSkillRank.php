@@ -2,6 +2,8 @@
 namespace DrdPlus\Skills\Physical;
 
 use Doctrine\ORM\Mapping as ORM;
+use DrdPlus\Skills\Skill;
+use DrdPlus\Skills\SkillPoint;
 use DrdPlus\Skills\SkillRank;
 use Granam\Integer\PositiveInteger;
 
@@ -43,17 +45,17 @@ class PhysicalSkillRank extends SkillRank
     }
 
     /**
-     * @return PhysicalSkill
+     * @return Skill|PhysicalSkill
      */
-    public function getSkill()
+    public function getSkill(): Skill
     {
         return $this->physicalSkill;
     }
 
     /**
-     * @return PhysicalSkillPoint
+     * @return SkillPoint|PhysicalSkillPoint
      */
-    public function getSkillPoint()
+    public function getSkillPoint(): SkillPoint
     {
         return $this->physicalSkillPoint;
     }

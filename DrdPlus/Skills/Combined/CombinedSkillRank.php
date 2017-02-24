@@ -1,6 +1,8 @@
 <?php
 namespace DrdPlus\Skills\Combined;
 
+use DrdPlus\Skills\Skill;
+use DrdPlus\Skills\SkillPoint;
 use DrdPlus\Skills\SkillRank;
 use Doctrine\ORM\Mapping as ORM;
 use Granam\Integer\PositiveInteger;
@@ -43,17 +45,17 @@ class CombinedSkillRank extends SkillRank
     }
 
     /**
-     * @return CombinedSkill
+     * @return Skill|CombinedSkill
      */
-    public function getSkill()
+    public function getSkill(): Skill
     {
         return $this->combinedSkill;
     }
 
     /**
-     * @return CombinedSkillPoint
+     * @return SkillPoint|CombinedSkillPoint
      */
-    public function getSkillPoint()
+    public function getSkillPoint(): SkillPoint
     {
         return $this->combinedSkillPoint;
     }

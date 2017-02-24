@@ -243,9 +243,7 @@ class SkillsTest extends TestWithMockery
         $firstSkill->shouldReceive('getName')
             ->andReturn($this->parseSkillName($firstSkillClass));
         $firstSkill->shouldReceive('getSkillRanks')
-            ->andReturn([
-                $firstSkillRank = $this->mockery(SkillRank::class),
-            ]);
+            ->andReturn(new ArrayCollection([$firstSkillRank = $this->mockery(SkillRank::class)]));
         $firstSkillRank->shouldReceive('getProfessionLevel')
             ->andReturn($firstLevel);
         $firstSkillRank->shouldReceive('getSkillPoint')
@@ -377,9 +375,7 @@ class SkillsTest extends TestWithMockery
         $firstSkill->shouldReceive('getName')
             ->andReturn($this->parseSkillName($firstSkillClass));
         $firstSkill->shouldReceive('getSkillRanks')
-            ->andReturn([
-                $firstSkillRank = $this->mockery(SkillRank::class),
-            ]);
+            ->andReturn(new ArrayCollection([$firstSkillRank = $this->mockery(SkillRank::class)]));
         $firstSkillRank->shouldReceive('getProfessionLevel')
             ->andReturn($firstLevel);
         $firstSkillRank->shouldReceive('getSkillPoint')
@@ -473,9 +469,7 @@ class SkillsTest extends TestWithMockery
         $firstSkill->shouldReceive('getName')
             ->andReturn($this->parseSkillName($skillClass));
         $firstSkill->shouldReceive('getSkillRanks')
-            ->andReturn([
-                $nextLevelSkillRank = $this->mockery(SkillRank::class),
-            ]);
+            ->andReturn(new ArrayCollection([$nextLevelSkillRank = $this->mockery(SkillRank::class)]));
         $nextLevelSkillRank->shouldReceive('getProfessionLevel')
             ->andReturn($nextLevel);
         $nextLevelSkillRank->shouldReceive('getSkillPoint')
@@ -669,9 +663,7 @@ class SkillsTest extends TestWithMockery
         $firstSkill->shouldReceive('getName')
             ->andReturn($this->parseSkillName($firstSkillClass));
         $firstSkill->shouldReceive('getSkillRanks')
-            ->andReturn([
-                $firstSkillRank = $this->mockery(SkillRank::class),
-            ]);
+            ->andReturn(new ArrayCollection([$firstSkillRank = $this->mockery(SkillRank::class)]));
         $firstSkillRank->shouldReceive('getProfessionLevel')
             ->andReturn($firstLevel);
         $firstSkillRank->shouldReceive('getSkillPoint')
@@ -737,9 +729,7 @@ class SkillsTest extends TestWithMockery
         $firstSkill->shouldReceive('getName')
             ->andReturn($this->parseSkillName($firstSkillClass));
         $firstSkill->shouldReceive('getSkillRanks')
-            ->andReturn([
-                $firstSkillRank = $this->mockery(SkillRank::class),
-            ]);
+            ->andReturn(new ArrayCollection([$firstSkillRank = $this->mockery(SkillRank::class)]));
         $firstSkillRank->shouldReceive('getProfessionLevel')
             ->andReturn($firstLevel);
         $firstSkillRank->shouldReceive('getSkillPoint')
@@ -868,9 +858,7 @@ class SkillsTest extends TestWithMockery
         $firstSkill->shouldReceive('getName')
             ->andReturn($this->parseSkillName($firstSkillClass));
         $firstSkill->shouldReceive('getSkillRanks')
-            ->andReturn([
-                $firstSkillRank = $this->mockery(SkillRank::class),
-            ]);
+            ->andReturn(new ArrayCollection([$firstSkillRank = $this->mockery(SkillRank::class)]));
         $firstSkillRank->shouldReceive('getProfessionLevel')
             ->andReturn($firstLevel);
         $firstSkillRank->shouldReceive('getSkillPoint')
@@ -886,9 +874,7 @@ class SkillsTest extends TestWithMockery
         $secondSkill->shouldReceive('getName')
             ->andReturn($this->parseSkillName($secondSkillClass));
         $secondSkill->shouldReceive('getSkillRanks')
-            ->andReturn([
-                $secondSkillRank = $this->mockery(SkillRank::class),
-            ]);
+            ->andReturn(new ArrayCollection([$secondSkillRank = $this->mockery(SkillRank::class)]));
         $secondSkillRank->shouldReceive('getProfessionLevel')
             ->andReturn($firstLevel);
         $secondSkillRank->shouldReceive('getSkillPoint')
@@ -980,10 +966,10 @@ class SkillsTest extends TestWithMockery
         $firstSkill->shouldReceive('getName')
             ->andReturn($this->parseSkillName($skillClass));
         $firstSkill->shouldReceive('getSkillRanks')
-            ->andReturn([
+            ->andReturn(new ArrayCollection([
                 $skillFirstRank = $this->mockery(SkillRank::class),
                 $skillSecondRank = $this->mockery(SkillRank::class),
-            ]);
+            ]));
         $skillFirstRank->shouldReceive('getProfessionLevel')
             ->andReturn($nextLevel);
         $skillFirstRank->shouldReceive('getValue')
@@ -1059,7 +1045,7 @@ class SkillsTest extends TestWithMockery
 
         $physicalSkills->shouldReceive($getMalusToParameter)
             ->with($meleeWeaponCode, $tables, false)
-            ->andReturn($singleMeleeWeaponMalus = 'foo');
+            ->andReturn($singleMeleeWeaponMalus = 123456);
         self::assertSame(
             $singleMeleeWeaponMalus,
             $skills->$getMalusToParameter(
@@ -1071,7 +1057,7 @@ class SkillsTest extends TestWithMockery
 
         $physicalSkills->shouldReceive($getMalusToParameter)
             ->with($meleeWeaponCode, $tables, true)
-            ->andReturn($twoMeleeWeaponsMalus = 'bar');
+            ->andReturn($twoMeleeWeaponsMalus = 798123);
         self::assertSame(
             $twoMeleeWeaponsMalus,
             $skills->$getMalusToParameter(
@@ -1176,7 +1162,7 @@ class SkillsTest extends TestWithMockery
 
         $physicalSkills->shouldReceive($getMalusToParameter)
             ->with($throwingWeaponCode, $missingWeaponSkillsTable, false)
-            ->andReturn($singleThrowingWeaponMalus = 'foo');
+            ->andReturn($singleThrowingWeaponMalus = 123456);
         self::assertSame(
             $singleThrowingWeaponMalus,
             $skills->$getMalusToParameter(
@@ -1188,7 +1174,7 @@ class SkillsTest extends TestWithMockery
 
         $physicalSkills->shouldReceive($getMalusToParameter)
             ->with($throwingWeaponCode, $missingWeaponSkillsTable, true)
-            ->andReturn($twoThrowingWeaponsMalus = 'bar');
+            ->andReturn($twoThrowingWeaponsMalus = 789123);
         self::assertSame(
             $twoThrowingWeaponsMalus,
             $skills->$getMalusToParameter(
@@ -1236,7 +1222,7 @@ class SkillsTest extends TestWithMockery
         $missingWeaponSkillsTable = $this->createTablesWithMissingWeaponSkillTable();
         $combinedSkills->shouldReceive('getMalusTo' . ucfirst($malusTo) . 'WithShootingWeapon')
             ->with($rangeWeaponCode, $missingWeaponSkillsTable)
-            ->andReturn($shootingWeaponMalus = 'foo');
+            ->andReturn($shootingWeaponMalus = 987654);
         /**
          * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeaponlike
          * @see \DrdPlus\Skills\Skills::getMalusToAttackNumberWithWeaponlike
@@ -1364,9 +1350,9 @@ class SkillsTest extends TestWithMockery
         $shield = $this->mockery(ShieldCode::class);
         $physicalSkills->shouldReceive('getMalusToFightNumberWithProtective')
             ->with($shield, $armourer)
-            ->andReturn('foo');
+            ->andReturn(465321);
         self::assertSame(
-            'foo',
+            465321,
             $skills->getMalusToFightNumberWithProtective($shield, $armourer)
         );
     }
@@ -1440,8 +1426,8 @@ class SkillsTest extends TestWithMockery
         $tables = $this->createTablesWithShieldUsageSkillTable();
         $physicalSkills->shouldReceive('getMalusToCoverWithShield')
             ->with($tables)
-            ->andReturn('foo');
-        self::assertSame('foo', $skills->getMalusToCoverWithShield($tables));
+            ->andReturn(123654);
+        self::assertSame(123654, $skills->getMalusToCoverWithShield($tables));
     }
 
     /**

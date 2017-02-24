@@ -187,9 +187,9 @@ class CombinedSkills extends SameTypeSkills
     }
 
     /**
-     * @return \ArrayIterator|CombinedSkill[]
+     * @return \Traversable|\ArrayIterator|CombinedSkill[]
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator([
             $this->getBigHandwork(),
@@ -219,7 +219,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return BigHandwork
      */
-    public function getBigHandwork()
+    public function getBigHandwork(): BigHandwork
     {
         return $this->bigHandwork;
     }
@@ -227,7 +227,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return Cooking
      */
-    public function getCooking()
+    public function getCooking(): Cooking
     {
         return $this->cooking;
     }
@@ -235,7 +235,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return Dancing
      */
-    public function getDancing()
+    public function getDancing(): Dancing
     {
         return $this->dancing;
     }
@@ -243,7 +243,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return DuskSight
      */
-    public function getDuskSight()
+    public function getDuskSight(): DuskSight
     {
         return $this->duskSight;
     }
@@ -251,7 +251,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return FightWithBows
      */
-    public function getFightWithBows()
+    public function getFightWithBows(): FightWithBows
     {
         return $this->fightWithBows;
     }
@@ -259,7 +259,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return FightWithCrossbows
      */
-    public function getFightWithCrossbows()
+    public function getFightWithCrossbows(): FightWithCrossbows
     {
         return $this->fightWithCrossbows;
     }
@@ -267,7 +267,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return FirstAid
      */
-    public function getFirstAid()
+    public function getFirstAid(): FirstAid
     {
         return $this->firstAid;
     }
@@ -275,7 +275,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return HandlingWithAnimals
      */
-    public function getHandlingWithAnimals()
+    public function getHandlingWithAnimals(): HandlingWithAnimals
     {
         return $this->handlingWithAnimals;
     }
@@ -283,7 +283,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return Handwork
      */
-    public function getHandwork()
+    public function getHandwork(): Handwork
     {
         return $this->handwork;
     }
@@ -291,7 +291,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return Gambling
      */
-    public function getGambling()
+    public function getGambling(): Gambling
     {
         return $this->gambling;
     }
@@ -299,7 +299,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return Herbalism
      */
-    public function getHerbalism()
+    public function getHerbalism(): Herbalism
     {
         return $this->herbalism;
     }
@@ -307,7 +307,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return HuntingAndFishing
      */
-    public function getHuntingAndFishing()
+    public function getHuntingAndFishing(): HuntingAndFishing
     {
         return $this->huntingAndFishing;
     }
@@ -315,7 +315,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return Knotting
      */
-    public function getKnotting()
+    public function getKnotting(): Knotting
     {
         return $this->knotting;
     }
@@ -323,7 +323,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return Painting
      */
-    public function getPainting()
+    public function getPainting(): Painting
     {
         return $this->painting;
     }
@@ -331,7 +331,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return Pedagogy
      */
-    public function getPedagogy()
+    public function getPedagogy(): Pedagogy
     {
         return $this->pedagogy;
     }
@@ -339,7 +339,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return PlayingOnMusicInstrument
      */
-    public function getPlayingOnMusicInstrument()
+    public function getPlayingOnMusicInstrument(): PlayingOnMusicInstrument
     {
         return $this->playingOnMusicInstrument;
     }
@@ -347,7 +347,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return Seduction
      */
-    public function getSeduction()
+    public function getSeduction(): Seduction
     {
         return $this->seduction;
     }
@@ -355,7 +355,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return Showmanship
      */
-    public function getShowmanship()
+    public function getShowmanship(): Showmanship
     {
         return $this->showmanship;
     }
@@ -363,7 +363,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return Singing
      */
-    public function getSinging()
+    public function getSinging(): Singing
     {
         return $this->singing;
     }
@@ -371,7 +371,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return Statuary
      */
-    public function getStatuary()
+    public function getStatuary(): Statuary
     {
         return $this->statuary;
     }
@@ -379,7 +379,7 @@ class CombinedSkills extends SameTypeSkills
     /**
      * @return Teaching
      */
-    public function getTeaching()
+    public function getTeaching(): Teaching
     {
         return $this->teaching;
     }
@@ -390,7 +390,7 @@ class CombinedSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
-    public function getMalusToFightNumberWithShootingWeapon(RangedWeaponCode $rangeWeaponCode, Tables $tables)
+    public function getMalusToFightNumberWithShootingWeapon(RangedWeaponCode $rangeWeaponCode, Tables $tables): int
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 
@@ -403,7 +403,7 @@ class CombinedSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
-    private function getFightWithShootingWeaponRankValue(RangedWeaponCode $rangeWeaponCode)
+    private function getFightWithShootingWeaponRankValue(RangedWeaponCode $rangeWeaponCode): int
     {
         if ($rangeWeaponCode->isBow()) {
             return $this->getFightWithBows()->getCurrentSkillRank()->getValue();
@@ -423,7 +423,7 @@ class CombinedSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
-    public function getMalusToAttackNumberWithShootingWeapon(RangedWeaponCode $rangeWeaponCode, Tables $tables)
+    public function getMalusToAttackNumberWithShootingWeapon(RangedWeaponCode $rangeWeaponCode, Tables $tables): int
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 
@@ -437,7 +437,7 @@ class CombinedSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
-    public function getMalusToCoverWithShootingWeapon(RangedWeaponCode $rangeWeaponCode, Tables $tables)
+    public function getMalusToCoverWithShootingWeapon(RangedWeaponCode $rangeWeaponCode, Tables $tables): int
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 
@@ -451,7 +451,7 @@ class CombinedSkills extends SameTypeSkills
      * @return int
      * @throws \DrdPlus\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      */
-    public function getMalusToBaseOfWoundsWithShootingWeapon(RangedWeaponCode $rangeWeaponCode, Tables $tables)
+    public function getMalusToBaseOfWoundsWithShootingWeapon(RangedWeaponCode $rangeWeaponCode, Tables $tables): int
     {
         $rankValue = $this->getFightWithShootingWeaponRankValue($rangeWeaponCode);
 

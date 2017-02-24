@@ -13,7 +13,7 @@ class FightWithMorningstarsAndMorgensterns extends FightWithWeaponsUsingPhysical
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::FIGHT_WITH_MORNINGSTARS_AND_MORGENSTERNS;
     }

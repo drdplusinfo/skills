@@ -2,10 +2,12 @@
 namespace DrdPlus\Skills\Physical;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use DrdPlus\Codes\Properties\PropertyCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Skills\Skill;
 use Doctrine\ORM\Mapping as ORM;
+use DrdPlus\Skills\SkillRank;
 use Granam\Integer\PositiveIntegerObject;
 
 /**
@@ -41,8 +43,7 @@ use Granam\Integer\PositiveIntegerObject;
  *  "shieldUsage" = "ShieldUsage",
  *  "swimming" = "Swimming",
  * })
- *
- * @method PhysicalSkillRank getCurrentSkillRank
+ * @method PhysicalSkillRank|SkillRank getCurrentSkillRank
  */
 abstract class PhysicalSkill extends Skill
 {
@@ -64,12 +65,12 @@ abstract class PhysicalSkill extends Skill
 
     /**
      * @param ProfessionLevel $professionLevel
-     * @return PhysicalSkillRank
+     * @return PhysicalSkillRank|SkillRank
      * @throws \DrdPlus\Skills\Exceptions\UnknownPaymentForSkillPoint
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyPaidSkillPoint
      */
-    protected function createZeroSkillRank(ProfessionLevel $professionLevel)
+    protected function createZeroSkillRank(ProfessionLevel $professionLevel): SkillRank
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return new PhysicalSkillRank(
@@ -98,9 +99,9 @@ abstract class PhysicalSkill extends Skill
     }
 
     /**
-     * @return ArrayCollection|PhysicalSkillRank[]
+     * @return Collection|ArrayCollection|PhysicalSkillRank[]
      */
-    protected function getInnerSkillRanks()
+    protected function getInnerSkillRanks(): Collection
     {
         return $this->physicalSkillRanks;
     }
@@ -108,7 +109,7 @@ abstract class PhysicalSkill extends Skill
     /**
      * @return string[]
      */
-    public function getRelatedPropertyCodes()
+    public function getRelatedPropertyCodes(): array
     {
         return [PropertyCode::STRENGTH, PropertyCode::AGILITY];
     }
@@ -116,7 +117,7 @@ abstract class PhysicalSkill extends Skill
     /**
      * @return bool
      */
-    public function isPhysical()
+    public function isPhysical(): bool
     {
         return true;
     }
@@ -124,7 +125,7 @@ abstract class PhysicalSkill extends Skill
     /**
      * @return bool
      */
-    public function isPsychical()
+    public function isPsychical(): bool
     {
         return false;
     }
@@ -132,7 +133,7 @@ abstract class PhysicalSkill extends Skill
     /**
      * @return bool
      */
-    public function isCombined()
+    public function isCombined(): bool
     {
         return false;
     }

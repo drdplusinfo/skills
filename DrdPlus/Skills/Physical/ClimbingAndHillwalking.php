@@ -14,7 +14,7 @@ class ClimbingAndHillwalking extends PhysicalSkill
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::CLIMBING_AND_HILLWALKING;
     }

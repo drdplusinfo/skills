@@ -13,7 +13,7 @@ class FightWithCrossbows extends FightWithShootingWeapons
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::FIGHT_WITH_CROSSBOWS;
     }

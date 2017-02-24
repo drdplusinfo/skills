@@ -14,7 +14,7 @@ class Knotting extends CombinedSkill
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::KNOTTING;
     }

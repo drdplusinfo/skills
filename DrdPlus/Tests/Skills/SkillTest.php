@@ -334,7 +334,7 @@ abstract class SkillTest extends TestWithMockery
 /** inner */
 class CheatingSkill extends CombinedSkill
 {
-    public function getName()
+    public function getName(): string
     {
         return 'foo';
     }

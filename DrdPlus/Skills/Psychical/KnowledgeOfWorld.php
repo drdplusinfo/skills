@@ -12,7 +12,7 @@ class KnowledgeOfWorld extends PsychicalSkill
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::KNOWLEDGE_OF_WORLD;
     }

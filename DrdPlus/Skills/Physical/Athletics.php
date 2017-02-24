@@ -14,7 +14,7 @@ class Athletics extends PhysicalSkill implements \DrdPlus\Properties\Derived\Ath
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::ATHLETICS;
     }

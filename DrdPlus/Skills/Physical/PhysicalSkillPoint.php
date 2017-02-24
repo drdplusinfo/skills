@@ -17,7 +17,7 @@ class PhysicalSkillPoint extends SkillPoint
     /**
      * return @string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return static::PHYSICAL;
     }
@@ -25,7 +25,7 @@ class PhysicalSkillPoint extends SkillPoint
     /**
      * @return string[]
      */
-    public function getRelatedProperties()
+    public function getRelatedProperties(): array
     {
         return [PropertyCode::STRENGTH, PropertyCode::AGILITY];
     }

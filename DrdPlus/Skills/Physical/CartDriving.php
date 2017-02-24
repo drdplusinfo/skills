@@ -14,7 +14,7 @@ class CartDriving extends PhysicalSkill
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return self::CART_DRIVING;
     }

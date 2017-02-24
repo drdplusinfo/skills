@@ -2,10 +2,12 @@
 namespace DrdPlus\Skills\Combined;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use DrdPlus\Codes\Properties\PropertyCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Skills\Skill;
 use Doctrine\ORM\Mapping as ORM;
+use DrdPlus\Skills\SkillRank;
 use Granam\Integer\PositiveIntegerObject;
 
 /**
@@ -35,7 +37,7 @@ use Granam\Integer\PositiveIntegerObject;
  * "statuary" = "Statuary",
  * "teaching" = "Teaching"
  * })
- * @method CombinedSkillRank getCurrentSkillRank
+ * @method CombinedSkillRank|SkillRank getCurrentSkillRank
  */
 abstract class CombinedSkill extends Skill
 {
@@ -75,12 +77,12 @@ abstract class CombinedSkill extends Skill
 
     /**
      * @param ProfessionLevel $professionLevel
-     * @return CombinedSkillRank
+     * @return SkillRank|CombinedSkillRank
      * @throws \DrdPlus\Skills\Exceptions\UnknownPaymentForSkillPoint
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyPaidSkillPoint
      */
-    protected function createZeroSkillRank(ProfessionLevel $professionLevel)
+    protected function createZeroSkillRank(ProfessionLevel $professionLevel): SkillRank
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return new CombinedSkillRank(
@@ -91,9 +93,9 @@ abstract class CombinedSkill extends Skill
     }
 
     /**
-     * @return ArrayCollection|CombinedSkillRank[]
+     * @return Collection|ArrayCollection|CombinedSkillRank[]
      */
-    protected function getInnerSkillRanks()
+    protected function getInnerSkillRanks(): Collection
     {
         return $this->combinedSkillRanks;
     }
@@ -101,7 +103,7 @@ abstract class CombinedSkill extends Skill
     /**
      * @return string[]
      */
-    public function getRelatedPropertyCodes()
+    public function getRelatedPropertyCodes(): array
     {
         return [PropertyCode::KNACK, PropertyCode::CHARISMA];
     }
@@ -109,7 +111,7 @@ abstract class CombinedSkill extends Skill
     /**
      * @return bool
      */
-    public function isPhysical()
+    public function isPhysical(): bool
     {
         return false;
     }
@@ -117,7 +119,7 @@ abstract class CombinedSkill extends Skill
     /**
      * @return bool
      */
-    public function isPsychical()
+    public function isPsychical(): bool
     {
         return false;
     }
@@ -125,7 +127,7 @@ abstract class CombinedSkill extends Skill
     /**
      * @return bool
      */
-    public function isCombined()
+    public function isCombined(): bool
     {
         return true;
     }

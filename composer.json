@@ -17,7 +17,8 @@
     "drd-plus/background": "dev-master",
     "doctrineum/entity": "dev-master",
     "doctrineum/datetime-immutable": "dev-master",
-    "drd-plus/lighting": "dev-master"
+    "drd-plus/lighting": "dev-master",
+    "drd-plus/hunting-and-fishing": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "~6.0",

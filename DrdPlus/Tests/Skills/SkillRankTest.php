@@ -167,12 +167,14 @@ class BrokenBecauseOfSkillNotSetInConstructor extends SkillRank
         parent::__construct($owningSkill, $skillPoint, $requiredRankValue);
     }
 
-    public function getSkillPoint()
+    public function getSkillPoint(): SkillPoint
     {
+        return \Mockery::mock(SkillPoint::class);
     }
 
-    public function getSkill()
+    public function getSkill(): Skill
     {
+        return \Mockery::mock(Skill::class);
     }
 
 }
@@ -191,11 +193,12 @@ class BrokenBecauseOfSkillPointNotSetInConstructor extends SkillRank
         parent::__construct($owningSkill, $skillPoint, $requiredRankValue);
     }
 
-    public function getSkillPoint()
+    public function getSkillPoint(): SkillPoint
     {
+        return \Mockery::mock(SkillPoint::class);
     }
 
-    public function getSkill()
+    public function getSkill(): Skill
     {
         return $this->skill;
     }
