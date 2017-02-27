@@ -18,4 +18,12 @@ class CartDriving extends PhysicalSkill
     {
         return self::CART_DRIVING;
     }
+
+    /**
+     * @return int
+     */
+    public function getMalusToMovementSpeed(): int
+    {
+        return -3 + $this->getCurrentSkillRank()->getValue();
+    }
 }

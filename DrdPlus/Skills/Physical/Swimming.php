@@ -18,4 +18,30 @@ class Swimming extends PhysicalSkill
     {
         return self::SWIMMING;
     }
+
+    /**
+     * @return int
+     */
+    public function getBonusToSwimming(): int
+    {
+        $currentSkillRankValue = $this->getCurrentSkillRank()->getValue();
+        if ($currentSkillRankValue === 0) {
+            return 0;
+        }
+
+        return $currentSkillRankValue * 2 + 2;
+    }
+
+    /**
+     * @return int
+     */
+    public function getBonusToSpeed(): int
+    {
+        $currentSkillRankValue = $this->getCurrentSkillRank()->getValue();
+        if ($currentSkillRankValue === 0) {
+            return 0;
+        }
+
+        return $currentSkillRankValue + 1;
+    }
 }

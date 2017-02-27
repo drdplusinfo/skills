@@ -1,6 +1,8 @@
 <?php
 namespace DrdPlus\Tests\Skills\Physical;
 
+use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
+use DrdPlus\Skills\Physical\PhysicalSkillPoint;
 use DrdPlus\Skills\Physical\PhysicalSkillRank;
 use DrdPlus\Skills\Physical\ShieldUsage;
 use DrdPlus\Tables\Armaments\Shields\ShieldUsageSkillTable;
@@ -9,6 +11,49 @@ use DrdPlus\Tables\Tables;
 
 class ShieldUsageTest extends PhysicalSkillTest
 {
+    /**
+     * @test
+     */
+    public function I_can_get_bonus_to_restriction()
+    {
+        $swimming = new ShieldUsage($this->createProfessionLevel());
+
+        self::assertSame(0, $swimming->getCurrentSkillRank()->getValue());
+        self::assertSame(0, $swimming->getBonusToRestriction());
+
+        $swimming->increaseSkillRank($this->createPhysicalSkillPoint());
+        self::assertSame(1, $swimming->getCurrentSkillRank()->getValue());
+        self::assertSame(1, $swimming->getBonusToRestriction());
+
+        $swimming->increaseSkillRank($this->createPhysicalSkillPoint());
+        self::assertSame(2, $swimming->getCurrentSkillRank()->getValue());
+        self::assertSame(2, $swimming->getBonusToRestriction());
+
+        $swimming->increaseSkillRank($this->createPhysicalSkillPoint());
+        self::assertSame(3, $swimming->getCurrentSkillRank()->getValue());
+        self::assertSame(3, $swimming->getBonusToRestriction());
+    }
+
+    /**
+     * @return \Mockery\MockInterface|ProfessionFirstLevel
+     */
+    private function createProfessionLevel()
+    {
+        return $this->mockery(ProfessionFirstLevel::class);
+    }
+
+    /**
+     * @return \Mockery\MockInterface|PhysicalSkillPoint
+     */
+    private function createPhysicalSkillPoint(): PhysicalSkillPoint
+    {
+        $physicalSkillPoint = $this->mockery(PhysicalSkillPoint::class);
+        $physicalSkillPoint->shouldReceive('getValue')
+            ->andReturn(1);
+
+        return $physicalSkillPoint;
+    }
+
     /**
      * @test
      */

@@ -22,6 +22,14 @@ class ShieldUsage extends PhysicalSkill
     }
 
     /**
+     * @return int
+     */
+    public function getBonusToRestriction(): int
+    {
+        return $this->getCurrentSkillRank()->getValue();
+    }
+
+    /**
      * Only for using shield as a weapon!
      *
      * @param Tables $tables
