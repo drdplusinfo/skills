@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Tests\Skills\Physical;
 
-class ClimbingAndHillwalkingTest extends WithBonusFromPhysicalSkillTest
+class ClimbingAndHillwalkingTest extends WithBonusFromPhysicalTest
 {
 
 }

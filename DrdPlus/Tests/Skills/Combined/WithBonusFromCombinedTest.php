@@ -3,10 +3,19 @@ namespace DrdPlus\Tests\Skills\Combined;
 
 use DrdPlus\Skills\Combined\CombinedSkillPoint;
 use DrdPlus\Skills\SkillPoint;
-use DrdPlus\Tests\Skills\WithBonusFromSkillTest;
+use DrdPlus\Tests\Skills\WithBonusTest;
 
-abstract class WithBonusFromCombinedSkillTest extends WithBonusFromSkillTest
+abstract class WithBonusFromCombinedTest extends WithBonusTest
 {
+    /**
+     * @param int $skillRankValue
+     * @return int
+     */
+    protected function getExpectedBonus(int $skillRankValue): int
+    {
+        return 2 * $skillRankValue;
+    }
+
     /**
      * @return \Mockery\MockInterface|CombinedSkillPoint|SkillPoint
      */

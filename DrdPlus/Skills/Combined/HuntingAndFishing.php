@@ -4,12 +4,12 @@ namespace DrdPlus\Skills\Combined;
 use DrdPlus\Codes\Skills\CombinedSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\HuntingAndFishing\WithBonusFromHuntingAndFishingSkill;
-use DrdPlus\Skills\WithBonusFromSkill;
+use DrdPlus\Skills\WithBonus;
 
 /**
  * @ORM\Entity()
  */
-class HuntingAndFishing extends CombinedSkill implements WithBonusFromSkill, WithBonusFromHuntingAndFishingSkill
+class HuntingAndFishing extends CombinedSkill implements WithBonus, WithBonusFromHuntingAndFishingSkill
 {
     const HUNTING_AND_FISHING = CombinedSkillCode::HUNTING_AND_FISHING;
 
@@ -24,8 +24,17 @@ class HuntingAndFishing extends CombinedSkill implements WithBonusFromSkill, Wit
     /**
      * @return int
      */
-    public function getBonusFromSkill(): int
+    public function getBonus(): int
     {
         return $this->getCurrentSkillRank()->getValue() * 2;
     }
+
+    /**
+     * @return int
+     */
+    public function getBonusFromSkill(): int
+    {
+        return $this->getBonus();
+    }
+
 }

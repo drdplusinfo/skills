@@ -2,12 +2,12 @@
 namespace DrdPlus\Skills\Physical;
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
 use Doctrine\ORM\Mapping as ORM;
-use DrdPlus\Skills\WithBonusFromSkill;
+use DrdPlus\Skills\WithBonus;
 
 /**
  * @ORM\Entity()
  */
-class Sailing extends PhysicalSkill implements WithBonusFromSkill
+class Sailing extends PhysicalSkill implements WithBonus
 {
     const SAILING = PhysicalSkillCode::SAILING;
 
@@ -22,7 +22,7 @@ class Sailing extends PhysicalSkill implements WithBonusFromSkill
     /**
      * @return int
      */
-    public function getBonusFromSkill(): int
+    public function getBonus(): int
     {
         return $this->getCurrentSkillRank()->getValue();
     }

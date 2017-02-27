@@ -3,9 +3,9 @@ namespace DrdPlus\Tests\Skills\Psychical;
 
 use DrdPlus\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Skills\SkillPoint;
-use DrdPlus\Tests\Skills\WithBonusFromSkillTest;
+use DrdPlus\Tests\Skills\WithBonusToIntelligenceTest;
 
-abstract class WithBonusFromPsychicalSkillTest extends WithBonusFromSkillTest
+abstract class WithBonusToIntelligenceFromPsychicalTest extends WithBonusToIntelligenceTest
 {
     /**
      * @return \Mockery\MockInterface|PsychicalSkillPoint|SkillPoint

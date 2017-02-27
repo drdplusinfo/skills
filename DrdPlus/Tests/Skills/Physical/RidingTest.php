@@ -3,16 +3,16 @@ namespace DrdPlus\Tests\Skills\Physical;
 
 use DrdPlus\Skills\Physical\PhysicalSkillPoint;
 use DrdPlus\Skills\SkillPoint;
-use DrdPlus\Tests\Skills\WithBonusFromSkillTest;
+use DrdPlus\Tests\Skills\WithBonusTest;
 
-class RidingTest extends WithBonusFromSkillTest
+class RidingTest extends WithBonusTest
 {
     /**
      * @param int $skillRankValue
      * @return int
      * @throws \LogicException
      */
-    protected function getExpectedBonusFromSkill(int $skillRankValue): int
+    protected function getExpectedBonus(int $skillRankValue): int
     {
         switch ($skillRankValue) {
             case 1 :
