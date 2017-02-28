@@ -16,7 +16,7 @@ class ReadingAndWritingTest extends TestWithMockery
         $readingAndWriting = new ReadingAndWriting($this->createProfessionLevel());
 
         self::assertSame(0, $readingAndWriting->getCurrentSkillRank()->getValue());
-        self::assertSame(-144, $readingAndWriting->getBonusToReadingSpeed());
+        self::assertSame(-164, $readingAndWriting->getBonusToReadingSpeed());
 
         $readingAndWriting->increaseSkillRank($this->createPsychicalSkillPoint());
         self::assertSame(1, $readingAndWriting->getCurrentSkillRank()->getValue());

@@ -10,7 +10,7 @@
 The **reading and writing** skill gives a "bonus" to reading speed, despite PPH rules where
 reading and writing is impossible.
 
-This library gives -144 as a "bonus" to reading speed, which means 10 years.
+This library gives -164 as a "bonus" to reading speed, which means 100 years.
 The reason is mostly technical - because returning *something* is easier and more clear
 than *nothing* (by null or exception), and partly because its logical - after ten years you have a chance to decode that
 strange symbols, especially when they mean something in a language you already know.

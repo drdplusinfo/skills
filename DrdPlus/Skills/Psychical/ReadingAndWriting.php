@@ -26,7 +26,7 @@ class ReadingAndWriting extends PsychicalSkill
     {
         $currentSkillRankValue = $this->getCurrentSkillRank()->getValue();
         if ($currentSkillRankValue === 0) {
-            return -144; // ten years
+            return -164; // one hundred years
         }
 
         return ($this->getCurrentSkillRank()->getValue() - 1) * 3;
