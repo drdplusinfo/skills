@@ -1,11 +1,14 @@
 <?php
 namespace DrdPlus\Skills\Psychical;
+
 use DrdPlus\Codes\Skills\PsychicalSkillCode;
 use Doctrine\ORM\Mapping as ORM;
+use DrdPlus\Skills\WithBonus;
+
 /**
  * @ORM\Entity()
  */
-class MapsDrawing extends PsychicalSkill
+class MapsDrawing extends PsychicalSkill implements WithBonus
 {
     const MAPS_DRAWING = PsychicalSkillCode::MAPS_DRAWING;
 
@@ -16,4 +19,13 @@ class MapsDrawing extends PsychicalSkill
     {
         return self::MAPS_DRAWING;
     }
+
+    /**
+     * @return int
+     */
+    public function getBonus(): int
+    {
+        return $this->getCurrentSkillRank()->getValue() * 2;
+    }
+
 }

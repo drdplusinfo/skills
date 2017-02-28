@@ -17,7 +17,7 @@ use Granam\Integer\PositiveIntegerObject;
  * @ORM\DiscriminatorMap({
  *  "astronomy" = "Astronomy",
  *  "botany" = "Botany",
- *  "etiquetteOfUnderworld" = "EtiquetteOfUnderworld",
+ *  "etiquetteOfGangland" = "EtiquetteOfGangland",
  *  "foreignLanguage" = "ForeignLanguage",
  *  "geographyOfACountry" = "GeographyOfACountry",
  *  "handlingWithMagicalItems" = "HandlingWithMagicalItems",
@@ -32,7 +32,7 @@ use Granam\Integer\PositiveIntegerObject;
  *  "theology" = "Theology",
  *  "zoology" = "Zoology"
  * })
- * @method PsychicalSkillRank getCurrentSkillRank
+ * @method PsychicalSkillRank|SkillRank getCurrentSkillRank: SkillRank
  */
 abstract class PsychicalSkill extends Skill
 {

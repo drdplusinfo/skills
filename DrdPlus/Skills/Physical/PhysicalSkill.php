@@ -43,7 +43,7 @@ use Granam\Integer\PositiveIntegerObject;
  *  "shieldUsage" = "ShieldUsage",
  *  "swimming" = "Swimming",
  * })
- * @method PhysicalSkillRank|SkillRank getCurrentSkillRank
+ * @method PhysicalSkillRank|SkillRank getCurrentSkillRank(): SkillRank
  */
 abstract class PhysicalSkill extends Skill
 {

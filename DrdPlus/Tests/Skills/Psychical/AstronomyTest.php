@@ -2,22 +2,9 @@
 namespace DrdPlus\Tests\Skills\Psychical;
 
 use DrdPlus\Skills\Psychical\Astronomy;
-use DrdPlus\Skills\Psychical\PsychicalSkillPoint;
 
 class AstronomyTest extends WithBonusToIntelligenceFromPsychicalTest
 {
-    /**
-     * @return \Mockery\MockInterface|PsychicalSkillPoint
-     */
-    private function createPsychicalSkillPoint(): PsychicalSkillPoint
-    {
-        $psychicalSkillPoint = $this->mockery(PsychicalSkillPoint::class);
-        $psychicalSkillPoint->shouldReceive('getValue')
-            ->andReturn(1);
-
-        return $psychicalSkillPoint;
-    }
-
     /**
      * @test
      */
@@ -28,17 +15,16 @@ class AstronomyTest extends WithBonusToIntelligenceFromPsychicalTest
         self::assertSame(0, $astronomy->getCurrentSkillRank()->getValue());
         self::assertSame(0, $astronomy->getBonusToOrientation());
 
-        $astronomy->increaseSkillRank($this->createPsychicalSkillPoint());
+        $astronomy->increaseSkillRank($this->createSkillPoint());
         self::assertSame(1, $astronomy->getCurrentSkillRank()->getValue());
         self::assertSame(1, $astronomy->getBonusToOrientation());
 
-        $astronomy->increaseSkillRank($this->createPsychicalSkillPoint());
+        $astronomy->increaseSkillRank($this->createSkillPoint());
         self::assertSame(2, $astronomy->getCurrentSkillRank()->getValue());
         self::assertSame(2, $astronomy->getBonusToOrientation());
 
-        $astronomy->increaseSkillRank($this->createPsychicalSkillPoint());
+        $astronomy->increaseSkillRank($this->createSkillPoint());
         self::assertSame(3, $astronomy->getCurrentSkillRank()->getValue());
         self::assertSame(3, $astronomy->getBonusToOrientation());
     }
-
 }

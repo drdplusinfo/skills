@@ -69,7 +69,7 @@ class PsychicalSkillsTest extends SameTypeSkillsTest
     public function I_can_not_increase_rank_by_zero_skill_point()
     {
         $skills = new PsychicalSkills($professionZeroLevel = ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
-        $skills->getEtiquetteOfUnderworld()->increaseSkillRank(PsychicalSkillPoint::createZeroSkillPoint($professionZeroLevel));
+        $skills->getEtiquetteOfGangland()->increaseSkillRank(PsychicalSkillPoint::createZeroSkillPoint($professionZeroLevel));
     }
 
     /**

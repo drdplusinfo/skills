@@ -37,7 +37,7 @@ use Granam\Integer\PositiveIntegerObject;
  * "statuary" = "Statuary",
  * "teaching" = "Teaching"
  * })
- * @method CombinedSkillRank|SkillRank getCurrentSkillRank
+ * @method CombinedSkillRank|SkillRank getCurrentSkillRank(): SkillRank
  */
 abstract class CombinedSkill extends Skill
 {

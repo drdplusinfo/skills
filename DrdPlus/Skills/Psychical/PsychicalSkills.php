@@ -26,10 +26,10 @@ class PsychicalSkills extends SameTypeSkills
      */
     private $botany;
     /**
-     * @var EtiquetteOfUnderworld
-     * @ORM\OneToOne(targetEntity="EtiquetteOfUnderworld", cascade={"persist"}, orphanRemoval=true)
+     * @var EtiquetteOfGangland
+     * @ORM\OneToOne(targetEntity="EtiquetteOfGangLand", cascade={"persist"}, orphanRemoval=true)
      */
-    private $etiquetteOfUnderworld;
+    private $etiquetteOfGangland;
     /**
      * @var ForeignLanguage
      * @ORM\OneToOne(targetEntity="ForeignLanguage", cascade={"persist"}, orphanRemoval=true)
@@ -103,7 +103,7 @@ class PsychicalSkills extends SameTypeSkills
     {
         $this->astronomy = new Astronomy($professionLevel);
         $this->botany = new Botany($professionLevel);
-        $this->etiquetteOfUnderworld = new EtiquetteOfUnderworld($professionLevel);
+        $this->etiquetteOfGangland = new EtiquetteOfGangland($professionLevel);
         $this->foreignLanguage = new ForeignLanguage($professionLevel);
         $this->geographyOfACountry = new GeographyOfACountry($professionLevel);
         $this->handlingWithMagicalItems = new HandlingWithMagicalItems($professionLevel);
@@ -163,7 +163,7 @@ class PsychicalSkills extends SameTypeSkills
         return new \ArrayIterator([
             $this->getAstronomy(),
             $this->getBotany(),
-            $this->getEtiquetteOfUnderworld(),
+            $this->getEtiquetteOfGangland(),
             $this->getForeignLanguage(),
             $this->getGeographyOfACountry(),
             $this->getHandlingWithMagicalItems(),
@@ -197,11 +197,11 @@ class PsychicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return EtiquetteOfUnderworld
+     * @return EtiquetteOfGangland
      */
-    public function getEtiquetteOfUnderworld()
+    public function getEtiquetteOfGangland()
     {
-        return $this->etiquetteOfUnderworld;
+        return $this->etiquetteOfGangland;
     }
 
     /**

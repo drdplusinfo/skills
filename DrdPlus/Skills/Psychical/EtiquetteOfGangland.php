@@ -3,27 +3,27 @@ namespace DrdPlus\Skills\Psychical;
 
 use DrdPlus\Codes\Skills\PsychicalSkillCode;
 use Doctrine\ORM\Mapping as ORM;
-use DrdPlus\Skills\WithBonusToIntelligence;
+use DrdPlus\Skills\WithBonusToCharisma;
 
 /**
  * @ORM\Entity()
  */
-class ForeignLanguage extends PsychicalSkill implements WithBonusToIntelligence
+class EtiquetteOfGangland extends PsychicalSkill implements WithBonusToCharisma
 {
-    const FOREIGN_LANGUAGE = PsychicalSkillCode::FOREIGN_LANGUAGE;
+    const ETIQUETTE_OF_GANGLAND = PsychicalSkillCode::ETIQUETTE_OF_GANGLAND;
 
     /**
      * @return string
      */
     public function getName(): string
     {
-        return self::FOREIGN_LANGUAGE;
+        return self::ETIQUETTE_OF_GANGLAND;
     }
 
     /**
      * @return int
      */
-    public function getBonusToIntelligence(): int
+    public function getBonusToCharisma(): int
     {
         return 3 * $this->getCurrentSkillRank()->getValue();
     }
