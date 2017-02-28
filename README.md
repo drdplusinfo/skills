@@ -4,6 +4,19 @@
 [![Test Coverage](https://codeclimate.com/github/jaroslavtyc/drd-plus-skills/badges/coverage.svg)](https://codeclimate.com/github/jaroslavtyc/drd-plus-skills/coverage)
 [![License](https://poser.pugx.org/drd-plus/skills/license)](https://packagist.org/packages/drd-plus/skills)
 
+*Can you swim? How long you will read that book? Can you hold on horse?*
+
+### Warning about distinction from PPH rules
+The **reading and writing** skill gives a "bonus" to reading speed, despite PPH rules where
+reading and writing is impossible.
+
+This library gives -144 as a "bonus" to reading speed, which means 10 years.
+The reason is mostly technical - because returning *something* is easier and more clear
+than *nothing* (by null or exception), and partly because its logical - after ten years you have a chance to decode that
+strange symbols, especially when they mean something in a language you already know.
+
+### Structure
+
 Skills are all the person skills on one pile.
 -> SameTypeSkills are skills of same type, like physical, on one pile
   -> Skill is specific learned "ability", like horse riding
@@ -28,7 +41,7 @@ SkillRank
 
 Skill
 - can be used just as an arbiter due its aggregating meaning
-- -can check if BackgroundSkillPoints are not overused- should not check it, its too tricky, let it to Skills
+- ~~can check if BackgroundSkillPoints are not overused~~ should not check it, its too tricky, let it to Skills
 - can check if SkillPoint and SkillRank are unique locally
 - can check if cross-type SkillPoint(s) as a payment are unique and not used as a standard point locally
 
@@ -42,4 +55,4 @@ CombinedSkills + PhysicalSkills + PsychicalSkills
 
 Skills
 - CombinedSkills + PhysicalSkills + PsychicalSkills has to be unique in whole universe
-- should be the final arbiter, -recommended way is to re-use existing checks of sub-aggregates-
+- should be the final arbiter, ~~recommended way is to re-use existing checks of sub-aggregates~~
