@@ -1,9 +1,9 @@
 <?php
-namespace DrdPlus\Tests\Skills\Psychical;
+namespace DrdPlus\Tests\Skills\Combined;
 
 use DrdPlus\Tests\Skills\WithBonusToSensesTrait;
 
-class TechnologyTest extends WithBonusToIntelligenceFromPsychicalTest
+class HerbalismTest extends WithBonusToIntelligenceFromCombinedTest
 {
     use WithBonusToSensesTrait;
 
@@ -13,7 +13,7 @@ class TechnologyTest extends WithBonusToIntelligenceFromPsychicalTest
      */
     protected function getExpectedBonusToSenses(int $currentSkillRankValue): int
     {
-        return $currentSkillRankValue;
+        return 3 + 3 * $currentSkillRankValue;
     }
 
 }
