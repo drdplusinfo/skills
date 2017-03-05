@@ -1,9 +1,9 @@
 <?php
 namespace DrdPlus\Tests\Skills\Combined\RollsOn;
 
-use DrdPlus\Tests\Skills\RollOnWithSkillTest;
+use DrdPlus\Tests\Skills\RollOnQualityWithSkillTest;
 
-class ShowmanshipGameQualityTest extends RollOnWithSkillTest
+class ShowmanshipGameQualityTest extends RollOnQualityWithSkillTest
 {
 
 }

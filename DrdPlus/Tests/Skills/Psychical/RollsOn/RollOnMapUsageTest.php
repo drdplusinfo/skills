@@ -1,9 +1,9 @@
 <?php
 namespace DrdPlus\Tests\Skills\Psychical\RollsOn;
 
-use DrdPlus\Tests\Skills\RollOnWithSkillTest;
+use DrdPlus\Tests\Skills\RollOnQualityWithSkillTest;
 
-class RollOnMapUsageTest extends RollOnWithSkillTest
+class RollOnMapUsageTest extends RollOnQualityWithSkillTest
 {
 
 }

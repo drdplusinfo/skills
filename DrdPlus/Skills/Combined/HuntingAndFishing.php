@@ -26,7 +26,7 @@ class HuntingAndFishing extends CombinedSkill implements WithBonus, WithBonusFro
      */
     public function getBonus(): int
     {
-        return $this->getCurrentSkillRank()->getValue() * 2;
+        return 2 * $this->getCurrentSkillRank()->getValue();
     }
 
     /**

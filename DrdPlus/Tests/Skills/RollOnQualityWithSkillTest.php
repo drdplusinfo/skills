@@ -9,7 +9,7 @@ use DrdPlus\Skills\Psychical\RollsOn\RollOnMapUsage;
 use DrdPlus\Skills\Skill;
 use Granam\Tests\Tools\TestWithMockery;
 
-abstract class RollOnWithSkillTest extends TestWithMockery
+abstract class RollOnQualityWithSkillTest extends TestWithMockery
 {
     /**
      * @test

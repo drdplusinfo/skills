@@ -13,12 +13,15 @@ class HuntingAndFishingTest extends WithBonusFromCombinedTest
     {
         $huntingAndFishing = new HuntingAndFishing($this->createProfessionLevel());
         self::assertInstanceOf(WithBonusFromHuntingAndFishingSkill::class, $huntingAndFishing);
+        self::assertSame($huntingAndFishing->getBonus(), $huntingAndFishing->getBonusFromSkill());
 
-        self::assertSame($huntingAndFishing->getBonus(), $huntingAndFishing->getBonusFromSkill());
         $huntingAndFishing->increaseSkillRank($this->createSkillPoint());
         self::assertSame($huntingAndFishing->getBonus(), $huntingAndFishing->getBonusFromSkill());
+
         $huntingAndFishing->increaseSkillRank($this->createSkillPoint());
         self::assertSame($huntingAndFishing->getBonus(), $huntingAndFishing->getBonusFromSkill());
+
         $huntingAndFishing->increaseSkillRank($this->createSkillPoint());
+        self::assertSame($huntingAndFishing->getBonus(), $huntingAndFishing->getBonusFromSkill());
     }
 }
