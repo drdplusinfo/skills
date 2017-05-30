@@ -7,6 +7,7 @@ use DrdPlus\RollsOn\QualityAndSuccess\RollOnQuality;
 use DrdPlus\Skills\Combined\PlayingOnMusicInstrument;
 
 /**
+ * See PHP page 153 right column top, @link https://pph.drdplus.info/#vypocet_kvality_hry_na_hudebni_nastroj
  * @method Roll2d6DrdPlus getRoll()
  */
 class PlayingOnMusicInstrumentGameQuality extends RollOnQuality

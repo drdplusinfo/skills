@@ -3,9 +3,9 @@ namespace DrdPlus\Tests\Skills\Combined;
 
 use DrdPlus\Skills\Combined\CombinedSkillPoint;
 use DrdPlus\Skills\SkillPoint;
-use DrdPlus\Tests\Skills\WithBonusToIntelligenceTest;
+use DrdPlus\Tests\Skills\WithBonusToKnackTest;
 
-abstract class WithBonusToIntelligenceFromCombinedTest extends WithBonusToIntelligenceTest
+abstract class WithBonusToKnackFromCombinedTest extends WithBonusToKnackTest
 {
     /**
      * @return \Mockery\MockInterface|CombinedSkillPoint|SkillPoint

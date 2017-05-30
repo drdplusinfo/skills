@@ -7,6 +7,7 @@ use DrdPlus\RollsOn\QualityAndSuccess\RollOnQuality;
 use DrdPlus\Skills\Psychical\MapsDrawing;
 
 /**
+ * See PHP page 150 right column, @link https://pph.drdplus.info/#vypocet_kvality_mapy
  * @method Roll2d6DrdPlus getRoll()
  */
 class MapQuality extends RollOnQuality

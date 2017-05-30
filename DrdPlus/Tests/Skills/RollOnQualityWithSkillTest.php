@@ -54,7 +54,7 @@ abstract class RollOnQualityWithSkillTest extends TestWithMockery
      * @param int $parameterPosition
      * @return string
      */
-    private function getSutConstructorParameterClass(int $parameterPosition): string
+    protected function getSutConstructorParameterClass(int $parameterPosition): string
     {
         $reflection = new \ReflectionClass(self::getSutClass());
         $constructor = $reflection->getMethod('__construct');
@@ -95,12 +95,16 @@ abstract class RollOnQualityWithSkillTest extends TestWithMockery
     public function I_get_whispered_proper_roll_class_by_ide()
     {
         $reflection = new \ReflectionClass(self::getSutClass());
-        self::assertSame(<<<'COMMENT'
-/**
+        self::assertContains(<<<'COMMENT'
  * @method Roll2d6DrdPlus getRoll()
- */
 COMMENT
             , $reflection->getDocComment()
+        );
+        self::assertRegExp(<<<'REGEXP'
+~\* See PHP page \d+ (left( column)?( (top|bottom))?|right( column)?( (top|bottom))?)?, @link https://pph\.drdplus\.jaroslavtyc\.com/#[a-z_]+~
+REGEXP
+            , $reflection->getDocComment(),
+            "You forgot something like\n* See PHP page XYZ, @link https://pph.drdplus.info/#foo_bar"
         );
     }
 }

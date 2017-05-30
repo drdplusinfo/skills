@@ -7,6 +7,7 @@ use DrdPlus\RollsOn\QualityAndSuccess\RollOnQuality;
 use DrdPlus\Skills\Combined\Showmanship;
 
 /**
+ * See PHP page 153 left column, @link https://pph.drdplus.info/#vypocet_kvality_hry_pri_herectvi
  * @method Roll2d6DrdPlus getRoll()
  */
 class ShowmanshipGameQuality extends RollOnQuality
