@@ -101,7 +101,7 @@ COMMENT
             , $reflection->getDocComment()
         );
         self::assertRegExp(<<<'REGEXP'
-~\* See PHP page \d+ (left( column)?( (top|bottom))?|right( column)?( (top|bottom))?)?, @link https://pph\.drdplus\.jaroslavtyc\.com/#[a-z_]+~
+~\* See PHP page \d+ (left( column)?( (top|bottom))?|right( column)?( (top|bottom))?)?, @link https://pph\.drdplus\.info/#[a-z_]+~
 REGEXP
             , $reflection->getDocComment(),
             "You forgot something like\n* See PHP page XYZ, @link https://pph.drdplus.info/#foo_bar"

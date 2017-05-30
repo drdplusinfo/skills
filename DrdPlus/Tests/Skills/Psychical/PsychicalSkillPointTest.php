@@ -12,16 +12,16 @@ class PsychicalSkillPointTest extends SkillPointTest
 {
     protected function I_can_create_skill_point_by_first_level_background_skills()
     {
-        $psychicalSkillPoint = PsychicalSkillPoint::createFromFirstLevelSkillsFromBackground(
+        $psychicalSkillPoint = PsychicalSkillPoint::createFromFirstLevelSkillPointsFromBackground(
             $level = $this->createProfessionFirstLevel(ProfessionCode::FIGHTER),
-            $skillsFromBackground = $this->createSkillsFromBackground(123, 'getPsychicalSkillPoints'),
+            $skillsFromBackground = $this->createSkillPointsFromBackground(123, 'getPsychicalSkillPoints'),
             Tables::getIt()
         );
         self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
         self::assertSame(1, $psychicalSkillPoint->getValue());
         self::assertSame('psychical', $psychicalSkillPoint->getTypeName());
         self::assertSame([PropertyCode::WILL, PropertyCode::INTELLIGENCE], $psychicalSkillPoint->getRelatedProperties());
-        self::assertSame($skillsFromBackground, $psychicalSkillPoint->getSkillsFromBackground());
+        self::assertSame($skillsFromBackground, $psychicalSkillPoint->getSkillPointsFromBackground());
         self::assertNull($psychicalSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertNull($psychicalSkillPoint->getSecondPaidOtherSkillPoint());
 
@@ -47,7 +47,7 @@ class PsychicalSkillPointTest extends SkillPointTest
             Tables::getIt()
         );
         self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
-        self::assertNull($psychicalSkillPoint->getSkillsFromBackground());
+        self::assertNull($psychicalSkillPoint->getSkillPointsFromBackground());
         self::assertSame($firstPaidSkillPoint, $psychicalSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertSame($secondPaidSkillPoint, $psychicalSkillPoint->getSecondPaidOtherSkillPoint());
 
@@ -63,7 +63,7 @@ class PsychicalSkillPointTest extends SkillPointTest
             Tables::getIt()
         );
         self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
-        self::assertNull($psychicalSkillPoint->getSkillsFromBackground());
+        self::assertNull($psychicalSkillPoint->getSkillPointsFromBackground());
         self::assertSame($firstPaidSkillPoint, $psychicalSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertSame($secondPaidSkillPoint, $psychicalSkillPoint->getSecondPaidOtherSkillPoint());
 
@@ -79,7 +79,7 @@ class PsychicalSkillPointTest extends SkillPointTest
             Tables::getIt()
         );
         self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
-        self::assertNull($psychicalSkillPoint->getSkillsFromBackground());
+        self::assertNull($psychicalSkillPoint->getSkillPointsFromBackground());
         self::assertSame($firstPaidSkillPoint, $psychicalSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertSame($secondPaidSkillPoint, $psychicalSkillPoint->getSecondPaidOtherSkillPoint());
 
@@ -102,7 +102,7 @@ class PsychicalSkillPointTest extends SkillPointTest
             Tables::getIt()
         );
         self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
-        self::assertNull($psychicalSkillPoint->getSkillsFromBackground());
+        self::assertNull($psychicalSkillPoint->getSkillPointsFromBackground());
         self::assertNull($psychicalSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertNull($psychicalSkillPoint->getSecondPaidOtherSkillPoint());
 
@@ -116,7 +116,7 @@ class PsychicalSkillPointTest extends SkillPointTest
             Tables::getIt()
         );
         self::assertInstanceOf(PsychicalSkillPoint::class, $psychicalSkillPoint);
-        self::assertNull($psychicalSkillPoint->getSkillsFromBackground());
+        self::assertNull($psychicalSkillPoint->getSkillPointsFromBackground());
         self::assertNull($psychicalSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertNull($psychicalSkillPoint->getSecondPaidOtherSkillPoint());
 

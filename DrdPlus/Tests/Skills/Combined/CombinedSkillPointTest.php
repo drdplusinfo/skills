@@ -12,16 +12,16 @@ class CombinedSkillPointTest extends SkillPointTest
 {
     protected function I_can_create_skill_point_by_first_level_background_skills()
     {
-        $combinedSkillPoint = CombinedSkillPoint::createFromFirstLevelSkillsFromBackground(
+        $combinedSkillPoint = CombinedSkillPoint::createFromFirstLevelSkillPointsFromBackground(
             $level = $this->createProfessionFirstLevel(ProfessionCode::FIGHTER),
-            $skillsFromBackground = $this->createSkillsFromBackground(123, 'getCombinedSkillPoints'),
+            $skillsFromBackground = $this->createSkillPointsFromBackground(123, 'getCombinedSkillPoints'),
             Tables::getIt()
         );
         self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
         self::assertSame(1, $combinedSkillPoint->getValue());
         self::assertSame('combined', $combinedSkillPoint->getTypeName());
         self::assertSame([PropertyCode::KNACK, PropertyCode::CHARISMA], $combinedSkillPoint->getRelatedProperties());
-        self::assertSame($skillsFromBackground, $combinedSkillPoint->getSkillsFromBackground());
+        self::assertSame($skillsFromBackground, $combinedSkillPoint->getSkillPointsFromBackground());
         self::assertNull($combinedSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertNull($combinedSkillPoint->getSecondPaidOtherSkillPoint());
 
@@ -47,7 +47,7 @@ class CombinedSkillPointTest extends SkillPointTest
             Tables::getIt()
         );
         self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
-        self::assertNull($combinedSkillPoint->getSkillsFromBackground());
+        self::assertNull($combinedSkillPoint->getSkillPointsFromBackground());
         self::assertSame($firstPaidSkillPoint, $combinedSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertSame($secondPaidSkillPoint, $combinedSkillPoint->getSecondPaidOtherSkillPoint());
 
@@ -63,7 +63,7 @@ class CombinedSkillPointTest extends SkillPointTest
             Tables::getIt()
         );
         self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
-        self::assertNull($combinedSkillPoint->getSkillsFromBackground());
+        self::assertNull($combinedSkillPoint->getSkillPointsFromBackground());
         self::assertSame($firstPaidSkillPoint, $combinedSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertSame($secondPaidSkillPoint, $combinedSkillPoint->getSecondPaidOtherSkillPoint());
 
@@ -79,7 +79,7 @@ class CombinedSkillPointTest extends SkillPointTest
             Tables::getIt()
         );
         self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
-        self::assertNull($combinedSkillPoint->getSkillsFromBackground());
+        self::assertNull($combinedSkillPoint->getSkillPointsFromBackground());
         self::assertSame($firstPaidSkillPoint, $combinedSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertSame($secondPaidSkillPoint, $combinedSkillPoint->getSecondPaidOtherSkillPoint());
 
@@ -102,7 +102,7 @@ class CombinedSkillPointTest extends SkillPointTest
             Tables::getIt()
         );
         self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
-        self::assertNull($combinedSkillPoint->getSkillsFromBackground());
+        self::assertNull($combinedSkillPoint->getSkillPointsFromBackground());
         self::assertNull($combinedSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertNull($combinedSkillPoint->getSecondPaidOtherSkillPoint());
 
@@ -116,7 +116,7 @@ class CombinedSkillPointTest extends SkillPointTest
             Tables::getIt()
         );
         self::assertInstanceOf(CombinedSkillPoint::class, $combinedSkillPoint);
-        self::assertNull($combinedSkillPoint->getSkillsFromBackground());
+        self::assertNull($combinedSkillPoint->getSkillPointsFromBackground());
         self::assertNull($combinedSkillPoint->getFirstPaidOtherSkillPoint());
         self::assertNull($combinedSkillPoint->getSecondPaidOtherSkillPoint());
 

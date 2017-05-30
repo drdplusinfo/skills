@@ -10,7 +10,7 @@ use DrdPlus\Codes\Properties\PropertyCode;
 use DrdPlus\Codes\Skills\PsychicalSkillCode;
 use DrdPlus\Codes\Armaments\RangedWeaponCode;
 use DrdPlus\Codes\Armaments\WeaponlikeCode;
-use DrdPlus\Background\BackgroundParts\SkillsFromBackground;
+use DrdPlus\Background\BackgroundParts\SkillPointsFromBackground;
 use DrdPlus\Background\BackgroundParts\Ancestry;
 use DrdPlus\Person\ProfessionLevels\LevelRank;
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
@@ -56,14 +56,14 @@ class SkillsTest extends TestWithMockery
      * @test
      * @dataProvider provideValidSkillsCombination
      * @param ProfessionLevels $professionLevels
-     * @param SkillsFromBackground $skillsFromBackground
+     * @param SkillPointsFromBackground $skillsFromBackground
      * @param PhysicalSkills $physicalSkills
      * @param PsychicalSkills $psychicalSkills
      * @param CombinedSkills $combinedSkills
      */
     public function I_can_create_it(
         ProfessionLevels $professionLevels,
-        SkillsFromBackground $skillsFromBackground,
+        SkillPointsFromBackground $skillsFromBackground,
         PhysicalSkills $physicalSkills,
         PsychicalSkills $psychicalSkills,
         CombinedSkills $combinedSkills
@@ -140,7 +140,7 @@ class SkillsTest extends TestWithMockery
     public function provideValidSkillsCombination()
     {
         $professionLevels = $this->createProfessionLevels();
-        $skillsFromBackground = $this->createSkillsFromBackground($professionLevels->getFirstLevel()->getProfession());
+        $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
         $firstLevel = $professionLevels->getFirstLevel();
         $nextLevel = $professionLevels->getProfessionNextLevels()->last();
 
@@ -171,11 +171,11 @@ class SkillsTest extends TestWithMockery
 
     /**
      * @param ProfessionLevel $firstLevel
-     * @param SkillsFromBackground $skillsFromBackground
+     * @param SkillPointsFromBackground $skillsFromBackground
      * @return \Mockery\MockInterface|PhysicalSkills
      * */
     private function createPhysicalSkillsPaidByFirstLevelBackground(
-        SkillsFromBackground $skillsFromBackground,
+        SkillPointsFromBackground $skillsFromBackground,
         ProfessionLevel $firstLevel
     )
     {
@@ -188,11 +188,11 @@ class SkillsTest extends TestWithMockery
 
     /**
      * @param ProfessionLevel $firstLevel
-     * @param SkillsFromBackground $skillsFromBackground
+     * @param SkillPointsFromBackground $skillsFromBackground
      * @return PsychicalSkills|\Mockery\MockInterface
      * */
     private function createPsychicalSkillsPaidByFirstLevelBackground(
-        SkillsFromBackground $skillsFromBackground,
+        SkillPointsFromBackground $skillsFromBackground,
         ProfessionLevel $firstLevel
     )
     {
@@ -205,11 +205,11 @@ class SkillsTest extends TestWithMockery
 
     /**
      * @param ProfessionLevel $firstLevel
-     * @param SkillsFromBackground $skillsFromBackground
+     * @param SkillPointsFromBackground $skillsFromBackground
      * @return CombinedSkills|\Mockery\MockInterface
      * */
     private function createCombinedSkillsPaidByFirstLevelBackground(
-        SkillsFromBackground $skillsFromBackground,
+        SkillPointsFromBackground $skillsFromBackground,
         ProfessionLevel $firstLevel
     )
     {
@@ -223,13 +223,13 @@ class SkillsTest extends TestWithMockery
     }
 
     /**
-     * @param SkillsFromBackground $skillsFromBackground
+     * @param SkillPointsFromBackground $skillsFromBackground
      * @param ProfessionLevel $firstLevel
      * @param string $firstSkillClass
      * @return \Mockery\MockInterface|CombinedSkills
      */
     private function createSkillsPaidByFirstLevelBackground(
-        SkillsFromBackground $skillsFromBackground,
+        SkillPointsFromBackground $skillsFromBackground,
         ProfessionLevel $firstLevel,
         $firstSkillClass
     )
@@ -254,9 +254,9 @@ class SkillsTest extends TestWithMockery
             ->andReturn($this->determineSkillTypeName($firstSkillClass));
         $firstSkillPoint->shouldReceive('getValue')
             ->andReturn(1);
-        $firstSkillPoint->shouldReceive('isPaidByFirstLevelSkillsFromBackground')
+        $firstSkillPoint->shouldReceive('isPaidByFirstLevelSkillPointsFromBackground')
             ->andReturn(true);
-        $firstSkillPoint->shouldReceive('getSkillsFromBackground')
+        $firstSkillPoint->shouldReceive('getSkillPointsFromBackground')
             ->andReturn($skillsFromBackground);
 
         return $skills;
@@ -310,11 +310,11 @@ class SkillsTest extends TestWithMockery
     }
 
     /**
-     * @param SkillsFromBackground $skillsFromBackground
+     * @param SkillPointsFromBackground $skillsFromBackground
      * @param ProfessionLevel $firstLevel
      * @return PsychicalSkills|\Mockery\MockInterface
      */
-    private function createPhysicalSkillsPaidByOtherSkillPoints(SkillsFromBackground $skillsFromBackground, ProfessionLevel $firstLevel)
+    private function createPhysicalSkillsPaidByOtherSkillPoints(SkillPointsFromBackground $skillsFromBackground, ProfessionLevel $firstLevel)
     {
         $psychicalSkills = $this->createSkillsPaidByOtherSkillPoints(
             $skillsFromBackground, $firstLevel, Athletics::class, Cooking::class, ReadingAndWriting::class
@@ -324,11 +324,11 @@ class SkillsTest extends TestWithMockery
     }
 
     /**
-     * @param SkillsFromBackground $skillsFromBackground
+     * @param SkillPointsFromBackground $skillsFromBackground
      * @param ProfessionLevel $firstLevel
      * @return PsychicalSkills|\Mockery\MockInterface
      */
-    private function createPsychicalSkillsPaidByOtherSkillPoints(SkillsFromBackground $skillsFromBackground, ProfessionLevel $firstLevel)
+    private function createPsychicalSkillsPaidByOtherSkillPoints(SkillPointsFromBackground $skillsFromBackground, ProfessionLevel $firstLevel)
     {
         $psychicalSkills = $this->createSkillsPaidByOtherSkillPoints(
             $skillsFromBackground, $firstLevel, ReadingAndWriting::class, Cooking::class, Athletics::class
@@ -338,11 +338,11 @@ class SkillsTest extends TestWithMockery
     }
 
     /**
-     * @param SkillsFromBackground $skillsFromBackground
+     * @param SkillPointsFromBackground $skillsFromBackground
      * @param ProfessionLevel $firstLevel
      * @return PsychicalSkills|\Mockery\MockInterface
      */
-    private function createCombinedSkillsPaidByOtherSkillPoints(SkillsFromBackground $skillsFromBackground, ProfessionLevel $firstLevel)
+    private function createCombinedSkillsPaidByOtherSkillPoints(SkillPointsFromBackground $skillsFromBackground, ProfessionLevel $firstLevel)
     {
         $psychicalSkills = $this->createSkillsPaidByOtherSkillPoints(
             $skillsFromBackground, $firstLevel, Cooking::class, ReadingAndWriting::class, Athletics::class
@@ -352,7 +352,7 @@ class SkillsTest extends TestWithMockery
     }
 
     /**
-     * @param SkillsFromBackground $skillsFromBackground
+     * @param SkillPointsFromBackground $skillsFromBackground
      * @param ProfessionLevel $firstLevel
      * @param $firstSkillClass
      * @param $firstOtherSkillClass
@@ -360,7 +360,7 @@ class SkillsTest extends TestWithMockery
      * @return \Mockery\MockInterface
      */
     private function createSkillsPaidByOtherSkillPoints(
-        SkillsFromBackground $skillsFromBackground,
+        SkillPointsFromBackground $skillsFromBackground,
         ProfessionLevel $firstLevel,
         $firstSkillClass,
         $firstOtherSkillClass,
@@ -384,7 +384,7 @@ class SkillsTest extends TestWithMockery
             ->andReturn(1);
         $firstSkillPoint->shouldReceive('getTypeName')
             ->andReturn($this->determineSkillTypeName($firstSkillClass));
-        $firstSkillPoint->shouldReceive('isPaidByFirstLevelSkillsFromBackground')
+        $firstSkillPoint->shouldReceive('isPaidByFirstLevelSkillPointsFromBackground')
             ->andReturn(false);
         $firstSkillPoint->shouldReceive('isPaidByOtherSkillPoints')
             ->andReturn(true);
@@ -400,13 +400,13 @@ class SkillsTest extends TestWithMockery
             ->andReturn(1);
         $secondPaidOtherSkillPoint->shouldReceive('getTypeName')
             ->andReturn($this->determineSkillTypeName($secondOtherSkillClass));
-        $firstPaidOtherSkillPoint->shouldReceive('isPaidByFirstLevelSkillsFromBackground')
+        $firstPaidOtherSkillPoint->shouldReceive('isPaidByFirstLevelSkillPointsFromBackground')
             ->andReturn(true);
-        $secondPaidOtherSkillPoint->shouldReceive('isPaidByFirstLevelSkillsFromBackground')
+        $secondPaidOtherSkillPoint->shouldReceive('isPaidByFirstLevelSkillPointsFromBackground')
             ->andReturn(true);
-        $secondPaidOtherSkillPoint->shouldReceive('getSkillsFromBackground')
+        $secondPaidOtherSkillPoint->shouldReceive('getSkillPointsFromBackground')
             ->andReturn($skillsFromBackground);
-        $firstPaidOtherSkillPoint->shouldReceive('getSkillsFromBackground')
+        $firstPaidOtherSkillPoint->shouldReceive('getSkillPointsFromBackground')
             ->andReturn($skillsFromBackground);
 
         return $skills;
@@ -478,7 +478,7 @@ class SkillsTest extends TestWithMockery
             ->andReturn(1);
         $firstSkillPoint->shouldReceive('getTypeName')
             ->andReturn($this->determineSkillTypeName($skillClass));
-        $firstSkillPoint->shouldReceive('isPaidByFirstLevelSkillsFromBackground')
+        $firstSkillPoint->shouldReceive('isPaidByFirstLevelSkillPointsFromBackground')
             ->andReturn(false);
         $firstSkillPoint->shouldReceive('isPaidByOtherSkillPoints')
             ->andReturn(false);
@@ -569,9 +569,9 @@ class SkillsTest extends TestWithMockery
      * @param $physicalSkillPoints = 3
      * @param $psychicalSkillPoints = 3
      * @param $combinedSkillPoints = 3
-     * @return \Mockery\MockInterface|SkillsFromBackground
+     * @return \Mockery\MockInterface|SkillPointsFromBackground
      */
-    private function createSkillsFromBackground(
+    private function createSkillPointsFromBackground(
         Profession $profession = null,
         $value = 'foo bar',
         $physicalSkillPoints = 3,
@@ -579,7 +579,7 @@ class SkillsTest extends TestWithMockery
         $combinedSkillPoints = 3
     )
     {
-        $skillsFromBackground = $this->mockery(SkillsFromBackground::class);
+        $skillsFromBackground = $this->mockery(SkillPointsFromBackground::class);
         if ($profession) {
             $skillsFromBackground->shouldReceive('getPhysicalSkillPoints')
                 ->with($profession, Tables::getIt())
@@ -632,7 +632,7 @@ class SkillsTest extends TestWithMockery
     public function I_can_not_use_unknown_payment()
     {
         $professionLevels = $this->createProfessionLevels();
-        $skillsFromBackground = $this->createSkillsFromBackground($professionLevels->getFirstLevel()->getProfession());
+        $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
         $physicalSkills = $this->createPhysicalSkillsWithUnknownPayment($professionLevels->getFirstLevel(), Swimming::class);
         $psychicalSkills = $this->createPsychicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $professionLevels->getFirstLevel());
         $combinedSkills = $this->createCombinedSkillsPaidByFirstLevelBackground($skillsFromBackground, $professionLevels->getFirstLevel());
@@ -672,7 +672,7 @@ class SkillsTest extends TestWithMockery
             ->andReturn(1);
         $firstSkillPoint->shouldReceive('getTypeName')
             ->andReturn($this->determineSkillTypeName($firstSkillClass));
-        $firstSkillPoint->shouldReceive('isPaidByFirstLevelSkillsFromBackground')
+        $firstSkillPoint->shouldReceive('isPaidByFirstLevelSkillPointsFromBackground')
             ->andReturn(false);
         $firstSkillPoint->shouldReceive('isPaidByOtherSkillPoints')
             ->andReturn(false);
@@ -684,23 +684,23 @@ class SkillsTest extends TestWithMockery
 
     /**
      * @test
-     * @dataProvider provideDifferentSkillsFromBackground
-     * @expectedException \DrdPlus\Skills\Exceptions\SkillsFromBackgroundAreNotSame
+     * @dataProvider provideDifferentSkillPointsFromBackground
+     * @expectedException \DrdPlus\Skills\Exceptions\SkillPointsFromBackgroundAreNotSame
      * @param ProfessionLevels $professionLevels
-     * @param SkillsFromBackground $skillsFromBackground
-     * @param SkillsFromBackground $fromFirstSkillsSkillsFromBackground
-     * @param SkillsFromBackground $fromOtherSkillsSkillsFromBackground
+     * @param SkillPointsFromBackground $skillsFromBackground
+     * @param SkillPointsFromBackground $fromFirstSkillsSkillPointsFromBackground
+     * @param SkillPointsFromBackground $fromOtherSkillsSkillPointsFromBackground
      */
     public function I_can_not_use_different_background_skill_points(
         ProfessionLevels $professionLevels,
-        SkillsFromBackground $skillsFromBackground,
-        SkillsFromBackground $fromFirstSkillsSkillsFromBackground,
-        SkillsFromBackground $fromOtherSkillsSkillsFromBackground
+        SkillPointsFromBackground $skillsFromBackground,
+        SkillPointsFromBackground $fromFirstSkillsSkillPointsFromBackground,
+        SkillPointsFromBackground $fromOtherSkillsSkillPointsFromBackground
     )
     {
-        $physicalSkills = $this->createPhysicalSkillsWithDifferentBackground($fromFirstSkillsSkillsFromBackground, $professionLevels->getFirstLevel(), Swimming::class);
-        $psychicalSkills = $this->createPsychicalSkillsPaidByFirstLevelBackground($fromOtherSkillsSkillsFromBackground, $professionLevels->getFirstLevel());
-        $combinedSkills = $this->createCombinedSkillsPaidByFirstLevelBackground($fromOtherSkillsSkillsFromBackground, $professionLevels->getFirstLevel());
+        $physicalSkills = $this->createPhysicalSkillsWithDifferentBackground($fromFirstSkillsSkillPointsFromBackground, $professionLevels->getFirstLevel(), Swimming::class);
+        $psychicalSkills = $this->createPsychicalSkillsPaidByFirstLevelBackground($fromOtherSkillsSkillPointsFromBackground, $professionLevels->getFirstLevel());
+        $combinedSkills = $this->createCombinedSkillsPaidByFirstLevelBackground($fromOtherSkillsSkillPointsFromBackground, $professionLevels->getFirstLevel());
 
         Skills::createSkills(
             $professionLevels,
@@ -713,12 +713,12 @@ class SkillsTest extends TestWithMockery
     }
 
     /**
-     * @param SkillsFromBackground $skillsFromBackground
+     * @param SkillPointsFromBackground $skillsFromBackground
      * @param ProfessionLevel $firstLevel
      * @param $firstSkillClass
      * @return \Mockery\MockInterface|PhysicalSkills
      */
-    private function createPhysicalSkillsWithDifferentBackground(SkillsFromBackground $skillsFromBackground, ProfessionLevel $firstLevel, $firstSkillClass)
+    private function createPhysicalSkillsWithDifferentBackground(SkillPointsFromBackground $skillsFromBackground, ProfessionLevel $firstLevel, $firstSkillClass)
     {
         $skillsClass = $this->determineSkillsClass($firstSkillClass);
         $skills = $this->mockery($skillsClass);
@@ -738,23 +738,23 @@ class SkillsTest extends TestWithMockery
             ->andReturn($this->determineSkillTypeName($firstSkillClass));
         $firstSkillPoint->shouldReceive('getValue')
             ->andReturn(1);
-        $firstSkillPoint->shouldReceive('isPaidByFirstLevelSkillsFromBackground')
+        $firstSkillPoint->shouldReceive('isPaidByFirstLevelSkillPointsFromBackground')
             ->andReturn(true);
-        $firstSkillPoint->shouldReceive('getSkillsFromBackground')
-            ->andReturn($skillsFromBackground /*$this->createSkillsFromBackground(null, 'different points value')*/);
+        $firstSkillPoint->shouldReceive('getSkillPointsFromBackground')
+            ->andReturn($skillsFromBackground /*$this->createSkillPointsFromBackground(null, 'different points value')*/);
 
         return $skills;
     }
 
-    public function provideDifferentSkillsFromBackground()
+    public function provideDifferentSkillPointsFromBackground()
     {
         $professionLevels = $this->createProfessionLevels();
-        $skillsFromBackground = $this->createSkillsFromBackground($professionLevels->getFirstLevel()->getProfession());
-        $differentSkillsFromBackground = $this->createSkillsFromBackground(null, 'different points value');
+        $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
+        $differentSkillPointsFromBackground = $this->createSkillPointsFromBackground(null, 'different points value');
 
         return [
-            [$professionLevels, $skillsFromBackground, $differentSkillsFromBackground, $skillsFromBackground],
-            [$professionLevels, $skillsFromBackground, $differentSkillsFromBackground, $differentSkillsFromBackground],
+            [$professionLevels, $skillsFromBackground, $differentSkillPointsFromBackground, $skillsFromBackground],
+            [$professionLevels, $skillsFromBackground, $differentSkillPointsFromBackground, $differentSkillPointsFromBackground],
         ];
     }
 
@@ -763,14 +763,14 @@ class SkillsTest extends TestWithMockery
      * @dataProvider provideSkillsWithTooHighFirstLevelPayment
      * @expectedException \DrdPlus\Skills\Exceptions\HigherSkillRanksFromFirstLevelThanPossible
      * @param ProfessionLevels $professionLevels
-     * @param SkillsFromBackground $skillsFromBackground
+     * @param SkillPointsFromBackground $skillsFromBackground
      * @param PhysicalSkills $physicalSkills
      * @param PsychicalSkills $psychicalSkills
      * @param CombinedSkills $combinedSkills
      */
     public function I_can_not_spent_more_background_skill_points_than_available(
         ProfessionLevels $professionLevels,
-        SkillsFromBackground $skillsFromBackground,
+        SkillPointsFromBackground $skillsFromBackground,
         PhysicalSkills $physicalSkills,
         PsychicalSkills $psychicalSkills,
         CombinedSkills $combinedSkills
@@ -789,7 +789,7 @@ class SkillsTest extends TestWithMockery
     public function provideSkillsWithTooHighFirstLevelPayment()
     {
         $professionLevels = $this->createProfessionLevels();
-        $skillsFromBackground = $this->createSkillsFromBackground(
+        $skillsFromBackground = $this->createSkillPointsFromBackground(
             $professionLevels->getFirstLevel()->getProfession(), 'foo bar', 1, 1, 1
         );
         $firstLevel = $professionLevels->getFirstLevel();
@@ -838,14 +838,14 @@ class SkillsTest extends TestWithMockery
     }
 
     /**
-     * @param SkillsFromBackground $skillsFromBackground
+     * @param SkillPointsFromBackground $skillsFromBackground
      * @param ProfessionLevel $firstLevel
      * @param string $firstSkillClass
      * @param string $secondSkillClass
      * @return \Mockery\MockInterface|PhysicalSkills
      */
     private function createSkillsWithTooHighFirstLevelPayment(
-        SkillsFromBackground $skillsFromBackground, ProfessionLevel $firstLevel, $firstSkillClass, $secondSkillClass
+        SkillPointsFromBackground $skillsFromBackground, ProfessionLevel $firstLevel, $firstSkillClass, $secondSkillClass
     )
     {
         $skillsClass = $this->determineSkillsClass($firstSkillClass);
@@ -867,9 +867,9 @@ class SkillsTest extends TestWithMockery
             ->andReturn(1);
         $firstSkillPoint->shouldReceive('getTypeName')
             ->andReturn($this->determineSkillTypeName($firstSkillClass));
-        $firstSkillPoint->shouldReceive('isPaidByFirstLevelSkillsFromBackground')
+        $firstSkillPoint->shouldReceive('isPaidByFirstLevelSkillPointsFromBackground')
             ->andReturn(true);
-        $firstSkillPoint->shouldReceive('getSkillsFromBackground')
+        $firstSkillPoint->shouldReceive('getSkillPointsFromBackground')
             ->andReturn($skillsFromBackground);
         $secondSkill->shouldReceive('getName')
             ->andReturn($this->parseSkillName($secondSkillClass));
@@ -883,9 +883,9 @@ class SkillsTest extends TestWithMockery
             ->andReturn(1);
         $secondSkillPoint->shouldReceive('getTypeName')
             ->andReturn($this->determineSkillTypeName($firstSkillClass));
-        $secondSkillPoint->shouldReceive('isPaidByFirstLevelSkillsFromBackground')
+        $secondSkillPoint->shouldReceive('isPaidByFirstLevelSkillPointsFromBackground')
             ->andReturn(true);
-        $secondSkillPoint->shouldReceive('getSkillsFromBackground')
+        $secondSkillPoint->shouldReceive('getSkillPointsFromBackground')
             ->andReturn($skillsFromBackground);
 
         return $skills;
@@ -905,7 +905,7 @@ class SkillsTest extends TestWithMockery
         $physicalSkills = $this->createPhysicalSkillsByNextLevelPropertyIncrease($nextLevel);
         $psychicalSkills = $this->createPsychicalSkillsByNextLevelPropertyIncrease($nextLevel);
         $combinedSkills = $this->createCombinedSkillsByNextLevelPropertyIncrease($nextLevel);
-        $skillsFromBackground = $this->createSkillsFromBackground($professionLevels->getFirstLevel()->getProfession());
+        $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
 
         Skills::createSkills(
             $professionLevels,
@@ -939,7 +939,7 @@ class SkillsTest extends TestWithMockery
         );
         $psychicalSkills = $this->createPsychicalSkillsByNextLevelPropertyIncrease($professionLevels->getFirstLevel());
         $combinedSkills = $this->createCombinedSkillsByNextLevelPropertyIncrease($professionLevels->getFirstLevel());
-        $skillsFromBackground = $this->createSkillsFromBackground($professionLevels->getFirstLevel()->getProfession());
+        $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
 
         Skills::createSkills(
             $professionLevels,
@@ -980,7 +980,7 @@ class SkillsTest extends TestWithMockery
             ->andReturn(1);
         $firstSkillPoint->shouldReceive('getTypeName')
             ->andReturn($this->determineSkillTypeName($skillClass));
-        $firstSkillPoint->shouldReceive('isPaidByFirstLevelSkillsFromBackground')
+        $firstSkillPoint->shouldReceive('isPaidByFirstLevelSkillPointsFromBackground')
             ->andReturn(false);
         $firstSkillPoint->shouldReceive('isPaidByOtherSkillPoints')
             ->andReturn(false);
@@ -998,7 +998,7 @@ class SkillsTest extends TestWithMockery
             ->andReturn(1);
         $secondSkillPoint->shouldReceive('getTypeName')
             ->andReturn($this->determineSkillTypeName($skillClass));
-        $secondSkillPoint->shouldReceive('isPaidByFirstLevelSkillsFromBackground')
+        $secondSkillPoint->shouldReceive('isPaidByFirstLevelSkillPointsFromBackground')
             ->andReturn(false);
         $secondSkillPoint->shouldReceive('isPaidByOtherSkillPoints')
             ->andReturn(false);
@@ -1018,7 +1018,7 @@ class SkillsTest extends TestWithMockery
     public function I_can_get_melee_weapon_malus($malusTo)
     {
         $professionLevels = $this->createProfessionLevels();
-        $skillsFromBackground = $this->createSkillsFromBackground($professionLevels->getFirstLevel()->getProfession());
+        $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
         $firstLevel = $professionLevels->getFirstLevel();
         $skills = Skills::createSkills(
             $professionLevels,
@@ -1129,7 +1129,7 @@ class SkillsTest extends TestWithMockery
     public function I_can_get_malus_for_throwing_weapon($malusTo)
     {
         $professionLevels = $this->createProfessionLevels();
-        $skillsFromBackground = $this->createSkillsFromBackground($professionLevels->getFirstLevel()->getProfession());
+        $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
         $firstLevel = $professionLevels->getFirstLevel();
         $skills = Skills::createSkills(
             $professionLevels,
@@ -1193,7 +1193,7 @@ class SkillsTest extends TestWithMockery
     public function I_can_get_malus_for_shooting_weapon($malusTo)
     {
         $professionLevels = $this->createProfessionLevels();
-        $skillsFromBackground = $this->createSkillsFromBackground($professionLevels->getFirstLevel()->getProfession());
+        $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
         $firstLevel = $professionLevels->getFirstLevel();
         $skills = Skills::createSkills(
             $professionLevels,
@@ -1264,7 +1264,7 @@ class SkillsTest extends TestWithMockery
     public function I_get_zero_malus_for_projectiles($malusTo)
     {
         $professionLevels = $this->createProfessionLevels();
-        $skillsFromBackground = $this->createSkillsFromBackground($professionLevels->getFirstLevel()->getProfession());
+        $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
         $firstLevel = $professionLevels->getFirstLevel();
         $skills = Skills::createSkills(
             $professionLevels,
@@ -1335,7 +1335,7 @@ class SkillsTest extends TestWithMockery
     {
         $professionLevels = $this->createProfessionLevels();
         $firstLevel = $professionLevels->getFirstLevel();
-        $skillsFromBackground = $this->createSkillsFromBackground($firstLevel->getProfession());
+        $skillsFromBackground = $this->createSkillPointsFromBackground($firstLevel->getProfession());
         $skills = Skills::createSkills(
             $professionLevels,
             $skillsFromBackground,
@@ -1366,7 +1366,7 @@ class SkillsTest extends TestWithMockery
     public function I_can_not_get_battle_number_malus_for_unknown_weapon($malusTo)
     {
         $professionLevels = $this->createProfessionLevels();
-        $skillsFromBackground = $this->createSkillsFromBackground($professionLevels->getFirstLevel()->getProfession());
+        $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
         $firstLevel = $professionLevels->getFirstLevel();
         $skills = Skills::createSkills(
             $professionLevels,
@@ -1413,7 +1413,7 @@ class SkillsTest extends TestWithMockery
     public function I_can_get_malus_to_cover_with_shield()
     {
         $professionLevels = $this->createProfessionLevels();
-        $skillsFromBackground = $this->createSkillsFromBackground($professionLevels->getFirstLevel()->getProfession());
+        $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
         $firstLevel = $professionLevels->getFirstLevel();
         $skills = Skills::createSkills(
             $professionLevels,
@@ -1462,7 +1462,7 @@ class SkillsTest extends TestWithMockery
                     Charisma::getIt(0)
                 )]
             ),
-            SkillsFromBackground::getIt(
+            SkillPointsFromBackground::getIt(
                 new PositiveIntegerObject(2),
                 Ancestry::getIt(new PositiveIntegerObject(7), Tables::getIt()),
                 Tables::getIt()

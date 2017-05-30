@@ -3,6 +3,7 @@ namespace DrdPlus\Tests\Skills\Physical;
 
 use DrdPlus\Codes\Armaments\BodyArmorCode;
 use DrdPlus\Codes\Armaments\HelmCode;
+use DrdPlus\Codes\Armaments\MeleeWeaponCode;
 use DrdPlus\Codes\Armaments\ProtectiveArmamentCode;
 use DrdPlus\Codes\Armaments\ShieldCode;
 use DrdPlus\Codes\Armaments\WeaponCategoryCode;
@@ -294,7 +295,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     /**
      * @return array|string[][]
      */
-    public function provideWeaponCategories()
+    public function provideWeaponCategories(): array
     {
         return array_merge(
             array_map(
@@ -327,7 +328,13 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      */
     private function createCode($weaponCategory, $isMelee, $isThrowing, $isWeaponOnly)
     {
-        $weaponlikeCode = $this->mockery($isWeaponOnly ? WeaponCode::class : WeaponlikeCode::class);
+        $class = WeaponlikeCode::class;
+        if ($isWeaponOnly || $isMelee) {
+            $class = $isMelee
+                ? MeleeWeaponCode::class
+                : WeaponCode::class;
+        }
+        $weaponlikeCode = $this->mockery($class);
         $weaponlikeCode->shouldReceive('isMelee')
             ->andReturn($isMelee);
         if ($isMelee) {
@@ -336,7 +343,10 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         }
         $weaponlikeCode->shouldReceive('isThrowingWeapon')
             ->andReturn($isThrowing);
-        $weaponlikeCode->shouldReceive('is' . implode(array_map('ucfirst', explode('_', $weaponCategory))))
+        $weaponlikeCode->shouldReceive(
+            'is' . implode(array_map(function (string $part) {
+                return ucfirst($part === 'and' ? 'or' : $part);
+            }, explode('_', $weaponCategory))))
             ->andReturn(true);
         $weaponlikeCode->shouldIgnoreMissing(false /* return value for non-mocked methods */);
         $weaponlikeCode->shouldReceive('__toString')
