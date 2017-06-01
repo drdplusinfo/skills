@@ -497,10 +497,10 @@ class PhysicalSkills extends SameTypeSkills
 
     /**
      * Note about SHIELD: "weaponlike" means for attacking. If you provide a shield, it will considered as a weapon for
-     * direct attack. If yu want fight number malus with shield as a protective armament, use @see
-     * \DrdPlus\Skills\Physical\PhysicalSkills::getMalusToFightNumberWithProtective And one more note: RESTRICTION from
-     * shield is NOT applied if the shield is used as a weapon
-     * (malus is already included in FightWithShields skill).
+     * direct attack. If you want malus to a fight number with shield as a protective armament,
+     * use @see \DrdPlus\Skills\Physical\PhysicalSkills::getMalusToFightNumberWithProtective
+     * And one more note: RESTRICTION from shield is NOT applied (and SHOULD NOT be) if the shield is used as a weapon
+     * (total malus is already included in the @see FightWithShields skill).
      *
      * @param WeaponlikeCode $weaponlikeCode
      * @param Tables $tables
