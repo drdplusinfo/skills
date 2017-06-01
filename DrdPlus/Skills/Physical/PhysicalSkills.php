@@ -538,7 +538,10 @@ class PhysicalSkills extends SameTypeSkills
     private function getHighestRankForSuitableFightWithWeapon(WeaponlikeCode $weaponlikeCode): int
     {
         $rankValues = [];
-        if ($weaponlikeCode->isMelee()) {
+        if ($weaponlikeCode->isShield()) { // shield as a weapon
+            $rankValues[] = $this->getFightWithShields()->getCurrentSkillRank()->getValue();
+        }
+        if ($weaponlikeCode->isWeapon() && $weaponlikeCode->isMelee()) {
             $weaponlikeCode = $weaponlikeCode->convertToMeleeWeaponCodeEquivalent();
             /** @var MeleeWeaponCode $weaponlikeCode */
             if ($weaponlikeCode->isAxe()) {
@@ -567,9 +570,6 @@ class PhysicalSkills extends SameTypeSkills
             }
             if ($weaponlikeCode->isVoulgeOrTrident()) {
                 $rankValues[] = $this->getFightWithVoulgesAndTridents()->getCurrentSkillRank()->getValue();
-            }
-            if ($weaponlikeCode->isShield()) { // shield as a weapon
-                $rankValues[] = $this->getFightWithShields()->getCurrentSkillRank()->getValue();
             }
         }
         if ($weaponlikeCode->isThrowingWeapon()) {

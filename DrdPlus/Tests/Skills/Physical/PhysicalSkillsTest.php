@@ -183,13 +183,25 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      * @test
      * @dataProvider provideWeaponCategories
      * @param string $weaponCategory
-     * @param $isMelee
-     * @param $isThrowing
+     * @param bool $isMelee
+     * @param bool $isThrowing
+     * @param bool $isShield
      */
-    public function I_can_get_malus_for_every_type_of_weapon($weaponCategory, $isMelee, $isThrowing)
+    public function I_can_get_malus_for_every_type_of_weaponlike(string $weaponCategory, bool $isMelee, bool $isThrowing, bool $isShield)
     {
-        $weaponlikeCode = $this->createWeaponlikeCode($weaponCategory, $isMelee, $isThrowing);
+        $weaponlikeCode = $this->createWeaponlikeCode($weaponCategory, $isMelee, $isThrowing, $isShield);
 
+        $this->I_can_get_malus_to_fight_number_with_weaponlike($weaponlikeCode);
+        $this->I_can_get_malus_to_attack_number_with_weaponlike($weaponlikeCode);
+        if (!$isShield) {
+            $weaponCode = $this->createWeaponCode($weaponCategory, $isMelee, $isThrowing);
+            $this->I_can_get_malus_to_cover_with_weapon($weaponCode);
+        }
+        $this->I_can_get_malus_to_base_of_wounds_with_weaponlike($weaponlikeCode);
+    }
+
+    private function I_can_get_malus_to_fight_number_with_weaponlike(WeaponlikeCode $weaponlikeCode)
+    {
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         self::assertSame(
             $expectedMalus = 123,
@@ -214,7 +226,10 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
                 true // fighting with two weapons
             )
         );
+    }
 
+    private function I_can_get_malus_to_attack_number_with_weaponlike(WeaponlikeCode $weaponlikeCode)
+    {
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         self::assertSame(
             $expectedMalus = 456,
@@ -239,9 +254,11 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
                 true // fighting with two weapons
             )
         );
+    }
 
+    private function I_can_get_malus_to_cover_with_weapon(WeaponCode $weaponCode)
+    {
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
-        $weaponCode = $this->createWeaponCode($weaponCategory, $isMelee, $isThrowing);
         self::assertSame(
             $expectedMalus = 789,
             $skills->getMalusToCoverWithWeapon(
@@ -250,6 +267,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
                 false // fighting with single weapon only
             )
         );
+
         $skills->getFightWithTwoWeapons()->increaseSkillRank($this->createSkillPoint($this->createProfessionFirstLevel()));
         self::assertSame(
             ($expectedWeaponSkillMalus = 678) + ($expectedTwoWeaponsSkillMalus = 987),
@@ -265,7 +283,10 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
                 true // fighting with two weapons
             )
         );
+    }
 
+    private function I_can_get_malus_to_base_of_wounds_with_weaponlike(WeaponlikeCode $weaponlikeCode)
+    {
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         self::assertSame(
             $expectedMalus = 101,
@@ -299,12 +320,16 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     {
         return array_merge(
             array_map(
-                function ($code) {
-                    return [$code, true /* is melee */, false /* is not throwing */];
+                function (string $meleeWeaponCategoryValue) {
+                    return [$meleeWeaponCategoryValue, true /* is melee */, false /*  not throwing */, false /* not a shield */];
                 },
                 WeaponCategoryCode::getMeleeWeaponCategoryValues()
             ),
-            [['foo', false /* not melee */, true /* is throwing */]]
+            [
+                // real category names are not required for non-melee weapons (because is{weaponCategory} is not called on them)
+                ['foo', false /* not melee */, true /* is throwing */, false /* not a shield */],
+                ['bar', true /* is melee */, false /* not throwing */, true /* is shield */],
+            ]
         );
     }
 
@@ -312,11 +337,18 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      * @param string $weaponCategory
      * @param bool $isMelee
      * @param bool $isThrowing
+     * @param bool $isShield
      * @return \Mockery\MockInterface|WeaponlikeCode
      */
-    private function createWeaponlikeCode($weaponCategory, $isMelee, $isThrowing)
+    private function createWeaponlikeCode(string $weaponCategory, bool $isMelee, bool $isThrowing, bool $isShield)
     {
-        return $this->createCode($weaponCategory, $isMelee, $isThrowing, false /* not weapon only (wants weaponlike) */);
+        return $this->createCode(
+            $weaponCategory,
+            $isMelee,
+            $isThrowing,
+            false /* not weapon only (wants weaponlike) */,
+            $isShield
+        );
     }
 
     /**
@@ -324,15 +356,32 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      * @param bool $isMelee
      * @param bool $isThrowing
      * @param bool $isWeaponOnly
+     * @param bool $isShield
      * @return \Mockery\MockInterface|WeaponlikeCode|WeaponCode
+     * @throws \LogicException
      */
-    private function createCode($weaponCategory, $isMelee, $isThrowing, $isWeaponOnly)
+    private function createCode(string $weaponCategory, bool $isMelee, bool $isThrowing, bool $isWeaponOnly, bool $isShield)
     {
+        if ($isShield) {
+            if ($isThrowing) {
+                throw new \LogicException('DO you really want to throw a shield?');
+            }
+            if ($isWeaponOnly) {
+                throw new \LogicException('Shield can not be a weapon (only weapon-like)');
+            }
+            if (!$isMelee) {
+                throw new \LogicException('Why the shield is not a melee?');
+            }
+        }
         $class = WeaponlikeCode::class;
-        if ($isWeaponOnly || $isMelee) {
-            $class = $isMelee
-                ? MeleeWeaponCode::class
-                : WeaponCode::class;
+        if ($isWeaponOnly) {
+            $class = WeaponCode::class;
+        }
+        if ($isMelee) {
+            $class = MeleeWeaponCode::class;
+        }
+        if ($isShield) {
+            $class = ShieldCode::class;
         }
         $weaponlikeCode = $this->mockery($class);
         $weaponlikeCode->shouldReceive('isMelee')
@@ -341,6 +390,10 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
             $weaponlikeCode->shouldReceive('convertToMeleeWeaponCodeEquivalent')
                 ->andReturn($weaponlikeCode);
         }
+        $weaponlikeCode->shouldReceive('isShield')
+            ->andReturn($isShield);
+        $weaponlikeCode->shouldReceive('isWeapon')
+            ->andReturn(is_a($class, WeaponCode::class, true));
         $weaponlikeCode->shouldReceive('isThrowingWeapon')
             ->andReturn($isThrowing);
         $weaponlikeCode->shouldReceive(
@@ -361,9 +414,9 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      * @param bool $isThrowing
      * @return \Mockery\MockInterface|WeaponCode
      */
-    private function createWeaponCode($weaponCategory, $isMelee, $isThrowing)
+    private function createWeaponCode(string $weaponCategory, bool $isMelee, bool $isThrowing)
     {
-        return $this->createCode($weaponCategory, $isMelee, $isThrowing, true /* weapon only */);
+        return $this->createCode($weaponCategory, $isMelee, $isThrowing, true /* weapon only */, false /* not a shield */);
     }
 
     /**
@@ -451,7 +504,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     {
         $physicalSkills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $physicalSkills->getMalusToFightNumberWithWeaponlike(
-            $this->createWeaponlikeCode('plank', true /* is melee */, false /* not throwing */),
+            $this->createWeaponlikeCode('plank', true /* is melee */, false /* not throwing */, false /* not a shield */),
             Tables::getIt(),
             false // fighting with single weapon only
         );
@@ -462,11 +515,11 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      * @expectedException \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      * @expectedExceptionMessageRegExp ~artillery~
      */
-    public function I_can_not_get_malus_for_non_melee_non_throwing_weapon()
+    public function I_can_not_get_malus_for_non_shield_non_melee_non_throwing_weapon()
     {
         $physicalSkills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $physicalSkills->getMalusToFightNumberWithWeaponlike(
-            $this->createWeaponlikeCode('artillery', false /* not melee */, false /* not throwing */),
+            $this->createWeaponlikeCode('artillery', false /* not melee */, false /* not throwing */, false /* not a shield */),
             Tables::getIt(),
             false // fighting with single weapon only
         );
