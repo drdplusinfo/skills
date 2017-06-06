@@ -33,7 +33,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     const COMBINED = CombinedSkills::COMBINED;
 
     /**
-     * @var integer
+     * @var integer|null
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue()
@@ -78,7 +78,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         PsychicalSkills $psychicalSkills,
         CombinedSkills $combinedSkills,
         Tables $tables
-    )
+    ): Skills
     {
         self::checkPaymentForSkillPoints(
             $professionLevels,
@@ -134,7 +134,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         PhysicalSkills $physicalSkills,
         PsychicalSkills $psychicalSkills,
         CombinedSkills $combinedSkill
-    )
+    ): array
     {
         $propertyPayments = self::getPaymentsSkeleton();
         foreach ([$physicalSkills, $psychicalSkills, $combinedSkill] as $sameTypeSkills) {
@@ -179,7 +179,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      * @return array
      * @throws Exceptions\UnknownPaymentForSkillPoint
      */
-    private static function extractPaymentDetails(SkillPoint $skillPoint)
+    private static function extractPaymentDetails(SkillPoint $skillPoint): array
     {
         $propertyPayment = self::getPaymentsSkeleton();
 
@@ -224,7 +224,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      * @param array $paymentOfSkillPoints
      * @return array
      */
-    private static function sumPayments(array $paymentOfSkillPoints)
+    private static function sumPayments(array $paymentOfSkillPoints): array
     {
         $paymentSum = self::getPaymentsSkeleton();
         foreach ($paymentOfSkillPoints as $paymentOfSkillPoint) {
@@ -246,7 +246,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      * @param array $firstLevelSkillPointPaymentOfType
      * @return array
      */
-    private static function sumFirstLevelPaymentOfType(array $firstLevelSumPaymentOfType, array $firstLevelSkillPointPaymentOfType)
+    private static function sumFirstLevelPaymentOfType(array $firstLevelSumPaymentOfType, array $firstLevelSkillPointPaymentOfType): array
     {
         if ($firstLevelSkillPointPaymentOfType['spentFirstLevelSkillPoints'] > 0) {
             if ($firstLevelSumPaymentOfType['backgroundSkillPoints']) {
@@ -276,7 +276,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         }
     }
 
-    private static function sumNextLevelsPaymentOfType(array $nextLevelsSumPaymentOfType, array $NextLevelsSkillPointPaymentOfType)
+    private static function sumNextLevelsPaymentOfType(array $nextLevelsSumPaymentOfType, array $NextLevelsSkillPointPaymentOfType): array
     {
         if ($NextLevelsSkillPointPaymentOfType['spentNextLevelsSkillPoints'] > 0) {
             $nextLevelsSumPaymentOfType['spentNextLevelsSkillPoints'] += $NextLevelsSkillPointPaymentOfType['spentNextLevelsSkillPoints'];
@@ -387,7 +387,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      * @param int $propertyIncrease
      * @return int
      */
-    private static function getSkillPointByPropertyIncrease($propertyIncrease)
+    private static function getSkillPointByPropertyIncrease(int $propertyIncrease): int
     {
         return self::PROPERTY_TO_SKILL_POINT_MULTIPLIER * $propertyIncrease;
     }
@@ -454,7 +454,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      * @param array $tooHighRankAdjustments
      * @return string
      */
-    private static function getTooHighRankAdjustmentsDescription(array $tooHighRankAdjustments)
+    private static function getTooHighRankAdjustmentsDescription(array $tooHighRankAdjustments): string
     {
         $descriptionParts = [];
         /** @var SkillRank[][] $ranksPerLevel */
@@ -498,7 +498,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getId()
     {
@@ -618,11 +618,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         }
         if ($weaponOrShieldForAttack->isMelee() || $weaponOrShieldForAttack->isThrowingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-            return $this->getPhysicalSkills()->getMalusToFightNumberWithWeaponlike(
-                $weaponOrShieldForAttack,
-                $tables,
-                $usesTwoWeapons
-            );
+            return $this->getPhysicalSkills()->getMalusToFightNumberWithWeaponlike($weaponOrShieldForAttack, $tables, $usesTwoWeapons);
         }
         if ($weaponOrShieldForAttack->isShootingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
@@ -671,11 +667,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
             return 0;
         }
         if ($weaponlikeCode->isMelee() || $weaponlikeCode->isThrowingWeapon()) {
-            return $this->getPhysicalSkills()->getMalusToAttackNumberWithWeaponlike(
-                $weaponlikeCode,
-                $tables,
-                $fightsWithTwoWeapons
-            );
+            return $this->getPhysicalSkills()->getMalusToAttackNumberWithWeaponlike($weaponlikeCode, $tables, $fightsWithTwoWeapons);
         }
         if ($weaponlikeCode->isShootingWeapon()) {
             return $this->getCombinedSkills()->getMalusToAttackNumberWithShootingWeapon(
@@ -703,11 +695,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         }
         if ($weaponCode->isMelee() || $weaponCode->isThrowingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-            return $this->getPhysicalSkills()->getMalusToCoverWithWeapon(
-                $weaponCode,
-                $tables,
-                $fightsWithTwoWeapons
-            );
+            return $this->getPhysicalSkills()->getMalusToCoverWithWeapon($weaponCode, $tables, $fightsWithTwoWeapons);
         }
         if ($weaponCode->isShootingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
@@ -745,11 +733,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     {
         if ($weaponlikeCode->isMelee() || $weaponlikeCode->isThrowingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-            return $this->getPhysicalSkills()->getMalusToBaseOfWoundsWithWeaponlike(
-                $weaponlikeCode,
-                $tables,
-                $fightsWithTwoWeapons
-            );
+            return $this->getPhysicalSkills()->getMalusToBaseOfWoundsWithWeaponlike($weaponlikeCode, $tables, $fightsWithTwoWeapons);
         }
         if ($weaponlikeCode->isShootingWeapon()) {
             /** @noinspection ExceptionsAnnotatingAndHandlingInspection */

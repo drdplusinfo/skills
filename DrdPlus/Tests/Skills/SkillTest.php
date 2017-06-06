@@ -5,6 +5,7 @@ use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Skills\Combined\CombinedSkillPoint;
 use DrdPlus\Skills\Combined\CombinedSkillRank;
 use DrdPlus\Skills\Combined\CombinedSkill;
+use DrdPlus\Skills\Combined\Cooking;
 use DrdPlus\Skills\Skill;
 use DrdPlus\Skills\SkillPoint;
 use DrdPlus\Skills\SkillRank;
@@ -168,7 +169,7 @@ abstract class SkillTest extends TestWithMockery
     /**
      * @return string
      */
-    private function getSkillPointClass()
+    private function getSkillPointClass(): string
     {
         $baseClass = SkillPoint::class;
         $typeName = preg_quote(ucfirst($this->getExpectedSkillsTypeName()), '~');
@@ -321,13 +322,43 @@ abstract class SkillTest extends TestWithMockery
      */
     public function I_can_not_add_rank_with_invalid_sequence()
     {
-        $sut = new CheatingSkill($this->createProfessionFirstLevel());
-        self::assertCount(1, $sut->getSkillRanks());
+        $cheatingSkill = new CheatingSkill($this->createProfessionFirstLevel());
+        self::assertCount(1, $cheatingSkill->getSkillRanks());
         /** @var CombinedSkillPoint|\Mockery\MockInterface $skillPoint */
         $skillPoint = $this->mockery(CombinedSkillPoint::class);
         $skillPoint->shouldReceive('getValue')
             ->andReturn(1);
-        $sut->increaseSkillRank($skillPoint, 2);
+        $cheatingSkill->increaseSkillRank($skillPoint, 2);
+    }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
+     * @expectedExceptionMessageRegExp ~Cooking~
+     */
+    public function I_can_not_add_skill_rank_from_another_skill()
+    {
+        $cheatingSkill = new CheatingSkill($this->createProfessionFirstLevel());
+        /** @var CombinedSkillPoint|\Mockery\MockInterface $skillPoint */
+        $skillPoint = $this->mockery(CombinedSkillPoint::class);
+        $skillPoint->shouldReceive('getValue')
+            ->andReturn(1);
+        $cheatingSkill->increaseSkillRank($skillPoint, 1, new Cooking($this->createProfessionFirstLevel()));
+    }
+
+    /**
+     * @test
+     * @expectedException \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
+     * @expectedExceptionMessageRegExp ~instance~
+     */
+    public function I_can_not_add_skill_rank_from_same_skill_but_different_instance()
+    {
+        $cheatingSkill = new CheatingSkill($this->createProfessionFirstLevel());
+        /** @var CombinedSkillPoint|\Mockery\MockInterface $skillPoint */
+        $skillPoint = $this->mockery(CombinedSkillPoint::class);
+        $skillPoint->shouldReceive('getValue')
+            ->andReturn(1);
+        $cheatingSkill->increaseSkillRank($skillPoint, 1, new CheatingSkill($this->createProfessionFirstLevel()));
     }
 }
 

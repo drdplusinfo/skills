@@ -62,7 +62,7 @@ abstract class Skill extends StrictObject implements Entity
     {
         if ($this !== $skillRank->getSkill()) {
             if (static::class !== get_class($skillRank->getSkill())) {
-                $message = 'New skill rank belongs to different skill class. Expected ' . static::class . ', got '
+                $message = 'New skill rank belongs to different skill class. Expecting ' . static::class . ', got '
                     . get_class($skillRank->getSkill());
             } else {
                 $message = 'New skill rank belongs to different instance of skill class ' . static::class;
