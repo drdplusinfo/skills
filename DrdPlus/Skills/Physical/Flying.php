@@ -29,6 +29,7 @@ class Flying extends PhysicalSkill implements WithBonus
     }
 
     /**
+     * @link https://pph.drdplus.info/#letectvi
      * @return int
      */
     public function getMalusToFight(): int
