@@ -12,57 +12,12 @@ use DrdPlus\Skills\SkillPoint;
 use DrdPlus\Skills\WithBonusToCharisma;
 use Granam\Tests\Tools\TestWithMockery;
 
-abstract class WithBonusToCharismaTest extends TestWithMockery
+abstract class WithBonusToCharismaTest extends WithBonusTest
 {
-
-    /**
-     * @test
-     */
-    public function It_has_expected_interface()
+    protected function getExpectedInterface(): string
     {
-        self::assertTrue(
-            is_a(self::getSutClass(), WithBonusToCharisma::class, true),
-            self::getSutClass() . ' should implement ' . WithBonusToCharisma::class
-        );
+        return WithBonusToCharisma::class;
     }
-
-    /**
-     * @test
-     */
-    public function I_can_get_bonus_to_charisma()
-    {
-        $sutClass = self::getSutClass();
-        /** @var WithBonusToCharisma|CombinedSkill|PhysicalSkill|PsychicalSkill $sut */
-        $sut = new $sutClass($this->createProfessionLevel());
-
-        self::assertSame(0, $sut->getCurrentSkillRank()->getValue());
-        self::assertSame(0, $sut->getBonusToCharisma());
-
-        $sut->increaseSkillRank($this->createSkillPoint());
-        self::assertSame(1, $sut->getCurrentSkillRank()->getValue());
-        self::assertSame($this->getExpectedBonusFromSkill(1), $sut->getBonusToCharisma());
-
-        $sut->increaseSkillRank($this->createSkillPoint());
-        self::assertSame(2, $sut->getCurrentSkillRank()->getValue());
-        self::assertSame($this->getExpectedBonusFromSkill(2), $sut->getBonusToCharisma());
-
-        $sut->increaseSkillRank($this->createSkillPoint());
-        self::assertSame(3, $sut->getCurrentSkillRank()->getValue());
-        self::assertSame($this->getExpectedBonusFromSkill(3), $sut->getBonusToCharisma());
-    }
-
-    /**
-     * @return \Mockery\MockInterface|ProfessionFirstLevel
-     */
-    protected function createProfessionLevel()
-    {
-        return $this->mockery(ProfessionFirstLevel::class);
-    }
-
-    /**
-     * @return \Mockery\MockInterface|PhysicalSkillPoint|PsychicalSkillPoint|CombinedSkillPoint|SkillPoint
-     */
-    abstract protected function createSkillPoint(): SkillPoint;
 
     /**
      * @param int $skillRankValue

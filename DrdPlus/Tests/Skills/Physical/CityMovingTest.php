@@ -1,13 +1,13 @@
 <?php
 namespace DrdPlus\Tests\Skills\Physical;
 
-use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Skills\Physical\CityMoving;
-use DrdPlus\Skills\Physical\PhysicalSkillPoint;
-use Granam\Tests\Tools\TestWithMockery;
+use DrdPlus\Tests\Skills\WithBonusToMovementSpeedTest;
 
-class CityMovingTest extends TestWithMockery
+class CityMovingTest extends WithBonusToMovementSpeedTest
 {
+    use CreatePhysicalSkillPointTrait;
+
     /**
      * @test
      */
@@ -16,42 +16,22 @@ class CityMovingTest extends TestWithMockery
         $swimming = new CityMoving($this->createProfessionLevel());
 
         self::assertSame(0, $swimming->getCurrentSkillRank()->getValue());
-        self::assertSame(0, $swimming->getBonusToSpeed());
+        self::assertSame(0, $swimming->getBonusToMovementSpeed());
         self::assertSame(0, $swimming->getBonusToIntelligenceOrSenses());
 
-        $swimming->increaseSkillRank($this->createPhysicalSkillPoint());
+        $swimming->increaseSkillRank($this->createSkillPoint());
         self::assertSame(1, $swimming->getCurrentSkillRank()->getValue());
-        self::assertSame(1, $swimming->getBonusToSpeed());
+        self::assertSame(1, $swimming->getBonusToMovementSpeed());
         self::assertSame(2, $swimming->getBonusToIntelligenceOrSenses());
 
-        $swimming->increaseSkillRank($this->createPhysicalSkillPoint());
+        $swimming->increaseSkillRank($this->createSkillPoint());
         self::assertSame(2, $swimming->getCurrentSkillRank()->getValue());
-        self::assertSame(2, $swimming->getBonusToSpeed());
+        self::assertSame(2, $swimming->getBonusToMovementSpeed());
         self::assertSame(4, $swimming->getBonusToIntelligenceOrSenses());
 
-        $swimming->increaseSkillRank($this->createPhysicalSkillPoint());
+        $swimming->increaseSkillRank($this->createSkillPoint());
         self::assertSame(3, $swimming->getCurrentSkillRank()->getValue());
-        self::assertSame(3, $swimming->getBonusToSpeed());
+        self::assertSame(3, $swimming->getBonusToMovementSpeed());
         self::assertSame(6, $swimming->getBonusToIntelligenceOrSenses());
-    }
-
-    /**
-     * @return \Mockery\MockInterface|ProfessionFirstLevel
-     */
-    private function createProfessionLevel()
-    {
-        return $this->mockery(ProfessionFirstLevel::class);
-    }
-
-    /**
-     * @return \Mockery\MockInterface|PhysicalSkillPoint
-     */
-    private function createPhysicalSkillPoint(): PhysicalSkillPoint
-    {
-        $physicalSkillPoint = $this->mockery(PhysicalSkillPoint::class);
-        $physicalSkillPoint->shouldReceive('getValue')
-            ->andReturn(1);
-
-        return $physicalSkillPoint;
     }
 }

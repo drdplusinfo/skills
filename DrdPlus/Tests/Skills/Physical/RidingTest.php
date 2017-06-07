@@ -7,12 +7,14 @@ use DrdPlus\Tests\Skills\WithBonusTest;
 
 class RidingTest extends WithBonusTest
 {
+    use CreatePhysicalSkillPointTrait;
+
     /**
      * @param int $skillRankValue
      * @return int
      * @throws \LogicException
      */
-    protected function getExpectedBonus(int $skillRankValue): int
+    protected function getExpectedBonusFromSkill(int $skillRankValue): int
     {
         switch ($skillRankValue) {
             case 1 :
@@ -24,17 +26,5 @@ class RidingTest extends WithBonusTest
             default :
                 throw new \LogicException('Unexpected skill rank value ' . $skillRankValue);
         }
-    }
-
-    /**
-     * @return \Mockery\MockInterface|PhysicalSkillPoint|SkillPoint
-     */
-    protected function createSkillPoint(): SkillPoint
-    {
-        $physicalSkillPoint = $this->mockery(PhysicalSkillPoint::class);
-        $physicalSkillPoint->shouldReceive('getValue')
-            ->andReturn(1);
-
-        return $physicalSkillPoint;
     }
 }

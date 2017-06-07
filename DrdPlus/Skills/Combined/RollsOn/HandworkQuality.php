@@ -7,7 +7,7 @@ use DrdPlus\RollsOn\QualityAndSuccess\RollOnQuality;
 use DrdPlus\Skills\Combined\Handwork;
 
 /**
- * See PHP page 131 left column, @link https://pph.drdplus.info/#hod_na_kvalitu_rucni_prace
+ * See PPH page 131 left column, @link https://pph.drdplus.info/#hod_na_kvalitu_rucni_prace
  * @method Roll2d6DrdPlus getRoll()
  */
 class HandworkQuality extends RollOnQuality

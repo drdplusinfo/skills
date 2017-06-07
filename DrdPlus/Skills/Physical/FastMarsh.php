@@ -3,12 +3,12 @@ namespace DrdPlus\Skills\Physical;
 
 use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
-use DrdPlus\Skills\WithBonus;
+use DrdPlus\Skills\WithBonusToMovementSpeed;
 
 /**
  * @ORM\Entity()
  */
-class FastMarsh extends PhysicalSkill implements WithBonus
+class FastMarsh extends PhysicalSkill implements WithBonusToMovementSpeed
 {
     const FAST_MARSH = PhysicalSkillCode::FAST_MARSH;
 
@@ -23,7 +23,7 @@ class FastMarsh extends PhysicalSkill implements WithBonus
     /**
      * @return int
      */
-    public function getBonus(): int
+    public function getBonusToMovementSpeed(): int
     {
         return $this->getCurrentSkillRank()->getValue();
     }

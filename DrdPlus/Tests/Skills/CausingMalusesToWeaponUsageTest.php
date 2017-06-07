@@ -20,8 +20,8 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
             /** @var CausingMalusesToWeaponUsage $sut */
             $sut = new $sutClass($this->createProfessionFirstLevel());
             self::assertSame(
-                'bar',
-                $sut->getMalusToFightNumber($this->createTablesWithWeaponSkillsTable('bar'))
+                136,
+                $sut->getMalusToFightNumber($this->createTablesWithWeaponSkillsTable(136))
             );
         }
     }
@@ -29,7 +29,7 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
     /**
      * @return string[]
      */
-    protected static function getSutClasses()
+    protected static function getSutClasses(): array
     {
         $reflection = new \ReflectionClass(self::getSutClass());
         $sutClasses = [];
@@ -47,10 +47,10 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
     }
 
     /**
-     * @param $result
+     * @param int $result
      * @return \Mockery\MockInterface|Tables
      */
-    private function createTablesWithWeaponSkillsTable($result)
+    private function createTablesWithWeaponSkillsTable(int $result)
     {
         $tables = $this->mockery(Tables::class);
         $tables->shouldReceive('getMissingWeaponSkillTable')
@@ -94,8 +94,8 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
             /** @var CausingMalusesToWeaponUsage $sut */
             $sut = new $sutClass($this->createProfessionFirstLevel());
             self::assertSame(
-                'bar',
-                $sut->getMalusToAttackNumber($this->createTablesWithWeaponSkillsTable('bar'))
+                123,
+                $sut->getMalusToAttackNumber($this->createTablesWithWeaponSkillsTable(123))
             );
         }
     }
@@ -110,8 +110,8 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
             /** @var CausingMalusesToWeaponUsage $sut */
             $sut = new $sutClass($this->createProfessionFirstLevel());
             self::assertSame(
-                'bar',
-                $sut->getMalusToCover($this->createTablesWithWeaponSkillsTable('bar'))
+                456,
+                $sut->getMalusToCover($this->createTablesWithWeaponSkillsTable(456))
             );
         }
     }
@@ -126,8 +126,8 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
             /** @var CausingMalusesToWeaponUsage $sut */
             $sut = new $sutClass($this->createProfessionFirstLevel());
             self::assertSame(
-                'bar',
-                $sut->getMalusToBaseOfWounds($this->createTablesWithWeaponSkillsTable('bar'))
+                789,
+                $sut->getMalusToBaseOfWounds($this->createTablesWithWeaponSkillsTable(789))
             );
         }
     }

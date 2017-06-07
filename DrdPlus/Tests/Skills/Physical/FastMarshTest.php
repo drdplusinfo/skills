@@ -1,7 +1,9 @@
 <?php
 namespace DrdPlus\Tests\Skills\Physical;
 
-class FastMarshTest extends WithBonusFromPhysicalTest
+use DrdPlus\Tests\Skills\WithBonusToMovementSpeedTest;
+
+class FastMarshTest extends WithBonusToMovementSpeedTest
 {
 
 }

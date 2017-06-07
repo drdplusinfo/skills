@@ -3,9 +3,11 @@ namespace DrdPlus\Tests\Skills\Physical;
 
 use DrdPlus\Skills\Physical\PhysicalSkillPoint;
 use DrdPlus\Skills\SkillPoint;
-use DrdPlus\Tests\Skills\WithBonusTest;
 
-abstract class WithBonusFromPhysicalTest extends WithBonusTest
+/**
+ * @method \Mockery\MockInterface mockery(string $class)
+ */
+trait CreatePhysicalSkillPointTrait
 {
     /**
      * @return \Mockery\MockInterface|PhysicalSkillPoint|SkillPoint
@@ -17,15 +19,5 @@ abstract class WithBonusFromPhysicalTest extends WithBonusTest
             ->andReturn(1);
 
         return $physicalSkillPoint;
-    }
-
-    /**
-     * @param int $skillRankValue
-     * @return int
-     * @throws \LogicException
-     */
-    protected function getExpectedBonusFromSkill(int $skillRankValue): int
-    {
-        return $skillRankValue;
     }
 }

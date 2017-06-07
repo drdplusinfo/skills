@@ -39,7 +39,7 @@ class ShieldUsage extends PhysicalSkill
      * @throws \Granam\Integer\Tools\Exceptions\ValueLostOnCast
      * @throws \Granam\Integer\Tools\Exceptions\NegativeIntegerCanNotBePositive
      */
-    public function getMalusToFightNumber(Tables $tables, $shieldRestriction)
+    public function getMalusToFightNumber(Tables $tables, $shieldRestriction): int
     {
         /**
          * using shield as a weapon means using something without skill (zero skill ShieldAsAWeapon respectively)
@@ -61,7 +61,7 @@ class ShieldUsage extends PhysicalSkill
      * @throws \Granam\Integer\Tools\Exceptions\ValueLostOnCast
      * @throws \Granam\Integer\Tools\Exceptions\NegativeIntegerCanNotBePositive
      */
-    public function getRestrictionWithShield(Tables $tables, $shieldRestriction)
+    public function getRestrictionWithShield(Tables $tables, $shieldRestriction): int
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         $malusFromRestriction = ToInteger::toNegativeInteger($shieldRestriction)
@@ -79,7 +79,7 @@ class ShieldUsage extends PhysicalSkill
      * @param Tables $tables
      * @return int
      */
-    public function getMalusToAttackNumber(Tables $tables)
+    public function getMalusToAttackNumber(Tables $tables): int
     {
         /**
          * using shield as a weapon means using something without skill (zero skill ShieldAsAWeapon respectively)
@@ -94,7 +94,7 @@ class ShieldUsage extends PhysicalSkill
      * @param Tables $tables
      * @return int
      */
-    public function getMalusToCover(Tables $tables)
+    public function getMalusToCover(Tables $tables): int
     {
         /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return $tables->getShieldUsageSkillTable()->getCoverMalusForSkillRank($this->getCurrentSkillRank());
@@ -106,7 +106,7 @@ class ShieldUsage extends PhysicalSkill
      * @param Tables $tables
      * @return int
      */
-    public function getMalusToBaseOfWounds(Tables $tables)
+    public function getMalusToBaseOfWounds(Tables $tables): int
     {
         /**
          * using shield as a weapon means using something without skill (zero skill ShieldAsAWeapon respectively)

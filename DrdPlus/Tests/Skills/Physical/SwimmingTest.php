@@ -1,12 +1,10 @@
 <?php
 namespace DrdPlus\Tests\Skills\Physical;
 
-use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
-use DrdPlus\Skills\Physical\PhysicalSkillPoint;
 use DrdPlus\Skills\Physical\Swimming;
-use Granam\Tests\Tools\TestWithMockery;
+use DrdPlus\Tests\Skills\WithBonusToMovementSpeedTest;
 
-class SwimmingTest extends TestWithMockery
+class SwimmingTest extends WithBonusToMovementSpeedTest
 {
     /**
      * @test
@@ -17,41 +15,29 @@ class SwimmingTest extends TestWithMockery
 
         self::assertSame(0, $swimming->getCurrentSkillRank()->getValue());
         self::assertSame(0, $swimming->getBonusToSwimming());
-        self::assertSame(0, $swimming->getBonusToSpeed());
+        self::assertSame(0, $swimming->getBonusToMovementSpeed());
 
-        $swimming->increaseSkillRank($this->createPhysicalSkillPoint());
+        $swimming->increaseSkillRank($this->createSkillPoint());
         self::assertSame(1, $swimming->getCurrentSkillRank()->getValue());
         self::assertSame(4, $swimming->getBonusToSwimming());
-        self::assertSame(2, $swimming->getBonusToSpeed());
+        self::assertSame(2, $swimming->getBonusToMovementSpeed());
 
-        $swimming->increaseSkillRank($this->createPhysicalSkillPoint());
+        $swimming->increaseSkillRank($this->createSkillPoint());
         self::assertSame(2, $swimming->getCurrentSkillRank()->getValue());
         self::assertSame(6, $swimming->getBonusToSwimming());
-        self::assertSame(3, $swimming->getBonusToSpeed());
+        self::assertSame(3, $swimming->getBonusToMovementSpeed());
 
-        $swimming->increaseSkillRank($this->createPhysicalSkillPoint());
+        $swimming->increaseSkillRank($this->createSkillPoint());
         self::assertSame(3, $swimming->getCurrentSkillRank()->getValue());
         self::assertSame(8, $swimming->getBonusToSwimming());
-        self::assertSame(4, $swimming->getBonusToSpeed());
+        self::assertSame(4, $swimming->getBonusToMovementSpeed());
     }
 
-    /**
-     * @return \Mockery\MockInterface|ProfessionFirstLevel
-     */
-    private function createProfessionLevel()
+    protected function getExpectedBonusFromSkill(int $skillRankValue): int
     {
-        return $this->mockery(ProfessionFirstLevel::class);
+        return $skillRankValue === 0
+            ? 0
+            : $skillRankValue + 1;
     }
 
-    /**
-     * @return \Mockery\MockInterface|PhysicalSkillPoint
-     */
-    private function createPhysicalSkillPoint(): PhysicalSkillPoint
-    {
-        $physicalSkillPoint = $this->mockery(PhysicalSkillPoint::class);
-        $physicalSkillPoint->shouldReceive('getValue')
-            ->andReturn(1);
-
-        return $physicalSkillPoint;
-    }
 }

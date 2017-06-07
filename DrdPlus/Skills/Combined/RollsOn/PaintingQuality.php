@@ -7,7 +7,7 @@ use DrdPlus\RollsOn\QualityAndSuccess\RollOnQuality;
 use DrdPlus\Skills\Combined\Painting;
 
 /**
- * See PHP page 153 right column, @link https://pph.drdplus.info/#vypocet_kvality_obrazu
+ * See PPH page 153 right column, @link https://pph.drdplus.info/#vypocet_kvality_obrazu
  * @method Roll2d6DrdPlus getRoll()
  */
 class PaintingQuality extends RollOnQuality
