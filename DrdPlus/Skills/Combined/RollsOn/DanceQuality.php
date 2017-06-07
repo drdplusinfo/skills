@@ -8,7 +8,7 @@ use DrdPlus\RollsOn\QualityAndSuccess\RollOnQuality;
 use DrdPlus\Skills\Combined\Dancing;
 
 /**
- * See PPH page 131 left column, @link https://pph.drdplus.info/#tanec
+ * See PPH page 154 right column, @link https://pph.drdplus.info/#tanec
  * @method Roll2d6DrdPlus getRoll()
  */
 class DanceQuality extends RollOnQuality
