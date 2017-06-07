@@ -239,7 +239,7 @@ abstract class SkillTest extends TestWithMockery
     /**
      * @return string[]|array
      */
-    abstract protected function getExpectedRelatedPropertyCodes();
+    abstract protected function getExpectedRelatedPropertyCodes(): array;
 
     protected function I_can_ask_it_which_type_is_it(Skill $skill)
     {

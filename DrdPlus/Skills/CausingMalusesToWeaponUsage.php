@@ -1,31 +1,25 @@
 <?php
 namespace DrdPlus\Skills;
 
-use DrdPlus\Tables\Tables;
-
 interface CausingMalusesToWeaponUsage
 {
     /**
-     * @param Tables $tables
      * @return int
      */
-    public function getMalusToFightNumber(Tables $tables);
+    public function getMalusToFightNumber(): int;
 
     /**
-     * @param Tables $tables
      * @return int
      */
-    public function getMalusToAttackNumber(Tables $tables);
+    public function getMalusToAttackNumber(): int;
 
     /**
-     * @param Tables $tables
      * @return int
      */
-    public function getMalusToCover(Tables $tables);
+    public function getMalusToCover(): int;
 
     /**
-     * @param Tables $tables
      * @return int
      */
-    public function getMalusToBaseOfWounds(Tables $tables);
+    public function getMalusToBaseOfWounds(): int;
 }

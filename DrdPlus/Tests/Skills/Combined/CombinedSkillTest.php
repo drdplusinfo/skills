@@ -9,7 +9,7 @@ class CombinedSkillTest extends SkillTest
     /**
      * @return array|string[]
      */
-    protected function getExpectedRelatedPropertyCodes()
+    protected function getExpectedRelatedPropertyCodes(): array
     {
         return [PropertyCode::KNACK, PropertyCode::CHARISMA];
     }

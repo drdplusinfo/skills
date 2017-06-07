@@ -171,7 +171,7 @@ class CombinedSkillsTest extends SameTypeSkillsTest
     /**
      * @return array|string[][]
      */
-    public function provideWeaponCategories()
+    public function provideWeaponCategories(): array
     {
         return [
             [WeaponCategoryCode::BOW],

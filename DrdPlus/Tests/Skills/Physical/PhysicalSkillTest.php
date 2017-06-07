@@ -7,7 +7,7 @@ use DrdPlus\Tests\Skills\SkillTest;
 class PhysicalSkillTest extends SkillTest
 {
 
-    protected function getExpectedRelatedPropertyCodes()
+    protected function getExpectedRelatedPropertyCodes(): array
     {
         return [PropertyCode::STRENGTH, PropertyCode::AGILITY];
     }

@@ -6,7 +6,7 @@ use DrdPlus\Tests\Skills\SkillTest;
 
 class PsychicalSkillTest extends SkillTest
 {
-    protected function getExpectedRelatedPropertyCodes()
+    protected function getExpectedRelatedPropertyCodes(): array
     {
         return [PropertyCode::WILL, PropertyCode::INTELLIGENCE];
     }

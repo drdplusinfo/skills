@@ -1,14 +1,11 @@
 <?php
 namespace DrdPlus\Tests\Skills\Combined;
 
-use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Skills\CausingMalusesToWeaponUsage;
-use DrdPlus\Skills\SkillRank;
-use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
-use DrdPlus\Tables\Tables;
-use Granam\Tests\Tools\TestWithMockery;
+use DrdPlus\Skills\Physical\PhysicalSkill;
+use DrdPlus\Tests\Skills\SkillTest;
 
-abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
+abstract class CausingMalusesToWeaponUsageTest extends SkillTest
 {
     /**
      * @test
@@ -17,12 +14,15 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
     {
         $sutClasses = self::getSutClasses();
         foreach ($sutClasses as $sutClass) {
-            /** @var CausingMalusesToWeaponUsage $sut */
+            /** @var CausingMalusesToWeaponUsage|PhysicalSkill $sut */
             $sut = new $sutClass($this->createProfessionFirstLevel());
-            self::assertSame(
-                136,
-                $sut->getMalusToFightNumber($this->createTablesWithWeaponSkillsTable(136))
-            );
+            self::assertSame(-3, $sut->getMalusToFightNumber());
+            $sut->increaseSkillRank($this->createSkillPoint());
+            self::assertSame(-2, $sut->getMalusToFightNumber());
+            $sut->increaseSkillRank($this->createSkillPoint());
+            self::assertSame(-1, $sut->getMalusToFightNumber());
+            $sut->increaseSkillRank($this->createSkillPoint());
+            self::assertSame(0, $sut->getMalusToFightNumber());
         }
     }
 
@@ -47,56 +47,21 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
     }
 
     /**
-     * @param int $result
-     * @return \Mockery\MockInterface|Tables
-     */
-    private function createTablesWithWeaponSkillsTable(int $result)
-    {
-        $tables = $this->mockery(Tables::class);
-        $tables->shouldReceive('getMissingWeaponSkillTable')
-            ->andReturn($weaponSkillTable = $this->mockery(MissingWeaponSkillTable::class));
-        $returnFunction = function (SkillRank $skillRank) use ($result) {
-            self::assertSame(0, $skillRank->getValue());
-
-            return $result;
-        };
-        $weaponSkillTable->shouldReceive('getFightNumberMalusForSkillRank')
-            ->with($this->type(SkillRank::class))
-            ->andReturnUsing($returnFunction);
-        $weaponSkillTable->shouldReceive('getAttackNumberMalusForSkillRank')
-            ->with($this->type(SkillRank::class))
-            ->andReturnUsing($returnFunction);
-        $weaponSkillTable->shouldReceive('getCoverMalusForSkillRank')
-            ->with($this->type(SkillRank::class))
-            ->andReturnUsing($returnFunction);
-        $weaponSkillTable->shouldReceive('getBaseOfWoundsMalusForSkillRank')
-            ->with($this->type(SkillRank::class))
-            ->andReturnUsing($returnFunction);
-
-        return $tables;
-    }
-
-    /**
-     * @return \Mockery\MockInterface|ProfessionFirstLevel
-     */
-    protected function createProfessionFirstLevel()
-    {
-        return $this->mockery(ProfessionFirstLevel::class);
-    }
-
-    /**
      * @test
      */
     public function I_can_get_malus_to_attack_number()
     {
         $sutClasses = self::getSutClasses();
         foreach ($sutClasses as $sutClass) {
-            /** @var CausingMalusesToWeaponUsage $sut */
+            /** @var CausingMalusesToWeaponUsage|PhysicalSkill $sut */
             $sut = new $sutClass($this->createProfessionFirstLevel());
-            self::assertSame(
-                123,
-                $sut->getMalusToAttackNumber($this->createTablesWithWeaponSkillsTable(123))
-            );
+            self::assertSame(-3, $sut->getMalusToAttackNumber());
+            $sut->increaseSkillRank($this->createSkillPoint());
+            self::assertSame(-2, $sut->getMalusToAttackNumber());
+            $sut->increaseSkillRank($this->createSkillPoint());
+            self::assertSame(-1, $sut->getMalusToAttackNumber());
+            $sut->increaseSkillRank($this->createSkillPoint());
+            self::assertSame(0, $sut->getMalusToAttackNumber());
         }
     }
 
@@ -107,12 +72,15 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
     {
         $sutClasses = self::getSutClasses();
         foreach ($sutClasses as $sutClass) {
-            /** @var CausingMalusesToWeaponUsage $sut */
+            /** @var CausingMalusesToWeaponUsage|PhysicalSkill $sut */
             $sut = new $sutClass($this->createProfessionFirstLevel());
-            self::assertSame(
-                456,
-                $sut->getMalusToCover($this->createTablesWithWeaponSkillsTable(456))
-            );
+            self::assertSame(-2, $sut->getMalusToCover());
+            $sut->increaseSkillRank($this->createSkillPoint());
+            self::assertSame(-1, $sut->getMalusToCover());
+            $sut->increaseSkillRank($this->createSkillPoint());
+            self::assertSame(-1, $sut->getMalusToCover());
+            $sut->increaseSkillRank($this->createSkillPoint());
+            self::assertSame(0, $sut->getMalusToCover());
         }
     }
 
@@ -123,12 +91,15 @@ abstract class CausingMalusesToWeaponUsageTest extends TestWithMockery
     {
         $sutClasses = self::getSutClasses();
         foreach ($sutClasses as $sutClass) {
-            /** @var CausingMalusesToWeaponUsage $sut */
+            /** @var CausingMalusesToWeaponUsage|PhysicalSkill $sut */
             $sut = new $sutClass($this->createProfessionFirstLevel());
-            self::assertSame(
-                789,
-                $sut->getMalusToBaseOfWounds($this->createTablesWithWeaponSkillsTable(789))
-            );
+            self::assertSame(-1, $sut->getMalusToBaseOfWounds());
+            $sut->increaseSkillRank($this->createSkillPoint());
+            self::assertSame(-1, $sut->getMalusToBaseOfWounds());
+            $sut->increaseSkillRank($this->createSkillPoint());
+            self::assertSame(0, $sut->getMalusToBaseOfWounds());
+            $sut->increaseSkillRank($this->createSkillPoint());
+            self::assertSame(0, $sut->getMalusToBaseOfWounds());
         }
     }
 }
