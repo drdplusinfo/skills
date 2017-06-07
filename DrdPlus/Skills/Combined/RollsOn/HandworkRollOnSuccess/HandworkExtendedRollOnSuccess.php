@@ -4,6 +4,9 @@ namespace DrdPlus\Skills\Combined\RollsOn\HandworkRollOnSuccess;
 use DrdPlus\RollsOn\QualityAndSuccess\ExtendedRollOnSuccess;
 use DrdPlus\Skills\Combined\RollsOn\HandworkQuality;
 
+/**
+ * @method HandworkQuality getRollOnQuality
+ */
 class HandworkExtendedRollOnSuccess extends ExtendedRollOnSuccess
 {
     /**
