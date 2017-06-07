@@ -1,0 +1,27 @@
+<?php
+namespace DrdPlus\Skills\Combined\RollsOn;
+
+use Drd\DiceRolls\Roll;
+use Drd\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
+use DrdPlus\Properties\Base\Agility;
+use DrdPlus\RollsOn\QualityAndSuccess\RollOnQuality;
+use DrdPlus\Skills\Combined\Dancing;
+
+/**
+ * See PPH page 131 left column, @link https://pph.drdplus.info/#tanec
+ * @method Roll2d6DrdPlus getRoll()
+ */
+class DanceQuality extends RollOnQuality
+{
+    /**
+     * @link https://pph.drdplus.info/#vypocet_kvality_tance
+     * @param Agility $agility
+     * @param Dancing $dancing
+     * @param Roll $roll
+     */
+    public function __construct(Agility $agility, Dancing $dancing, Roll $roll)
+    {
+        parent::__construct($agility->getValue() + $dancing->getBonus(), $roll);
+    }
+
+}
