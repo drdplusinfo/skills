@@ -253,7 +253,7 @@ abstract class SkillTest extends TestWithMockery
     /**
      * @return bool
      */
-    protected function shouldBeCombined()
+    protected function shouldBeCombined(): bool
     {
         return strpos(static::class, 'Combined') !== false;
     }
@@ -261,7 +261,7 @@ abstract class SkillTest extends TestWithMockery
     /**
      * @return bool
      */
-    protected function shouldBePhysical()
+    protected function shouldBePhysical(): bool
     {
         return strpos(static::class, 'Physical') !== false;
     }
@@ -269,7 +269,7 @@ abstract class SkillTest extends TestWithMockery
     /**
      * @return bool
      */
-    protected function shouldBePsychical()
+    protected function shouldBePsychical(): bool
     {
         return strpos(static::class, 'Psychical') !== false;
     }
