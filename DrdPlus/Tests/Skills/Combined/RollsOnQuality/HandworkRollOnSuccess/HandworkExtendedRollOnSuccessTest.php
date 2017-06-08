@@ -17,15 +17,17 @@ class HandworkExtendedRollOnSuccessTest extends TestWithMockery
 {
     /**
      * @test
+     * @dataProvider provideDifficultyModifier
+     * @param int $difficultyModification
      */
-    public function I_can_create_it_easily_by_factory_method()
+    public function I_can_create_it_directly_or_easily_by_factory_method(int $difficultyModification)
     {
         $handworkQuality = new HandworkQuality(
             Knack::getIt(10),
             new Handwork($this->createProfessionLevel()),
             (new Roller2d6DrdPlus())->roll()
         );
-        $handworkExtendedRollOnSuccess = HandworkExtendedRollOnSuccess::createIt($handworkQuality, 0);
+        $handworkExtendedRollOnSuccess = HandworkExtendedRollOnSuccess::createIt($handworkQuality, $difficultyModification);
         self::assertInstanceOf(HandworkExtendedRollOnSuccess::class, $handworkExtendedRollOnSuccess);
         self::assertSame($handworkQuality, $handworkExtendedRollOnSuccess->getRollOnQuality());
         $reflection = new \ReflectionClass(ExtendedRollOnSuccess::class);
@@ -33,16 +35,16 @@ class HandworkExtendedRollOnSuccessTest extends TestWithMockery
         $rollsOnSuccess->setAccessible(true);
         self::assertEquals(
             [
-                new HandworkSimpleRollOnGreatSuccess($handworkQuality, 0),
-                new HandworkSimpleRollOnModerateSuccess($handworkQuality, 0),
-                new HandworkSimpleRollOnLowSuccess($handworkQuality, 0),
+                new HandworkSimpleRollOnGreatSuccess($handworkQuality, $difficultyModification),
+                new HandworkSimpleRollOnModerateSuccess($handworkQuality, $difficultyModification),
+                new HandworkSimpleRollOnLowSuccess($handworkQuality, $difficultyModification),
             ],
             $rollsOnSuccess->getValue($handworkExtendedRollOnSuccess)
         );
 
         self::assertEquals(
             $handworkExtendedRollOnSuccess,
-            new HandworkExtendedRollOnSuccess($handworkQuality, 0)
+            new HandworkExtendedRollOnSuccess($handworkQuality, $difficultyModification)
         );
     }
 
@@ -52,5 +54,15 @@ class HandworkExtendedRollOnSuccessTest extends TestWithMockery
     private function createProfessionLevel()
     {
         return $this->mockery(ProfessionFirstLevel::class);
+    }
+
+    public function provideDifficultyModifier(): array
+    {
+        return array_map(
+            function (int $value) {
+                return [$value];
+            },
+            range(-5, 5, 1)
+        );
     }
 }
