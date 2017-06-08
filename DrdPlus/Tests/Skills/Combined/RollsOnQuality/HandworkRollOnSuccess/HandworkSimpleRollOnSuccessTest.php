@@ -9,26 +9,44 @@ abstract class HandworkSimpleRollOnSuccessTest extends TestWithMockery
 {
     /**
      * @test
+     * @dataProvider provideDifficultyModifier
+     * @param int $difficultyModification
      */
-    public function I_can_get_both_success_and_failure()
+    public function I_can_get_both_success_and_failure(int $difficultyModification)
     {
         /** @var HandworkSimpleRollOnSuccess $sutClass */
         $sutClass = self::getSutClass();
         /** @var HandworkSimpleRollOnSuccess $success */
-        $success = new $sutClass($handworkQuality = $this->createHandworkQuality($this->getExpectedDifficulty()), 0);
-        self::assertSame($this->getExpectedDifficulty(), $success->getDifficulty());
+        $success = new $sutClass(
+            $handworkQuality = $this->createHandworkQuality($this->getExpectedDifficulty() + $difficultyModification),
+            $difficultyModification
+        );
+        self::assertSame($this->getExpectedDifficulty() + $difficultyModification, $success->getDifficulty());
         self::assertSame($handworkQuality, $success->getRollOnQuality());
         self::assertTrue($success->isSuccess());
         self::assertFalse($success->isFailure());
         self::assertSame($this->getExpectedSuccessValue(), $success->getResult());
 
         /** @var HandworkSimpleRollOnSuccess $failure */
-        $failure = new $sutClass($handworkQuality = $this->createHandworkQuality($this->getExpectedDifficulty() - 1), 0);
-        self::assertSame($this->getExpectedDifficulty(), $failure->getDifficulty());
+        $failure = new $sutClass(
+            $handworkQuality = $this->createHandworkQuality($this->getExpectedDifficulty() - 1 + $difficultyModification),
+            $difficultyModification
+        );
+        self::assertSame($this->getExpectedDifficulty() + $difficultyModification, $failure->getDifficulty());
         self::assertSame($handworkQuality, $failure->getRollOnQuality());
         self::assertFalse($failure->isSuccess());
         self::assertTrue($failure->isFailure());
         self::assertSame($this->getExpectedFailureValue(), $failure->getResult());
+    }
+
+    public function provideDifficultyModifier(): array
+    {
+        return array_map(
+            function (int $value) {
+                return [$value];
+            },
+            range(-5, 5, 1)
+        );
     }
 
     /**
