@@ -9,6 +9,9 @@ use DrdPlus\Skills\Combined\RollsOnQuality\PaintingQuality;
 use DrdPlus\Skills\WithBonus;
 
 /**
+ * @link https://pph.drdplus.info/#malovani
+ */
+/**
  * @ORM\Entity()
  */
 class Painting extends CombinedSkill implements WithBonus
@@ -32,6 +35,7 @@ class Painting extends CombinedSkill implements WithBonus
     }
 
     /**
+     * @link https://pph.drdplus.info/#vypocet_kvality_obrazu
      * @param Knack $knack
      * @param Roll2d6DrdPlus $roll2D6DrdPlus
      * @return PaintingQuality

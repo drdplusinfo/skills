@@ -9,6 +9,9 @@ use DrdPlus\Skills\Combined\RollsOnQuality\ShowmanshipGameQuality;
 use DrdPlus\Skills\WithBonus;
 
 /**
+ * @link https://pph.drdplus.info/#herectvi
+ */
+/**
  * @ORM\Entity()
  */
 class Showmanship extends CombinedSkill implements WithBonus
@@ -32,6 +35,7 @@ class Showmanship extends CombinedSkill implements WithBonus
     }
 
     /**
+     * @link https://pph.drdplus.info/#vypocet_kvality_hry_pri_herectvi
      * @param Charisma $charisma
      * @param Roll2d6DrdPlus $roll2D6DrdPlus
      * @return ShowmanshipGameQuality

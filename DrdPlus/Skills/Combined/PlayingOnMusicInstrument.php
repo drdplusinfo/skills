@@ -9,6 +9,9 @@ use DrdPlus\Skills\Combined\RollsOnQuality\PlayingOnMusicInstrumentGameQuality;
 use DrdPlus\Skills\WithBonus;
 
 /**
+ * @link https://pph.drdplus.info/#hra_na_hudebni_nastroj
+ */
+/**
  * @ORM\Entity()
  */
 class PlayingOnMusicInstrument extends CombinedSkill implements WithBonus
@@ -32,11 +35,15 @@ class PlayingOnMusicInstrument extends CombinedSkill implements WithBonus
     }
 
     /**
+     * @link https://pph.drdplus.info/#vypocet_kvality_hry_na_hudebni_nastroj
      * @param Knack $knack
      * @param Roll2d6DrdPlus $roll2D6DrdPlus
      * @return PlayingOnMusicInstrumentGameQuality
      */
-    public function getPlayingOnMusicInstrumentGameQuality(Knack $knack, Roll2d6DrdPlus $roll2D6DrdPlus)
+    public function getPlayingOnMusicInstrumentGameQuality(
+        Knack $knack,
+        Roll2d6DrdPlus $roll2D6DrdPlus
+    ): PlayingOnMusicInstrumentGameQuality
     {
         return new PlayingOnMusicInstrumentGameQuality($knack, $this, $roll2D6DrdPlus);
     }
