@@ -4,7 +4,7 @@ namespace DrdPlus\Tests\Skills\Combined;
 use Drd\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
 use DrdPlus\Properties\Base\Knack;
 use DrdPlus\Skills\Combined\Painting;
-use DrdPlus\Skills\Combined\RollsOn\PaintingQuality;
+use DrdPlus\Skills\Combined\RollsOnQuality\PaintingQuality;
 
 class PaintingTest extends WithBonusFromCombinedTest
 {

@@ -5,7 +5,7 @@ use Drd\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
 use DrdPlus\Codes\Skills\CombinedSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Properties\Base\Knack;
-use DrdPlus\Skills\Combined\RollsOn\PlayingOnMusicInstrumentGameQuality;
+use DrdPlus\Skills\Combined\RollsOnQuality\PlayingOnMusicInstrumentGameQuality;
 use DrdPlus\Skills\WithBonus;
 
 /**

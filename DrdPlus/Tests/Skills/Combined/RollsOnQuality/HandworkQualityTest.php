@@ -1,5 +1,5 @@
 <?php
-namespace DrdPlus\Tests\Skills\Combined\RollsOn;
+namespace DrdPlus\Tests\Skills\Combined\RollsOnQuality;
 
 use DrdPlus\Skills\Skill;
 use DrdPlus\Tests\Skills\RollOnQualityWithSkillTest;

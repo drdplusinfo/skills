@@ -1,8 +1,8 @@
 <?php
-namespace DrdPlus\Tests\Skills\Combined\RollsOn\HandworkRollOnSuccess;
+namespace DrdPlus\Tests\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess;
 
-use DrdPlus\RollsOn\QualityAndSuccess\SimpleRollOnSuccess;
-use DrdPlus\Skills\Combined\RollsOn\HandworkQuality;
+use DrdPlus\Skills\Combined\RollsOnQuality\HandworkQuality;
+use DrdPlus\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess\HandworkSimpleRollOnSuccess;
 use Granam\Tests\Tools\TestWithMockery;
 
 abstract class HandworkSimpleRollOnSuccessTest extends TestWithMockery
@@ -12,18 +12,18 @@ abstract class HandworkSimpleRollOnSuccessTest extends TestWithMockery
      */
     public function I_can_get_both_success_and_failure()
     {
-        /** @var SimpleRollOnSuccess $sutClass */
+        /** @var HandworkSimpleRollOnSuccess $sutClass */
         $sutClass = self::getSutClass();
-        /** @var SimpleRollOnSuccess $success */
-        $success = new $sutClass($handworkQuality = $this->createHandworkQuality($this->getExpectedDifficulty()));
+        /** @var HandworkSimpleRollOnSuccess $success */
+        $success = new $sutClass($handworkQuality = $this->createHandworkQuality($this->getExpectedDifficulty()), 0);
         self::assertSame($this->getExpectedDifficulty(), $success->getDifficulty());
         self::assertSame($handworkQuality, $success->getRollOnQuality());
         self::assertTrue($success->isSuccess());
         self::assertFalse($success->isFailure());
         self::assertSame($this->getExpectedSuccessValue(), $success->getResult());
 
-        /** @var SimpleRollOnSuccess $failure */
-        $failure = new $sutClass($handworkQuality = $this->createHandworkQuality($this->getExpectedDifficulty() - 1));
+        /** @var HandworkSimpleRollOnSuccess $failure */
+        $failure = new $sutClass($handworkQuality = $this->createHandworkQuality($this->getExpectedDifficulty() - 1), 0);
         self::assertSame($this->getExpectedDifficulty(), $failure->getDifficulty());
         self::assertSame($handworkQuality, $failure->getRollOnQuality());
         self::assertFalse($failure->isSuccess());

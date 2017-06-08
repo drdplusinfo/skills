@@ -4,7 +4,7 @@ namespace DrdPlus\Tests\Skills\Combined;
 use Drd\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
 use DrdPlus\Properties\Base\Knack;
 use DrdPlus\Skills\Combined\PlayingOnMusicInstrument;
-use DrdPlus\Skills\Combined\RollsOn\PlayingOnMusicInstrumentGameQuality;
+use DrdPlus\Skills\Combined\RollsOnQuality\PlayingOnMusicInstrumentGameQuality;
 
 class PlayingOnMusicInstrumentTest extends WithBonusFromCombinedTest
 {

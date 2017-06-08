@@ -1,5 +1,5 @@
 <?php
-namespace DrdPlus\Skills\Combined\RollsOn;
+namespace DrdPlus\Skills\Combined\RollsOnQuality;
 
 use Drd\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
 use DrdPlus\Properties\Base\Charisma;

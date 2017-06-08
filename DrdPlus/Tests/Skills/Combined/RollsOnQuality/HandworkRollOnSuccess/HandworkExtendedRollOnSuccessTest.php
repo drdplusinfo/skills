@@ -1,16 +1,16 @@
 <?php
-namespace DrdPlus\Tests\Skills\Combined\RollsOn\HandworkRollOnSuccess;
+namespace DrdPlus\Tests\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess;
 
 use Drd\DiceRolls\Templates\Rollers\Roller2d6DrdPlus;
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Properties\Base\Knack;
 use DrdPlus\RollsOn\QualityAndSuccess\ExtendedRollOnSuccess;
 use DrdPlus\Skills\Combined\Handwork;
-use DrdPlus\Skills\Combined\RollsOn\HandworkQuality;
-use DrdPlus\Skills\Combined\RollsOn\HandworkRollOnSuccess\HandworkExtendedRollOnSuccess;
-use DrdPlus\Skills\Combined\RollsOn\HandworkRollOnSuccess\HandworkSimpleRollOnGreatSuccess;
-use DrdPlus\Skills\Combined\RollsOn\HandworkRollOnSuccess\HandworkSimpleRollOnLowSuccess;
-use DrdPlus\Skills\Combined\RollsOn\HandworkRollOnSuccess\HandworkSimpleRollOnModerateSuccess;
+use DrdPlus\Skills\Combined\RollsOnQuality\HandworkQuality;
+use DrdPlus\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess\HandworkExtendedRollOnSuccess;
+use DrdPlus\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess\HandworkSimpleRollOnGreatSuccess;
+use DrdPlus\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess\HandworkSimpleRollOnLowSuccess;
+use DrdPlus\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess\HandworkSimpleRollOnModerateSuccess;
 use Granam\Tests\Tools\TestWithMockery;
 
 class HandworkExtendedRollOnSuccessTest extends TestWithMockery
@@ -25,7 +25,7 @@ class HandworkExtendedRollOnSuccessTest extends TestWithMockery
             new Handwork($this->createProfessionLevel()),
             (new Roller2d6DrdPlus())->roll()
         );
-        $handworkExtendedRollOnSuccess = HandworkExtendedRollOnSuccess::createIt($handworkQuality);
+        $handworkExtendedRollOnSuccess = HandworkExtendedRollOnSuccess::createIt($handworkQuality, 0);
         self::assertInstanceOf(HandworkExtendedRollOnSuccess::class, $handworkExtendedRollOnSuccess);
         self::assertSame($handworkQuality, $handworkExtendedRollOnSuccess->getRollOnQuality());
         $reflection = new \ReflectionClass(ExtendedRollOnSuccess::class);
@@ -33,20 +33,16 @@ class HandworkExtendedRollOnSuccessTest extends TestWithMockery
         $rollsOnSuccess->setAccessible(true);
         self::assertEquals(
             [
-                new HandworkSimpleRollOnGreatSuccess($handworkQuality),
-                new HandworkSimpleRollOnModerateSuccess($handworkQuality),
-                new HandworkSimpleRollOnLowSuccess($handworkQuality),
+                new HandworkSimpleRollOnGreatSuccess($handworkQuality, 0),
+                new HandworkSimpleRollOnModerateSuccess($handworkQuality, 0),
+                new HandworkSimpleRollOnLowSuccess($handworkQuality, 0),
             ],
             $rollsOnSuccess->getValue($handworkExtendedRollOnSuccess)
         );
 
         self::assertEquals(
             $handworkExtendedRollOnSuccess,
-            new HandworkExtendedRollOnSuccess(
-                new HandworkSimpleRollOnLowSuccess($handworkQuality),
-                new HandworkSimpleRollOnModerateSuccess($handworkQuality),
-                new HandworkSimpleRollOnGreatSuccess($handworkQuality)
-            )
+            new HandworkExtendedRollOnSuccess($handworkQuality, 0)
         );
     }
 

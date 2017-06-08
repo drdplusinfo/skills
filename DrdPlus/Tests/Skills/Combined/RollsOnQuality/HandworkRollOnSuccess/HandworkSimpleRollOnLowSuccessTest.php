@@ -1,5 +1,5 @@
 <?php
-namespace DrdPlus\Tests\Skills\Combined\RollsOn\HandworkRollOnSuccess;
+namespace DrdPlus\Tests\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess;
 
 class HandworkSimpleRollOnLowSuccessTest extends HandworkSimpleRollOnSuccessTest
 {

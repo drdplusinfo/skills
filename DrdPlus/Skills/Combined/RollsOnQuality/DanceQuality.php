@@ -1,5 +1,5 @@
 <?php
-namespace DrdPlus\Skills\Combined\RollsOn;
+namespace DrdPlus\Skills\Combined\RollsOnQuality;
 
 use Drd\DiceRolls\Roll;
 use Drd\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
