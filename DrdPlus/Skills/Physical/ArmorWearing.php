@@ -6,6 +6,9 @@ use DrdPlus\Codes\Skills\PhysicalSkillCode;
 use DrdPlus\Skills\WithBonus;
 
 /**
+ * @link https://pph.drdplus.info/#noseni_zbroje
+ */
+/**
  * @ORM\Entity()
  */
 class ArmorWearing extends PhysicalSkill implements WithBonus
