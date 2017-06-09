@@ -6,6 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToMovementSpeed;
 
 /**
+ * @link https://pph.drdplus.info/#pohyb_ve_meste
+ */
+/**
  * @ORM\Entity()
  */
 class CityMoving extends PhysicalSkill implements WithBonusToMovementSpeed

@@ -7,6 +7,9 @@ use DrdPlus\Skills\WithBonus;
 use DrdPlus\Skills\WithBonusToMovementSpeed;
 
 /**
+ * @link https://pph.drdplus.info/#pohyb_v_lese
+ */
+/**
  * @ORM\Entity()
  */
 class ForestMoving extends PhysicalSkill implements WithBonusToMovementSpeed

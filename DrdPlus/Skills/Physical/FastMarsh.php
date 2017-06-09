@@ -6,6 +6,9 @@ use DrdPlus\Codes\Skills\PhysicalSkillCode;
 use DrdPlus\Skills\WithBonusToMovementSpeed;
 
 /**
+ * @link https://pph.drdplus.info/#rychly_pochod
+ */
+/**
  * @ORM\Entity()
  */
 class FastMarsh extends PhysicalSkill implements WithBonusToMovementSpeed

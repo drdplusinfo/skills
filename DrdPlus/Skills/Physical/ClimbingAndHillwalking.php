@@ -6,6 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonus;
 
 /**
+ * @link https://pph.drdplus.info/#splh_a_lezeni
+ */
+/**
  * @ORM\Entity()
  */
 class ClimbingAndHillwalking extends PhysicalSkill implements WithBonus

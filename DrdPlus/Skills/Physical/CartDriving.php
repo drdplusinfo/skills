@@ -5,6 +5,9 @@ use DrdPlus\Codes\Skills\PhysicalSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @link https://pph.drdplus.info/#rizeni_vozu
+ */
+/**
  * @ORM\Entity()
  */
 class CartDriving extends PhysicalSkill
