@@ -32,7 +32,7 @@ class Zoology extends PsychicalSkill implements WithBonusToIntelligence
     /**
      * @return int
      */
-    public function getBonusToAttackNumberAgainstNaturalAnimal(): int
+    public function getBonusToAttackNumberAgainstFreeWillAnimal(): int
     {
         return $this->getCurrentSkillRank()->getValue();
     }
@@ -40,7 +40,7 @@ class Zoology extends PsychicalSkill implements WithBonusToIntelligence
     /**
      * @return int
      */
-    public function getBonusToCoverAgainstNaturalAnimal(): int
+    public function getBonusToCoverAgainstFreeWillAnimal(): int
     {
         return $this->getCurrentSkillRank()->getValue();
     }
@@ -48,7 +48,7 @@ class Zoology extends PsychicalSkill implements WithBonusToIntelligence
     /**
      * @return int
      */
-    public function getBonusToBaseOfWoundsAgainstNaturalAnimal(): int
+    public function getBonusToBaseOfWoundsAgainstFreeWillAnimal(): int
     {
         return $this->getCurrentSkillRank()->getValue();
     }

@@ -1488,7 +1488,7 @@ class SkillsTest extends TestWithMockery
     /**
      * @test
      */
-    public function I_can_get_bonus_to_attack_number_against_natural_animal()
+    public function I_can_get_bonus_to_attack_number_against_free_will_animal()
     {
         $professionLevels = $this->createProfessionLevels();
         $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
@@ -1503,15 +1503,15 @@ class SkillsTest extends TestWithMockery
         );
         $physicalSkills->shouldReceive('getZoology')
             ->andReturn($zoology = $this->mockery(Zoology::class));
-        $zoology->shouldReceive('getBonusToAttackNumberAgainstNaturalAnimal')
+        $zoology->shouldReceive('getBonusToAttackNumberAgainstFreeWillAnimal')
             ->andReturn(123456);
-        self::assertSame(123456, $skills->getBonusToAttackNumberAgainstNaturalAnimal());
+        self::assertSame(123456, $skills->getBonusToAttackNumberAgainstFreeWillAnimal());
     }
 
     /**
      * @test
      */
-    public function I_can_get_bonus_to_cover_against_natural_animal()
+    public function I_can_get_bonus_to_cover_against_free_will_animal()
     {
         $professionLevels = $this->createProfessionLevels();
         $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
@@ -1526,15 +1526,15 @@ class SkillsTest extends TestWithMockery
         );
         $physicalSkills->shouldReceive('getZoology')
             ->andReturn($zoology = $this->mockery(Zoology::class));
-        $zoology->shouldReceive('getBonusToCoverAgainstNaturalAnimal')
+        $zoology->shouldReceive('getBonusToCoverAgainstFreeWillAnimal')
             ->andReturn(2345);
-        self::assertSame(2345, $skills->getBonusToCoverAgainstNaturalAnimal());
+        self::assertSame(2345, $skills->getBonusToCoverAgainstFreeWillAnimal());
     }
 
     /**
      * @test
      */
-    public function I_can_get_bonus_to_bonus_to_base_of_wounds_against_natural_animal()
+    public function I_can_get_bonus_to_bonus_to_base_of_wounds_against_free_will_animal()
     {
         $professionLevels = $this->createProfessionLevels();
         $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
@@ -1549,9 +1549,9 @@ class SkillsTest extends TestWithMockery
         );
         $physicalSkills->shouldReceive('getZoology')
             ->andReturn($zoology = $this->mockery(Zoology::class));
-        $zoology->shouldReceive('getBonusToBaseOfWoundsAgainstNaturalAnimal')
+        $zoology->shouldReceive('getBonusToBaseOfWoundsAgainstFreeWillAnimal')
             ->andReturn(4569);
-        self::assertSame(4569, $skills->getBonusToBaseOfWoundsAgainstNaturalAnimal());
+        self::assertSame(4569, $skills->getBonusToBaseOfWoundsAgainstFreeWillAnimal());
     }
 
 }
