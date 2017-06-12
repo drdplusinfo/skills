@@ -110,4 +110,75 @@ class PsychicalSkillsTest extends SameTypeSkillsTest
         );
     }
 
+    /**
+     * @test
+     */
+    public function I_can_get_bonus_to_attack_number_against_free_will_animal()
+    {
+        $physicalSkills = new PsychicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
+        self::assertSame(0, $physicalSkills->getBonusToAttackNumberAgainstFreeWillAnimal());
+        $physicalSkills->getZoology()->increaseSkillRank($this->createSkillPoint($this->createProfessionFirstLevel()));
+        self::assertSame(
+            $physicalSkills->getZoology()->getBonusToAttackNumberAgainstFreeWillAnimal(),
+            $physicalSkills->getBonusToAttackNumberAgainstFreeWillAnimal()
+        );
+        $physicalSkills->getZoology()->increaseSkillRank($this->createSkillPoint($this->createProfessionNextLevel()));
+        self::assertSame(
+            $physicalSkills->getZoology()->getBonusToAttackNumberAgainstFreeWillAnimal(),
+            $physicalSkills->getBonusToAttackNumberAgainstFreeWillAnimal()
+        );
+        $physicalSkills->getZoology()->increaseSkillRank($this->createSkillPoint($this->createProfessionNextLevel()));
+        self::assertSame(
+            $physicalSkills->getZoology()->getBonusToAttackNumberAgainstFreeWillAnimal(),
+            $physicalSkills->getBonusToAttackNumberAgainstFreeWillAnimal()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function I_can_get_bonus_to_cover_against_free_will_animal()
+    {
+        $physicalSkills = new PsychicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
+        self::assertSame(0, $physicalSkills->getBonusToCoverAgainstFreeWillAnimal());
+        $physicalSkills->getZoology()->increaseSkillRank($this->createSkillPoint($this->createProfessionFirstLevel()));
+        self::assertSame(
+            $physicalSkills->getZoology()->getBonusToCoverAgainstFreeWillAnimal(),
+            $physicalSkills->getBonusToCoverAgainstFreeWillAnimal()
+        );
+        $physicalSkills->getZoology()->increaseSkillRank($this->createSkillPoint($this->createProfessionNextLevel()));
+        self::assertSame(
+            $physicalSkills->getZoology()->getBonusToCoverAgainstFreeWillAnimal(),
+            $physicalSkills->getBonusToCoverAgainstFreeWillAnimal()
+        );
+        $physicalSkills->getZoology()->increaseSkillRank($this->createSkillPoint($this->createProfessionNextLevel()));
+        self::assertSame(
+            $physicalSkills->getZoology()->getBonusToCoverAgainstFreeWillAnimal(),
+            $physicalSkills->getBonusToCoverAgainstFreeWillAnimal()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function I_can_get_bonus_to_base_of_wounds_against_free_will_animal()
+    {
+        $physicalSkills = new PsychicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
+        self::assertSame(0, $physicalSkills->getBonusToBaseOfWoundsAgainstFreeWillAnimal());
+        $physicalSkills->getZoology()->increaseSkillRank($this->createSkillPoint($this->createProfessionFirstLevel()));
+        self::assertSame(
+            $physicalSkills->getZoology()->getBonusToBaseOfWoundsAgainstFreeWillAnimal(),
+            $physicalSkills->getBonusToBaseOfWoundsAgainstFreeWillAnimal()
+        );
+        $physicalSkills->getZoology()->increaseSkillRank($this->createSkillPoint($this->createProfessionNextLevel()));
+        self::assertSame(
+            $physicalSkills->getZoology()->getBonusToBaseOfWoundsAgainstFreeWillAnimal(),
+            $physicalSkills->getBonusToBaseOfWoundsAgainstFreeWillAnimal()
+        );
+        $physicalSkills->getZoology()->increaseSkillRank($this->createSkillPoint($this->createProfessionNextLevel()));
+        self::assertSame(
+            $physicalSkills->getZoology()->getBonusToBaseOfWoundsAgainstFreeWillAnimal(),
+            $physicalSkills->getBonusToBaseOfWoundsAgainstFreeWillAnimal()
+        );
+    }
 }

@@ -123,7 +123,7 @@ class PsychicalSkills extends SameTypeSkills
      * @param ProfessionLevels $professionLevels
      * @return int
      */
-    public function getUnusedFirstLevelPsychicalSkillPointsValue(ProfessionLevels $professionLevels)
+    public function getUnusedFirstLevelPsychicalSkillPointsValue(ProfessionLevels $professionLevels): int
     {
         return $this->getUnusedFirstLevelSkillPointsValue($this->getFirstLevelPhysicalPropertiesSum($professionLevels));
     }
@@ -132,7 +132,7 @@ class PsychicalSkills extends SameTypeSkills
      * @param ProfessionLevels $professionLevels
      * @return int
      */
-    private function getFirstLevelPhysicalPropertiesSum(ProfessionLevels $professionLevels)
+    private function getFirstLevelPhysicalPropertiesSum(ProfessionLevels $professionLevels): int
     {
         return $professionLevels->getFirstLevelWillModifier() + $professionLevels->getFirstLevelIntelligenceModifier();
     }
@@ -141,7 +141,7 @@ class PsychicalSkills extends SameTypeSkills
      * @param ProfessionLevels $professionLevels
      * @return int
      */
-    public function getUnusedNextLevelsPsychicalSkillPointsValue(ProfessionLevels $professionLevels)
+    public function getUnusedNextLevelsPsychicalSkillPointsValue(ProfessionLevels $professionLevels): int
     {
         return $this->getUnusedNextLevelsSkillPointsValue($this->getNextLevelsPsychicalPropertiesSum($professionLevels));
     }
@@ -150,7 +150,7 @@ class PsychicalSkills extends SameTypeSkills
      * @param ProfessionLevels $professionLevels
      * @return int
      */
-    private function getNextLevelsPsychicalPropertiesSum(ProfessionLevels $professionLevels)
+    private function getNextLevelsPsychicalPropertiesSum(ProfessionLevels $professionLevels): int
     {
         return $professionLevels->getNextLevelsWillModifier() + $professionLevels->getNextLevelsIntelligenceModifier();
     }
@@ -199,7 +199,7 @@ class PsychicalSkills extends SameTypeSkills
     /**
      * @return EtiquetteOfGangland
      */
-    public function getEtiquetteOfGangland()
+    public function getEtiquetteOfGangland(): EtiquetteOfGangland
     {
         return $this->etiquetteOfGangland;
     }
@@ -215,7 +215,7 @@ class PsychicalSkills extends SameTypeSkills
     /**
      * @return GeographyOfACountry
      */
-    public function getGeographyOfACountry()
+    public function getGeographyOfACountry(): GeographyOfACountry
     {
         return $this->geographyOfACountry;
     }
@@ -223,7 +223,7 @@ class PsychicalSkills extends SameTypeSkills
     /**
      * @return HandlingWithMagicalItems
      */
-    public function getHandlingWithMagicalItems()
+    public function getHandlingWithMagicalItems(): HandlingWithMagicalItems
     {
         return $this->handlingWithMagicalItems;
     }
@@ -239,7 +239,7 @@ class PsychicalSkills extends SameTypeSkills
     /**
      * @return KnowledgeOfACity
      */
-    public function getKnowledgeOfACity()
+    public function getKnowledgeOfACity(): KnowledgeOfACity
     {
         return $this->knowledgeOfACity;
     }
@@ -247,7 +247,7 @@ class PsychicalSkills extends SameTypeSkills
     /**
      * @return KnowledgeOfWorld
      */
-    public function getKnowledgeOfWorld()
+    public function getKnowledgeOfWorld(): KnowledgeOfWorld
     {
         return $this->knowledgeOfWorld;
     }
@@ -271,7 +271,7 @@ class PsychicalSkills extends SameTypeSkills
     /**
      * @return ReadingAndWriting
      */
-    public function getReadingAndWriting()
+    public function getReadingAndWriting(): ReadingAndWriting
     {
         return $this->readingAndWriting;
     }
@@ -308,4 +308,27 @@ class PsychicalSkills extends SameTypeSkills
         return $this->zoology;
     }
 
+    /**
+     * @return int
+     */
+    public function getBonusToAttackNumberAgainstFreeWillAnimal(): int
+    {
+        return $this->getZoology()->getBonusToAttackNumberAgainstFreeWillAnimal();
+    }
+
+    /**
+     * @return int
+     */
+    public function getBonusToCoverAgainstFreeWillAnimal(): int
+    {
+        return $this->getZoology()->getBonusToCoverAgainstFreeWillAnimal();
+    }
+
+    /**
+     * @return int
+     */
+    public function getBonusToBaseOfWoundsAgainstFreeWillAnimal(): int
+    {
+        return $this->getZoology()->getBonusToBaseOfWoundsAgainstFreeWillAnimal();
+    }
 }
