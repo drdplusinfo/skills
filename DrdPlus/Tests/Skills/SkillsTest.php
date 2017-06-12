@@ -49,6 +49,7 @@ use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
 use DrdPlus\Tables\Tables;
 use Granam\Integer\PositiveIntegerObject;
 use Granam\Tests\Tools\TestWithMockery;
+use Mockery\MockInterface;
 
 class SkillsTest extends TestWithMockery
 {
@@ -358,7 +359,7 @@ class SkillsTest extends TestWithMockery
      * @param $firstSkillClass
      * @param $firstOtherSkillClass
      * @param $secondOtherSkillClass
-     * @return \Mockery\MockInterface
+     * @return MockInterface
      */
     private function createSkillsPaidByOtherSkillPoints(
         SkillPointsFromBackground $skillsFromBackground,
@@ -366,7 +367,7 @@ class SkillsTest extends TestWithMockery
         $firstSkillClass,
         $firstOtherSkillClass,
         $secondOtherSkillClass
-    )
+    ): MockInterface
     {
         $skills = $this->mockery($this->determineSkillsClass($firstSkillClass));
         $skills->shouldReceive('getIterator')
@@ -431,7 +432,7 @@ class SkillsTest extends TestWithMockery
      * @param ProfessionLevel $nextLevel
      * @return PhysicalSkills
      */
-    private function createPhysicalSkillsByNextLevelPropertyIncrease(ProfessionLevel $nextLevel)
+    private function createPhysicalSkillsByNextLevelPropertyIncrease(ProfessionLevel $nextLevel): PhysicalSkills
     {
         $physicalSkillPoints = $this->createSkillsByNextLevelPropertyIncrease($nextLevel, Athletics::class);
 
@@ -442,7 +443,7 @@ class SkillsTest extends TestWithMockery
      * @param ProfessionLevel $nextLevel
      * @return PsychicalSkills
      */
-    private function createPsychicalSkillsByNextLevelPropertyIncrease(ProfessionLevel $nextLevel)
+    private function createPsychicalSkillsByNextLevelPropertyIncrease(ProfessionLevel $nextLevel): PsychicalSkills
     {
         $psychicalSkillPoints = $this->createSkillsByNextLevelPropertyIncrease($nextLevel, ReadingAndWriting::class);
 
@@ -453,14 +454,19 @@ class SkillsTest extends TestWithMockery
      * @param ProfessionLevel $nextLevel
      * @return CombinedSkills
      */
-    private function createCombinedSkillsByNextLevelPropertyIncrease(ProfessionLevel $nextLevel)
+    private function createCombinedSkillsByNextLevelPropertyIncrease(ProfessionLevel $nextLevel): CombinedSkills
     {
         $combinedSkills = $this->createSkillsByNextLevelPropertyIncrease($nextLevel, Cooking::class);
 
         return $combinedSkills;
     }
 
-    private function createSkillsByNextLevelPropertyIncrease(ProfessionLevel $nextLevel, $skillClass)
+    /**
+     * @param ProfessionLevel $nextLevel
+     * @param $skillClass
+     * @return MockInterface|CombinedSkills|PsychicalSkills|PhysicalSkills
+     */
+    private function createSkillsByNextLevelPropertyIncrease(ProfessionLevel $nextLevel, $skillClass): MockInterface
     {
         $kills = $this->mockery($this->determineSkillsClass($skillClass));
         $kills->shouldReceive('getIterator')
@@ -614,7 +620,7 @@ class SkillsTest extends TestWithMockery
         return $expectedSkills;
     }
 
-    private function getSortedGivenSkills(Skills $skills)
+    private function getSortedGivenSkills(Skills $skills): array
     {
         $givenSkills = $skills->getSkills();
         usort($givenSkills, function (Skill $firstSkill, Skill $secondSkill) {
@@ -787,7 +793,7 @@ class SkillsTest extends TestWithMockery
         );
     }
 
-    public function provideSkillsWithTooHighFirstLevelPayment()
+    public function provideSkillsWithTooHighFirstLevelPayment(): array
     {
         $professionLevels = $this->createProfessionLevels();
         $skillsFromBackground = $this->createSkillPointsFromBackground(
@@ -918,12 +924,12 @@ class SkillsTest extends TestWithMockery
         );
     }
 
-    public function provideProfessionLevelsWithTooLowPropertyIncrease()
+    public function provideProfessionLevelsWithTooLowPropertyIncrease(): array
     {
         return [
-            [$this->createProfessionLevels('foo', 0, 0)], // physical properties
-            [$this->createProfessionLevels('foo', 1, 1, 1, 0, 0)], // psychical properties
-            [$this->createProfessionLevels('foo', 1, 1, 0, 1, 1, 0)], // combined properties
+            [$this->createProfessionLevels('foo', 0)], // physical properties
+            [$this->createProfessionLevels('foo', 1, 1, 1, 0)], // psychical properties
+            [$this->createProfessionLevels('foo', 1, 1, 0, 1, 1)], // combined properties
         ];
     }
 
@@ -1319,7 +1325,7 @@ class SkillsTest extends TestWithMockery
         );
     }
 
-    public function provideBattleParameterNames()
+    public function provideBattleParameterNames(): array
     {
         return [
             ['fightNumber'],
@@ -1500,6 +1506,52 @@ class SkillsTest extends TestWithMockery
         $zoology->shouldReceive('getBonusToAttackNumberAgainstNaturalAnimal')
             ->andReturn(123456);
         self::assertSame(123456, $skills->getBonusToAttackNumberAgainstNaturalAnimal());
+    }
+
+    /**
+     * @test
+     */
+    public function I_can_get_bonus_to_cover_against_natural_animal()
+    {
+        $professionLevels = $this->createProfessionLevels();
+        $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
+        $firstLevel = $professionLevels->getFirstLevel();
+        $skills = Skills::createSkills(
+            $professionLevels,
+            $skillsFromBackground,
+            $this->createPhysicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
+            $physicalSkills = $this->createPsychicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
+            $this->createCombinedSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
+            Tables::getIt()
+        );
+        $physicalSkills->shouldReceive('getZoology')
+            ->andReturn($zoology = $this->mockery(Zoology::class));
+        $zoology->shouldReceive('getBonusToCoverAgainstNaturalAnimal')
+            ->andReturn(2345);
+        self::assertSame(2345, $skills->getBonusToCoverAgainstNaturalAnimal());
+    }
+
+    /**
+     * @test
+     */
+    public function I_can_get_bonus_to_bonus_to_base_of_wounds_against_natural_animal()
+    {
+        $professionLevels = $this->createProfessionLevels();
+        $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
+        $firstLevel = $professionLevels->getFirstLevel();
+        $skills = Skills::createSkills(
+            $professionLevels,
+            $skillsFromBackground,
+            $this->createPhysicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
+            $physicalSkills = $this->createPsychicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
+            $this->createCombinedSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
+            Tables::getIt()
+        );
+        $physicalSkills->shouldReceive('getZoology')
+            ->andReturn($zoology = $this->mockery(Zoology::class));
+        $zoology->shouldReceive('getBonusToBaseOfWoundsAgainstNaturalAnimal')
+            ->andReturn(4569);
+        self::assertSame(4569, $skills->getBonusToBaseOfWoundsAgainstNaturalAnimal());
     }
 
 }
