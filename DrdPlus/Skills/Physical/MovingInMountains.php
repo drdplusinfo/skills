@@ -3,7 +3,6 @@ namespace DrdPlus\Skills\Physical;
 
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
 use Doctrine\ORM\Mapping as ORM;
-use DrdPlus\Skills\WithBonus;
 use DrdPlus\Skills\WithBonusToMovementSpeed;
 
 /**

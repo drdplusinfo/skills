@@ -7,6 +7,9 @@ use DrdPlus\Tables\Tables;
 use Granam\Integer\Tools\ToInteger;
 
 /**
+ * https://pph.drdplus.info/#pouzivani_stitu
+ */
+/**
  * @ORM\Entity()
  */
 class ShieldUsage extends PhysicalSkill
