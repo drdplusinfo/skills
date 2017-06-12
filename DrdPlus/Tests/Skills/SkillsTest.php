@@ -1501,9 +1501,7 @@ class SkillsTest extends TestWithMockery
             $this->createCombinedSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
             Tables::getIt()
         );
-        $physicalSkills->shouldReceive('getZoology')
-            ->andReturn($zoology = $this->mockery(Zoology::class));
-        $zoology->shouldReceive('getBonusToAttackNumberAgainstFreeWillAnimal')
+        $physicalSkills->shouldReceive('getBonusToAttackNumberAgainstFreeWillAnimal')
             ->andReturn(123456);
         self::assertSame(123456, $skills->getBonusToAttackNumberAgainstFreeWillAnimal());
     }
@@ -1524,9 +1522,7 @@ class SkillsTest extends TestWithMockery
             $this->createCombinedSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
             Tables::getIt()
         );
-        $physicalSkills->shouldReceive('getZoology')
-            ->andReturn($zoology = $this->mockery(Zoology::class));
-        $zoology->shouldReceive('getBonusToCoverAgainstFreeWillAnimal')
+        $physicalSkills->shouldReceive('getBonusToCoverAgainstFreeWillAnimal')
             ->andReturn(2345);
         self::assertSame(2345, $skills->getBonusToCoverAgainstFreeWillAnimal());
     }
@@ -1547,9 +1543,7 @@ class SkillsTest extends TestWithMockery
             $this->createCombinedSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
             Tables::getIt()
         );
-        $physicalSkills->shouldReceive('getZoology')
-            ->andReturn($zoology = $this->mockery(Zoology::class));
-        $zoology->shouldReceive('getBonusToBaseOfWoundsAgainstFreeWillAnimal')
+        $physicalSkills->shouldReceive('getBonusToBaseOfWoundsAgainstFreeWillAnimal')
             ->andReturn(4569);
         self::assertSame(4569, $skills->getBonusToBaseOfWoundsAgainstFreeWillAnimal());
     }

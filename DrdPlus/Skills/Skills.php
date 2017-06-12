@@ -753,7 +753,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      */
     public function getBonusToAttackNumberAgainstFreeWillAnimal(): int
     {
-        return $this->getPsychicalSkills()->getZoology()->getBonusToAttackNumberAgainstFreeWillAnimal();
+        return $this->getPsychicalSkills()->getBonusToAttackNumberAgainstFreeWillAnimal();
     }
 
     /**
@@ -761,7 +761,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      */
     public function getBonusToCoverAgainstFreeWillAnimal(): int
     {
-        return $this->getPsychicalSkills()->getZoology()->getBonusToCoverAgainstFreeWillAnimal();
+        return $this->getPsychicalSkills()->getBonusToCoverAgainstFreeWillAnimal();
     }
 
     /**
@@ -769,7 +769,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      */
     public function getBonusToBaseOfWoundsAgainstFreeWillAnimal(): int
     {
-        return $this->getPsychicalSkills()->getZoology()->getBonusToBaseOfWoundsAgainstFreeWillAnimal();
+        return $this->getPsychicalSkills()->getBonusToBaseOfWoundsAgainstFreeWillAnimal();
     }
 
 }
