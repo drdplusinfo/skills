@@ -728,7 +728,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     public function getMalusToBaseOfWoundsWithWeaponlike(
         WeaponlikeCode $weaponlikeCode,
         Tables $tables,
-        $fightsWithTwoWeapons
+        bool $fightsWithTwoWeapons
     ): int
     {
         if ($weaponlikeCode->isMelee() || $weaponlikeCode->isThrowingWeapon()) {
@@ -746,6 +746,14 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
             return 0;
         }
         throw new Exceptions\UnknownTypeOfWeapon($weaponlikeCode);
+    }
+
+    /**
+     * @return int
+     */
+    public function getBonusToAttackNumberAgainstNaturalAnimal(): int
+    {
+        return $this->getPsychicalSkills()->getZoology()->getBonusToAttackNumberAgainstNaturalAnimal();
     }
 
 }

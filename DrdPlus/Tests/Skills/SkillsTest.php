@@ -42,6 +42,7 @@ use DrdPlus\Skills\Psychical\PsychicalSkills;
 use DrdPlus\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Skills\Psychical\ReadingAndWriting;
 use DrdPlus\Professions\Profession;
+use DrdPlus\Skills\Psychical\Zoology;
 use DrdPlus\Tables\Armaments\Armourer;
 use DrdPlus\Tables\Armaments\Shields\ShieldUsageSkillTable;
 use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
@@ -128,7 +129,7 @@ class SkillsTest extends TestWithMockery
     /**
      * @return array|string[]
      */
-    private function getAllSkillCodes()
+    private function getAllSkillCodes(): array
     {
         return array_merge(
             PhysicalSkillCode::getPossibleValues(),
@@ -137,7 +138,7 @@ class SkillsTest extends TestWithMockery
         );
     }
 
-    public function provideValidSkillsCombination()
+    public function provideValidSkillsCombination(): array
     {
         $professionLevels = $this->createProfessionLevels();
         $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
@@ -267,7 +268,7 @@ class SkillsTest extends TestWithMockery
      * @return string
      * @throws \LogicException
      */
-    private function determineSkillsClass($skillClass)
+    private function determineSkillsClass($skillClass): string
     {
         if (is_a($skillClass, PhysicalSkill::class, true)) {
             return PhysicalSkills::class;
@@ -285,7 +286,7 @@ class SkillsTest extends TestWithMockery
      * @param string $skillClass
      * @return string
      */
-    private function parseSkillName($skillClass)
+    private function parseSkillName($skillClass): string
     {
         self::assertEquals(1, preg_match('~[\\\](?<basename>\w+)$~', $skillClass, $matches));
         $sutBasename = $matches['basename'];
@@ -295,7 +296,7 @@ class SkillsTest extends TestWithMockery
         return strtolower($underscoredSingleLetters);
     }
 
-    private function determineSkillPointClass($skillClass)
+    private function determineSkillPointClass($skillClass): string
     {
         if (is_a($skillClass, PhysicalSkill::class, true)) {
             return PhysicalSkillPoint::class;
@@ -412,7 +413,7 @@ class SkillsTest extends TestWithMockery
         return $skills;
     }
 
-    private function determineSkillTypeName($skillClass)
+    private function determineSkillTypeName($skillClass): string
     {
         if (is_a($skillClass, PhysicalSkill::class, true)) {
             return PhysicalSkillPoint::PHYSICAL;
@@ -490,7 +491,7 @@ class SkillsTest extends TestWithMockery
         return $kills;
     }
 
-    private function determineRelatedProperties($skillClass)
+    private function determineRelatedProperties($skillClass): array
     {
         if (is_a($skillClass, PhysicalSkill::class, true)) {
             return [PropertyCode::STRENGTH, PropertyCode::AGILITY];
@@ -603,7 +604,7 @@ class SkillsTest extends TestWithMockery
      * @param array $combined
      * @return array|Skill[]
      */
-    private function getSortedExpectedSkills(array $physical, array $psychical, array $combined)
+    private function getSortedExpectedSkills(array $physical, array $psychical, array $combined): array
     {
         $expectedSkills = array_merge($physical, $psychical, $combined);
         usort($expectedSkills, function (Skill $firstSkill, Skill $secondSkill) {
@@ -746,7 +747,7 @@ class SkillsTest extends TestWithMockery
         return $skills;
     }
 
-    public function provideDifferentSkillPointsFromBackground()
+    public function provideDifferentSkillPointsFromBackground(): array
     {
         $professionLevels = $this->createProfessionLevels();
         $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
@@ -1476,6 +1477,29 @@ class SkillsTest extends TestWithMockery
             $professionZeroLevel,
             $skills->getCombinedSkills()->getBigHandwork()->getCurrentSkillRank()->getProfessionLevel()
         );
+    }
+
+    /**
+     * @test
+     */
+    public function I_can_get_bonus_to_attack_number_against_natural_animal()
+    {
+        $professionLevels = $this->createProfessionLevels();
+        $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
+        $firstLevel = $professionLevels->getFirstLevel();
+        $skills = Skills::createSkills(
+            $professionLevels,
+            $skillsFromBackground,
+            $this->createPhysicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
+            $physicalSkills = $this->createPsychicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
+            $this->createCombinedSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
+            Tables::getIt()
+        );
+        $physicalSkills->shouldReceive('getZoology')
+            ->andReturn($zoology = $this->mockery(Zoology::class));
+        $zoology->shouldReceive('getBonusToAttackNumberAgainstNaturalAnimal')
+            ->andReturn(123456);
+        self::assertSame(123456, $skills->getBonusToAttackNumberAgainstNaturalAnimal());
     }
 
 }
