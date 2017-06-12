@@ -10,8 +10,6 @@ use DrdPlus\Skills\WithBonus;
 
 /**
  * @link https://pph.drdplus.info/#zpev
- */
-/**
  * @ORM\Entity()
  */
 class Singing extends CombinedSkill implements WithBonus

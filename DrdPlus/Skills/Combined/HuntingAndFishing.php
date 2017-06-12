@@ -7,6 +7,7 @@ use DrdPlus\HuntingAndFishing\WithBonusFromHuntingAndFishingSkill;
 use DrdPlus\Skills\WithBonus;
 
 /**
+ * @link https://pph.drdplus.info/#lov_a_rybolov
  * @ORM\Entity()
  */
 class HuntingAndFishing extends CombinedSkill implements WithBonus, WithBonusFromHuntingAndFishingSkill

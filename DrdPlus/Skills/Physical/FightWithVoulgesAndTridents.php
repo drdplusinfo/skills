@@ -4,6 +4,7 @@ namespace DrdPlus\Skills\Physical;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @link https://pph.drdplus.info/#boj_se_zbrani
  * @ORM\Entity()
  */
 class FightWithVoulgesAndTridents extends FightWithWeaponsUsingPhysicalSkill

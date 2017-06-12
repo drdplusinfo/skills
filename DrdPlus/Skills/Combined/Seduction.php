@@ -7,8 +7,6 @@ use DrdPlus\Skills\WithBonusToCharisma;
 
 /**
  * @link https://pph.drdplus.info/#svadeni
- */
-/**
  * @ORM\Entity()
  */
 class Seduction extends CombinedSkill implements WithBonusToCharisma

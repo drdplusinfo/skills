@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToCharisma;
 
 /**
+ * @link https://pph.drdplus.info/#hazardni_hry
  * @ORM\Entity()
  */
 class Gambling extends CombinedSkill implements WithBonusToCharisma

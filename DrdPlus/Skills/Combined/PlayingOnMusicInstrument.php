@@ -10,8 +10,6 @@ use DrdPlus\Skills\WithBonus;
 
 /**
  * @link https://pph.drdplus.info/#hra_na_hudebni_nastroj
- */
-/**
  * @ORM\Entity()
  */
 class PlayingOnMusicInstrument extends CombinedSkill implements WithBonus

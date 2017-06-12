@@ -29,6 +29,13 @@ abstract class SkillTest extends TestWithMockery
     {
         /** @var Skill|PhysicalSkill|PsychicalSkill|CombinedSkill $sut */
         $sut = new $sutClass($professionLevel = $this->createProfessionFirstLevel());
+        self::assertInstanceOf(Skill::class, $sut);
+        $reflectionClass = new \ReflectionClass($sutClass);
+        self::assertContains(
+            '* @link https://pph.drdplus.info/#',
+            $reflectionClass->getDocComment(),
+            'Skill class ' . $sutClass . ' should has link to rules'
+        );
         self::assertCount(1, $sut->getSkillRanks());
         $implicitSkillRanks = $sut->getSkillRanks()->toArray();
         self::assertSame([0], array_keys($implicitSkillRanks));
@@ -58,7 +65,7 @@ abstract class SkillTest extends TestWithMockery
         $this->I_can_ask_it_which_type_is_it($sut);
     }
 
-    public function provideSkillClasses()
+    public function provideSkillClasses(): array
     {
         $namespace = $this->getNamespace();
         $fileBaseNames = $this->getFileBaseNames($namespace);
@@ -85,17 +92,17 @@ abstract class SkillTest extends TestWithMockery
     /**
      * @return string
      */
-    protected function getNamespace()
+    protected function getNamespace(): string
     {
         return preg_replace('~[\\\]Tests([\\\].+)[\\\]\w+$~', '$1', static::class);
     }
 
-    protected function getFileBaseNames($namespace)
+    protected function getFileBaseNames($namespace): array
     {
         $sutNamespaceToDirRelativePath = str_replace('\\', DIRECTORY_SEPARATOR, $namespace);
         $sutDir = rtrim($this->getProjectRootDir(), DIRECTORY_SEPARATOR)
             . DIRECTORY_SEPARATOR . $sutNamespaceToDirRelativePath;
-        $files = scandir($sutDir);
+        $files = scandir($sutDir, SCANDIR_SORT_NONE);
         $sutFiles = array_filter($files, function ($filename) {
             return $filename !== '.' && $filename !== '..';
         });
@@ -185,7 +192,7 @@ abstract class SkillTest extends TestWithMockery
     /**
      * @return string
      */
-    private function getExpectedSkillsTypeName()
+    private function getExpectedSkillsTypeName(): string
     {
         self::assertTrue((bool)preg_match('~(?<typeName>\w+)$~', $this->getNamespace(), $matches));
 
@@ -196,7 +203,7 @@ abstract class SkillTest extends TestWithMockery
      * @param string $sutClass
      * @return string
      */
-    protected function getExpectedSkillName($sutClass)
+    protected function getExpectedSkillName($sutClass): string
     {
         preg_match('~[\\\](?<basename>\w+)$~', $sutClass, $matches);
         $sutBasename = $matches['basename'];
@@ -216,7 +223,7 @@ abstract class SkillTest extends TestWithMockery
         self::assertSame($expectedSkillName, $reflection->getConstant($constantName));
     }
 
-    protected function getConstantName($skillName)
+    protected function getConstantName($skillName): string
     {
         return strtoupper($skillName);
     }
@@ -229,7 +236,7 @@ abstract class SkillTest extends TestWithMockery
         );
     }
 
-    private function sort(array $values)
+    private function sort(array $values): array
     {
         sort($values);
 
@@ -287,7 +294,7 @@ abstract class SkillTest extends TestWithMockery
      */
     public function I_can_add_more_ranks()
     {
-        $sutClass = current($this->provideSkillClasses())[0]; // one is enough of this test
+        $sutClass = $this->provideSkillClasses()[0][0]; // one is enough of this test
         /** @var Skill|PhysicalSkill|PsychicalSkill|CombinedSkill $sut */
         $sut = new $sutClass($this->createProfessionFirstLevel());
         self::assertCount(1, $sut->getSkillRanks());

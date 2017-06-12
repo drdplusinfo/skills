@@ -5,6 +5,7 @@ use DrdPlus\Codes\Skills\CombinedSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @link https://pph.drdplus.info/#prvni_pomoc
  * @ORM\Entity()
  */
 class FirstAid extends CombinedSkill

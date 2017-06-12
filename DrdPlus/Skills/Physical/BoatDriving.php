@@ -7,8 +7,6 @@ use DrdPlus\Skills\WithBonusToMovementSpeed;
 
 /**
  * @link https://pph.drdplus.info/#ovladani_lodky
- */
-/**
  * @ORM\Entity()
  */
 class BoatDriving extends PhysicalSkill implements WithBonusToMovementSpeed

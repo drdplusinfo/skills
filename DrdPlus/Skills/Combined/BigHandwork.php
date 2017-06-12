@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToKnack;
 
 /**
+ * @link https://pph.drdplus.info/#velke_rucni_prace
  * @ORM\Entity()
  */
 class BigHandwork extends CombinedSkill implements WithBonusToKnack
@@ -21,7 +22,6 @@ class BigHandwork extends CombinedSkill implements WithBonusToKnack
     }
 
     /**
-     * @link https://pph.drdplus.info/#velke_rucni_prace
      * @return int
      */
     public function getBonusToKnack(): int

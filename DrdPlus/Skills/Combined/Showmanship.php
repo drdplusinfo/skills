@@ -10,8 +10,6 @@ use DrdPlus\Skills\WithBonus;
 
 /**
  * @link https://pph.drdplus.info/#herectvi
- */
-/**
  * @ORM\Entity()
  */
 class Showmanship extends CombinedSkill implements WithBonus

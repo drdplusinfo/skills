@@ -12,6 +12,7 @@ use DrdPlus\Skills\Psychical\RollsOn\RollOnMapUsage;
 use DrdPlus\Skills\WithBonus;
 
 /**
+ * @link https://pph.drdplus.info/#kresleni_map
  * @ORM\Entity()
  */
 class MapsDrawing extends PsychicalSkill implements WithBonus

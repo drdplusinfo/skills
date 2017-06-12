@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToIntelligence;
 
 /**
+ * @link https://pph.drdplus.info/#bajeslovi
  * @ORM\Entity()
  */
 class Mythology extends PsychicalSkill implements WithBonusToIntelligence

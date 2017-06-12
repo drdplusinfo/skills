@@ -10,6 +10,7 @@ use DrdPlus\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess\HandworkExtende
 use DrdPlus\Skills\WithBonusToKnack;
 
 /**
+ * @link https://pph.drdplus.info/#rucni_prace
  * @ORM\Entity()
  */
 class Handwork extends CombinedSkill implements WithBonusToKnack

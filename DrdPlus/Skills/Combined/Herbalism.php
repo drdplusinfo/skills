@@ -7,6 +7,7 @@ use DrdPlus\Skills\WithBonusToIntelligence;
 use DrdPlus\Skills\WithBonusToSenses;
 
 /**
+ * @link https://pph.drdplus.info/#bylinkarstvi
  * @ORM\Entity()
  */
 class Herbalism extends CombinedSkill implements WithBonusToIntelligence, WithBonusToSenses

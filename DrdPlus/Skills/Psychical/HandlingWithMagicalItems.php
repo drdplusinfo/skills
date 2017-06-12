@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToIntelligence;
 
 /**
+ * @link https://pph.drdplus.info/#zachazeni_s_magickymi_predmety
  * @ORM\Entity()
  */
 class HandlingWithMagicalItems extends PsychicalSkill implements WithBonusToIntelligence

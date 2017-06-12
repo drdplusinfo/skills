@@ -5,6 +5,7 @@ use DrdPlus\Codes\Skills\PsychicalSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @link https://pph.drdplus.info/#cteni_a_psani
  * @ORM\Entity()
  */
 class ReadingAndWriting extends PsychicalSkill

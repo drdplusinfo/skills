@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToIntelligence;
 
 /**
+ * @link https://pph.drdplus.info/#dejeprava
  * @ORM\Entity()
  */
 class Historiography extends PsychicalSkill implements WithBonusToIntelligence

@@ -207,11 +207,11 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         return 'get' . $baseName;
     }
 
-    private static function getListOfSkillClasses($skillParentClass)
+    private static function getListOfSkillClasses($skillParentClass): array
     {
         $skillReflection = new \ReflectionClass($skillParentClass);
         $skillClasses = [];
-        foreach (scandir(dirname($skillReflection->getFileName())) as $file) {
+        foreach (scandir(dirname($skillReflection->getFileName()), SCANDIR_SORT_NONE) as $file) {
             if ($file === '..' || $file === '.') {
                 continue;
             }

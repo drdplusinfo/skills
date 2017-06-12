@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonus;
 
 /**
+ * @link https://pph.drdplus.info/#socharstvi
  * @ORM\Entity()
  */
 class Statuary extends CombinedSkill implements WithBonus

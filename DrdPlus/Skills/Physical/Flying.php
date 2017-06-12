@@ -7,8 +7,6 @@ use DrdPlus\Skills\WithBonus;
 
 /**
  * @link https://pph.drdplus.info/#letectvi
- */
-/**
  * @ORM\Entity()
  */
 class Flying extends PhysicalSkill implements WithBonus

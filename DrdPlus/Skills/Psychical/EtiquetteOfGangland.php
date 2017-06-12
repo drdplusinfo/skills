@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToCharisma;
 
 /**
+ * @link https://pph.drdplus.info/#etiketa_podsveti
  * @ORM\Entity()
  */
 class EtiquetteOfGangland extends PsychicalSkill implements WithBonusToCharisma

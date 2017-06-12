@@ -6,6 +6,7 @@ use DrdPlus\Codes\Skills\PsychicalSkillCode;
 use DrdPlus\Skills\WithBonusToIntelligence;
 
 /**
+ * @link https://pph.drdplus.info/#astronomie
  * @ORM\Entity()
  */
 class Astronomy extends PsychicalSkill implements WithBonusToIntelligence

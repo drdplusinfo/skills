@@ -11,8 +11,6 @@ use DrdPlus\Skills\WithBonusToKnack;
 
 /**
  * @link https://pph.drdplus.info/#kovarstvi
- */
-/**
  * @ORM\Entity()
  */
 class Blacksmithing extends PhysicalSkill implements WithBonusToKnack

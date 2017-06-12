@@ -7,6 +7,7 @@ use DrdPlus\Skills\WithBonusToIntelligence;
 use DrdPlus\Skills\WithBonusToSenses;
 
 /**
+ * @link https://pph.drdplus.info/#technologie
  * @ORM\Entity()
  */
 class Technology extends PsychicalSkill implements WithBonusToIntelligence, WithBonusToSenses
@@ -30,6 +31,8 @@ class Technology extends PsychicalSkill implements WithBonusToIntelligence, With
     }
 
     /**
+     * ONLY for searching hidden mechanisms
+     *
      * @return int
      */
     public function getBonusToSenses(): int

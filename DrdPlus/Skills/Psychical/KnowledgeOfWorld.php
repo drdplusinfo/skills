@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonus;
 
 /**
+ * @link https://pph.drdplus.info/#znalost_sveta
  * @ORM\Entity()
  */
 class KnowledgeOfWorld extends PsychicalSkill implements WithBonus

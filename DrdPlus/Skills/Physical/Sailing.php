@@ -6,9 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToMovementSpeed;
 
 /**
- * https://pph.drdplus.info/#namornictvi
- */
-/**
+ * @link https://pph.drdplus.info/#namornictvi
  * @ORM\Entity()
  */
 class Sailing extends PhysicalSkill implements WithBonusToMovementSpeed

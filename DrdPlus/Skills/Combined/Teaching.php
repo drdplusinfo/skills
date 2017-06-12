@@ -7,8 +7,6 @@ use DrdPlus\Skills\WithBonus;
 
 /**
  * @link https://pph.drdplus.info/#vyucovani
- */
-/**
  * @ORM\Entity()
  */
 class Teaching extends CombinedSkill implements WithBonus

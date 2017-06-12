@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToIntelligence;
 
 /**
+ * @link https://pph.drdplus.info/#cizi_jazyk
  * @ORM\Entity()
  */
 class ForeignLanguage extends PsychicalSkill implements WithBonusToIntelligence

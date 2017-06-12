@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Lighting\Partials\WithInsufficientLightingBonus;
 
 /**
+ * @link https://pph.drdplus.info/#serozrakost
  * @ORM\Entity()
  */
 class DuskSight extends CombinedSkill implements WithInsufficientLightingBonus

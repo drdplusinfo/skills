@@ -10,8 +10,6 @@ use DrdPlus\Skills\WithBonus;
 
 /**
  * @link https://pph.drdplus.info/#malovani
- */
-/**
  * @ORM\Entity()
  */
 class Painting extends CombinedSkill implements WithBonus

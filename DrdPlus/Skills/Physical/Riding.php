@@ -8,8 +8,6 @@ use DrdPlus\Skills\WithBonus;
 
 /**
  * @link https://pph.drdplus.info/#jezdectvi
- */
-/**
  * @ORM\Entity()
  */
 class Riding extends PhysicalSkill implements WithBonus

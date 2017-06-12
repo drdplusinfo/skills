@@ -4,6 +4,7 @@ namespace DrdPlus\Skills\Combined;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @link https://pph.drdplus.info/#boj_se_strelnymi_zbranemi
  * @ORM\Entity()
  */
 class FightWithCrossbows extends FightWithShootingWeapons

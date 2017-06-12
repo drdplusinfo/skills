@@ -9,6 +9,7 @@ use DrdPlus\Properties\Base\Knack;
 use DrdPlus\Skills\WithBonus;
 
 /**
+ * @link https://pph.drdplus.info/#vareni
  * @ORM\Entity()
  */
 class Cooking extends CombinedSkill implements WithBonus, \DrdPlus\HuntingAndFishing\Cooking
@@ -24,7 +25,6 @@ class Cooking extends CombinedSkill implements WithBonus, \DrdPlus\HuntingAndFis
     }
 
     /**
-     * @link https://pph.drdplus.info/#vareni
      * @link https://pph.drdplus.info/#hod_na_zpracovani_ulovku
      * @return int
      */

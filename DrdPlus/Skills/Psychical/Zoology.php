@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToIntelligence;
 
 /**
+ * @link https://pph.drdplus.info/#zoologie
  * @ORM\Entity()
  */
 class Zoology extends PsychicalSkill implements WithBonusToIntelligence

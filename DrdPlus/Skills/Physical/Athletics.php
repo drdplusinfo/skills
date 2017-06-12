@@ -8,8 +8,6 @@ use Granam\Integer\PositiveInteger;
 
 /**
  * @link https://pph.drdplus.info/#atletika
- */
-/**
  * @ORM\Entity()
  */
 class Athletics extends PhysicalSkill implements WithBonus, \DrdPlus\Properties\Derived\Athletics

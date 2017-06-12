@@ -33,7 +33,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
         self::assertNull($sut->getId());
     }
 
-    protected function getExpectedSkillsTypeName()
+    protected function getExpectedSkillsTypeName(): string
     {
         $sutClass = self::getSutClass();
         self::assertSame(1, preg_match('~[\\\]?(?<groupName>\w+)Skills$~', $sutClass, $matches));
@@ -75,7 +75,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
         self::assertSame(2, $sut->getNextLevelsSkillRankSummary());
     }
 
-    public function provideSkillClasses()
+    public function provideSkillClasses(): array
     {
         $skillClasses = $this->getExpectedSkillClasses();
         foreach ($skillClasses as &$skillClass) {
@@ -89,7 +89,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
      * @param string $className
      * @return string
      */
-    private function getSkillGetterFromClassName($className)
+    private function getSkillGetterFromClassName($className): string
     {
         $baseName = preg_replace('~.*[\\\]([^\\\]+)$~', '$1', $className);
 
@@ -100,7 +100,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
      * @param string $except
      * @return array|string[]
      */
-    protected function getSameTypeSkillCodesExcept($except)
+    protected function getSameTypeSkillCodesExcept($except): array
     {
         return array_diff($this->getSameTypeSkillCodes(), [$except]);
     }
@@ -108,7 +108,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
     /**
      * @return array|\string[]
      */
-    protected function getSameTypeSkillCodes()
+    protected function getSameTypeSkillCodes(): array
     {
         $type = preg_replace('~.*[\\\](\w+)Skills$~', '$1', self::getSutClass());
         $skillCodeNamespace = (new \ReflectionClass(SkillCode::class))->getNamespaceName();
@@ -121,7 +121,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
     /**
      * @return array|Skill[]|string[]
      */
-    protected function getExpectedSkillClasses()
+    protected function getExpectedSkillClasses(): array
     {
         $namespace = $this->getNamespace();
         $fileBaseNames = $this->getFileBaseNames($namespace);
@@ -151,17 +151,17 @@ abstract class SameTypeSkillsTest extends TestWithMockery
     /**
      * @return string
      */
-    protected function getNamespace()
+    protected function getNamespace(): string
     {
         return preg_replace('~[\\\]Tests([\\\].+)[\\\]\w+$~', '$1', static::class);
     }
 
-    protected function getFileBaseNames($namespace)
+    protected function getFileBaseNames($namespace): array
     {
         $sutNamespaceToDirRelativePath = str_replace('\\', DIRECTORY_SEPARATOR, $namespace);
         $sutDir = rtrim($this->getProjectRootDir(), DIRECTORY_SEPARATOR)
             . DIRECTORY_SEPARATOR . $sutNamespaceToDirRelativePath;
-        $files = scandir($sutDir);
+        $files = scandir($sutDir, SCANDIR_SORT_NONE);
         $sutFiles = array_filter($files, function ($filename) {
             return $filename !== '.' && $filename !== '..';
         });
@@ -195,7 +195,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
     /**
      * @return string
      */
-    private function getSkillPointClass()
+    private function getSkillPointClass(): string
     {
         $baseClass = SkillPoint::class;
         $typeName = preg_quote(ucfirst($this->getExpectedSkillsTypeName()), '~');
@@ -211,7 +211,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
     /**
      * @return string
      */
-    protected function getSkillAdderName()
+    protected function getSkillAdderName(): string
     {
         $groupName = $this->getExpectedSkillsTypeName();
 
@@ -223,7 +223,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
         return 'add' . ucfirst($groupName) . 'Skill';
     }
 
-    protected function getSkillGetter(Skill $skill)
+    protected function getSkillGetter(Skill $skill): string
     {
         $class = get_class($skill);
         self::assertSame(1, preg_match('~[\\\](?<basename>\w+)$~', $class, $matches));

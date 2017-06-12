@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToKnack;
 
 /**
+ * @link https://pph.drdplus.info/#uzlovani
  * @ORM\Entity()
  */
 class Knotting extends CombinedSkill implements WithBonusToKnack

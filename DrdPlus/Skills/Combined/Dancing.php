@@ -9,6 +9,7 @@ use DrdPlus\Skills\Combined\RollsOnQuality\DanceQuality;
 use DrdPlus\Skills\WithBonus;
 
 /**
+ * @link https://pph.drdplus.info/#tanec
  * @ORM\Entity()
  */
 class Dancing extends CombinedSkill implements WithBonus

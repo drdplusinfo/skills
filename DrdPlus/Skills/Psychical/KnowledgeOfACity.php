@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToIntelligence;
 
 /**
+ * @link https://pph.drdplus.info/#znalost_mesta
  * @ORM\Entity()
  */
 class KnowledgeOfACity extends PsychicalSkill implements WithBonusToIntelligence
