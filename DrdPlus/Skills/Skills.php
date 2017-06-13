@@ -751,6 +751,30 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     /**
      * @return int
      */
+    public function getMalusToFightNumberWhenRiding(): int
+    {
+        return $this->getPhysicalSkills()->getMalusToFightNumberWhenRiding();
+    }
+
+    /**
+     * @return int
+     */
+    public function getMalusToAttackNumberWhenRiding(): int
+    {
+        return $this->getPhysicalSkills()->getMalusToAttackNumberWhenRiding();
+    }
+
+    /**
+     * @return int
+     */
+    public function getMalusToDefenseNumberWhenRiding(): int
+    {
+        return $this->getPhysicalSkills()->getMalusToDefenseNumberWhenRiding();
+    }
+
+    /**
+     * @return int
+     */
     public function getBonusToAttackNumberAgainstFreeWillAnimal(): int
     {
         return $this->getPsychicalSkills()->getBonusToAttackNumberAgainstFreeWillAnimal();

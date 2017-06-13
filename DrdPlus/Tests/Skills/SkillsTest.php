@@ -1488,6 +1488,33 @@ class SkillsTest extends TestWithMockery
     /**
      * @test
      */
+    public function I_can_get_maluses_from_ride()
+    {
+        $professionLevels = $this->createProfessionLevels();
+        $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
+        $firstLevel = $professionLevels->getFirstLevel();
+        $skills = Skills::createSkills(
+            $professionLevels,
+            $skillsFromBackground,
+            $physicalSkills =$this->createPhysicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
+            $this->createPsychicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
+            $this->createCombinedSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
+            Tables::getIt()
+        );
+        $physicalSkills->shouldReceive('getMalusToFightNumberWhenRiding')
+            ->andReturn(-5);
+        self::assertSame(-5, $skills->getMalusToFightNumberWhenRiding());
+        $physicalSkills->shouldReceive('getMalusToAttackNumberWhenRiding')
+            ->andReturn(-3);
+        self::assertSame(-3, $skills->getMalusToAttackNumberWhenRiding());
+        $physicalSkills->shouldReceive('getMalusToDefenseNumberWhenRiding')
+            ->andReturn(-99);
+        self::assertSame(-99, $skills->getMalusToDefenseNumberWhenRiding());
+    }
+
+    /**
+     * @test
+     */
     public function I_can_get_bonus_to_attack_number_against_free_will_animal()
     {
         $professionLevels = $this->createProfessionLevels();
@@ -1497,11 +1524,11 @@ class SkillsTest extends TestWithMockery
             $professionLevels,
             $skillsFromBackground,
             $this->createPhysicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
-            $physicalSkills = $this->createPsychicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
+            $psychicalSkills = $this->createPsychicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
             $this->createCombinedSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
             Tables::getIt()
         );
-        $physicalSkills->shouldReceive('getBonusToAttackNumberAgainstFreeWillAnimal')
+        $psychicalSkills->shouldReceive('getBonusToAttackNumberAgainstFreeWillAnimal')
             ->andReturn(123456);
         self::assertSame(123456, $skills->getBonusToAttackNumberAgainstFreeWillAnimal());
     }
@@ -1518,11 +1545,11 @@ class SkillsTest extends TestWithMockery
             $professionLevels,
             $skillsFromBackground,
             $this->createPhysicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
-            $physicalSkills = $this->createPsychicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
+            $psychicalSkills = $this->createPsychicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
             $this->createCombinedSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
             Tables::getIt()
         );
-        $physicalSkills->shouldReceive('getBonusToCoverAgainstFreeWillAnimal')
+        $psychicalSkills->shouldReceive('getBonusToCoverAgainstFreeWillAnimal')
             ->andReturn(2345);
         self::assertSame(2345, $skills->getBonusToCoverAgainstFreeWillAnimal());
     }
@@ -1530,7 +1557,7 @@ class SkillsTest extends TestWithMockery
     /**
      * @test
      */
-    public function I_can_get_bonus_to_bonus_to_base_of_wounds_against_free_will_animal()
+    public function I_can_get_bonus_to_base_of_wounds_against_free_will_animal()
     {
         $professionLevels = $this->createProfessionLevels();
         $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
@@ -1539,11 +1566,11 @@ class SkillsTest extends TestWithMockery
             $professionLevels,
             $skillsFromBackground,
             $this->createPhysicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
-            $physicalSkills = $this->createPsychicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
+            $psychicalSkills = $this->createPsychicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
             $this->createCombinedSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
             Tables::getIt()
         );
-        $physicalSkills->shouldReceive('getBonusToBaseOfWoundsAgainstFreeWillAnimal')
+        $psychicalSkills->shouldReceive('getBonusToBaseOfWoundsAgainstFreeWillAnimal')
             ->andReturn(4569);
         self::assertSame(4569, $skills->getBonusToBaseOfWoundsAgainstFreeWillAnimal());
     }

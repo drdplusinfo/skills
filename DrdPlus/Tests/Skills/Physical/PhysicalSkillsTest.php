@@ -604,6 +604,35 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
 
     /**
      * @test
+     */
+    public function I_can_get_maluses_from_ride()
+    {
+        $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
+        self::assertSame(-6, $skills->getMalusToFightNumberWhenRiding());
+        self::assertSame(-6, $skills->getMalusToAttackNumberWhenRiding());
+        self::assertSame(-6, $skills->getMalusToDefenseNumberWhenRiding());
+
+        $professionFirstLevel = $this->createProfessionFirstLevel();
+        $skills->getRiding()->increaseSkillRank($this->createSkillPoint($professionFirstLevel));
+        self::assertSame(-4, $skills->getMalusToFightNumberWhenRiding());
+        self::assertSame(-4, $skills->getMalusToAttackNumberWhenRiding());
+        self::assertSame(-4, $skills->getMalusToDefenseNumberWhenRiding());
+
+        $professionNextLevel = $this->createProfessionNextLevel();
+        $skills->getRiding()->increaseSkillRank($this->createSkillPoint($professionNextLevel));
+        self::assertSame(-2, $skills->getMalusToFightNumberWhenRiding());
+        self::assertSame(-2, $skills->getMalusToAttackNumberWhenRiding());
+        self::assertSame(-2, $skills->getMalusToDefenseNumberWhenRiding());
+
+        $professionNextLevel = $this->createProfessionNextLevel();
+        $skills->getRiding()->increaseSkillRank($this->createSkillPoint($professionNextLevel));
+        self::assertSame(0, $skills->getMalusToFightNumberWhenRiding());
+        self::assertSame(0, $skills->getMalusToAttackNumberWhenRiding());
+        self::assertSame(0, $skills->getMalusToDefenseNumberWhenRiding());
+    }
+
+    /**
+     * @test
      * @expectedException \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatArmament
      */
     public function I_do_not_get_malus_to_fight_for_unknown_protective()
@@ -615,5 +644,4 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
             $this->createArmourer()
         );
     }
-
 }

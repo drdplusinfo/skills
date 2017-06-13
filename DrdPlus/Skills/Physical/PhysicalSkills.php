@@ -196,12 +196,12 @@ class PhysicalSkills extends SameTypeSkills
      * @param ProfessionLevels $professionLevels
      * @return int
      */
-    public function getUnusedFirstLevelPhysicalSkillPointsValue(ProfessionLevels $professionLevels)
+    public function getUnusedFirstLevelPhysicalSkillPointsValue(ProfessionLevels $professionLevels): int
     {
         return $this->getUnusedFirstLevelSkillPointsValue($this->getFirstLevelPhysicalPropertiesSum($professionLevels));
     }
 
-    private function getFirstLevelPhysicalPropertiesSum(ProfessionLevels $professionLevels)
+    private function getFirstLevelPhysicalPropertiesSum(ProfessionLevels $professionLevels): int
     {
         return $professionLevels->getFirstLevelStrengthModifier() + $professionLevels->getFirstLevelAgilityModifier();
     }
@@ -210,12 +210,12 @@ class PhysicalSkills extends SameTypeSkills
      * @param ProfessionLevels $professionLevels
      * @return int
      */
-    public function getUnusedNextLevelsPhysicalSkillPointsValue(ProfessionLevels $professionLevels)
+    public function getUnusedNextLevelsPhysicalSkillPointsValue(ProfessionLevels $professionLevels): int
     {
         return $this->getUnusedNextLevelsSkillPointsValue($this->getNextLevelsPhysicalPropertiesSum($professionLevels));
     }
 
-    private function getNextLevelsPhysicalPropertiesSum(ProfessionLevels $professionLevels)
+    private function getNextLevelsPhysicalPropertiesSum(ProfessionLevels $professionLevels): int
     {
         return $professionLevels->getNextLevelsStrengthModifier() + $professionLevels->getNextLevelsAgilityModifier();
     }
@@ -715,5 +715,29 @@ class PhysicalSkills extends SameTypeSkills
         }
 
         return $malus;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMalusToFightNumberWhenRiding(): int
+    {
+        return $this->getRiding()->getMalusToFightAttackAndDefenseNumber();
+    }
+
+    /**
+     * @return int
+     */
+    public function getMalusToAttackNumberWhenRiding(): int
+    {
+        return $this->getRiding()->getMalusToFightAttackAndDefenseNumber();
+    }
+
+    /**
+     * @return int
+     */
+    public function getMalusToDefenseNumberWhenRiding(): int
+    {
+        return $this->getRiding()->getMalusToFightAttackAndDefenseNumber();
     }
 }
