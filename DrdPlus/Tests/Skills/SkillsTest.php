@@ -533,7 +533,7 @@ class SkillsTest extends TestWithMockery
     {
         $professionLevels = $this->mockery(ProfessionLevels::class);
         $professionLevels->shouldReceive('getFirstLevel')
-            ->andReturn($firstLevel = $this->mockery(ProfessionLevel::class));
+            ->andReturn($firstLevel = $this->mockery(ProfessionFirstLevel::class));
         $firstLevel->shouldReceive('isFirstLevel')
             ->andReturn(true);
         $firstLevel->shouldReceive('isNextLevel')
