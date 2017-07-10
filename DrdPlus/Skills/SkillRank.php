@@ -144,7 +144,7 @@ abstract class SkillRank extends StrictObject implements PositiveInteger, Entity
     /**
      * @return string
      */
-    public function __toString(): string
+    public function __toString()
     {
         return (string)$this->getValue();
     }
