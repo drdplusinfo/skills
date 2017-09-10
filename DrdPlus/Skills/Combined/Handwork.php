@@ -6,7 +6,7 @@ use DrdPlus\Codes\Skills\CombinedSkillCode;
 use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Properties\Base\Knack;
 use DrdPlus\Skills\Combined\RollsOnQuality\HandworkQuality;
-use DrdPlus\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess\HandworkExtendedRollOnSuccess;
+use DrdPlus\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess\HandworkRollOnSuccess;
 use DrdPlus\Skills\WithBonusToKnack;
 
 /**
@@ -47,15 +47,15 @@ class Handwork extends CombinedSkill implements WithBonusToKnack
      * @param Knack $knack
      * @param Roll2d6DrdPlus $roll2D6DrdPlus
      * @param int $difficultyModification
-     * @return HandworkExtendedRollOnSuccess
+     * @return HandworkRollOnSuccess
      */
-    public function createRollOnSuccess(
+    public function createHandworkRollOnSuccess(
         Knack $knack,
         Roll2d6DrdPlus $roll2D6DrdPlus,
         int $difficultyModification
-    ): HandworkExtendedRollOnSuccess
+    ): HandworkRollOnSuccess
     {
-        return HandworkExtendedRollOnSuccess::createIt(
+        return HandworkRollOnSuccess::createIt(
             $this->createHandworkQuality($knack, $roll2D6DrdPlus),
             $difficultyModification
         );

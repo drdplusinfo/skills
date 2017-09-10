@@ -7,17 +7,14 @@ use DrdPlus\Skills\Combined\RollsOnQuality\HandworkQuality;
 /**
  * @method HandworkQuality getRollOnQuality
  */
-class HandworkExtendedRollOnSuccess extends ExtendedRollOnSuccess
+class HandworkRollOnSuccess extends ExtendedRollOnSuccess
 {
     /**
      * @param HandworkQuality $handworkQuality
      * @param int $difficultyModification
-     * @return HandworkExtendedRollOnSuccess
+     * @return HandworkRollOnSuccess
      */
-    public static function createIt(
-        HandworkQuality $handworkQuality,
-        int $difficultyModification
-    ): HandworkExtendedRollOnSuccess
+    public static function createIt(HandworkQuality $handworkQuality, int $difficultyModification): HandworkRollOnSuccess
     {
         return new static($handworkQuality, $difficultyModification);
     }

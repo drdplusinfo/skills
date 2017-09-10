@@ -21,6 +21,7 @@ abstract class HandworkSimpleRollOnSuccessTest extends TestWithMockery
             $handworkQuality = $this->createHandworkQuality($this->getExpectedDifficulty() + $difficultyModification),
             $difficultyModification
         );
+        self::assertSame($difficultyModification, $success->getDifficultyModification());
         self::assertSame($this->getExpectedDifficulty() + $difficultyModification, $success->getDifficulty());
         self::assertSame($handworkQuality, $success->getRollOnQuality());
         self::assertTrue($success->isSuccess());

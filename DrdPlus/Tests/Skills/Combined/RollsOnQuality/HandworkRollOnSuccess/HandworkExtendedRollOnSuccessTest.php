@@ -7,7 +7,7 @@ use DrdPlus\Properties\Base\Knack;
 use DrdPlus\RollsOn\QualityAndSuccess\ExtendedRollOnSuccess;
 use DrdPlus\Skills\Combined\Handwork;
 use DrdPlus\Skills\Combined\RollsOnQuality\HandworkQuality;
-use DrdPlus\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess\HandworkExtendedRollOnSuccess;
+use DrdPlus\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess\HandworkRollOnSuccess;
 use DrdPlus\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess\HandworkSimpleRollOnGreatSuccess;
 use DrdPlus\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess\HandworkSimpleRollOnLowSuccess;
 use DrdPlus\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess\HandworkSimpleRollOnModerateSuccess;
@@ -27,8 +27,8 @@ class HandworkExtendedRollOnSuccessTest extends TestWithMockery
             new Handwork($this->createProfessionLevel()),
             (new Roller2d6DrdPlus())->roll()
         );
-        $handworkExtendedRollOnSuccess = HandworkExtendedRollOnSuccess::createIt($handworkQuality, $difficultyModification);
-        self::assertInstanceOf(HandworkExtendedRollOnSuccess::class, $handworkExtendedRollOnSuccess);
+        $handworkExtendedRollOnSuccess = HandworkRollOnSuccess::createIt($handworkQuality, $difficultyModification);
+        self::assertInstanceOf(HandworkRollOnSuccess::class, $handworkExtendedRollOnSuccess);
         self::assertSame($handworkQuality, $handworkExtendedRollOnSuccess->getRollOnQuality());
         $reflection = new \ReflectionClass(ExtendedRollOnSuccess::class);
         $rollsOnSuccess = $reflection->getProperty('rollsOnSuccess');
@@ -44,7 +44,7 @@ class HandworkExtendedRollOnSuccessTest extends TestWithMockery
 
         self::assertEquals(
             $handworkExtendedRollOnSuccess,
-            new HandworkExtendedRollOnSuccess($handworkQuality, $difficultyModification)
+            new HandworkRollOnSuccess($handworkQuality, $difficultyModification)
         );
     }
 
