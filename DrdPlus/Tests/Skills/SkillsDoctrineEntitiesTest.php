@@ -51,7 +51,7 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         parent::setUp();
     }
 
-    protected function getDirsWithEntities()
+    protected function getDirsWithEntities(): array
     {
         $skillsReflection = new \ReflectionClass(Skills::class);
         $professionLevelReflection = new \ReflectionClass(ProfessionLevel::class);
@@ -62,7 +62,7 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         ];
     }
 
-    protected function createEntitiesToPersist()
+    protected function createEntitiesToPersist(): array
     {
         $tables = Tables::getIt();
 
@@ -114,7 +114,7 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         );
     }
 
-    public static function createSkillsEntity(Tables $tables)
+    public static function createSkillsEntity(Tables $tables): Skills
     {
         return Skills::createSkills(
             ProfessionLevels::createIt(
@@ -143,7 +143,7 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         );
     }
 
-    private static function createPhysicalSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel)
+    private static function createPhysicalSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel): array
     {
         $physicalSkillClasses = self::getListOfSkillClasses(PhysicalSkill::class);
         $physicalSkillPoint = PhysicalSkillPoint::createFromFirstLevelSkillPointsFromBackground(
@@ -200,7 +200,7 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
      * @param string $skillClass
      * @return string
      */
-    private static function createSkillGetter($skillClass)
+    private static function createSkillGetter($skillClass): string
     {
         $baseName = preg_replace('~^.+[\\\]([^\\\]+)$~', '$1', $skillClass);
 
@@ -227,7 +227,7 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         return $skillClasses;
     }
 
-    private static function createPsychicalSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel)
+    private static function createPsychicalSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel): array
     {
         $psychicalSkillClasses = self::getListOfSkillClasses(PsychicalSkill::class);
         $psychicalSkillPoint = PsychicalSkillPoint::createFromFirstLevelSkillPointsFromBackground(
@@ -282,7 +282,7 @@ class SkillsDoctrineEntitiesTest extends AbstractDoctrineEntitiesTest
         );
     }
 
-    private static function createCombinedSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel)
+    private static function createCombinedSkillEntities(Tables $tables, ProfessionFirstLevel $firstLevel): array
     {
         $combinedSkillClasses = self::getListOfSkillClasses(CombinedSkill::class);
         $combinedSkillPoint = CombinedSkillPoint::createFromFirstLevelSkillPointsFromBackground(

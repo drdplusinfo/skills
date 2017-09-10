@@ -1,7 +1,6 @@
 <?php
 namespace DrdPlus\Skills\EnumTypes;
 
-use Doctrineum\DateTimeImmutable\DateTimeImmutableType;
 use DrdPlus\Background\EnumTypes\BackgroundEnumRegistrar;
 use DrdPlus\Person\ProfessionLevels\EnumTypes\ProfessionLevelsEnumRegistrar;
 
@@ -11,6 +10,5 @@ class SkillsEnumsRegistrar
     {
         BackgroundEnumRegistrar::registerAll();
         ProfessionLevelsEnumRegistrar::registerAll();
-        DateTimeImmutableType::registerSelf();
     }
 }
