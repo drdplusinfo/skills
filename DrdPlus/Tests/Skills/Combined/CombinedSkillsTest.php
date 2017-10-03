@@ -135,7 +135,7 @@ class CombinedSkillsTest extends SameTypeSkillsTest
      * @dataProvider provideWeaponCategories
      * @param string $rangeWeaponCategory
      */
-    public function I_can_get_malus_for_every_type_of_weapon($rangeWeaponCategory)
+    public function I_can_get_malus_for_every_type_of_weapon(string $rangeWeaponCategory)
     {
         $combinedSkills = new CombinedSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         self::assertSame(
@@ -174,23 +174,24 @@ class CombinedSkillsTest extends SameTypeSkillsTest
     public function provideWeaponCategories(): array
     {
         return [
-            [WeaponCategoryCode::BOW],
-            [WeaponCategoryCode::CROSSBOW],
+            [WeaponCategoryCode::BOWS],
+            [WeaponCategoryCode::CROSSBOWS],
         ];
     }
 
     /**
-     * @param $weaponCategory
+     * @param string $weaponCategory
      * @return \Mockery\MockInterface|RangedWeaponCode
      */
-    private function createRangeWeaponCode($weaponCategory)
+    private function createRangeWeaponCode(string $weaponCategory)
     {
+        $weaponCodeValue = rtrim($weaponCategory, 's');
         $code = $this->mockery(RangedWeaponCode::class);
-        $code->shouldReceive('is' . ucfirst($weaponCategory))
+        $code->shouldReceive('is' . ucfirst($weaponCodeValue))
             ->andReturn('true');
         $code->shouldIgnoreMissing(false /* return value for non-mocked methods */);
         $code->shouldReceive('__toString')
-            ->andReturn((string)$weaponCategory);
+            ->andReturn($weaponCodeValue);
 
         return $code;
     }
@@ -207,6 +208,7 @@ class CombinedSkillsTest extends SameTypeSkillsTest
         $tables->shouldReceive('getMissingWeaponSkillTable')
             ->andReturn($missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class));
         $missingWeaponSkillsTable->shouldReceive('get' . ucfirst($weaponParameterName) . 'MalusForSkillRank')
+            ->once()
             ->with($expectedSkillValue)
             ->andReturn($result);
 
