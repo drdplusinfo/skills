@@ -42,7 +42,6 @@ use DrdPlus\Skills\Psychical\PsychicalSkills;
 use DrdPlus\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Skills\Psychical\ReadingAndWriting;
 use DrdPlus\Professions\Profession;
-use DrdPlus\Skills\Psychical\Zoology;
 use DrdPlus\Tables\Armaments\Armourer;
 use DrdPlus\Tables\Armaments\Shields\ShieldUsageSkillTable;
 use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
@@ -572,7 +571,7 @@ class SkillsTest extends TestWithMockery
 
     /**
      * @param Profession|null $profession
-     * @param mixed $value = 'foo bar'
+     * @param int $value
      * @param $physicalSkillPoints = 3
      * @param $psychicalSkillPoints = 3
      * @param $combinedSkillPoints = 3
@@ -580,7 +579,7 @@ class SkillsTest extends TestWithMockery
      */
     private function createSkillPointsFromBackground(
         Profession $profession = null,
-        $value = 'foo bar',
+        int $value = 976431,
         $physicalSkillPoints = 3,
         $psychicalSkillPoints = 3,
         $combinedSkillPoints = 3
@@ -589,17 +588,20 @@ class SkillsTest extends TestWithMockery
         $skillsFromBackground = $this->mockery(SkillPointsFromBackground::class);
         if ($profession) {
             $skillsFromBackground->shouldReceive('getPhysicalSkillPoints')
+                ->zeroOrMoreTimes()
                 ->with($profession, Tables::getIt())
                 ->andReturn($physicalSkillPoints);
             $skillsFromBackground->shouldReceive('getPsychicalSkillPoints')
+                ->zeroOrMoreTimes()
                 ->with($profession, Tables::getIt())
                 ->andReturn($psychicalSkillPoints);
             $skillsFromBackground->shouldReceive('getCombinedSkillPoints')
+                ->zeroOrMoreTimes()
                 ->with($profession, Tables::getIt())
                 ->andReturn($combinedSkillPoints);
         }
         $skillsFromBackground->shouldReceive('getSpentBackgroundPoints')
-            ->andReturn($value);
+            ->andReturn(new PositiveIntegerObject($value));
 
         return $skillsFromBackground;
     }
@@ -757,7 +759,7 @@ class SkillsTest extends TestWithMockery
     {
         $professionLevels = $this->createProfessionLevels();
         $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
-        $differentSkillPointsFromBackground = $this->createSkillPointsFromBackground(null, 'different points value');
+        $differentSkillPointsFromBackground = $this->createSkillPointsFromBackground(null, 741258);
 
         return [
             [$professionLevels, $skillsFromBackground, $differentSkillPointsFromBackground, $skillsFromBackground],
@@ -797,7 +799,7 @@ class SkillsTest extends TestWithMockery
     {
         $professionLevels = $this->createProfessionLevels();
         $skillsFromBackground = $this->createSkillPointsFromBackground(
-            $professionLevels->getFirstLevel()->getProfession(), 'foo bar', 1, 1, 1
+            $professionLevels->getFirstLevel()->getProfession(), 71829, 1, 1, 1
         );
         $firstLevel = $professionLevels->getFirstLevel();
         $physicalSkills = $this->createPhysicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel);
@@ -1051,6 +1053,7 @@ class SkillsTest extends TestWithMockery
         $getMalusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeapon' . ($malusTo === 'cover' ? '' : 'like');
 
         $physicalSkills->shouldReceive($getMalusToParameter)
+            ->zeroOrMoreTimes()
             ->with($meleeWeaponCode, $tables, false)
             ->andReturn($singleMeleeWeaponMalus = 123456);
         self::assertSame(
@@ -1063,6 +1066,7 @@ class SkillsTest extends TestWithMockery
         );
 
         $physicalSkills->shouldReceive($getMalusToParameter)
+            ->zeroOrMoreTimes()
             ->with($meleeWeaponCode, $tables, true)
             ->andReturn($twoMeleeWeaponsMalus = 798123);
         self::assertSame(
@@ -1168,6 +1172,7 @@ class SkillsTest extends TestWithMockery
         $getMalusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeapon' . ($malusTo === 'cover' ? '' : 'like');
 
         $physicalSkills->shouldReceive($getMalusToParameter)
+            ->zeroOrMoreTimes()
             ->with($throwingWeaponCode, $missingWeaponSkillsTable, false)
             ->andReturn($singleThrowingWeaponMalus = 123456);
         self::assertSame(
@@ -1180,6 +1185,7 @@ class SkillsTest extends TestWithMockery
         );
 
         $physicalSkills->shouldReceive($getMalusToParameter)
+            ->zeroOrMoreTimes()
             ->with($throwingWeaponCode, $missingWeaponSkillsTable, true)
             ->andReturn($twoThrowingWeaponsMalus = 789123);
         self::assertSame(
@@ -1228,6 +1234,7 @@ class SkillsTest extends TestWithMockery
             ->andReturn($rangeWeaponCode = $this->createRangeWeaponCode());
         $missingWeaponSkillsTable = $this->createTablesWithMissingWeaponSkillTable();
         $combinedSkills->shouldReceive('getMalusTo' . ucfirst($malusTo) . 'WithShootingWeapon')
+            ->zeroOrMoreTimes()
             ->with($rangeWeaponCode, $missingWeaponSkillsTable)
             ->andReturn($shootingWeaponMalus = 987654);
         /**
@@ -1356,6 +1363,7 @@ class SkillsTest extends TestWithMockery
         /** @var ShieldCode $shield */
         $shield = $this->mockery(ShieldCode::class);
         $physicalSkills->shouldReceive('getMalusToFightNumberWithProtective')
+            ->zeroOrMoreTimes()
             ->with($shield, $armourer)
             ->andReturn(465321);
         self::assertSame(
@@ -1432,6 +1440,7 @@ class SkillsTest extends TestWithMockery
         );
         $tables = $this->createTablesWithShieldUsageSkillTable();
         $physicalSkills->shouldReceive('getMalusToCoverWithShield')
+            ->zeroOrMoreTimes()
             ->with($tables)
             ->andReturn(123654);
         self::assertSame(123654, $skills->getMalusToCoverWithShield($tables));
