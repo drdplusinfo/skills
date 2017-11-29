@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Tests\Skills\Combined;
 
-use Drd\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
+use DrdPlus\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
 use DrdPlus\Properties\Base\Knack;
 use DrdPlus\Skills\Combined\Handwork;
 use DrdPlus\Skills\Combined\RollsOnQuality\HandworkQuality;
@@ -40,7 +40,7 @@ class HandworkTest extends WithBonusToKnackFromCombinedTest
     {
         $roll2d6Plus = $this->mockery(Roll2d6DrdPlus::class);
         $roll2d6Plus->shouldReceive('getValue')->andReturn($value);
-        $roll2d6Plus->shouldReceive('getRolledNumbers')->andReturn('foo');
+        $roll2d6Plus->shouldReceive('getRolledNumbers')->andReturn([$value]);
 
         return $roll2d6Plus;
     }

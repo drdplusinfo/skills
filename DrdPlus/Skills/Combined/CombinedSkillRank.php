@@ -4,22 +4,21 @@ namespace DrdPlus\Skills\Combined;
 use DrdPlus\Skills\Skill;
 use DrdPlus\Skills\SkillPoint;
 use DrdPlus\Skills\SkillRank;
-use Doctrine\ORM\Mapping as ORM;
 use Granam\Integer\PositiveInteger;
 
 /**
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class CombinedSkillRank extends SkillRank
 {
     /**
      * @var CombinedSkill
-     * @ORM\ManyToOne(targetEntity="CombinedSkill", inversedBy="combinedSkillRanks", cascade={"persist"})
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="CombinedSkill", inversedBy="combinedSkillRanks", cascade={"persist"})
      */
     private $combinedSkill;
     /**
      * @var CombinedSkillPoint
-     * @ORM\OneToOne(targetEntity="CombinedSkillPoint", cascade={"persist"})
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="CombinedSkillPoint", cascade={"persist"})
      */
     private $combinedSkillPoint;
 

@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Psychical;
 
 use DrdPlus\Codes\Skills\PsychicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToIntelligence;
 
 /**
  * @link https://pph.drdplus.info/#cizi_jazyk
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class ForeignLanguage extends PsychicalSkill implements WithBonusToIntelligence
 {
-    const FOREIGN_LANGUAGE = PsychicalSkillCode::FOREIGN_LANGUAGE;
+    public const FOREIGN_LANGUAGE = PsychicalSkillCode::FOREIGN_LANGUAGE;
 
     /**
      * @return string

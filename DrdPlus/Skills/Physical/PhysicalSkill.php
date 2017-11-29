@@ -6,15 +6,14 @@ use Doctrine\Common\Collections\Collection;
 use DrdPlus\Codes\Properties\PropertyCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Skills\Skill;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\SkillRank;
 use Granam\Integer\PositiveIntegerObject;
 
 /**
- * @ORM\Entity()
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="skillName", type="string")
- * @ORM\DiscriminatorMap({
+ * @Doctrine\ORM\Mapping\Entity()
+ * @Doctrine\ORM\Mapping\InheritanceType("SINGLE_TABLE")
+ * @Doctrine\ORM\Mapping\DiscriminatorColumn(name="skillName", type="string")
+ * @Doctrine\ORM\Mapping\DiscriminatorMap({
  *  "armorWearing" = "ArmorWearing",
  *  "athletics" = "Athletics",
  *  "blacksmithing" = "Blacksmithing",
@@ -50,7 +49,7 @@ abstract class PhysicalSkill extends Skill
 
     /**
      * @var PhysicalSkillRank[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="PhysicalSkillRank", mappedBy="physicalSkill", cascade={"persist"})
+     * @Doctrine\ORM\Mapping\OneToMany(targetEntity="PhysicalSkillRank", mappedBy="physicalSkill", cascade={"persist"})
      */
     private $physicalSkillRanks;
 

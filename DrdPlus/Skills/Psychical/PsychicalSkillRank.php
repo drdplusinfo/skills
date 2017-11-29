@@ -4,22 +4,21 @@ namespace DrdPlus\Skills\Psychical;
 use DrdPlus\Skills\Skill;
 use DrdPlus\Skills\SkillPoint;
 use DrdPlus\Skills\SkillRank;
-use Doctrine\ORM\Mapping as ORM;
 use Granam\Integer\PositiveInteger;
 
 /**
- * @ORM\Entity
+ * @Doctrine\ORM\Mapping\Entity
  */
 class PsychicalSkillRank extends SkillRank
 {
     /**
      * @var PsychicalSkill
-     * @ORM\ManyToOne(targetEntity="PsychicalSkill", inversedBy="psychicalSkillRanks", cascade={"persist"})
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="PsychicalSkill", inversedBy="psychicalSkillRanks", cascade={"persist"})
      */
     private $psychicalSkill;
     /**
      * @var PsychicalSkillPoint
-     * @ORM\OneToOne(targetEntity="PsychicalSkillPoint", cascade={"persist"})
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="PsychicalSkillPoint", cascade={"persist"})
      */
     private $psychicalSkillPoint;
 

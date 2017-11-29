@@ -1,18 +1,17 @@
 <?php
 namespace DrdPlus\Skills\Physical;
 
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
 use DrdPlus\Skills\WithBonus;
 use Granam\Integer\PositiveInteger;
 
 /**
  * @link https://pph.drdplus.info/#atletika
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Athletics extends PhysicalSkill implements WithBonus, \DrdPlus\Properties\Derived\Athletics
 {
-    const ATHLETICS = PhysicalSkillCode::ATHLETICS;
+    public const ATHLETICS = PhysicalSkillCode::ATHLETICS;
 
     /**
      * @return string

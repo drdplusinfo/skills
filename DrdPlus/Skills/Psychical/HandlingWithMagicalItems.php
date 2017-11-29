@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Psychical;
 
 use DrdPlus\Codes\Skills\PsychicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToIntelligence;
 
 /**
  * @link https://pph.drdplus.info/#zachazeni_s_magickymi_predmety
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class HandlingWithMagicalItems extends PsychicalSkill implements WithBonusToIntelligence
 {
-    const HANDLING_WITH_MAGICAL_ITEMS = PsychicalSkillCode::HANDLING_WITH_MAGICAL_ITEMS;
+    public const HANDLING_WITH_MAGICAL_ITEMS = PsychicalSkillCode::HANDLING_WITH_MAGICAL_ITEMS;
 
     /**
      * @return string

@@ -2,17 +2,16 @@
 namespace DrdPlus\Skills\Physical;
 
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Codes\Transport\MovementTypeCode;
 use DrdPlus\Skills\WithBonus;
 
 /**
  * @link https://pph.drdplus.info/#jezdectvi
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Riding extends PhysicalSkill implements WithBonus
 {
-    const RIDING = PhysicalSkillCode::RIDING;
+    public const RIDING = PhysicalSkillCode::RIDING;
 
     /**
      * @return string

@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Combined;
 
 use DrdPlus\Codes\Skills\CombinedSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToKnack;
 
 /**
  * @link https://pph.drdplus.info/#uzlovani
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Knotting extends CombinedSkill implements WithBonusToKnack
 {
-    const KNOTTING = CombinedSkillCode::KNOTTING;
+    public const KNOTTING = CombinedSkillCode::KNOTTING;
 
     /**
      * @return string

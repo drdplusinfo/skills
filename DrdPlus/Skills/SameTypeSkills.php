@@ -3,16 +3,15 @@ namespace DrdPlus\Skills;
 
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use Granam\Strict\Object\StrictObject;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\MappedSuperclass()
+ * @Doctrine\ORM\Mapping\MappedSuperclass()
  */
 abstract class SameTypeSkills extends StrictObject implements \IteratorAggregate, \Countable
 {
     /**
      * @var integer
-     * @ORM\Column(type="integer") @ORM\Id @ORM\GeneratedValue(strategy="AUTO")
+     * @Doctrine\ORM\Mapping\Column(type="integer") @Doctrine\ORM\Mapping\Id @Doctrine\ORM\Mapping\GeneratedValue(strategy="AUTO")
      */
     private $id;
 

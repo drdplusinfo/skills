@@ -1,17 +1,16 @@
 <?php
 namespace DrdPlus\Skills\Psychical;
 
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Codes\Skills\PsychicalSkillCode;
 use DrdPlus\Skills\WithBonusToIntelligence;
 
 /**
  * @link https://pph.drdplus.info/#astronomie
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Astronomy extends PsychicalSkill implements WithBonusToIntelligence
 {
-    const ASTRONOMY = PsychicalSkillCode::ASTRONOMY;
+    public const ASTRONOMY = PsychicalSkillCode::ASTRONOMY;
 
     /**
      * @return string

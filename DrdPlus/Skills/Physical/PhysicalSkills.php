@@ -11,150 +11,149 @@ use DrdPlus\Codes\Skills\SkillTypeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Skills\SameTypeSkills;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Tables\Armaments\Armourer;
 use DrdPlus\Tables\Tables;
 
 /**
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class PhysicalSkills extends SameTypeSkills
 {
-    const PHYSICAL = SkillTypeCode::PHYSICAL;
+    public const PHYSICAL = SkillTypeCode::PHYSICAL;
 
     /**
      * @var ArmorWearing
-     * @ORM\OneToOne(targetEntity="ArmorWearing", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="ArmorWearing", cascade={"persist"}, orphanRemoval=true)
      */
     private $armorWearing;
     /**
      * @var Athletics
-     * @ORM\OneToOne(targetEntity="Athletics", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Athletics", cascade={"persist"}, orphanRemoval=true)
      */
     private $athletics;
     /**
      * @var Blacksmithing
-     * @ORM\OneToOne(targetEntity="Blacksmithing", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Blacksmithing", cascade={"persist"}, orphanRemoval=true)
      */
     private $blacksmithing;
     /**
      * @var BoatDriving
-     * @ORM\OneToOne(targetEntity="BoatDriving", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="BoatDriving", cascade={"persist"}, orphanRemoval=true)
      */
     private $boatDriving;
     /**
      * @var CartDriving
-     * @ORM\OneToOne(targetEntity="CartDriving", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="CartDriving", cascade={"persist"}, orphanRemoval=true)
      */
     private $cartDriving;
     /**
      * @var CityMoving
-     * @ORM\OneToOne(targetEntity="CityMoving", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="CityMoving", cascade={"persist"}, orphanRemoval=true)
      */
     private $cityMoving;
     /**
      * @var ClimbingAndHillwalking
-     * @ORM\OneToOne(targetEntity="ClimbingAndHillwalking", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="ClimbingAndHillwalking", cascade={"persist"}, orphanRemoval=true)
      */
     private $climbingAndHillwalking;
     /**
      * @var FastMarsh
-     * @ORM\OneToOne(targetEntity="FastMarsh", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FastMarsh", cascade={"persist"}, orphanRemoval=true)
      */
     private $fastMarsh;
     /**
      * @var FightUnarmed
-     * @ORM\OneToOne(targetEntity="FightUnarmed", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightUnarmed", cascade={"persist"}, orphanRemoval=true)
      */
     private $fightUnarmed;
     /**
      * @var FightWithAxes
-     * @ORM\OneToOne(targetEntity="FightWithAxes", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithAxes", cascade={"persist"}, orphanRemoval=true)
      */
     private $fightWithAxes;
     /**
      * @var FightWithKnifesAndDaggers
-     * @ORM\OneToOne(targetEntity="FightWithKnifesAndDaggers", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithKnifesAndDaggers", cascade={"persist"}, orphanRemoval=true)
      */
     private $fightWithKnifesAndDaggers;
     /**
      * @var FightWithMacesAndClubs
-     * @ORM\OneToOne(targetEntity="FightWithMacesAndClubs", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithMacesAndClubs", cascade={"persist"}, orphanRemoval=true)
      */
     private $fightWithMacesAndClubs;
     /**
      * @var FightWithMorningstarsAndMorgensterns
-     * @ORM\OneToOne(targetEntity="FightWithMorningStarsAndMorgensterns", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithMorningStarsAndMorgensterns", cascade={"persist"}, orphanRemoval=true)
      */
     private $fightWithMorningstarsAndMorgensterns;
     /**
      * @var FightWithSabersAndBowieKnifes
-     * @ORM\OneToOne(targetEntity="FightWithSabersAndBowieKnifes", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithSabersAndBowieKnifes", cascade={"persist"}, orphanRemoval=true)
      */
     private $fightWithSabersAndBowieKnifes;
     /**
      * @var FightWithStaffsAndSpears
-     * @ORM\OneToOne(targetEntity="FightWithStaffsAndSpears", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithStaffsAndSpears", cascade={"persist"}, orphanRemoval=true)
      */
     private $fightWithStaffsAndSpears;
     /**
      * @var FightWithShields
-     * @ORM\OneToOne(targetEntity="FightWithShields", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithShields", cascade={"persist"}, orphanRemoval=true)
      */
     private $fightWithShields;
     /**
      * @var FightWithSwords
-     * @ORM\OneToOne(targetEntity="FightWithSwords", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithSwords", cascade={"persist"}, orphanRemoval=true)
      */
     private $fightWithSwords;
     /**
      * @var FightWithThrowingWeapons
-     * @ORM\OneToOne(targetEntity="FightWithThrowingWeapons", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithThrowingWeapons", cascade={"persist"}, orphanRemoval=true)
      */
     private $fightWithThrowingWeapons;
     /**
      * @var FightWithTwoWeapons
-     * @ORM\OneToOne(targetEntity="FightWithTwoWeapons", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithTwoWeapons", cascade={"persist"}, orphanRemoval=true)
      */
     private $fightWithTwoWeapons;
     /**
      * @var FightWithVoulgesAndTridents
-     * @ORM\OneToOne(targetEntity="FightWithVoulgesAndTridents", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithVoulgesAndTridents", cascade={"persist"}, orphanRemoval=true)
      */
     private $fightWithVoulgesAndTridents;
     /**
      * @var Flying
-     * @ORM\OneToOne(targetEntity="Flying", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Flying", cascade={"persist"}, orphanRemoval=true)
      */
     private $flying;
     /**
      * @var ForestMoving
-     * @ORM\OneToOne(targetEntity="ForestMoving", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="ForestMoving", cascade={"persist"}, orphanRemoval=true)
      */
     private $forestMoving;
     /**
      * @var MovingInMountains
-     * @ORM\OneToOne(targetEntity="MovingInMountains", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="MovingInMountains", cascade={"persist"}, orphanRemoval=true)
      */
     private $movingInMountains;
     /**
      * @var Riding
-     * @ORM\OneToOne(targetEntity="Riding", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Riding", cascade={"persist"}, orphanRemoval=true)
      */
     private $riding;
     /**
      * @var Sailing
-     * @ORM\OneToOne(targetEntity="Sailing", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Sailing", cascade={"persist"}, orphanRemoval=true)
      */
     private $sailing;
     /**
      * @var ShieldUsage
-     * @ORM\OneToOne(targetEntity="ShieldUsage", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="ShieldUsage", cascade={"persist"}, orphanRemoval=true)
      */
     private $shieldUsage;
     /**
      * @var Swimming
-     * @ORM\OneToOne(targetEntity="Swimming", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Swimming", cascade={"persist"}, orphanRemoval=true)
      */
     private $swimming;
 

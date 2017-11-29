@@ -2,17 +2,16 @@
 namespace DrdPlus\Skills\Combined;
 
 use DrdPlus\Codes\Skills\CombinedSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToIntelligence;
 use DrdPlus\Skills\WithBonusToSenses;
 
 /**
  * @link https://pph.drdplus.info/#bylinkarstvi
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Herbalism extends CombinedSkill implements WithBonusToIntelligence, WithBonusToSenses
 {
-    const HERBALISM = CombinedSkillCode::HERBALISM;
+    public const HERBALISM = CombinedSkillCode::HERBALISM;
 
     /**
      * @return string

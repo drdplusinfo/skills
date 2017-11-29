@@ -5,94 +5,93 @@ use DrdPlus\Codes\Skills\SkillTypeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Skills\SameTypeSkills;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class PsychicalSkills extends SameTypeSkills
 {
 
-    const PSYCHICAL = SkillTypeCode::PSYCHICAL;
+    public const PSYCHICAL = SkillTypeCode::PSYCHICAL;
 
     /**
      * @var Astronomy
-     * @ORM\OneToOne(targetEntity="Astronomy", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Astronomy", cascade={"persist"}, orphanRemoval=true)
      */
     private $astronomy;
     /**
      * @var Botany
-     * @ORM\OneToOne(targetEntity="Botany", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Botany", cascade={"persist"}, orphanRemoval=true)
      */
     private $botany;
     /**
      * @var EtiquetteOfGangland
-     * @ORM\OneToOne(targetEntity="EtiquetteOfGangLand", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="EtiquetteOfGangLand", cascade={"persist"}, orphanRemoval=true)
      */
     private $etiquetteOfGangland;
     /**
      * @var ForeignLanguage
-     * @ORM\OneToOne(targetEntity="ForeignLanguage", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="ForeignLanguage", cascade={"persist"}, orphanRemoval=true)
      */
     private $foreignLanguage;
     /**
      * @var GeographyOfACountry
-     * @ORM\OneToOne(targetEntity="GeographyOfACountry", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="GeographyOfACountry", cascade={"persist"}, orphanRemoval=true)
      */
     private $geographyOfACountry;
     /**
      * @var HandlingWithMagicalItems
-     * @ORM\OneToOne(targetEntity="HandlingWithMagicalItems", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="HandlingWithMagicalItems", cascade={"persist"}, orphanRemoval=true)
      */
     private $handlingWithMagicalItems;
     /**
      * @var Historiography
-     * @ORM\OneToOne(targetEntity="Historiography", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Historiography", cascade={"persist"}, orphanRemoval=true)
      */
     private $historiography;
     /**
      * @var KnowledgeOfACity
-     * @ORM\OneToOne(targetEntity="KnowledgeOfACity", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="KnowledgeOfACity", cascade={"persist"}, orphanRemoval=true)
      */
     private $knowledgeOfACity;
     /**
      * @var KnowledgeOfWorld
-     * @ORM\OneToOne(targetEntity="KnowledgeOfWorld", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="KnowledgeOfWorld", cascade={"persist"}, orphanRemoval=true)
      */
     private $knowledgeOfWorld;
     /**
      * @var MapsDrawing
-     * @ORM\OneToOne(targetEntity="MapsDrawing", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="MapsDrawing", cascade={"persist"}, orphanRemoval=true)
      */
     private $mapsDrawing;
     /**
      * @var Mythology
-     * @ORM\OneToOne(targetEntity="Mythology", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Mythology", cascade={"persist"}, orphanRemoval=true)
      */
     private $mythology;
     /**
      * @var ReadingAndWriting
-     * @ORM\OneToOne(targetEntity="ReadingAndWriting", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="ReadingAndWriting", cascade={"persist"}, orphanRemoval=true)
      */
     private $readingAndWriting;
     /**
      * @var SocialEtiquette
-     * @ORM\OneToOne(targetEntity="SocialEtiquette", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="SocialEtiquette", cascade={"persist"}, orphanRemoval=true)
      */
     private $socialEtiquette;
     /**
      * @var Technology
-     * @ORM\OneToOne(targetEntity="Technology", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Technology", cascade={"persist"}, orphanRemoval=true)
      */
     private $technology;
     /**
      * @var Theology
-     * @ORM\OneToOne(targetEntity="Theology", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Theology", cascade={"persist"}, orphanRemoval=true)
      */
     private $theology;
     /**
      * @var Zoology
-     * @ORM\OneToOne(targetEntity="Zoology", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Zoology", cascade={"persist"}, orphanRemoval=true)
      */
     private $zoology;
 

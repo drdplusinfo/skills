@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Psychical;
 
 use DrdPlus\Codes\Skills\PsychicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToIntelligence;
 
 /**
  * @link https://pph.drdplus.info/#teologie
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Theology extends PsychicalSkill implements WithBonusToIntelligence
 {
-    const THEOLOGY = PsychicalSkillCode::THEOLOGY;
+    public const THEOLOGY = PsychicalSkillCode::THEOLOGY;
 
     /**
      * @return string

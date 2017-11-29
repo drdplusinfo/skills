@@ -1,25 +1,24 @@
 <?php
 namespace DrdPlus\Skills\Physical;
 
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\Skill;
 use DrdPlus\Skills\SkillPoint;
 use DrdPlus\Skills\SkillRank;
 use Granam\Integer\PositiveInteger;
 
 /**
- * @ORM\Entity
+ * @Doctrine\ORM\Mapping\Entity
  */
 class PhysicalSkillRank extends SkillRank
 {
     /**
      * @var PhysicalSkill
-     * @ORM\ManyToOne(targetEntity="PhysicalSkill", inversedBy="physicalSkillRanks", cascade={"persist"})
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="PhysicalSkill", inversedBy="physicalSkillRanks", cascade={"persist"})
      */
     private $physicalSkill;
     /**
      * @var PhysicalSkillPoint
-     * @ORM\OneToOne(targetEntity="PhysicalSkillPoint", cascade={"persist"})
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="PhysicalSkillPoint", cascade={"persist"})
      */
     private $physicalSkillPoint;
 

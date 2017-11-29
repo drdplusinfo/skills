@@ -2,17 +2,16 @@
 namespace DrdPlus\Skills\Physical;
 
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Tables\Tables;
 use Granam\Integer\Tools\ToInteger;
 
 /**
  * @link https://pph.drdplus.info/#pouzivani_stitu
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class ShieldUsage extends PhysicalSkill
 {
-    const SHIELD_USAGE = PhysicalSkillCode::SHIELD_USAGE;
+    public const SHIELD_USAGE = PhysicalSkillCode::SHIELD_USAGE;
 
     /**
      * @return string

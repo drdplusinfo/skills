@@ -6,15 +6,14 @@ use Doctrine\Common\Collections\Collection;
 use DrdPlus\Codes\Properties\PropertyCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Skills\Skill;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\SkillRank;
 use Granam\Integer\PositiveIntegerObject;
 
 /**
- * @ORM\Entity()
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="skillName", type="string")
- * @ORM\DiscriminatorMap({
+ * @Doctrine\ORM\Mapping\Entity()
+ * @Doctrine\ORM\Mapping\InheritanceType("SINGLE_TABLE")
+ * @Doctrine\ORM\Mapping\DiscriminatorColumn(name="skillName", type="string")
+ * @Doctrine\ORM\Mapping\DiscriminatorMap({
  *  "astronomy" = "Astronomy",
  *  "botany" = "Botany",
  *  "etiquetteOfGangland" = "EtiquetteOfGangland",
@@ -39,7 +38,7 @@ abstract class PsychicalSkill extends Skill
 
     /**
      * @var PsychicalSkillRank[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="PsychicalSkillRank", mappedBy="psychicalSkill", cascade={"persist"})
+     * @Doctrine\ORM\Mapping\OneToMany(targetEntity="PsychicalSkillRank", mappedBy="psychicalSkill", cascade={"persist"})
      */
     private $psychicalSkillRanks;
 

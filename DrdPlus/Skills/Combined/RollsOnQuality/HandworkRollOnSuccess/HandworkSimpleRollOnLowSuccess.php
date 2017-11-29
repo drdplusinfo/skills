@@ -5,8 +5,8 @@ use DrdPlus\Skills\Combined\RollsOnQuality\HandworkQuality;
 
 class HandworkSimpleRollOnLowSuccess extends HandworkSimpleRollOnSuccess
 {
-    const USABLE = 'usable';
-    const USELESS = 'useless';
+    public const USABLE = 'usable';
+    public const USELESS = 'useless';
 
     /**
      * @param HandworkQuality $handworkQuality

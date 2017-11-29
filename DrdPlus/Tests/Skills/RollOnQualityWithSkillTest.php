@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Tests\Skills;
 
-use Drd\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
+use DrdPlus\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
 use DrdPlus\Properties\Property;
 use DrdPlus\RollsOn\QualityAndSuccess\RollOnQuality;
 use DrdPlus\Skills\Psychical\RollsOn\MapQuality;

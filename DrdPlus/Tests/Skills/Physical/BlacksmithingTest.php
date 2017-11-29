@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Tests\Skills\Physical;
 
-use Drd\DiceRolls\Templates\Rollers\Roller2d6DrdPlus;
+use DrdPlus\DiceRolls\Templates\Rollers\Roller2d6DrdPlus;
 use DrdPlus\Properties\Base\Knack;
 use DrdPlus\Skills\Physical\Blacksmithing;
 use DrdPlus\Skills\Physical\RollsOnQuality\BlacksmithingQuality;

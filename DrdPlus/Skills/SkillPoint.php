@@ -1,7 +1,6 @@
 <?php
 namespace DrdPlus\Skills;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrineum\Entity\Entity;
 use DrdPlus\Codes\Properties\PropertyCode;
 use DrdPlus\Background\BackgroundParts\SkillPointsFromBackground;
@@ -18,49 +17,49 @@ use Granam\Strict\Object\StrictObject;
 use Granam\Tools\ValueDescriber;
 
 /**
- * @ORM\MappedSuperclass()
+ * @Doctrine\ORM\Mapping\MappedSuperclass()
  */
 abstract class SkillPoint extends StrictObject implements PositiveInteger, Entity
 {
 
     /**
      * @var integer|null
-     * @ORM\Id @ORM\Column(type="integer") @ORM\GeneratedValue(strategy="AUTO")
+     * @Doctrine\ORM\Mapping\Id @Doctrine\ORM\Mapping\Column(type="integer") @Doctrine\ORM\Mapping\GeneratedValue(strategy="AUTO")
      */
     private $id;
     /**
      * @var integer
-     * @ORM\Column(type="integer", length=1)
+     * @Doctrine\ORM\Mapping\Column(type="integer", length=1)
      */
     private $value;
     /**
      * @var ProfessionZeroLevel|null
-     * @ORM\ManyToOne(targetEntity="\DrdPlus\Person\ProfessionLevels\ProfessionZeroLevel", cascade={"persist"})
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="\DrdPlus\Person\ProfessionLevels\ProfessionZeroLevel", cascade={"persist"})
      */
     private $professionZeroLevel;
     /**
      * @var ProfessionFirstLevel|null
-     * @ORM\ManyToOne(targetEntity="\DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel", cascade={"persist"})
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="\DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel", cascade={"persist"})
      */
     private $professionFirstLevel;
     /**
      * @var ProfessionNextLevel|null
-     * @ORM\ManyToOne(targetEntity="\DrdPlus\Person\ProfessionLevels\ProfessionNextLevel", cascade={"persist"})
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="\DrdPlus\Person\ProfessionLevels\ProfessionNextLevel", cascade={"persist"})
      */
     private $professionNextLevel;
     /**
      * @var SkillPointsFromBackground|null
-     * @ORM\Column(type="skill_points_from_background", nullable=true)
+     * @Doctrine\ORM\Mapping\Column(type="skill_points_from_background", nullable=true)
      */
     private $skillsFromBackground;
     /**
      * @var SkillPoint|null
-     * @ORM\OneToOne(targetEntity="SkillPoint", cascade={"persist"})
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="SkillPoint", cascade={"persist"})
      */
     private $firstPaidOtherSkillPoint;
     /**
      * @var SkillPoint|null
-     * @ORM\OneToOne(targetEntity="SkillPoint", cascade={"persist"})
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="SkillPoint", cascade={"persist"})
      */
     private $secondPaidOtherSkillPoint;
 

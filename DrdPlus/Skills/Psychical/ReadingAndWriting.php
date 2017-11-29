@@ -2,15 +2,14 @@
 namespace DrdPlus\Skills\Psychical;
 
 use DrdPlus\Codes\Skills\PsychicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @link https://pph.drdplus.info/#cteni_a_psani
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class ReadingAndWriting extends PsychicalSkill
 {
-    const READING_AND_WRITING = PsychicalSkillCode::READING_AND_WRITING;
+    public const READING_AND_WRITING = PsychicalSkillCode::READING_AND_WRITING;
 
     /**
      * @return string

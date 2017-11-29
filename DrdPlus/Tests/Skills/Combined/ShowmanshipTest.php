@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Tests\Skills\Combined;
 
-use Drd\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
+use DrdPlus\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
 use DrdPlus\Properties\Base\Charisma;
 use DrdPlus\Skills\Combined\RollsOnQuality\ShowmanshipGameQuality;
 use DrdPlus\Skills\Combined\Showmanship;

@@ -4,15 +4,14 @@ namespace DrdPlus\Skills\Physical;
 use DrdPlus\Codes\Properties\PropertyCode;
 use DrdPlus\Codes\Skills\SkillTypeCode;
 use DrdPlus\Skills\SkillPoint;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class PhysicalSkillPoint extends SkillPoint
 {
 
-    const PHYSICAL = SkillTypeCode::PHYSICAL;
+    public const PHYSICAL = SkillTypeCode::PHYSICAL;
 
     /**
      * return @string

@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Tests\Skills\Combined;
 
-use Drd\DiceRolls\Templates\Rollers\Roller2d6DrdPlus;
+use DrdPlus\DiceRolls\Templates\Rollers\Roller2d6DrdPlus;
 use DrdPlus\Properties\Base\Agility;
 use DrdPlus\Skills\Combined\Dancing;
 use DrdPlus\Skills\Combined\RollsOnQuality\DanceQuality;

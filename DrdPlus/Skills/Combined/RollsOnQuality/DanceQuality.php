@@ -1,8 +1,8 @@
 <?php
 namespace DrdPlus\Skills\Combined\RollsOnQuality;
 
-use Drd\DiceRolls\Roll;
-use Drd\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
+use DrdPlus\DiceRolls\Roll;
+use DrdPlus\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
 use DrdPlus\Properties\Base\Agility;
 use DrdPlus\RollsOn\QualityAndSuccess\RollOnQuality;
 use DrdPlus\Skills\Combined\Dancing;

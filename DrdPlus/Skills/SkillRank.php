@@ -5,13 +5,12 @@ use Doctrineum\Entity\Entity;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use Granam\Integer\PositiveInteger;
 use Granam\Strict\Object\StrictObject;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
- * @ORM\InheritanceType(value="SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="rankType", type="string")
- * @ORM\DiscriminatorMap({
+ * @Doctrine\ORM\Mapping\Entity()
+ * @Doctrine\ORM\Mapping\InheritanceType(value="SINGLE_TABLE")
+ * @Doctrine\ORM\Mapping\DiscriminatorColumn(name="rankType", type="string")
+ * @Doctrine\ORM\Mapping\DiscriminatorMap({
  *     "combined" = "\DrdPlus\Skills\Combined\CombinedSkillRank",
  *     "physical" = "\DrdPlus\Skills\Physical\PhysicalSkillRank",
  *     "psychical" = "\DrdPlus\Skills\Psychical\PsychicalSkillRank"
@@ -22,12 +21,12 @@ abstract class SkillRank extends StrictObject implements PositiveInteger, Entity
 
     /**
      * @var integer
-     * @ORM\Column(type="integer") @ORM\Id @ORM\GeneratedValue()
+     * @Doctrine\ORM\Mapping\Column(type="integer") @Doctrine\ORM\Mapping\Id @Doctrine\ORM\Mapping\GeneratedValue()
      */
     private $id;
     /**
      * @var integer
-     * @ORM\Column(type="integer")
+     * @Doctrine\ORM\Mapping\Column(type="integer")
      */
     private $value;
 
@@ -62,8 +61,8 @@ abstract class SkillRank extends StrictObject implements PositiveInteger, Entity
         $this->value = $requiredRankValue->getValue();
     }
 
-    const MIN_RANK_VALUE = 0; // heard about it
-    const MAX_RANK_VALUE = 3; // great knowledge
+    public const MIN_RANK_VALUE = 0; // heard about it
+    public const MAX_RANK_VALUE = 3; // great knowledge
 
     /**
      * @param PositiveInteger $requiredRankValue

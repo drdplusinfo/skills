@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Combined;
 
 use DrdPlus\Codes\Skills\CombinedSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonus;
 
 /**
  * @link https://pph.drdplus.info/#zachazeni_se_zviraty
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class HandlingWithAnimals extends CombinedSkill implements WithBonus
 {
-    const HANDLING_WITH_ANIMALS = CombinedSkillCode::HANDLING_WITH_ANIMALS;
+    public const HANDLING_WITH_ANIMALS = CombinedSkillCode::HANDLING_WITH_ANIMALS;
 
     /**
      * @return string

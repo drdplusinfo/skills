@@ -5,7 +5,7 @@ use DrdPlus\Skills\Combined\RollsOnQuality\HandworkQuality;
 
 class HandworkSimpleRollOnGreatSuccess extends HandworkSimpleRollOnSuccess
 {
-    const BRAVURA = 'bravura';
+    public const BRAVURA = 'bravura';
 
     /**
      * @param HandworkQuality $handworkQuality

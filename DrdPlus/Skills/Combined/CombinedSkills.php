@@ -6,119 +6,118 @@ use DrdPlus\Codes\Skills\SkillTypeCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Skills\SameTypeSkills;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Tables\Tables;
 
 /**
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class CombinedSkills extends SameTypeSkills
 {
-    const COMBINED = SkillTypeCode::COMBINED;
+    public const COMBINED = SkillTypeCode::COMBINED;
 
     /**
      * @var BigHandwork
-     * @ORM\OneToOne(targetEntity="BigHandwork", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="BigHandwork", cascade={"persist"}, orphanRemoval=true)
      */
     private $bigHandwork;
     /**
      * @var Cooking
-     * @ORM\OneToOne(targetEntity="Cooking", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Cooking", cascade={"persist"}, orphanRemoval=true)
      */
     private $cooking;
     /**
      * @var Dancing
-     * @ORM\OneToOne(targetEntity="Dancing", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Dancing", cascade={"persist"}, orphanRemoval=true)
      */
     private $dancing;
     /**
      * @var DuskSight
-     * @ORM\OneToOne(targetEntity="DuskSight", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="DuskSight", cascade={"persist"}, orphanRemoval=true)
      */
     private $duskSight;
     /**
      * @var FightWithBows
-     * @ORM\OneToOne(targetEntity="FightWithBows", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithBows", cascade={"persist"}, orphanRemoval=true)
      */
     private $fightWithBows;
     /**
      * @var FightWithCrossbows
-     * @ORM\OneToOne(targetEntity="FightWithCrossbows", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithCrossbows", cascade={"persist"}, orphanRemoval=true)
      */
     private $fightWithCrossbows;
     /**
      * @var FirstAid
-     * @ORM\OneToOne(targetEntity="FirstAid", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FirstAid", cascade={"persist"}, orphanRemoval=true)
      */
     private $firstAid;
     /**
      * @var HandlingWithAnimals
-     * @ORM\OneToOne(targetEntity="HandlingWithAnimals", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="HandlingWithAnimals", cascade={"persist"}, orphanRemoval=true)
      */
     private $handlingWithAnimals;
     /**
      * @var Handwork
-     * @ORM\OneToOne(targetEntity="Handwork", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Handwork", cascade={"persist"}, orphanRemoval=true)
      */
     private $handwork;
     /**
      * @var Gambling
-     * @ORM\OneToOne(targetEntity="Gambling", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Gambling", cascade={"persist"}, orphanRemoval=true)
      */
     private $gambling;
     /**
      * @var Herbalism
-     * @ORM\OneToOne(targetEntity="Herbalism", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Herbalism", cascade={"persist"}, orphanRemoval=true)
      */
     private $herbalism;
     /**
      * @var HuntingAndFishing
-     * @ORM\OneToOne(targetEntity="HuntingAndFishing", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="HuntingAndFishing", cascade={"persist"}, orphanRemoval=true)
      */
     private $huntingAndFishing;
     /**
      * @var Knotting
-     * @ORM\OneToOne(targetEntity="Knotting", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Knotting", cascade={"persist"}, orphanRemoval=true)
      */
     private $knotting;
     /**
      * @var Painting
-     * @ORM\OneToOne(targetEntity="Painting", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Painting", cascade={"persist"}, orphanRemoval=true)
      */
     private $painting;
     /**
      * @var Pedagogy
-     * @ORM\OneToOne(targetEntity="Pedagogy", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Pedagogy", cascade={"persist"}, orphanRemoval=true)
      */
     private $pedagogy;
     /**
      * @var PlayingOnMusicInstrument
-     * @ORM\OneToOne(targetEntity="PlayingOnMusicInstrument", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="PlayingOnMusicInstrument", cascade={"persist"}, orphanRemoval=true)
      */
     private $playingOnMusicInstrument;
     /**
      * @var Seduction
-     * @ORM\OneToOne(targetEntity="Seduction", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Seduction", cascade={"persist"}, orphanRemoval=true)
      */
     private $seduction;
     /**
      * @var Showmanship
-     * @ORM\OneToOne(targetEntity="Showmanship", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Showmanship", cascade={"persist"}, orphanRemoval=true)
      */
     private $showmanship;
     /**
      * @var Singing
-     * @ORM\OneToOne(targetEntity="Singing", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Singing", cascade={"persist"}, orphanRemoval=true)
      */
     private $singing;
     /**
      * @var Statuary
-     * @ORM\OneToOne(targetEntity="Statuary", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Statuary", cascade={"persist"}, orphanRemoval=true)
      */
     private $statuary;
     /**
      * @var Teaching
-     * @ORM\OneToOne(targetEntity="Teaching", cascade={"persist"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Teaching", cascade={"persist"}, orphanRemoval=true)
      */
     private $teaching;
 

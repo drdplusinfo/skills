@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Psychical;
 
 use DrdPlus\Codes\Skills\PsychicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToIntelligence;
 
 /**
  * @link https://pph.drdplus.info/#bajeslovi
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Mythology extends PsychicalSkill implements WithBonusToIntelligence
 {
-    const MYTHOLOGY = PsychicalSkillCode::MYTHOLOGY;
+    public const MYTHOLOGY = PsychicalSkillCode::MYTHOLOGY;
 
     /**
      * @return string

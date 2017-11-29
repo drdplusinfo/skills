@@ -1,18 +1,17 @@
 <?php
 namespace DrdPlus\Skills\Psychical;
 
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Codes\Properties\PropertyCode;
 use DrdPlus\Codes\Skills\SkillTypeCode;
 use DrdPlus\Skills\SkillPoint;
 
 /**
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class PsychicalSkillPoint extends SkillPoint
 {
 
-    const PSYCHICAL = SkillTypeCode::PSYCHICAL;
+    public const PSYCHICAL = SkillTypeCode::PSYCHICAL;
 
     /**
      * return @string

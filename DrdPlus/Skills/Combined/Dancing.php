@@ -1,20 +1,19 @@
 <?php
 namespace DrdPlus\Skills\Combined;
 
-use Drd\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
+use DrdPlus\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
 use DrdPlus\Codes\Skills\CombinedSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Properties\Base\Agility;
 use DrdPlus\Skills\Combined\RollsOnQuality\DanceQuality;
 use DrdPlus\Skills\WithBonus;
 
 /**
  * @link https://pph.drdplus.info/#tanec
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Dancing extends CombinedSkill implements WithBonus
 {
-    const DANCING = CombinedSkillCode::DANCING;
+    public const DANCING = CombinedSkillCode::DANCING;
 
     /**
      * @return string

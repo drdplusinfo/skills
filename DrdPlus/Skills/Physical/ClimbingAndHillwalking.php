@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Physical;
 
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonus;
 
 /**
  * @link https://pph.drdplus.info/#splh_a_lezeni
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class ClimbingAndHillwalking extends PhysicalSkill implements WithBonus
 {
-    const CLIMBING_AND_HILLWALKING = PhysicalSkillCode::CLIMBING_AND_HILLWALKING;
+    public const CLIMBING_AND_HILLWALKING = PhysicalSkillCode::CLIMBING_AND_HILLWALKING;
 
     /**
      * @return string

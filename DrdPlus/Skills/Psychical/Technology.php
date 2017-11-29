@@ -2,17 +2,16 @@
 namespace DrdPlus\Skills\Psychical;
 
 use DrdPlus\Codes\Skills\PsychicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToIntelligence;
 use DrdPlus\Skills\WithBonusToSenses;
 
 /**
  * @link https://pph.drdplus.info/#technologie
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Technology extends PsychicalSkill implements WithBonusToIntelligence, WithBonusToSenses
 {
-    const TECHNOLOGY = PsychicalSkillCode::TECHNOLOGY;
+    public const TECHNOLOGY = PsychicalSkillCode::TECHNOLOGY;
 
     /**
      * @return string

@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Combined;
 
 use DrdPlus\Codes\Skills\CombinedSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToCharisma;
 
 /**
  * @link https://pph.drdplus.info/#hazardni_hry
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Gambling extends CombinedSkill implements WithBonusToCharisma
 {
-    const GAMBLING = CombinedSkillCode::GAMBLING;
+    public const GAMBLING = CombinedSkillCode::GAMBLING;
 
     /**
      * @return string

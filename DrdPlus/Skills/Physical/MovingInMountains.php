@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Physical;
 
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToMovementSpeed;
 
 /**
  * @link https://pph.drdplus.info/#pohyb_v_horach
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class MovingInMountains extends PhysicalSkill implements WithBonusToMovementSpeed
 {
-    const MOVING_IN_MOUNTAINS = PhysicalSkillCode::MOVING_IN_MOUNTAINS;
+    public const MOVING_IN_MOUNTAINS = PhysicalSkillCode::MOVING_IN_MOUNTAINS;
 
     /**
      * @return string

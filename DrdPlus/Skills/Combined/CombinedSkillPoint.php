@@ -4,15 +4,14 @@ namespace DrdPlus\Skills\Combined;
 use DrdPlus\Codes\Properties\PropertyCode;
 use DrdPlus\Codes\Skills\SkillTypeCode;
 use DrdPlus\Skills\SkillPoint;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class CombinedSkillPoint extends SkillPoint
 {
 
-    const COMBINED = SkillTypeCode::COMBINED;
+    public const COMBINED = SkillTypeCode::COMBINED;
 
     /**
      * return @string

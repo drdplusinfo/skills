@@ -1,8 +1,7 @@
 <?php
 namespace DrdPlus\Skills\Physical;
 
-use Doctrine\ORM\Mapping as ORM;
-use Drd\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
+use DrdPlus\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
 use DrdPlus\Properties\Base\Knack;
 use DrdPlus\Skills\Physical\RollsOnQuality\BlacksmithingQuality;
@@ -11,11 +10,11 @@ use DrdPlus\Skills\WithBonusToKnack;
 
 /**
  * @link https://pph.drdplus.info/#kovarstvi
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Blacksmithing extends PhysicalSkill implements WithBonusToKnack
 {
-    const BLACKSMITHING = PhysicalSkillCode::BLACKSMITHING;
+    public const BLACKSMITHING = PhysicalSkillCode::BLACKSMITHING;
 
     /**
      * @return string

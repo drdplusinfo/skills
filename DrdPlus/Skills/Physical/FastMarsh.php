@@ -1,17 +1,16 @@
 <?php
 namespace DrdPlus\Skills\Physical;
 
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
 use DrdPlus\Skills\WithBonusToMovementSpeed;
 
 /**
  * @link https://pph.drdplus.info/#rychly_pochod
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class FastMarsh extends PhysicalSkill implements WithBonusToMovementSpeed
 {
-    const FAST_MARSH = PhysicalSkillCode::FAST_MARSH;
+    public const FAST_MARSH = PhysicalSkillCode::FAST_MARSH;
 
     /**
      * @return string

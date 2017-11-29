@@ -1,10 +1,9 @@
 <?php
 namespace DrdPlus\Skills\Psychical;
 
-use Drd\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
+use DrdPlus\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
 use DrdPlus\Calculations\SumAndRound;
 use DrdPlus\Codes\Skills\PsychicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Properties\Base\Intelligence;
 use DrdPlus\Properties\Base\Knack;
 use DrdPlus\Skills\Psychical\RollsOn\MapQuality;
@@ -13,11 +12,11 @@ use DrdPlus\Skills\WithBonus;
 
 /**
  * @link https://pph.drdplus.info/#kresleni_map
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class MapsDrawing extends PsychicalSkill implements WithBonus
 {
-    const MAPS_DRAWING = PsychicalSkillCode::MAPS_DRAWING;
+    public const MAPS_DRAWING = PsychicalSkillCode::MAPS_DRAWING;
 
     /**
      * @return string

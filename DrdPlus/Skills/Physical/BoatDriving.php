@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Physical;
 
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToMovementSpeed;
 
 /**
  * @link https://pph.drdplus.info/#ovladani_lodky
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class BoatDriving extends PhysicalSkill implements WithBonusToMovementSpeed
 {
-    const BOAT_DRIVING = PhysicalSkillCode::BOAT_DRIVING;
+    public const BOAT_DRIVING = PhysicalSkillCode::BOAT_DRIVING;
 
     /**
      * @return string

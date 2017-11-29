@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Combined;
 
 use DrdPlus\Codes\Skills\CombinedSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToCharisma;
 
 /**
  * @link https://pph.drdplus.info/#vychovatelstvi
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Pedagogy extends CombinedSkill implements WithBonusToCharisma
 {
-    const PEDAGOGY = CombinedSkillCode::PEDAGOGY;
+    public const PEDAGOGY = CombinedSkillCode::PEDAGOGY;
 
     /**
      * @return string

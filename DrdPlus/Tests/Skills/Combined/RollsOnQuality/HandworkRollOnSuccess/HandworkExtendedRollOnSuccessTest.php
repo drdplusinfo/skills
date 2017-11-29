@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Tests\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess;
 
-use Drd\DiceRolls\Templates\Rollers\Roller2d6DrdPlus;
+use DrdPlus\DiceRolls\Templates\Rollers\Roller2d6DrdPlus;
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Properties\Base\Knack;
 use DrdPlus\RollsOn\QualityAndSuccess\ExtendedRollOnSuccess;

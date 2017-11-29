@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Psychical;
 
 use DrdPlus\Codes\Skills\PsychicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToIntelligence;
 
 /**
  * @link https://pph.drdplus.info/#zoologie
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Zoology extends PsychicalSkill implements WithBonusToIntelligence
 {
-    const ZOOLOGY = PsychicalSkillCode::ZOOLOGY;
+    public const ZOOLOGY = PsychicalSkillCode::ZOOLOGY;
 
     /**
      * @return string

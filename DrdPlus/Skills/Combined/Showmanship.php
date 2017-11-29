@@ -1,20 +1,19 @@
 <?php
 namespace DrdPlus\Skills\Combined;
 
-use Drd\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
+use DrdPlus\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
 use DrdPlus\Codes\Skills\CombinedSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Properties\Base\Charisma;
 use DrdPlus\Skills\Combined\RollsOnQuality\ShowmanshipGameQuality;
 use DrdPlus\Skills\WithBonus;
 
 /**
  * @link https://pph.drdplus.info/#herectvi
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Showmanship extends CombinedSkill implements WithBonus
 {
-    const SHOWMANSHIP = CombinedSkillCode::SHOWMANSHIP;
+    public const SHOWMANSHIP = CombinedSkillCode::SHOWMANSHIP;
 
     /**
      * @return string

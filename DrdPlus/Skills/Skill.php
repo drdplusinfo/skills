@@ -5,18 +5,17 @@ use Doctrine\Common\Collections\Collection;
 use Doctrineum\Entity\Entity;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use Granam\Strict\Object\StrictObject;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\MappedSuperclass()
+ * @Doctrine\ORM\Mapping\MappedSuperclass()
  */
 abstract class Skill extends StrictObject implements Entity
 {
     /**
      * @var int
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @Doctrine\ORM\Mapping\Id
+     * @Doctrine\ORM\Mapping\Column(type="integer")
+     * @Doctrine\ORM\Mapping\GeneratedValue(strategy="AUTO")
      */
     private $id;
 

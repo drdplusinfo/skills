@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Tests\Skills\Psychical;
 
-use Drd\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
+use DrdPlus\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
 use DrdPlus\Properties\Base\Intelligence;
 use DrdPlus\Properties\Base\Knack;
 use DrdPlus\Skills\Psychical\MapsDrawing;

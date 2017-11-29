@@ -1,15 +1,14 @@
 <?php
 namespace DrdPlus\Skills\Physical;
 
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @link https://pph.drdplus.info/#boj_se_zbrani
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class FightWithVoulgesAndTridents extends FightWithWeaponsUsingPhysicalSkill
 {
-    const FIGHT_WITH_VOULGES_AND_TRIDENTS = 'fight_with_voulges_and_tridents';
+    public const FIGHT_WITH_VOULGES_AND_TRIDENTS = 'fight_with_voulges_and_tridents';
 
     /**
      * @return string

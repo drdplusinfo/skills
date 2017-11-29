@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Physical;
 
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonus;
 
 /**
  * @link https://pph.drdplus.info/#letectvi
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Flying extends PhysicalSkill implements WithBonus
 {
-    const FLYING = PhysicalSkillCode::FLYING;
+    public const FLYING = PhysicalSkillCode::FLYING;
 
     /**
      * @return string

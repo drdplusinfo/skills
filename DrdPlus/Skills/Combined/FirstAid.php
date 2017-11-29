@@ -2,15 +2,14 @@
 namespace DrdPlus\Skills\Combined;
 
 use DrdPlus\Codes\Skills\CombinedSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @link https://pph.drdplus.info/#prvni_pomoc
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class FirstAid extends CombinedSkill
 {
-    const FIRST_AID = CombinedSkillCode::FIRST_AID;
+    public const FIRST_AID = CombinedSkillCode::FIRST_AID;
 
     /**
      * @return string

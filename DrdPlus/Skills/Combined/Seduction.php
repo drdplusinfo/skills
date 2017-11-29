@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Combined;
 
 use DrdPlus\Codes\Skills\CombinedSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToCharisma;
 
 /**
  * @link https://pph.drdplus.info/#svadeni
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Seduction extends CombinedSkill implements WithBonusToCharisma
 {
-    const SEDUCTION = CombinedSkillCode::SEDUCTION;
+    public const SEDUCTION = CombinedSkillCode::SEDUCTION;
 
     /**
      * @return string

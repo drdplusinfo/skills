@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Physical;
 
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToMovementSpeed;
 
 /**
  * @link https://pph.drdplus.info/#pohyb_v_lese
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class ForestMoving extends PhysicalSkill implements WithBonusToMovementSpeed
 {
-    const FOREST_MOVING = PhysicalSkillCode::FOREST_MOVING;
+    public const FOREST_MOVING = PhysicalSkillCode::FOREST_MOVING;
 
     /**
      * @return string

@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Combined;
 
 use DrdPlus\Codes\Skills\CombinedSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonus;
 
 /**
  * @link https://pph.drdplus.info/#vyucovani
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Teaching extends CombinedSkill implements WithBonus
 {
-    const TEACHING = CombinedSkillCode::TEACHING;
+    public const TEACHING = CombinedSkillCode::TEACHING;
 
     /**
      * @return string

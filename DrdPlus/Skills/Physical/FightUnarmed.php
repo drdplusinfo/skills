@@ -1,15 +1,14 @@
 <?php
 namespace DrdPlus\Skills\Physical;
 
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @link https://pph.drdplus.info/#boj_se_zbrani
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class FightUnarmed extends FightWithWeaponsUsingPhysicalSkill
 {
-    const FIGHT_UNARMED = 'fight_unarmed';
+    public const FIGHT_UNARMED = 'fight_unarmed';
 
     /**
      * @return string

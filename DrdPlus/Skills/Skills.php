@@ -1,7 +1,6 @@
 <?php
 namespace DrdPlus\Skills;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrineum\Entity\Entity;
 use DrdPlus\Codes\Armaments\ProtectiveArmamentCode;
 use DrdPlus\Codes\Armaments\WeaponCode;
@@ -24,37 +23,37 @@ use DrdPlus\Tables\Tables;
 use Granam\Strict\Object\StrictObject;
 
 /**
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Skills extends StrictObject implements \IteratorAggregate, \Countable, Entity
 {
-    const PHYSICAL = PhysicalSkills::PHYSICAL;
-    const PSYCHICAL = PsychicalSkills::PSYCHICAL;
-    const COMBINED = CombinedSkills::COMBINED;
+    public const PHYSICAL = PhysicalSkills::PHYSICAL;
+    public const PSYCHICAL = PsychicalSkills::PSYCHICAL;
+    public const COMBINED = CombinedSkills::COMBINED;
 
     /**
      * @var integer|null
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue()
+     * @Doctrine\ORM\Mapping\Column(type="integer")
+     * @Doctrine\ORM\Mapping\Id
+     * @Doctrine\ORM\Mapping\GeneratedValue()
      */
     private $id;
 
     /**
      * @var PhysicalSkills
-     * @ORM\OneToOne(targetEntity="DrdPlus\Skills\Physical\PhysicalSkills", cascade={"persist"})
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="DrdPlus\Skills\Physical\PhysicalSkills", cascade={"persist"})
      */
     private $physicalSkills;
 
     /**
      * @var PsychicalSkills
-     * @ORM\OneToOne(targetEntity="DrdPlus\Skills\Psychical\PsychicalSkills", cascade={"persist"})
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="DrdPlus\Skills\Psychical\PsychicalSkills", cascade={"persist"})
      */
     private $psychicalSkills;
 
     /**
      * @var CombinedSkills
-     * @ORM\OneToOne(targetEntity="DrdPlus\Skills\Combined\CombinedSkills", cascade={"persist"})
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="DrdPlus\Skills\Combined\CombinedSkills", cascade={"persist"})
      */
     private $combinedSkills;
 
@@ -381,7 +380,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         }
     }
 
-    const PROPERTY_TO_SKILL_POINT_MULTIPLIER = 1; // each point of property gives one skill point
+    public const PROPERTY_TO_SKILL_POINT_MULTIPLIER = 1; // each point of property gives one skill point
 
     /**
      * @param int $propertyIncrease
@@ -392,7 +391,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         return self::PROPERTY_TO_SKILL_POINT_MULTIPLIER * $propertyIncrease;
     }
 
-    const MAX_SKILL_RANK_INCREASE_PER_NEXT_LEVEL = 1;
+    public const MAX_SKILL_RANK_INCREASE_PER_NEXT_LEVEL = 1;
 
     /**
      * @param PhysicalSkills $physicalSkills

@@ -1,20 +1,19 @@
 <?php
 namespace DrdPlus\Skills\Combined;
 
-use Drd\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
+use DrdPlus\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
 use DrdPlus\Codes\Skills\CombinedSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Properties\Base\Knack;
 use DrdPlus\Skills\Combined\RollsOnQuality\SingingQuality;
 use DrdPlus\Skills\WithBonus;
 
 /**
  * @link https://pph.drdplus.info/#zpev
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Singing extends CombinedSkill implements WithBonus
 {
-    const SINGING = CombinedSkillCode::SINGING;
+    public const SINGING = CombinedSkillCode::SINGING;
 
     /**
      * @return string

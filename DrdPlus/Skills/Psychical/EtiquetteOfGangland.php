@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Psychical;
 
 use DrdPlus\Codes\Skills\PsychicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToCharisma;
 
 /**
  * @link https://pph.drdplus.info/#etiketa_podsveti
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class EtiquetteOfGangland extends PsychicalSkill implements WithBonusToCharisma
 {
-    const ETIQUETTE_OF_GANGLAND = PsychicalSkillCode::ETIQUETTE_OF_GANGLAND;
+    public const ETIQUETTE_OF_GANGLAND = PsychicalSkillCode::ETIQUETTE_OF_GANGLAND;
 
     /**
      * @return string

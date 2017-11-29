@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Tests\Skills\Combined;
 
-use Drd\DiceRolls\Templates\Rollers\Roller2d6DrdPlus;
+use DrdPlus\DiceRolls\Templates\Rollers\Roller2d6DrdPlus;
 use DrdPlus\HuntingAndFishing\CatchProcessingQuality;
 use DrdPlus\Properties\Base\Knack;
 use DrdPlus\Skills\Combined\Cooking;

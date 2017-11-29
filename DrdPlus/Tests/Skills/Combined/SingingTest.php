@@ -1,7 +1,7 @@
 <?php
 namespace DrdPlus\Tests\Skills\Combined;
 
-use Drd\DiceRolls\Templates\Rollers\Roller2d6DrdPlus;
+use DrdPlus\DiceRolls\Templates\Rollers\Roller2d6DrdPlus;
 use DrdPlus\Properties\Base\Knack;
 use DrdPlus\Skills\Combined\RollsOnQuality\SingingQuality;
 use DrdPlus\Skills\Combined\Singing;

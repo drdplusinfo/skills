@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Psychical;
 
 use DrdPlus\Codes\Skills\PsychicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonus;
 
 /**
  * @link https://pph.drdplus.info/#znalost_sveta
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class KnowledgeOfWorld extends PsychicalSkill implements WithBonus
 {
-    const KNOWLEDGE_OF_WORLD = PsychicalSkillCode::KNOWLEDGE_OF_WORLD;
+    public const KNOWLEDGE_OF_WORLD = PsychicalSkillCode::KNOWLEDGE_OF_WORLD;
 
     /**
      * @return string

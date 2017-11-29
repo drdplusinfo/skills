@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Combined;
 
 use DrdPlus\Codes\Skills\CombinedSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Lighting\Partials\WithInsufficientLightingBonus;
 
 /**
  * @link https://pph.drdplus.info/#serozrakost
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class DuskSight extends CombinedSkill implements WithInsufficientLightingBonus
 {
-    const DUSK_SIGHT = CombinedSkillCode::DUSK_SIGHT;
+    public const DUSK_SIGHT = CombinedSkillCode::DUSK_SIGHT;
 
     /**
      * @return string

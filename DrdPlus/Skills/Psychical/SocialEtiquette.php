@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Psychical;
 
 use DrdPlus\Codes\Skills\PsychicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToCharisma;
 
 /**
  * @link https://pph.drdplus.info/#spolecenska_etiketa
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class SocialEtiquette extends PsychicalSkill implements WithBonusToCharisma
 {
-    const SOCIAL_ETIQUETTE = PsychicalSkillCode::SOCIAL_ETIQUETTE;
+    public const SOCIAL_ETIQUETTE = PsychicalSkillCode::SOCIAL_ETIQUETTE;
 
     /**
      * @return string

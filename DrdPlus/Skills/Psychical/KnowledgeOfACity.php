@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Psychical;
 
 use DrdPlus\Codes\Skills\PsychicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToIntelligence;
 
 /**
  * @link https://pph.drdplus.info/#znalost_mesta
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class KnowledgeOfACity extends PsychicalSkill implements WithBonusToIntelligence
 {
-    const KNOWLEDGE_OF_A_CITY = PsychicalSkillCode::KNOWLEDGE_OF_A_CITY;
+    public const KNOWLEDGE_OF_A_CITY = PsychicalSkillCode::KNOWLEDGE_OF_A_CITY;
 
     /**
      * @return string

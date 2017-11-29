@@ -2,16 +2,15 @@
 namespace DrdPlus\Skills\Psychical;
 
 use DrdPlus\Codes\Skills\PsychicalSkillCode;
-use Doctrine\ORM\Mapping as ORM;
 use DrdPlus\Skills\WithBonusToIntelligence;
 
 /**
  * @link https://pph.drdplus.info/#dejeprava
- * @ORM\Entity()
+ * @Doctrine\ORM\Mapping\Entity()
  */
 class Historiography extends PsychicalSkill implements WithBonusToIntelligence
 {
-    const HISTORIOGRAPHY = PsychicalSkillCode::HISTORIOGRAPHY;
+    public const HISTORIOGRAPHY = PsychicalSkillCode::HISTORIOGRAPHY;
 
     /**
      * @return string
