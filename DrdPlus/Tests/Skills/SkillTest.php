@@ -213,12 +213,16 @@ abstract class SkillTest extends TestWithMockery
         return strtolower($underscoredSingleLetters);
     }
 
-    protected function I_can_get_its_name(Skill $skill)
+    /**
+     * @param Skill $skill
+     * @throws \ReflectionException
+     */
+    protected function I_can_get_its_name(Skill $skill): void
     {
-        $expectedSkillName = $this->getExpectedSkillName(get_class($skill));
+        $expectedSkillName = $this->getExpectedSkillName(\get_class($skill));
         self::assertSame($expectedSkillName, $skill->getName());
         $constantName = $this->getConstantName($expectedSkillName);
-        self::assertTrue(defined(get_class($skill) . '::' . $constantName));
+        self::assertTrue(\defined(\get_class($skill) . '::' . $constantName), 'Constant ' . \get_class($skill) . '::' . $constantName . ' should be defined');
         $reflection = new \ReflectionClass($skill);
         self::assertSame($expectedSkillName, $reflection->getConstant($constantName));
     }

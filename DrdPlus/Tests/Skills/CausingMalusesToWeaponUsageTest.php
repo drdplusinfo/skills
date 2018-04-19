@@ -9,8 +9,9 @@ abstract class CausingMalusesToWeaponUsageTest extends SkillTest
 {
     /**
      * @test
+     * @throws \ReflectionException
      */
-    public function I_can_get_malus_to_fight_number()
+    public function I_can_get_malus_to_fight_number(): void
     {
         $sutClasses = self::getSutClasses();
         foreach ($sutClasses as $sutClass) {
@@ -28,16 +29,17 @@ abstract class CausingMalusesToWeaponUsageTest extends SkillTest
 
     /**
      * @return string[]
+     * @throws \ReflectionException
      */
     protected static function getSutClasses(): array
     {
         $reflection = new \ReflectionClass(self::getSutClass());
         $sutClasses = [];
-        foreach (new \DirectoryIterator(dirname($reflection->getFileName())) as $file) {
+        foreach (new \DirectoryIterator(\dirname($reflection->getFileName())) as $file) {
             if ($file->isFile()) {
                 $baseName = $file->getBasename('.php');
                 $foundClass = $reflection->getNamespaceName() . '\\' . $baseName;
-                if (is_subclass_of($foundClass, self::getSutClass(), true)) {
+                if (\is_subclass_of($foundClass, self::getSutClass(), true)) {
                     $sutClasses[] = $foundClass;
                 }
             }
@@ -48,8 +50,9 @@ abstract class CausingMalusesToWeaponUsageTest extends SkillTest
 
     /**
      * @test
+     * @throws \ReflectionException
      */
-    public function I_can_get_malus_to_attack_number()
+    public function I_can_get_malus_to_attack_number(): void
     {
         $sutClasses = self::getSutClasses();
         foreach ($sutClasses as $sutClass) {
@@ -67,8 +70,9 @@ abstract class CausingMalusesToWeaponUsageTest extends SkillTest
 
     /**
      * @test
+     * @throws \ReflectionException
      */
-    public function I_can_get_malus_to_cover()
+    public function I_can_get_malus_to_cover(): void
     {
         $sutClasses = self::getSutClasses();
         foreach ($sutClasses as $sutClass) {
@@ -86,8 +90,9 @@ abstract class CausingMalusesToWeaponUsageTest extends SkillTest
 
     /**
      * @test
+     * @throws \ReflectionException
      */
-    public function I_can_get_malus_to_base_of_wounds()
+    public function I_can_get_malus_to_base_of_wounds(): void
     {
         $sutClasses = self::getSutClasses();
         foreach ($sutClasses as $sutClass) {

@@ -72,10 +72,10 @@ class PhysicalSkills extends SameTypeSkills
      */
     private $fightWithAxes;
     /**
-     * @var FightWithKnifesAndDaggers
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithKnifesAndDaggers", cascade={"persist"}, orphanRemoval=true)
+     * @var FightWithKnivesAndDaggers
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithKnivesAndDaggers", cascade={"persist"}, orphanRemoval=true)
      */
-    private $fightWithKnifesAndDaggers;
+    private $fightWithKnivesAndDaggers;
     /**
      * @var FightWithMacesAndClubs
      * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithMacesAndClubs", cascade={"persist"}, orphanRemoval=true)
@@ -87,10 +87,10 @@ class PhysicalSkills extends SameTypeSkills
      */
     private $fightWithMorningstarsAndMorgensterns;
     /**
-     * @var FightWithSabersAndBowieKnifes
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithSabersAndBowieKnifes", cascade={"persist"}, orphanRemoval=true)
+     * @var FightWithSabersAndBowieKnives
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithSabersAndBowieKnives", cascade={"persist"}, orphanRemoval=true)
      */
-    private $fightWithSabersAndBowieKnifes;
+    private $fightWithSabersAndBowieKnives;
     /**
      * @var FightWithStaffsAndSpears
      * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithStaffsAndSpears", cascade={"persist"}, orphanRemoval=true)
@@ -172,10 +172,10 @@ class PhysicalSkills extends SameTypeSkills
         $this->fastMarsh = new FastMarsh($professionLevel);
         $this->fightUnarmed = new FightUnarmed($professionLevel);
         $this->fightWithAxes = new FightWithAxes($professionLevel);
-        $this->fightWithKnifesAndDaggers = new FightWithKnifesAndDaggers($professionLevel);
+        $this->fightWithKnivesAndDaggers = new FightWithKnivesAndDaggers($professionLevel);
         $this->fightWithMacesAndClubs = new FightWithMacesAndClubs($professionLevel);
         $this->fightWithMorningstarsAndMorgensterns = new FightWithMorningstarsAndMorgensterns($professionLevel);
-        $this->fightWithSabersAndBowieKnifes = new FightWithSabersAndBowieKnifes($professionLevel);
+        $this->fightWithSabersAndBowieKnives = new FightWithSabersAndBowieKnives($professionLevel);
         $this->fightWithStaffsAndSpears = new FightWithStaffsAndSpears($professionLevel);
         $this->fightWithShields = new FightWithShields($professionLevel);
         $this->fightWithSwords = new FightWithSwords($professionLevel);
@@ -235,10 +235,10 @@ class PhysicalSkills extends SameTypeSkills
             $this->getFastMarsh(),
             $this->getFightUnarmed(),
             $this->getFightWithAxes(),
-            $this->getFightWithKnifesAndDaggers(),
+            $this->getFightWithKnivesAndDaggers(),
             $this->getFightWithMacesAndClubs(),
             $this->getFightWithMorningstarsAndMorgensterns(),
-            $this->getFightWithSabersAndBowieKnifes(),
+            $this->getFightWithSabersAndBowieKnives(),
             $this->getFightWithStaffsAndSpears(),
             $this->getFightWithShields(),
             $this->getFightWithSwords(),
@@ -336,11 +336,11 @@ class PhysicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return FightWithKnifesAndDaggers
+     * @return FightWithKnivesAndDaggers
      */
-    public function getFightWithKnifesAndDaggers(): FightWithKnifesAndDaggers
+    public function getFightWithKnivesAndDaggers(): FightWithKnivesAndDaggers
     {
-        return $this->fightWithKnifesAndDaggers;
+        return $this->fightWithKnivesAndDaggers;
     }
 
     /**
@@ -360,11 +360,11 @@ class PhysicalSkills extends SameTypeSkills
     }
 
     /**
-     * @return FightWithSabersAndBowieKnifes
+     * @return FightWithSabersAndBowieKnives
      */
-    public function getFightWithSabersAndBowieKnifes(): FightWithSabersAndBowieKnifes
+    public function getFightWithSabersAndBowieKnives(): FightWithSabersAndBowieKnives
     {
-        return $this->fightWithSabersAndBowieKnifes;
+        return $this->fightWithSabersAndBowieKnives;
     }
 
     /**
@@ -425,10 +425,10 @@ class PhysicalSkills extends SameTypeSkills
         return [
             $this->getFightUnarmed(),
             $this->getFightWithAxes(),
-            $this->getFightWithKnifesAndDaggers(),
+            $this->getFightWithKnivesAndDaggers(),
             $this->getFightWithMacesAndClubs(),
             $this->getFightWithMorningstarsAndMorgensterns(),
-            $this->getFightWithSabersAndBowieKnifes(),
+            $this->getFightWithSabersAndBowieKnives(),
             $this->getFightWithStaffsAndSpears(),
             $this->getFightWithSwords(),
             $this->getFightWithThrowingWeapons(),
@@ -547,7 +547,7 @@ class PhysicalSkills extends SameTypeSkills
                 $rankValues[] = $this->getFightWithAxes()->getCurrentSkillRank()->getValue();
             }
             if ($weaponlikeCode->isKnifeOrDagger()) {
-                $rankValues[] = $this->getFightWithKnifesAndDaggers()->getCurrentSkillRank()->getValue();
+                $rankValues[] = $this->getFightWithKnivesAndDaggers()->getCurrentSkillRank()->getValue();
             }
             if ($weaponlikeCode->isMaceOrClub()) {
                 $rankValues[] = $this->getFightWithMacesAndClubs()->getCurrentSkillRank()->getValue();
@@ -556,7 +556,7 @@ class PhysicalSkills extends SameTypeSkills
                 $rankValues[] = $this->getFightWithMorningstarsAndMorgensterns()->getCurrentSkillRank()->getValue();
             }
             if ($weaponlikeCode->isSaberOrBowieKnife()) {
-                $rankValues[] = $this->getFightWithSabersAndBowieKnifes()->getCurrentSkillRank()->getValue();
+                $rankValues[] = $this->getFightWithSabersAndBowieKnives()->getCurrentSkillRank()->getValue();
             }
             if ($weaponlikeCode->isStaffOrSpear()) {
                 $rankValues[] = $this->getFightWithStaffsAndSpears()->getCurrentSkillRank()->getValue();

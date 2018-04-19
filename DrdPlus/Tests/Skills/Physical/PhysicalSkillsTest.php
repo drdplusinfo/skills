@@ -18,10 +18,10 @@ use DrdPlus\Skills\Physical\PhysicalSkillPoint;
 use DrdPlus\Skills\Physical\PhysicalSkillRank;
 use DrdPlus\Skills\Physical\FightUnarmed;
 use DrdPlus\Skills\Physical\FightWithAxes;
-use DrdPlus\Skills\Physical\FightWithKnifesAndDaggers;
+use DrdPlus\Skills\Physical\FightWithKnivesAndDaggers;
 use DrdPlus\Skills\Physical\FightWithMacesAndClubs;
 use DrdPlus\Skills\Physical\FightWithMorningstarsAndMorgensterns;
-use DrdPlus\Skills\Physical\FightWithSabersAndBowieKnifes;
+use DrdPlus\Skills\Physical\FightWithSabersAndBowieKnives;
 use DrdPlus\Skills\Physical\FightWithStaffsAndSpears;
 use DrdPlus\Skills\Physical\FightWithSwords;
 use DrdPlus\Skills\Physical\FightWithThrowingWeapons;
@@ -151,10 +151,10 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         $expectedFightWithClasses = [
             FightUnarmed::class,
             FightWithAxes::class,
-            FightWithKnifesAndDaggers::class,
+            FightWithKnivesAndDaggers::class,
             FightWithMacesAndClubs::class,
             FightWithMorningstarsAndMorgensterns::class,
-            FightWithSabersAndBowieKnifes::class,
+            FightWithSabersAndBowieKnives::class,
             FightWithVoulgesAndTridents::class,
             FightWithStaffsAndSpears::class,
             FightWithSwords::class,
