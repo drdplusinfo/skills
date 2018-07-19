@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess;
 
 use DrdPlus\RollsOn\QualityAndSuccess\SimpleRollOnSuccess;
@@ -26,7 +28,6 @@ abstract class HandworkSimpleRollOnSuccess extends SimpleRollOnSuccess
         string $failureValue
     )
     {
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         parent::__construct($baseDifficulty + $difficultyModification, $handworkQuality, $successValue, $failureValue);
         $this->difficultyModification = $difficultyModification;
     }

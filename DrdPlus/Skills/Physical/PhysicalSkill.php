@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Skills\Physical;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -71,7 +73,6 @@ abstract class PhysicalSkill extends Skill
      */
     protected function createZeroSkillRank(ProfessionLevel $professionLevel): SkillRank
     {
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return new PhysicalSkillRank(
             $this,
             PhysicalSkillPoint::createZeroSkillPoint($professionLevel),
@@ -85,9 +86,8 @@ abstract class PhysicalSkill extends Skill
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyPaidSkillPoint
      */
-    public function increaseSkillRank(PhysicalSkillPoint $physicalSkillPoint)
+    public function increaseSkillRank(PhysicalSkillPoint $physicalSkillPoint): void
     {
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         parent::addTypeVerifiedSkillRank(
             new PhysicalSkillRank(
                 $this,

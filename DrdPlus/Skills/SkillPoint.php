@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Skills;
 
 use Doctrineum\Entity\Entity;
@@ -80,7 +82,6 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
      */
     public static function createZeroSkillPoint(ProfessionLevel $professionLevel): self
     {
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return new static(0 /* skill point value */, $professionLevel);
     }
 
@@ -97,7 +98,6 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
         Tables $tables
     ): self
     {
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return new static(
             1, // skill point value
             $professionFirstLevel,
@@ -121,7 +121,6 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
         Tables $tables
     ): self
     {
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return new static(
             1, // skill point value
             $professionFirstLevel,
@@ -143,7 +142,6 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
         Tables $tables
     ): self
     {
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return new static(1 /* skill point value */, $professionNextLevel, $tables);
     }
 

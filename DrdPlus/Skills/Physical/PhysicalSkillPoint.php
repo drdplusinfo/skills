@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Skills\Physical;
 
 use DrdPlus\Codes\Properties\PropertyCode;

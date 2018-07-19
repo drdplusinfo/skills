@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Tests\Skills;
 
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
@@ -64,19 +66,19 @@ abstract class WithBonusTest extends TestWithMockery
 
     protected function getBonusGetterName(): string
     {
-        if (is_a($this->getExpectedInterface(), WithBonusToMovementSpeed::class, true)) {
+        if (\is_a($this->getExpectedInterface(), WithBonusToMovementSpeed::class, true)) {
             return 'getBonusToMovementSpeed';
         }
-        if (is_a($this->getExpectedInterface(), WithBonusToCharisma::class, true)) {
+        if (\is_a($this->getExpectedInterface(), WithBonusToCharisma::class, true)) {
             return 'getBonusToCharisma';
         }
-        if (is_a($this->getExpectedInterface(), WithBonusToIntelligence::class, true)) {
+        if (\is_a($this->getExpectedInterface(), WithBonusToIntelligence::class, true)) {
             return 'getBonusToIntelligence';
         }
-        if (is_a($this->getExpectedInterface(), WithBonusToKnack::class, true)) {
+        if (\is_a($this->getExpectedInterface(), WithBonusToKnack::class, true)) {
             return 'getBonusToKnack';
         }
-        if (is_a($this->getExpectedInterface(), WithBonusToSenses::class, true)) {
+        if (\is_a($this->getExpectedInterface(), WithBonusToSenses::class, true)) {
             return 'getBonusToSenses';
         }
 

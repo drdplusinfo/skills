@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Tests\Skills\Physical\RollsOnQuality\RollsOnSuccess;
 
 use DrdPlus\Skills\Physical\RollsOnQuality\BlacksmithingQuality;

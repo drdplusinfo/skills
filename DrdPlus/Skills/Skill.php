@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Skills;
 
 use Doctrine\Common\Collections\Collection;
@@ -60,9 +62,9 @@ abstract class Skill extends StrictObject implements Entity
     private function guardRelatedSkillOfRank(SkillRank $skillRank)
     {
         if ($this !== $skillRank->getSkill()) {
-            if (static::class !== get_class($skillRank->getSkill())) {
+            if (static::class !== \get_class($skillRank->getSkill())) {
                 $message = 'New skill rank belongs to different skill class. Expecting ' . static::class . ', got '
-                    . get_class($skillRank->getSkill());
+                    . \get_class($skillRank->getSkill());
             } else {
                 $message = 'New skill rank belongs to different instance of skill class ' . static::class;
             }

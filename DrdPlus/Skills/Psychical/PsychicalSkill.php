@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Skills\Psychical;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -60,7 +62,6 @@ abstract class PsychicalSkill extends Skill
      */
     protected function createZeroSkillRank(ProfessionLevel $professionLevel): SkillRank
     {
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return new PsychicalSkillRank(
             $this,
             PsychicalSkillPoint::createZeroSkillPoint($professionLevel),
@@ -76,7 +77,6 @@ abstract class PsychicalSkill extends Skill
      */
     public function increaseSkillRank(PsychicalSkillPoint $psychicalSkillPoint)
     {
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         parent::addTypeVerifiedSkillRank(
             new PsychicalSkillRank(
                 $this,

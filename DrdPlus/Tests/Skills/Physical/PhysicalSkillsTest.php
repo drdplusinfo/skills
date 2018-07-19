@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Tests\Skills\Physical;
 
 use DrdPlus\Codes\Armaments\BodyArmorCode;
@@ -28,7 +30,7 @@ use DrdPlus\Skills\Physical\FightWithThrowingWeapons;
 use DrdPlus\Skills\Physical\FightWithTwoWeapons;
 use DrdPlus\Skills\Physical\FightWithVoulgesAndTridents;
 use DrdPlus\Skills\Physical\PhysicalSkills;
-use DrdPlus\Tables\Armaments\Armourer;
+use DrdPlus\Armourer\Armourer;
 use DrdPlus\Tables\Armaments\Shields\ShieldUsageSkillTable;
 use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
 use DrdPlus\Tables\Tables;
@@ -41,7 +43,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     /**
      * @test
      */
-    public function I_can_get_unused_skill_points_from_first_level()
+    public function I_can_get_unused_skill_points_from_first_level(): void
     {
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $professionLevels = $this->createProfessionLevels(
@@ -83,7 +85,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         $firstLevelAgilityModifier,
         $nextLevelsStrengthModifier,
         $nextLevelsAgilityModifier
-    )
+    ): ProfessionLevels
     {
         $professionLevels = $this->mockery(ProfessionLevels::class);
         $professionLevels->shouldReceive('getFirstLevelStrengthModifier')
@@ -103,7 +105,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      * @expectedException \DrdPlus\Skills\Exceptions\CanNotUseZeroSkillPointForNonZeroSkillRank
      * @expectedExceptionMessageRegExp ~0~
      */
-    public function I_can_not_increase_rank_by_zero_skill_point()
+    public function I_can_not_increase_rank_by_zero_skill_point(): void
     {
         $skills = new PhysicalSkills($professionZeroLevel = ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $skills->getAthletics()->increaseSkillRank(PhysicalSkillPoint::createZeroSkillPoint($professionZeroLevel));
@@ -112,7 +114,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     /**
      * @test
      */
-    public function I_can_get_unused_skill_points_from_next_levels()
+    public function I_can_get_unused_skill_points_from_next_levels(): void
     {
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $professionLevels = $this->createProfessionLevels(
@@ -146,7 +148,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     /**
      * @test
      */
-    public function I_can_get_all_fight_with_melee_weapon_skills_at_once()
+    public function I_can_get_all_fight_with_melee_weapon_skills_at_once(): void
     {
         $expectedFightWithClasses = [
             FightUnarmed::class,
@@ -167,15 +169,15 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         $fightWithSkills = $skills->getFightWithWeaponsUsingPhysicalSkills();
         foreach ($fightWithSkills as $fightWithSkill) {
             self::assertSame(0, $fightWithSkill->getCurrentSkillRank()->getValue());
-            $givenFightWithSkillClasses[] = get_class($fightWithSkill);
+            $givenFightWithSkillClasses[] = \get_class($fightWithSkill);
         }
-        sort($expectedFightWithClasses);
-        sort($givenFightWithSkillClasses);
+        \sort($expectedFightWithClasses);
+        \sort($givenFightWithSkillClasses);
         self::assertSame(
             $expectedFightWithClasses,
             $givenFightWithSkillClasses,
-            'missing: ' . implode(',', array_diff($expectedFightWithClasses, $givenFightWithSkillClasses))
-            . "\n" . 'exceeding: ' . implode(',', array_diff($givenFightWithSkillClasses, $expectedFightWithClasses))
+            'missing: ' . \implode(',', \array_diff($expectedFightWithClasses, $givenFightWithSkillClasses))
+            . "\n" . 'exceeding: ' . \implode(',', \array_diff($givenFightWithSkillClasses, $expectedFightWithClasses))
         );
     }
 
@@ -187,7 +189,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      * @param bool $isThrowing
      * @param bool $isShield
      */
-    public function I_can_get_malus_for_every_type_of_weaponlike(string $weaponCategory, bool $isMelee, bool $isThrowing, bool $isShield)
+    public function I_can_get_malus_for_every_type_of_weaponlike(string $weaponCategory, bool $isMelee, bool $isThrowing, bool $isShield): void
     {
         $weaponlikeCode = $this->createWeaponlikeCode($weaponCategory, $isMelee, $isThrowing, $isShield);
         $this->I_can_get_malus_to_fight_number_with_weaponlike($weaponlikeCode);
@@ -199,7 +201,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         $this->I_can_get_malus_to_base_of_wounds_with_weaponlike($weaponlikeCode);
     }
 
-    private function I_can_get_malus_to_fight_number_with_weaponlike(WeaponlikeCode $weaponlikeCode)
+    private function I_can_get_malus_to_fight_number_with_weaponlike(WeaponlikeCode $weaponlikeCode): void
     {
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         self::assertSame(
@@ -227,7 +229,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         );
     }
 
-    private function I_can_get_malus_to_attack_number_with_weaponlike(WeaponlikeCode $weaponlikeCode)
+    private function I_can_get_malus_to_attack_number_with_weaponlike(WeaponlikeCode $weaponlikeCode): void
     {
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         self::assertSame(
@@ -255,7 +257,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         );
     }
 
-    private function I_can_get_malus_to_cover_with_weapon(WeaponCode $weaponCode)
+    private function I_can_get_malus_to_cover_with_weapon(WeaponCode $weaponCode): void
     {
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         self::assertSame(
@@ -284,7 +286,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         );
     }
 
-    private function I_can_get_malus_to_base_of_wounds_with_weaponlike(WeaponlikeCode $weaponlikeCode)
+    private function I_can_get_malus_to_base_of_wounds_with_weaponlike(WeaponlikeCode $weaponlikeCode): void
     {
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         self::assertSame(
@@ -382,7 +384,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         if ($isShield) {
             $class = ShieldCode::class;
         }
-        $weaponlikeCode = $this->mockery($class);
+        $weaponlikeCode = $this->weakMockery($class);
         $weaponlikeCode->shouldReceive('isMelee')
             ->andReturn($isMelee);
         if ($isMelee) {
@@ -392,28 +394,28 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         $weaponlikeCode->shouldReceive('isShield')
             ->andReturn($isShield);
         $weaponlikeCode->shouldReceive('isWeapon')
-            ->andReturn(is_a($class, WeaponCode::class, true));
+            ->andReturn(\is_a($class, WeaponCode::class, true));
         $weaponlikeCode->shouldReceive('isThrowingWeapon')
             ->andReturn($isThrowing);
         $weaponCodeValue = $weaponCategory;
-        if (strpos($weaponCodeValue, '_and_')) {
-            $weaponCodeValue = explode('_and_', $weaponCodeValue)[0];
+        if (\strpos($weaponCodeValue, '_and_')) {
+            $weaponCodeValue = \explode('_and_', $weaponCodeValue)[0];
         }
         if ($weaponCodeValue === 'knives') {
             $weaponCodeValue = 'knife';
         }
-        $weaponCodeValue = rtrim($weaponCodeValue, 's');
-        $isCategory = 'is' . implode(array_map(function (string $part) {
+        $weaponCodeValue = \rtrim($weaponCodeValue, 's');
+        $isCategory = 'is' . \implode(\array_map(function (string $part) {
                 if ($part === 'and') {
                     $part = 'or';
                 } elseif ($part === 'knives') {
                     $part = 'knife';
                 } else {
-                    $part = rtrim($part, 's');
+                    $part = \rtrim($part, 's');
                 }
 
-                return ucfirst($part);
-            }, explode('_', $weaponCategory)));
+                return \ucfirst($part);
+            }, \explode('_', $weaponCategory)));
         $weaponlikeCode->shouldReceive($isCategory)->andReturn(true);
         $weaponlikeCode->shouldIgnoreMissing(false /* return value for non-mocked methods */);
         $weaponlikeCode->shouldReceive('__toString')
@@ -452,12 +454,12 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
         $tables = $this->mockery(Tables::class);
         $tables->shouldReceive('getMissingWeaponSkillTable')
             ->andReturn($weaponSkillTable = $this->mockery(MissingWeaponSkillTable::class));
-        $weaponSkillTable->shouldReceive('get' . ucfirst($weaponParameterName) . 'MalusForSkillRank')
+        $weaponSkillTable->shouldReceive('get' . \ucfirst($weaponParameterName) . 'MalusForSkillRank')
             ->once()
             ->with($expectedSkillValue)
             ->andReturn($weaponSkillMalus);
         if ($fightsWithTwoWeaponsSkillRankValue) {
-            $weaponSkillTable->shouldReceive('get' . ucfirst($weaponParameterName) . 'MalusForSkillRank')
+            $weaponSkillTable->shouldReceive('get' . \ucfirst($weaponParameterName) . 'MalusForSkillRank')
                 ->once()
                 ->with($fightsWithTwoWeaponsSkillRankValue)
                 ->atLeast()->once()
@@ -470,7 +472,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     /**
      * @test
      */
-    public function I_can_get_malus_to_cover_with_shield()
+    public function I_can_get_malus_to_cover_with_shield(): void
     {
         $physicalSkills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $tables = $this->createTablesWithShieldUsageSkillTable(0, 123);
@@ -494,7 +496,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      * @param mixed $coverMalus
      * @return \Mockery\MockInterface|Tables
      */
-    private function createTablesWithShieldUsageSkillTable($expectedPhysicalSkillRankValue, $coverMalus)
+    private function createTablesWithShieldUsageSkillTable(int $expectedPhysicalSkillRankValue, $coverMalus): Tables
     {
         $tables = $this->mockery(Tables::class);
         $tables->shouldReceive('getShieldUsageSkillTable')
@@ -517,7 +519,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      * @expectedException \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      * @expectedExceptionMessageRegExp ~plank~
      */
-    public function I_can_not_get_malus_for_melee_weapon_of_unknown_category()
+    public function I_can_not_get_malus_for_melee_weapon_of_unknown_category(): void
     {
         $physicalSkills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $physicalSkills->getMalusToFightNumberWithWeaponlike(
@@ -532,7 +534,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      * @expectedException \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon
      * @expectedExceptionMessageRegExp ~artillery~
      */
-    public function I_can_not_get_malus_for_non_shield_non_melee_non_throwing_weapon()
+    public function I_can_not_get_malus_for_non_shield_non_melee_non_throwing_weapon(): void
     {
         $physicalSkills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $physicalSkills->getMalusToFightNumberWithWeaponlike(
@@ -545,7 +547,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     /**
      * @test
      */
-    public function I_can_get_malus_to_fight_for_armor()
+    public function I_can_get_malus_to_fight_for_armor(): void
     {
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $armourer = $this->createArmourer();
@@ -569,7 +571,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     /**
      * @return \Mockery\MockInterface|Armourer
      */
-    private function createArmourer()
+    private function createArmourer(): Armourer
     {
         return $this->mockery(Armourer::class);
     }
@@ -577,7 +579,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     /**
      * @test
      */
-    public function I_can_get_malus_to_fight_for_helm()
+    public function I_can_get_malus_to_fight_for_helm(): void
     {
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $armourer = $this->createArmourer();
@@ -601,7 +603,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     /**
      * @test
      */
-    public function I_can_get_malus_to_fight_for_shield()
+    public function I_can_get_malus_to_fight_for_shield(): void
     {
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $armourer = $this->createArmourer();
@@ -625,7 +627,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     /**
      * @test
      */
-    public function I_can_get_maluses_from_ride()
+    public function I_can_get_maluses_from_ride(): void
     {
         $skills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         self::assertSame(-6, $skills->getMalusToFightNumberWhenRiding());
@@ -655,7 +657,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      * @test
      * @expectedException \DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatArmament
      */
-    public function I_do_not_get_malus_to_fight_for_unknown_protective()
+    public function I_do_not_get_malus_to_fight_for_unknown_protective(): void
     {
         /** @var ProtectiveArmamentCode $protectiveArmamentCode */
         $protectiveArmamentCode = $this->mockery(ProtectiveArmamentCode::class);

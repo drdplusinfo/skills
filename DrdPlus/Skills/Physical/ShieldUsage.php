@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Skills\Physical;
 
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
@@ -45,7 +47,6 @@ class ShieldUsage extends PhysicalSkill
          * using shield as a weapon means using something without skill (zero skill ShieldAsAWeapon respectively)
          *, @see PPH page 86 right column top
          */
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return
             $this->getRestrictionWithShield($tables, $shieldRestriction)
             + $tables->getMissingWeaponSkillTable()->getFightNumberMalusForSkillRank(0);
@@ -63,7 +64,6 @@ class ShieldUsage extends PhysicalSkill
      */
     public function getRestrictionWithShield(Tables $tables, $shieldRestriction): int
     {
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         $malusFromRestriction = ToInteger::toNegativeInteger($shieldRestriction)
             + $tables->getShieldUsageSkillTable()->getRestrictionBonusForSkillRank($this->getCurrentSkillRank());
         if ($malusFromRestriction > 0) {
@@ -86,7 +86,6 @@ class ShieldUsage extends PhysicalSkill
          *
          * @see PPH page 86 right column top
          */
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return $tables->getMissingWeaponSkillTable()->getAttackNumberMalusForSkillRank(0);
     }
 
@@ -96,7 +95,6 @@ class ShieldUsage extends PhysicalSkill
      */
     public function getMalusToCover(Tables $tables): int
     {
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return $tables->getShieldUsageSkillTable()->getCoverMalusForSkillRank($this->getCurrentSkillRank());
     }
 
@@ -113,7 +111,6 @@ class ShieldUsage extends PhysicalSkill
          *
          * @see PPH page 86 right column top
          */
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return $tables->getMissingWeaponSkillTable()->getBaseOfWoundsMalusForSkillRank(0);
     }
 }

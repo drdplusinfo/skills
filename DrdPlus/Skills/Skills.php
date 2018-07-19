@@ -1,7 +1,10 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Skills;
 
 use Doctrineum\Entity\Entity;
+use DrdPlus\Armourer\Armourer;
 use DrdPlus\Codes\Armaments\ProtectiveArmamentCode;
 use DrdPlus\Codes\Armaments\WeaponCode;
 use DrdPlus\Codes\Properties\PropertyCode;
@@ -18,7 +21,6 @@ use DrdPlus\Skills\Physical\PhysicalSkillPoint;
 use DrdPlus\Skills\Physical\PhysicalSkills;
 use DrdPlus\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Skills\Psychical\PsychicalSkills;
-use DrdPlus\Tables\Armaments\Armourer;
 use DrdPlus\Tables\Tables;
 use Granam\Strict\Object\StrictObject;
 
@@ -215,7 +217,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
             return $propertyPayment;
         }
         throw new Exceptions\UnknownPaymentForSkillPoint(
-            'Unknown payment for skill point ' . get_class($skillPoint)
+            'Unknown payment for skill point ' . \get_class($skillPoint)
         );
     }
 
@@ -433,7 +435,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
              */
             foreach ($ranksPerLevel as $levelValue => $skillRanks) {
                 if (!isset($tooHighRankAdjustments[$skillName][$levelValue])
-                    && count($skillRanks) > self::MAX_SKILL_RANK_INCREASE_PER_NEXT_LEVEL
+                    && \count($skillRanks) > self::MAX_SKILL_RANK_INCREASE_PER_NEXT_LEVEL
                 ) {
                     $tooHighRankAdjustments[$skillName][$levelValue] = $skillRanks;
                 }
@@ -443,7 +445,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
             throw new Exceptions\TooHighSingleSkillIncrementPerNextLevel(
                 'Only on first level can be skill ranks increased more then '
                 . (self::MAX_SKILL_RANK_INCREASE_PER_NEXT_LEVEL === 1 ? 'once' : self::MAX_SKILL_RANK_INCREASE_PER_NEXT_LEVEL) . '.'
-                . ' Got ' . count($tooHighRankAdjustments) . ' skill(s) with too high rank-per-level adjustment'
+                . ' Got ' . \count($tooHighRankAdjustments) . ' skill(s) with too high rank-per-level adjustment'
                 . ' (' . self::getTooHighRankAdjustmentsDescription($tooHighRankAdjustments) . ')'
             );
         }
@@ -499,7 +501,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     /**
      * @return int|null
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -591,7 +593,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      */
     public function count(): int
     {
-        return count($this->getSkills());
+        return \count($this->getSkills());
     }
 
     /**
@@ -616,11 +618,9 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
             return 0;
         }
         if ($weaponOrShieldForAttack->isMelee() || $weaponOrShieldForAttack->isThrowingWeapon()) {
-            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getPhysicalSkills()->getMalusToFightNumberWithWeaponlike($weaponOrShieldForAttack, $tables, $usesTwoWeapons);
         }
         if ($weaponOrShieldForAttack->isShootingWeapon()) {
-            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getCombinedSkills()->getMalusToFightNumberWithShootingWeapon(
                 $weaponOrShieldForAttack->convertToRangedWeaponCodeEquivalent(),
                 $tables
@@ -693,11 +693,9 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
             return 0;
         }
         if ($weaponCode->isMelee() || $weaponCode->isThrowingWeapon()) {
-            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getPhysicalSkills()->getMalusToCoverWithWeapon($weaponCode, $tables, $fightsWithTwoWeapons);
         }
         if ($weaponCode->isShootingWeapon()) {
-            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getCombinedSkills()->getMalusToCoverWithShootingWeapon(
                 $weaponCode->convertToRangedWeaponCodeEquivalent(),
                 $tables
@@ -731,11 +729,9 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
     ): int
     {
         if ($weaponlikeCode->isMelee() || $weaponlikeCode->isThrowingWeapon()) {
-            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getPhysicalSkills()->getMalusToBaseOfWoundsWithWeaponlike($weaponlikeCode, $tables, $fightsWithTwoWeapons);
         }
         if ($weaponlikeCode->isShootingWeapon()) {
-            /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
             return $this->getCombinedSkills()->getMalusToBaseOfWoundsWithShootingWeapon(
                 $weaponlikeCode->convertToRangedWeaponCodeEquivalent(),
                 $tables

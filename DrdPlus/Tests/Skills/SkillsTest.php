@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Skills;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -42,7 +44,7 @@ use DrdPlus\Skills\Psychical\PsychicalSkills;
 use DrdPlus\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Skills\Psychical\ReadingAndWriting;
 use DrdPlus\Professions\Profession;
-use DrdPlus\Tables\Armaments\Armourer;
+use DrdPlus\Armourer\Armourer;
 use DrdPlus\Tables\Armaments\Shields\ShieldUsageSkillTable;
 use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
 use DrdPlus\Tables\Tables;
@@ -123,7 +125,7 @@ class SkillsTest extends TestWithMockery
                 $combinedSkills->getIterator()->getArrayCopy()
             )
         );
-        self::assertCount(count($sortedExpectedSkills), $skills);
+        self::assertCount(\count($sortedExpectedSkills), $skills);
     }
 
     /**
@@ -270,13 +272,13 @@ class SkillsTest extends TestWithMockery
      */
     private function determineSkillsClass($skillClass): string
     {
-        if (is_a($skillClass, PhysicalSkill::class, true)) {
+        if (\is_a($skillClass, PhysicalSkill::class, true)) {
             return PhysicalSkills::class;
         }
-        if (is_a($skillClass, PsychicalSkill::class, true)) {
+        if (\is_a($skillClass, PsychicalSkill::class, true)) {
             return PsychicalSkills::class;
         }
-        if (is_a($skillClass, CombinedSkill::class, true)) {
+        if (\is_a($skillClass, CombinedSkill::class, true)) {
             return CombinedSkills::class;
         }
         throw new \LogicException;
@@ -298,13 +300,13 @@ class SkillsTest extends TestWithMockery
 
     private function determineSkillPointClass($skillClass): string
     {
-        if (is_a($skillClass, PhysicalSkill::class, true)) {
+        if (\is_a($skillClass, PhysicalSkill::class, true)) {
             return PhysicalSkillPoint::class;
         }
-        if (is_a($skillClass, PsychicalSkill::class, true)) {
+        if (\is_a($skillClass, PsychicalSkill::class, true)) {
             return PsychicalSkillPoint::class;
         }
-        if (is_a($skillClass, CombinedSkill::class, true)) {
+        if (\is_a($skillClass, CombinedSkill::class, true)) {
             return CombinedSkillPoint::class;
         }
         throw new \LogicException;
@@ -415,13 +417,13 @@ class SkillsTest extends TestWithMockery
 
     private function determineSkillTypeName($skillClass): string
     {
-        if (is_a($skillClass, PhysicalSkill::class, true)) {
+        if (\is_a($skillClass, PhysicalSkill::class, true)) {
             return PhysicalSkillPoint::PHYSICAL;
         }
-        if (is_a($skillClass, PsychicalSkill::class, true)) {
+        if (\is_a($skillClass, PsychicalSkill::class, true)) {
             return PsychicalSkillPoint::PSYCHICAL;
         }
-        if (is_a($skillClass, CombinedSkill::class, true)) {
+        if (\is_a($skillClass, CombinedSkill::class, true)) {
             return CombinedSkillPoint::COMBINED;
         }
         throw new \LogicException;
@@ -498,13 +500,13 @@ class SkillsTest extends TestWithMockery
 
     private function determineRelatedProperties($skillClass): array
     {
-        if (is_a($skillClass, PhysicalSkill::class, true)) {
+        if (\is_a($skillClass, PhysicalSkill::class, true)) {
             return [PropertyCode::STRENGTH, PropertyCode::AGILITY];
         }
-        if (is_a($skillClass, PsychicalSkill::class, true)) {
+        if (\is_a($skillClass, PsychicalSkill::class, true)) {
             return [PropertyCode::WILL, PropertyCode::INTELLIGENCE];
         }
-        if (is_a($skillClass, CombinedSkill::class, true)) {
+        if (\is_a($skillClass, CombinedSkill::class, true)) {
             return [PropertyCode::KNACK, PropertyCode::CHARISMA];
         }
         throw new \LogicException;
@@ -1050,7 +1052,7 @@ class SkillsTest extends TestWithMockery
          * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeaponlike
          * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeapon
          */
-        $getMalusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeapon' . ($malusTo === 'cover' ? '' : 'like');
+        $getMalusToParameter = 'getMalusTo' . \ucfirst($malusTo) . 'WithWeapon' . ($malusTo === 'cover' ? '' : 'like');
 
         $physicalSkills->shouldReceive($getMalusToParameter)
             ->zeroOrMoreTimes()
@@ -1169,7 +1171,7 @@ class SkillsTest extends TestWithMockery
          * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeaponlike
          * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeapon
          */
-        $getMalusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeapon' . ($malusTo === 'cover' ? '' : 'like');
+        $getMalusToParameter = 'getMalusTo' . \ucfirst($malusTo) . 'WithWeapon' . ($malusTo === 'cover' ? '' : 'like');
 
         $physicalSkills->shouldReceive($getMalusToParameter)
             ->zeroOrMoreTimes()
@@ -1233,7 +1235,7 @@ class SkillsTest extends TestWithMockery
         $shootingWeaponCode->shouldReceive('convertToRangedWeaponCodeEquivalent')
             ->andReturn($rangeWeaponCode = $this->createRangeWeaponCode());
         $missingWeaponSkillsTable = $this->createTablesWithMissingWeaponSkillTable();
-        $combinedSkills->shouldReceive('getMalusTo' . ucfirst($malusTo) . 'WithShootingWeapon')
+        $combinedSkills->shouldReceive('getMalusTo' . \ucfirst($malusTo) . 'WithShootingWeapon')
             ->zeroOrMoreTimes()
             ->with($rangeWeaponCode, $missingWeaponSkillsTable)
             ->andReturn($shootingWeaponMalus = 987654);
@@ -1243,7 +1245,7 @@ class SkillsTest extends TestWithMockery
          * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeaponlike
          * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeapon
          */
-        $malusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeapon' . ($malusTo === 'cover' ? '' : 'like');
+        $malusToParameter = 'getMalusTo' . \ucfirst($malusTo) . 'WithWeapon' . ($malusTo === 'cover' ? '' : 'like');
         self::assertSame(
             $shootingWeaponMalus,
             $skills->$malusToParameter(
@@ -1313,7 +1315,7 @@ class SkillsTest extends TestWithMockery
          * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeaponlike
          * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeapon
          */
-        $malusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeapon' . ($malusTo === 'cover' ? '' : 'like');
+        $malusToParameter = 'getMalusTo' . \ucfirst($malusTo) . 'WithWeapon' . ($malusTo === 'cover' ? '' : 'like');
         self::assertSame(
             0,
             $skills->$malusToParameter(
@@ -1397,7 +1399,7 @@ class SkillsTest extends TestWithMockery
          * @see \DrdPlus\Skills\Skills::getMalusToBaseOfWoundsWithWeaponlike
          * @see \DrdPlus\Skills\Skills::getMalusToCoverWithWeapon
          */
-        $malusToParameter = 'getMalusTo' . ucfirst($malusTo) . 'WithWeapon' . ($malusTo === 'cover' ? '' : 'like');
+        $malusToParameter = 'getMalusTo' . \ucfirst($malusTo) . 'WithWeapon' . ($malusTo === 'cover' ? '' : 'like');
         $skills->$malusToParameter(
             ($malusTo === 'cover' ? $this->createWeaponCode() : $this->createWeaponlikeCode()),
             $this->createTablesWithMissingWeaponSkillTable(),

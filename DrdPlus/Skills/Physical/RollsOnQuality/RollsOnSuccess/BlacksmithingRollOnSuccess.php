@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Skills\Physical\RollsOnQuality\RollsOnSuccess;
 
 use DrdPlus\RollsOn\QualityAndSuccess\SimpleRollOnSuccess;
@@ -12,7 +14,6 @@ class BlacksmithingRollOnSuccess extends SimpleRollOnSuccess
      */
     public function __construct($difficulty, BlacksmithingQuality $blacksmithQuality)
     {
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         parent::__construct(
             $difficulty,
             $blacksmithQuality,

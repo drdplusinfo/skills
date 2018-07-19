@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Tests\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess;
 
 use DrdPlus\Skills\Combined\RollsOnQuality\HandworkQuality;

@@ -1,7 +1,10 @@
 <?php
+declare(strict_types=1);
+
 namespace DrdPlus\Tests\Skills\Physical;
 
 use DrdPlus\Skills\Physical\Athletics;
+use DrdPlus\Tables\Properties\AthleticsInterface;
 use DrdPlus\Tests\Skills\WithBonusTest;
 
 class AthleticsTest extends WithBonusTest
@@ -11,13 +14,13 @@ class AthleticsTest extends WithBonusTest
     /**
      * @test
      */
-    public function Can_be_used_as_properties_athletic_requirement()
+    public function Can_be_used_as_properties_athletic_requirement(): void
     {
         $athletics = new Athletics($this->createProfessionLevel());
         self::assertInstanceOf(
-            \DrdPlus\Properties\Derived\Athletics::class,
+            AthleticsInterface::class,
             $athletics,
-            Athletics::class . ' should implement ' . \DrdPlus\Properties\Derived\Athletics::class . ' interface'
+            Athletics::class . ' should implement ' . AthleticsInterface::class . ' interface'
         );
         self::assertSame($athletics->getCurrentSkillRank(), $athletics->getAthleticsBonus());
     }
@@ -30,7 +33,7 @@ class AthleticsTest extends WithBonusTest
     /**
      * @test
      */
-    public function I_can_get_bonus_to_fall()
+    public function I_can_get_bonus_to_fall(): void
     {
         $athletics = new Athletics($this->createProfessionLevel());
         self::assertSame($athletics->getBonus(), $athletics->getBonusToAgilityOnFall());
@@ -39,7 +42,7 @@ class AthleticsTest extends WithBonusTest
     /**
      * @test
      */
-    public function I_can_get_bonus_to_run_sprint_and_jump()
+    public function I_can_get_bonus_to_run_sprint_and_jump(): void
     {
         $athletics = new Athletics($this->createProfessionLevel());
         self::assertSame($athletics->getBonus(), $athletics->getBonusToSpeedOnRunSprintAndJump());
@@ -48,7 +51,7 @@ class AthleticsTest extends WithBonusTest
     /**
      * @test
      */
-    public function I_can_get_bonus_to_maximal_load()
+    public function I_can_get_bonus_to_maximal_load(): void
     {
         $athletics = new Athletics($this->createProfessionLevel());
         self::assertSame($athletics->getBonus(), $athletics->getBonusToMaximalLoad());

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess;
 
 use DrdPlus\RollsOn\QualityAndSuccess\ExtendedRollOnSuccess;
@@ -25,7 +27,6 @@ class HandworkRollOnSuccess extends ExtendedRollOnSuccess
      */
     public function __construct(HandworkQuality $handworkQuality, int $difficultyModification)
     {
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         parent::__construct(
             new HandworkSimpleRollOnLowSuccess($handworkQuality, $difficultyModification),
             new HandworkSimpleRollOnModerateSuccess($handworkQuality, $difficultyModification),

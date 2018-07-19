@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Tests\Skills\EnumTypes;
 
 use Doctrine\DBAL\Types\DateTimeImmutableType;
@@ -15,7 +17,7 @@ class SkillsEnumsRegistrarTest extends TestWithMockery
     {
         $registered = Type::getTypesMap();
         SkillsEnumsRegistrar::registerAll();
-        self::assertGreaterThan(count($registered), Type::getTypesMap());
+        self::assertGreaterThan(\count($registered), Type::getTypesMap());
         self::assertTrue(Type::hasType(DateTimeImmutableType::DATETIME_IMMUTABLE));
     }
 }

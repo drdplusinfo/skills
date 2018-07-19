@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace DrdPlus\Tests\Skills\Combined;
 
 use DrdPlus\Codes\Armaments\RangedWeaponCode;
@@ -21,7 +23,7 @@ class CombinedSkillsTest extends SameTypeSkillsTest
     /**
      * @test
      */
-    public function I_can_get_unused_skill_points_from_first_level()
+    public function I_can_get_unused_skill_points_from_first_level(): void
     {
         $skills = new CombinedSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $professionLevels = $this->createProfessionLevels(
@@ -59,7 +61,7 @@ class CombinedSkillsTest extends SameTypeSkillsTest
         $firstLevelCharismaModifier,
         $nextLevelsKnackModifier,
         $nextLevelsCharismaModifier
-    )
+    ): ProfessionLevels
     {
         $professionLevels = $this->mockery(ProfessionLevels::class);
         $professionLevels->shouldReceive('getFirstLevelKnackModifier')
@@ -79,7 +81,7 @@ class CombinedSkillsTest extends SameTypeSkillsTest
      * @expectedException \DrdPlus\Skills\Exceptions\CanNotUseZeroSkillPointForNonZeroSkillRank
      * @expectedExceptionMessageRegExp ~0~
      */
-    public function I_can_not_increase_rank_by_zero_skill_point()
+    public function I_can_not_increase_rank_by_zero_skill_point(): void
     {
         $skills = new CombinedSkills($professionZeroLevel = ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $skills->getCooking()->increaseSkillRank(CombinedSkillPoint::createZeroSkillPoint($professionZeroLevel));
@@ -88,7 +90,7 @@ class CombinedSkillsTest extends SameTypeSkillsTest
     /**
      * @test
      */
-    public function I_can_get_unused_skill_points_from_next_levels()
+    public function I_can_get_unused_skill_points_from_next_levels(): void
     {
         $skills = new CombinedSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $professionLevels = $this->createProfessionLevels(
@@ -135,7 +137,7 @@ class CombinedSkillsTest extends SameTypeSkillsTest
      * @dataProvider provideWeaponCategories
      * @param string $rangeWeaponCategory
      */
-    public function I_can_get_malus_for_every_type_of_weapon(string $rangeWeaponCategory)
+    public function I_can_get_malus_for_every_type_of_weapon(string $rangeWeaponCategory): void
     {
         $combinedSkills = new CombinedSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         self::assertSame(
@@ -183,11 +185,11 @@ class CombinedSkillsTest extends SameTypeSkillsTest
      * @param string $weaponCategory
      * @return \Mockery\MockInterface|RangedWeaponCode
      */
-    private function createRangeWeaponCode(string $weaponCategory)
+    private function createRangeWeaponCode(string $weaponCategory): RangedWeaponCode
     {
-        $weaponCodeValue = rtrim($weaponCategory, 's');
-        $code = $this->mockery(RangedWeaponCode::class);
-        $code->shouldReceive('is' . ucfirst($weaponCodeValue))
+        $weaponCodeValue = \rtrim($weaponCategory, 's');
+        $code = $this->weakMockery(RangedWeaponCode::class); // without check if mocked method exists
+        $code->shouldReceive('is' . \ucfirst($weaponCodeValue))
             ->andReturn('true');
         $code->shouldIgnoreMissing(false /* return value for non-mocked methods */);
         $code->shouldReceive('__toString')
@@ -202,12 +204,12 @@ class CombinedSkillsTest extends SameTypeSkillsTest
      * @param $result
      * @return \Mockery\MockInterface|Tables
      */
-    private function createTablesWithMissingWeaponSkillTable($weaponParameterName, $expectedSkillValue, $result)
+    private function createTablesWithMissingWeaponSkillTable($weaponParameterName, $expectedSkillValue, $result): Tables
     {
         $tables = $this->mockery(Tables::class);
         $tables->shouldReceive('getMissingWeaponSkillTable')
             ->andReturn($missingWeaponSkillsTable = $this->mockery(MissingWeaponSkillTable::class));
-        $missingWeaponSkillsTable->shouldReceive('get' . ucfirst($weaponParameterName) . 'MalusForSkillRank')
+        $missingWeaponSkillsTable->shouldReceive('get' . \ucfirst($weaponParameterName) . 'MalusForSkillRank')
             ->once()
             ->with($expectedSkillValue)
             ->andReturn($result);
@@ -220,7 +222,7 @@ class CombinedSkillsTest extends SameTypeSkillsTest
      * @expectedException \DrdPlus\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon
      * @expectedExceptionMessageRegExp ~notBowNorCrossbowYouKnow~
      */
-    public function I_can_not_get_malus_for_weapon_not_affected_by_combined_skill()
+    public function I_can_not_get_malus_for_weapon_not_affected_by_combined_skill(): void
     {
         $combinedSkills = new CombinedSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $combinedSkills->getMalusToFightNumberWithShootingWeapon(

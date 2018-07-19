@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Tests\Skills;
 
 use DrdPlus\Codes\Skills\SkillCode;
@@ -27,7 +29,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
         $sutClass = self::getSutClass();
         /** @var SameTypeSkills $sut */
         $sut = new $sutClass(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
-        self::assertCount(count($this->getSameTypeSkillCodes()), $sut);
+        self::assertCount(\count($this->getSameTypeSkillCodes()), $sut);
         self::assertSame(0, $sut->getFirstLevelSkillRankSummary());
         self::assertSame(0, $sut->getNextLevelsSkillRankSummary());
         self::assertNull($sut->getId());
@@ -159,7 +161,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
     protected function getFileBaseNames($namespace): array
     {
         $sutNamespaceToDirRelativePath = str_replace('\\', DIRECTORY_SEPARATOR, $namespace);
-        $sutDir = rtrim($this->getProjectRootDir(), DIRECTORY_SEPARATOR)
+        $sutDir = \rtrim($this->getProjectRootDir(), DIRECTORY_SEPARATOR)
             . DIRECTORY_SEPARATOR . $sutNamespaceToDirRelativePath;
         $files = scandir($sutDir, SCANDIR_SORT_NONE);
         $sutFiles = array_filter($files, function ($filename) {
@@ -220,12 +222,12 @@ abstract class SameTypeSkillsTest extends TestWithMockery
          * @see \DrdPlus\Skills\Physical\PhysicalSkills::addPhysicalSkill
          * @see \DrdPlus\Skills\Psychical\PsychicalSkills::addPsychicalSkill
          */
-        return 'add' . ucfirst($groupName) . 'Skill';
+        return 'add' . \ucfirst($groupName) . 'Skill';
     }
 
     protected function getSkillGetter(Skill $skill): string
     {
-        $class = get_class($skill);
+        $class = \get_class($skill);
         self::assertSame(1, preg_match('~[\\\](?<basename>\w+)$~', $class, $matches));
 
         return 'get' . $matches['basename'];
@@ -290,7 +292,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
         self::assertSame($skills, $sut->getIterator()->getArrayCopy());
         $skillClasses = [];
         foreach ($skills as $skill) {
-            $skillClasses[] = get_class($skill);
+            $skillClasses[] = \get_class($skill);
         }
         sort($skillClasses);
         $expectedSkillClasses = $this->getExpectedSkillClasses();

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Tests\Skills;
 
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
@@ -24,8 +26,9 @@ abstract class SkillTest extends TestWithMockery
      * @test
      * @dataProvider provideSkillClasses
      * @param string $sutClass
+     * @throws \ReflectionException
      */
-    public function I_can_use_it($sutClass)
+    public function I_can_use_it(string $sutClass): void
     {
         /** @var Skill|PhysicalSkill|PsychicalSkill|CombinedSkill $sut */
         $sut = new $sutClass($professionLevel = $this->createProfessionFirstLevel());
@@ -86,7 +89,7 @@ abstract class SkillTest extends TestWithMockery
             $fileBaseNames
         );
 
-        return array_values(array_filter($sutClassNames));
+        return \array_values(\array_filter($sutClassNames));
     }
 
     /**
@@ -94,16 +97,16 @@ abstract class SkillTest extends TestWithMockery
      */
     protected function getNamespace(): string
     {
-        return preg_replace('~[\\\]Tests([\\\].+)[\\\]\w+$~', '$1', static::class);
+        return \preg_replace('~[\\\]Tests([\\\].+)[\\\]\w+$~', '$1', static::class);
     }
 
     protected function getFileBaseNames($namespace): array
     {
-        $sutNamespaceToDirRelativePath = str_replace('\\', DIRECTORY_SEPARATOR, $namespace);
-        $sutDir = rtrim($this->getProjectRootDir(), DIRECTORY_SEPARATOR)
+        $sutNamespaceToDirRelativePath = \str_replace('\\', DIRECTORY_SEPARATOR, $namespace);
+        $sutDir = \rtrim($this->getProjectRootDir(), DIRECTORY_SEPARATOR)
             . DIRECTORY_SEPARATOR . $sutNamespaceToDirRelativePath;
-        $files = scandir($sutDir, SCANDIR_SORT_NONE);
-        $sutFiles = array_filter($files, function ($filename) {
+        $files = \scandir($sutDir, SCANDIR_SORT_NONE);
+        $sutFiles = \array_filter($files, function ($filename) {
             return $filename !== '.' && $filename !== '..';
         });
 
@@ -112,8 +115,8 @@ abstract class SkillTest extends TestWithMockery
 
     private function getProjectRootDir()
     {
-        $namespaceAsRelativePath = str_replace('\\', DIRECTORY_SEPARATOR, __NAMESPACE__);
-        $projectRootDir = preg_replace('~' . preg_quote($namespaceAsRelativePath, '~') . '.*~', '', __DIR__);
+        $namespaceAsRelativePath = \str_replace('\\', DIRECTORY_SEPARATOR, __NAMESPACE__);
+        $projectRootDir = \preg_replace('~' . \preg_quote($namespaceAsRelativePath, '~') . '.*~', '', __DIR__);
 
         return $projectRootDir;
     }
@@ -124,7 +127,7 @@ abstract class SkillTest extends TestWithMockery
      * @param int $value
      * @return \Mockery\MockInterface|SkillRank|PsychicalSkillRank|PhysicalSkillRank|CombinedSkillRank
      */
-    protected function createSkillRank(Skill $skill, $skillClass, $value = 1)
+    protected function createSkillRank(Skill $skill, string $skillClass, int $value = 1)
     {
         $skillRank = $this->mockery($this->getSkillRankClass($skillClass));
         $skillRank->shouldReceive('getSkill')
@@ -136,14 +139,14 @@ abstract class SkillTest extends TestWithMockery
     }
 
     /**
-     * @param $sutClass
+     * @param string $sutClass
      * @return string|SkillRank
      */
-    private function getSkillRankClass($sutClass)
+    private function getSkillRankClass(string $sutClass)
     {
         $baseClass = SkillRank::class;
-        $typeName = preg_quote(ucfirst($this->getTypeName($sutClass)), '~');
-        $class = preg_replace(
+        $typeName = \preg_quote(ucfirst($this->getTypeName($sutClass)), '~');
+        $class = \preg_replace(
             '~[\\\]SkillRank$~',
             '\\' . $typeName . '\\' . $typeName . 'SkillRank',
             $baseClass
@@ -152,9 +155,9 @@ abstract class SkillTest extends TestWithMockery
         return $class;
     }
 
-    private function getTypeName($sutClass)
+    private function getTypeName(string $sutClass)
     {
-        preg_match('~[\\\](?<baseNamespace>\w+)[\\\]\w+$~', $sutClass, $matches);
+        \preg_match('~[\\\](?<baseNamespace>\w+)[\\\]\w+$~', $sutClass, $matches);
         self::assertNotEmpty($matches['baseNamespace']);
 
         return $matches['baseNamespace'];
@@ -164,7 +167,7 @@ abstract class SkillTest extends TestWithMockery
      * @param int $value
      * @return \Mockery\MockInterface|SkillPoint|CombinedSkillPoint|PhysicalSkillPoint|PsychicalSkillPoint
      */
-    protected function createSkillPoint($value = 1)
+    protected function createSkillPoint(int $value = 1)
     {
         $skillPoint = $this->mockery($this->getSkillPointClass());
         $skillPoint->shouldReceive('getValue')
@@ -179,8 +182,8 @@ abstract class SkillTest extends TestWithMockery
     private function getSkillPointClass(): string
     {
         $baseClass = SkillPoint::class;
-        $typeName = preg_quote(ucfirst($this->getExpectedSkillsTypeName()), '~');
-        $class = preg_replace(
+        $typeName = \preg_quote(\ucfirst($this->getExpectedSkillsTypeName()), '~');
+        $class = \preg_replace(
             '~[\\\]SkillPoint$~',
             '\\' . $typeName . '\\' . $typeName . 'SkillPoint',
             $baseClass
@@ -194,7 +197,7 @@ abstract class SkillTest extends TestWithMockery
      */
     private function getExpectedSkillsTypeName(): string
     {
-        self::assertTrue((bool)preg_match('~(?<typeName>\w+)$~', $this->getNamespace(), $matches));
+        self::assertTrue((bool)\preg_match('~(?<typeName>\w+)$~', $this->getNamespace(), $matches));
 
         return $matches['typeName'];
     }
@@ -203,14 +206,14 @@ abstract class SkillTest extends TestWithMockery
      * @param string $sutClass
      * @return string
      */
-    protected function getExpectedSkillName($sutClass): string
+    protected function getExpectedSkillName(string $sutClass): string
     {
-        preg_match('~[\\\](?<basename>\w+)$~', $sutClass, $matches);
+        \preg_match('~[\\\](?<basename>\w+)$~', $sutClass, $matches);
         $sutBasename = $matches['basename'];
-        $underscored = preg_replace('~([a-z])([A-Z])~', '$1_$2', $sutBasename);
-        $underscoredSingleLetters = preg_replace('~([A-Z])([A-Z])~', '$1_$2', $underscored);
+        $underscored = \preg_replace('~([a-z])([A-Z])~', '$1_$2', $sutBasename);
+        $underscoredSingleLetters = \preg_replace('~([A-Z])([A-Z])~', '$1_$2', $underscored);
 
-        return strtolower($underscoredSingleLetters);
+        return \strtolower($underscoredSingleLetters);
     }
 
     /**
@@ -227,12 +230,12 @@ abstract class SkillTest extends TestWithMockery
         self::assertSame($expectedSkillName, $reflection->getConstant($constantName));
     }
 
-    protected function getConstantName($skillName): string
+    protected function getConstantName(string $skillName): string
     {
-        return strtoupper($skillName);
+        return \strtoupper($skillName);
     }
 
-    protected function I_can_get_related_property_codes(Skill $skill)
+    protected function I_can_get_related_property_codes(Skill $skill): void
     {
         self::assertEquals(
             $this->sort($this->getExpectedRelatedPropertyCodes()),
@@ -242,7 +245,7 @@ abstract class SkillTest extends TestWithMockery
 
     private function sort(array $values): array
     {
-        sort($values);
+        \sort($values);
 
         return $values;
     }
@@ -252,7 +255,7 @@ abstract class SkillTest extends TestWithMockery
      */
     abstract protected function getExpectedRelatedPropertyCodes(): array;
 
-    protected function I_can_ask_it_which_type_is_it(Skill $skill)
+    protected function I_can_ask_it_which_type_is_it(Skill $skill): void
     {
         // should be only one type
         self::assertSame(1, $this->shouldBePhysical() + $this->shouldBePsychical() + $this->shouldBeCombined());
@@ -266,7 +269,7 @@ abstract class SkillTest extends TestWithMockery
      */
     protected function shouldBeCombined(): bool
     {
-        return strpos(static::class, 'Combined') !== false;
+        return \strpos(static::class, 'Combined') !== false;
     }
 
     /**
@@ -274,7 +277,7 @@ abstract class SkillTest extends TestWithMockery
      */
     protected function shouldBePhysical(): bool
     {
-        return strpos(static::class, 'Physical') !== false;
+        return \strpos(static::class, 'Physical') !== false;
     }
 
     /**
@@ -282,7 +285,7 @@ abstract class SkillTest extends TestWithMockery
      */
     protected function shouldBePsychical(): bool
     {
-        return strpos(static::class, 'Psychical') !== false;
+        return \strpos(static::class, 'Psychical') !== false;
     }
 
     /**
@@ -296,7 +299,7 @@ abstract class SkillTest extends TestWithMockery
     /**
      * @test
      */
-    public function I_can_add_more_ranks()
+    public function I_can_add_more_ranks(): void
     {
         $sutClass = $this->provideSkillClasses()[0][0]; // one is enough of this test
         /** @var Skill|PhysicalSkill|PsychicalSkill|CombinedSkill $sut */
@@ -331,7 +334,7 @@ abstract class SkillTest extends TestWithMockery
      * @test
      * @expectedException \DrdPlus\Skills\Exceptions\UnexpectedRankValue
      */
-    public function I_can_not_add_rank_with_invalid_sequence()
+    public function I_can_not_add_rank_with_invalid_sequence(): void
     {
         $cheatingSkill = new CheatingSkill($this->createProfessionFirstLevel());
         self::assertCount(1, $cheatingSkill->getSkillRanks());
@@ -347,7 +350,7 @@ abstract class SkillTest extends TestWithMockery
      * @expectedException \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
      * @expectedExceptionMessageRegExp ~Cooking~
      */
-    public function I_can_not_add_skill_rank_from_another_skill()
+    public function I_can_not_add_skill_rank_from_another_skill(): void
     {
         $cheatingSkill = new CheatingSkill($this->createProfessionFirstLevel());
         /** @var CombinedSkillPoint|\Mockery\MockInterface $skillPoint */
@@ -362,7 +365,7 @@ abstract class SkillTest extends TestWithMockery
      * @expectedException \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
      * @expectedExceptionMessageRegExp ~instance~
      */
-    public function I_can_not_add_skill_rank_from_same_skill_but_different_instance()
+    public function I_can_not_add_skill_rank_from_same_skill_but_different_instance(): void
     {
         $cheatingSkill = new CheatingSkill($this->createProfessionFirstLevel());
         /** @var CombinedSkillPoint|\Mockery\MockInterface $skillPoint */
@@ -383,9 +386,9 @@ class CheatingSkill extends CombinedSkill
 
     public function increaseSkillRank(
         CombinedSkillPoint $combinedSkillPoint,
-        $nextRankIncrement = 1,
+        int $nextRankIncrement = 1,
         CombinedSkill $rankRelatedSkill = null
-    )
+    ): void
     {
         parent::addTypeVerifiedSkillRank(
             new CombinedSkillRank(

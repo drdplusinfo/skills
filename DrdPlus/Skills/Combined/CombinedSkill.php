@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Skills\Combined;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -62,9 +64,8 @@ abstract class CombinedSkill extends Skill
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyPaidSkillPoint
      */
-    public function increaseSkillRank(CombinedSkillPoint $combinedSkillPoint)
+    public function increaseSkillRank(CombinedSkillPoint $combinedSkillPoint): void
     {
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         parent::addTypeVerifiedSkillRank(
             new CombinedSkillRank(
                 $this,
@@ -83,7 +84,6 @@ abstract class CombinedSkill extends Skill
      */
     protected function createZeroSkillRank(ProfessionLevel $professionLevel): SkillRank
     {
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         return new CombinedSkillRank(
             $this,
             CombinedSkillPoint::createZeroSkillPoint($professionLevel),

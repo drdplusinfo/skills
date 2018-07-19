@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 namespace DrdPlus\Tests\Skills;
 
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
@@ -42,17 +44,14 @@ trait WithBonusToSensesTrait
         self::assertSame(0, $sut->getCurrentSkillRank()->getValue());
         self::assertSame(0, $sut->getBonusToSenses());
 
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         $sut->increaseSkillRank($this->createSkillPoint());
         self::assertSame(1, $sut->getCurrentSkillRank()->getValue());
         self::assertSame($this->getExpectedBonusToSenses(1), $sut->getBonusToSenses());
 
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         $sut->increaseSkillRank($this->createSkillPoint());
         self::assertSame(2, $sut->getCurrentSkillRank()->getValue());
         self::assertSame($this->getExpectedBonusToSenses(2), $sut->getBonusToSenses());
 
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
         $sut->increaseSkillRank($this->createSkillPoint());
         self::assertSame(3, $sut->getCurrentSkillRank()->getValue());
         self::assertSame($this->getExpectedBonusToSenses(3), $sut->getBonusToSenses());
