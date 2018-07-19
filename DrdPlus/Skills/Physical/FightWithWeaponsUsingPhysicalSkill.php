@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace DrdPlus\Skills\Physical;
 
 use DrdPlus\Skills\CausingMalusesToWeaponUsage;
-use DrdPlus\Skills\FightWithWeaponSkill;
+use DrdPlus\Skills\FightWithWeaponlikeSkill;
 use DrdPlus\Skills\FightWithWeaponsMissingSkillMalusesTrait;
 
 /**
@@ -12,7 +12,7 @@ use DrdPlus\Skills\FightWithWeaponsMissingSkillMalusesTrait;
  *
  * @link https://pph.drdplus.info/#tabulka_postihu_za_chybejici_dovednost
  */
-abstract class FightWithWeaponsUsingPhysicalSkill extends PhysicalSkill implements CausingMalusesToWeaponUsage, FightWithWeaponSkill
+abstract class FightWithWeaponsUsingPhysicalSkill extends PhysicalSkill implements CausingMalusesToWeaponUsage, FightWithWeaponlikeSkill
 {
     use FightWithWeaponsMissingSkillMalusesTrait;
 }
