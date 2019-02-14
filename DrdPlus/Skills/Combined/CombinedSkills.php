@@ -10,122 +10,95 @@ use DrdPlus\Person\ProfessionLevels\ProfessionLevels;
 use DrdPlus\Skills\SameTypeSkills;
 use DrdPlus\Tables\Tables;
 
-/**
- * @Doctrine\ORM\Mapping\Entity()
- */
 class CombinedSkills extends SameTypeSkills
 {
     public const COMBINED = SkillTypeCode::COMBINED;
 
     /**
      * @var BigHandwork
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="BigHandwork", cascade={"persist"}, orphanRemoval=true)
      */
     private $bigHandwork;
     /**
      * @var Cooking
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Cooking", cascade={"persist"}, orphanRemoval=true)
      */
     private $cooking;
     /**
      * @var Dancing
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Dancing", cascade={"persist"}, orphanRemoval=true)
      */
     private $dancing;
     /**
      * @var DuskSight
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="DuskSight", cascade={"persist"}, orphanRemoval=true)
      */
     private $duskSight;
     /**
      * @var FightWithBows
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithBows", cascade={"persist"}, orphanRemoval=true)
      */
     private $fightWithBows;
     /**
      * @var FightWithCrossbows
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FightWithCrossbows", cascade={"persist"}, orphanRemoval=true)
      */
     private $fightWithCrossbows;
     /**
      * @var FirstAid
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="FirstAid", cascade={"persist"}, orphanRemoval=true)
      */
     private $firstAid;
     /**
      * @var HandlingWithAnimals
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="HandlingWithAnimals", cascade={"persist"}, orphanRemoval=true)
      */
     private $handlingWithAnimals;
     /**
      * @var Handwork
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Handwork", cascade={"persist"}, orphanRemoval=true)
      */
     private $handwork;
     /**
      * @var Gambling
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Gambling", cascade={"persist"}, orphanRemoval=true)
      */
     private $gambling;
     /**
      * @var Herbalism
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Herbalism", cascade={"persist"}, orphanRemoval=true)
      */
     private $herbalism;
     /**
      * @var HuntingAndFishing
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="HuntingAndFishing", cascade={"persist"}, orphanRemoval=true)
      */
     private $huntingAndFishing;
     /**
      * @var Knotting
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Knotting", cascade={"persist"}, orphanRemoval=true)
      */
     private $knotting;
     /**
      * @var Painting
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Painting", cascade={"persist"}, orphanRemoval=true)
      */
     private $painting;
     /**
      * @var Pedagogy
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Pedagogy", cascade={"persist"}, orphanRemoval=true)
      */
     private $pedagogy;
     /**
      * @var PlayingOnMusicInstrument
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="PlayingOnMusicInstrument", cascade={"persist"}, orphanRemoval=true)
      */
     private $playingOnMusicInstrument;
     /**
      * @var Seduction
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Seduction", cascade={"persist"}, orphanRemoval=true)
      */
     private $seduction;
     /**
      * @var Showmanship
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Showmanship", cascade={"persist"}, orphanRemoval=true)
      */
     private $showmanship;
     /**
      * @var Singing
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Singing", cascade={"persist"}, orphanRemoval=true)
      */
     private $singing;
     /**
      * @var Statuary
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Statuary", cascade={"persist"}, orphanRemoval=true)
      */
     private $statuary;
     /**
      * @var Teaching
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Teaching", cascade={"persist"}, orphanRemoval=true)
      */
     private $teaching;
 
-    /**
-     * @param ProfessionLevel $professionLevel
-     */
     protected function populateAllSkills(ProfessionLevel $professionLevel)
     {
         $this->bigHandwork = new BigHandwork($professionLevel);
@@ -151,38 +124,22 @@ class CombinedSkills extends SameTypeSkills
         $this->teaching = new Teaching($professionLevel);
     }
 
-    /**
-     * @param ProfessionLevels $professionLevels
-     * @return int
-     */
-    public function getUnusedFirstLevelCombinedSkillPointsValue(ProfessionLevels $professionLevels)
+    public function getUnusedFirstLevelCombinedSkillPointsValue(ProfessionLevels $professionLevels): int
     {
         return $this->getUnusedFirstLevelSkillPointsValue($this->getFirstLevelCombinedPropertiesSum($professionLevels));
     }
 
-    /**
-     * @param ProfessionLevels $professionLevels
-     * @return int
-     */
-    private function getFirstLevelCombinedPropertiesSum(ProfessionLevels $professionLevels)
+    private function getFirstLevelCombinedPropertiesSum(ProfessionLevels $professionLevels): int
     {
         return $professionLevels->getFirstLevelKnackModifier() + $professionLevels->getFirstLevelCharismaModifier();
     }
 
-    /**
-     * @param ProfessionLevels $professionLevels
-     * @return int
-     */
-    public function getUnusedNextLevelsCombinedSkillPointsValue(ProfessionLevels $professionLevels)
+    public function getUnusedNextLevelsCombinedSkillPointsValue(ProfessionLevels $professionLevels): int
     {
         return $this->getUnusedNextLevelsSkillPointsValue($this->getNextLevelsCombinedPropertiesSum($professionLevels));
     }
 
-    /**
-     * @param ProfessionLevels $professionLevels
-     * @return int
-     */
-    private function getNextLevelsCombinedPropertiesSum(ProfessionLevels $professionLevels)
+    private function getNextLevelsCombinedPropertiesSum(ProfessionLevels $professionLevels): int
     {
         return $professionLevels->getNextLevelsKnackModifier() + $professionLevels->getNextLevelsCharismaModifier();
     }
@@ -217,169 +174,106 @@ class CombinedSkills extends SameTypeSkills
         ]);
     }
 
-    /**
-     * @return BigHandwork
-     */
     public function getBigHandwork(): BigHandwork
     {
         return $this->bigHandwork;
     }
 
-    /**
-     * @return Cooking
-     */
     public function getCooking(): Cooking
     {
         return $this->cooking;
     }
 
-    /**
-     * @return Dancing
-     */
     public function getDancing(): Dancing
     {
         return $this->dancing;
     }
 
-    /**
-     * @return DuskSight
-     */
     public function getDuskSight(): DuskSight
     {
         return $this->duskSight;
     }
 
-    /**
-     * @return FightWithBows
-     */
     public function getFightWithBows(): FightWithBows
     {
         return $this->fightWithBows;
     }
 
-    /**
-     * @return FightWithCrossbows
-     */
     public function getFightWithCrossbows(): FightWithCrossbows
     {
         return $this->fightWithCrossbows;
     }
 
-    /**
-     * @return FirstAid
-     */
     public function getFirstAid(): FirstAid
     {
         return $this->firstAid;
     }
 
-    /**
-     * @return HandlingWithAnimals
-     */
     public function getHandlingWithAnimals(): HandlingWithAnimals
     {
         return $this->handlingWithAnimals;
     }
 
-    /**
-     * @return Handwork
-     */
     public function getHandwork(): Handwork
     {
         return $this->handwork;
     }
 
-    /**
-     * @return Gambling
-     */
     public function getGambling(): Gambling
     {
         return $this->gambling;
     }
 
-    /**
-     * @return Herbalism
-     */
     public function getHerbalism(): Herbalism
     {
         return $this->herbalism;
     }
 
-    /**
-     * @return HuntingAndFishing
-     */
     public function getHuntingAndFishing(): HuntingAndFishing
     {
         return $this->huntingAndFishing;
     }
 
-    /**
-     * @return Knotting
-     */
     public function getKnotting(): Knotting
     {
         return $this->knotting;
     }
 
-    /**
-     * @return Painting
-     */
     public function getPainting(): Painting
     {
         return $this->painting;
     }
 
-    /**
-     * @return Pedagogy
-     */
     public function getPedagogy(): Pedagogy
     {
         return $this->pedagogy;
     }
 
-    /**
-     * @return PlayingOnMusicInstrument
-     */
     public function getPlayingOnMusicInstrument(): PlayingOnMusicInstrument
     {
         return $this->playingOnMusicInstrument;
     }
 
-    /**
-     * @return Seduction
-     */
     public function getSeduction(): Seduction
     {
         return $this->seduction;
     }
 
-    /**
-     * @return Showmanship
-     */
     public function getShowmanship(): Showmanship
     {
         return $this->showmanship;
     }
 
-    /**
-     * @return Singing
-     */
     public function getSinging(): Singing
     {
         return $this->singing;
     }
 
-    /**
-     * @return Statuary
-     */
     public function getStatuary(): Statuary
     {
         return $this->statuary;
     }
 
-    /**
-     * @return Teaching
-     */
     public function getTeaching(): Teaching
     {
         return $this->teaching;

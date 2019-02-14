@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Skills\Combined;
 
@@ -8,19 +8,14 @@ use DrdPlus\Skills\SkillPoint;
 use DrdPlus\Skills\SkillRank;
 use Granam\Integer\PositiveInteger;
 
-/**
- * @Doctrine\ORM\Mapping\Entity()
- */
 class CombinedSkillRank extends SkillRank
 {
     /**
      * @var CombinedSkill
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="CombinedSkill", inversedBy="combinedSkillRanks", cascade={"persist"})
      */
     private $combinedSkill;
     /**
      * @var CombinedSkillPoint
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="CombinedSkillPoint", cascade={"persist"})
      */
     private $combinedSkillPoint;
 

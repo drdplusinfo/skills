@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Skills\Combined;
 
@@ -7,23 +7,16 @@ use DrdPlus\Codes\Skills\CombinedSkillCode;
 
 /**
  * @link https://pph.drdplus.info/#prvni_pomoc
- * @Doctrine\ORM\Mapping\Entity()
  */
 class FirstAid extends CombinedSkill
 {
     public const FIRST_AID = CombinedSkillCode::FIRST_AID;
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return self::FIRST_AID;
     }
 
-    /**
-     * @return int
-     */
     public function getMinimalWoundsLeftAfterFirstAidHeal(): int
     {
         $currentSkillRankValue = $this->getCurrentSkillRank()->getValue();

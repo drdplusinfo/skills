@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Tests\Skills;
 
@@ -30,9 +30,8 @@ abstract class SkillRankTest extends TestWithMockery
             $this->createRequiredRankValue($skillRankValue)
         );
 
-        self::assertNull($skillRank->getId());
         self::assertSame($skillRankValue, $skillRank->getValue());
-        self::assertSame("$skillRankValue", (string)$skillRank);
+        self::assertSame((string)$skillRankValue, (string)$skillRank);
         self::assertSame($skillPoint->getProfessionLevel(), $skillRank->getProfessionLevel());
         self::assertSame($skillPoint, $skillRank->getSkillPoint());
     }
@@ -42,10 +41,7 @@ abstract class SkillRankTest extends TestWithMockery
         return [[0], [1], [2], [3]];
     }
 
-    /**
-     * @return Skill
-     */
-    abstract protected function createOwningSkill();
+    abstract protected function createOwningSkill(): Skill;
 
     protected function addProfessionLevelGetter(MockInterface $mock)
     {

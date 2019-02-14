@@ -3,9 +3,9 @@ declare(strict_types = 1);
 
 namespace DrdPlus\Tests\Skills\Combined;
 
-use DrdPlus\DiceRolls\Templates\Rollers\Roller2d6DrdPlus;
+use Granam\DiceRolls\Templates\Rollers\Roller2d6DrdPlus;
 use DrdPlus\HuntingAndFishing\CatchProcessingQuality;
-use DrdPlus\Properties\Base\Knack;
+use DrdPlus\BaseProperties\Knack;
 use DrdPlus\Skills\Combined\Cooking;
 
 class CookingTest extends WithBonusFromCombinedTest

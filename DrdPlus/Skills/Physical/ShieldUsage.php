@@ -9,23 +9,16 @@ use Granam\Integer\Tools\ToInteger;
 
 /**
  * @link https://pph.drdplus.info/#pouzivani_stitu
- * @Doctrine\ORM\Mapping\Entity()
  */
 class ShieldUsage extends PhysicalSkill
 {
     public const SHIELD_USAGE = PhysicalSkillCode::SHIELD_USAGE;
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return self::SHIELD_USAGE;
     }
 
-    /**
-     * @return int
-     */
     public function getBonusToRestriction(): int
     {
         return $this->getCurrentSkillRank()->getValue();

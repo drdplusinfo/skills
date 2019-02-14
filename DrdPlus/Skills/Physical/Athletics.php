@@ -10,15 +10,11 @@ use Granam\Integer\PositiveInteger;
 
 /**
  * @link https://pph.drdplus.info/#atletika
- * @Doctrine\ORM\Mapping\Entity()
  */
 class Athletics extends PhysicalSkill implements WithBonus, AthleticsInterface
 {
     public const ATHLETICS = PhysicalSkillCode::ATHLETICS;
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return self::ATHLETICS;
@@ -33,9 +29,6 @@ class Athletics extends PhysicalSkill implements WithBonus, AthleticsInterface
         return $this->getCurrentSkillRank();
     }
 
-    /**
-     * @return int
-     */
     public function getBonus(): int
     {
         return $this->getCurrentSkillRank()->getValue();

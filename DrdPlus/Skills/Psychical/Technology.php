@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Skills\Psychical;
 
@@ -9,23 +9,16 @@ use DrdPlus\Skills\WithBonusToSenses;
 
 /**
  * @link https://pph.drdplus.info/#technologie
- * @Doctrine\ORM\Mapping\Entity()
  */
 class Technology extends PsychicalSkill implements WithBonusToIntelligence, WithBonusToSenses
 {
     public const TECHNOLOGY = PsychicalSkillCode::TECHNOLOGY;
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return self::TECHNOLOGY;
     }
 
-    /**
-     * @return int
-     */
     public function getBonusToIntelligence(): int
     {
         return 3 * $this->getCurrentSkillRank()->getValue();

@@ -319,8 +319,8 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
      */
     public function provideWeaponCategories(): array
     {
-        return array_merge(
-            array_map(
+        return \array_merge(
+            \array_map(
                 function (string $meleeWeaponCategoryValue) {
                     return [$meleeWeaponCategoryValue, true /* is melee */, false /*  not throwing */, false /* not a shield */];
                 },
@@ -465,7 +465,6 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
                 ->atLeast()->once()
                 ->andReturn($fightWithTwoWeaponsSkillMalus);
         }
-
         return $tables;
     }
 
@@ -510,7 +509,6 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
 
                 return $coverMalus;
             });
-
         return $tables;
     }
 
@@ -559,13 +557,9 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
             ->andReturnUsing(function (BodyArmorCode $givenBodyArmorCode, PositiveInteger $rank) use ($bodyArmor) {
                 self::assertSame($givenBodyArmorCode, $bodyArmor);
                 self::assertSame(0, $rank->getValue());
-
                 return 123;
             });
-        self::assertSame(
-            123,
-            $skills->getMalusToFightNumberWithProtective($bodyArmor, $armourer)
-        );
+        self::assertSame(123, $skills->getMalusToFightNumberWithProtective($bodyArmor, $armourer));
     }
 
     /**
@@ -591,13 +585,9 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
             ->andReturnUsing(function (HelmCode $givenHelm, PositiveInteger $rank) use ($helm) {
                 self::assertSame($givenHelm, $helm);
                 self::assertSame(0, $rank->getValue());
-
                 return 456;
             });
-        self::assertSame(
-            456,
-            $skills->getMalusToFightNumberWithProtective($helm, $armourer)
-        );
+        self::assertSame(456, $skills->getMalusToFightNumberWithProtective($helm, $armourer));
     }
 
     /**

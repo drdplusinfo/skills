@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Tests\Skills;
 
@@ -23,6 +23,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
 {
     /**
      * @test
+     * @throws \ReflectionException
      */
     public function I_can_use_it()
     {
@@ -32,7 +33,6 @@ abstract class SameTypeSkillsTest extends TestWithMockery
         self::assertCount(\count($this->getSameTypeSkillCodes()), $sut);
         self::assertSame(0, $sut->getFirstLevelSkillRankSummary());
         self::assertSame(0, $sut->getNextLevelsSkillRankSummary());
-        self::assertNull($sut->getId());
     }
 
     protected function getExpectedSkillsTypeName(): string
@@ -101,6 +101,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
     /**
      * @param string $except
      * @return array|string[]
+     * @throws \ReflectionException
      */
     protected function getSameTypeSkillCodesExcept($except): array
     {
@@ -109,10 +110,11 @@ abstract class SameTypeSkillsTest extends TestWithMockery
 
     /**
      * @return array|\string[]
+     * @throws \ReflectionException
      */
     protected function getSameTypeSkillCodes(): array
     {
-        $type = preg_replace('~.*[\\\](\w+)Skills$~', '$1', self::getSutClass());
+        $type = \preg_replace('~.*[\\\](\w+)Skills$~', '$1', self::getSutClass());
         $skillCodeNamespace = (new \ReflectionClass(SkillCode::class))->getNamespaceName();
         /** @var SkillCode $skillTypeCodeClass */
         $skillTypeCodeClass = "{$skillCodeNamespace}\\{$type}SkillCode";

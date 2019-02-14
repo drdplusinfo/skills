@@ -5,8 +5,8 @@ namespace DrdPlus\Skills\Psychical;
 
 use DrdPlus\Codes\ProfessionCode;
 use DrdPlus\Codes\Properties\PropertyCode;
-use DrdPlus\Properties\Base\Intelligence;
-use DrdPlus\Properties\Base\Will;
+use DrdPlus\BaseProperties\Intelligence;
+use DrdPlus\BaseProperties\Will;
 use DrdPlus\Tables\Tables;
 use DrdPlus\Tests\Skills\SkillPointTest;
 

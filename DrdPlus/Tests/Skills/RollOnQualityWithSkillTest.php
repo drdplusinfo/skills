@@ -1,10 +1,10 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Tests\Skills;
 
-use DrdPlus\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
-use DrdPlus\Properties\Property;
+use DrdPlus\BaseProperties\Property;
+use Granam\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
 use DrdPlus\RollsOn\QualityAndSuccess\RollOnQuality;
 use DrdPlus\Skills\Psychical\RollsOn\MapQuality;
 use DrdPlus\Skills\Psychical\RollsOn\RollOnMapUsage;
@@ -15,6 +15,7 @@ abstract class RollOnQualityWithSkillTest extends TestWithMockery
 {
     /**
      * @test
+     * @throws \ReflectionException
      */
     public function I_can_use_it()
     {
@@ -34,6 +35,7 @@ abstract class RollOnQualityWithSkillTest extends TestWithMockery
     /**
      * @param int $value
      * @return Property|\Mockery\MockInterface
+     * @throws \ReflectionException
      */
     protected function createProperty(int $value): Property
     {
@@ -46,6 +48,7 @@ abstract class RollOnQualityWithSkillTest extends TestWithMockery
 
     /**
      * @return string
+     * @throws \ReflectionException
      */
     private function getPropertyClass(): string
     {
@@ -55,6 +58,7 @@ abstract class RollOnQualityWithSkillTest extends TestWithMockery
     /**
      * @param int $parameterPosition
      * @return string
+     * @throws \ReflectionException
      */
     protected function getSutConstructorParameterClass(int $parameterPosition): string
     {
@@ -68,6 +72,7 @@ abstract class RollOnQualityWithSkillTest extends TestWithMockery
     /**
      * @param int $bonusToRoll
      * @return Skill|\Mockery\MockInterface
+     * @throws \ReflectionException
      */
     protected function createSkill(int $bonusToRoll): Skill
     {
@@ -93,6 +98,7 @@ abstract class RollOnQualityWithSkillTest extends TestWithMockery
 
     /**
      * @test
+     * @throws \ReflectionException
      */
     public function I_get_whispered_proper_roll_class_by_ide()
     {

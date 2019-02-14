@@ -1,10 +1,8 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Skills\Psychical;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use DrdPlus\Codes\Properties\PropertyCode;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use DrdPlus\Skills\Skill;
@@ -12,46 +10,15 @@ use DrdPlus\Skills\SkillRank;
 use Granam\Integer\PositiveIntegerObject;
 
 /**
- * @Doctrine\ORM\Mapping\Entity()
- * @Doctrine\ORM\Mapping\InheritanceType("SINGLE_TABLE")
- * @Doctrine\ORM\Mapping\DiscriminatorColumn(name="skillName", type="string")
- * @Doctrine\ORM\Mapping\DiscriminatorMap({
- *  "astronomy" = "Astronomy",
- *  "botany" = "Botany",
- *  "etiquetteOfGangland" = "EtiquetteOfGangland",
- *  "foreignLanguage" = "ForeignLanguage",
- *  "geographyOfACountry" = "GeographyOfACountry",
- *  "handlingWithMagicalItems" = "HandlingWithMagicalItems",
- *  "historiography" = "Historiography",
- *  "knowledgeOfACity" = "KnowledgeOfACity",
- *  "knowledgeOfWorld" = "KnowledgeOfWorld",
- *  "mapsDrawing" = "MapsDrawing",
- *  "mythology" = "Mythology",
- *  "readingAndWriting" = "ReadingAndWriting",
- *  "socialEtiquette" = "SocialEtiquette",
- *  "technology" = "Technology",
- *  "theology" = "Theology",
- *  "zoology" = "Zoology"
- * })
  * @method PsychicalSkillRank|SkillRank getCurrentSkillRank: SkillRank
  */
 abstract class PsychicalSkill extends Skill
 {
 
     /**
-     * @var PsychicalSkillRank[]|ArrayCollection
-     * @Doctrine\ORM\Mapping\OneToMany(targetEntity="PsychicalSkillRank", mappedBy="psychicalSkill", cascade={"persist"})
+     * @var PsychicalSkillRank[]|array
      */
-    private $psychicalSkillRanks;
-
-    /**
-     * @param ProfessionLevel $professionLevel
-     */
-    public function __construct(ProfessionLevel $professionLevel)
-    {
-        $this->psychicalSkillRanks = new ArrayCollection();
-        parent::__construct($professionLevel);
-    }
+    private $psychicalSkillRanks = [];
 
     /**
      * @param ProfessionLevel $professionLevel
@@ -77,7 +44,7 @@ abstract class PsychicalSkill extends Skill
      */
     public function increaseSkillRank(PsychicalSkillPoint $psychicalSkillPoint)
     {
-        parent::addTypeVerifiedSkillRank(
+        $this->addTypeVerifiedSkillRank(
             new PsychicalSkillRank(
                 $this,
                 $psychicalSkillPoint,
@@ -86,10 +53,15 @@ abstract class PsychicalSkill extends Skill
         );
     }
 
+    protected function setSkillRank(SkillRank $skillRank)
+    {
+        $this->psychicalSkillRanks[$skillRank->getValue()] = $skillRank;
+    }
+
     /**
-     * @return Collection|ArrayCollection|PsychicalSkillRank[]
+     * @return array|PsychicalSkillRank[]
      */
-    protected function getInnerSkillRanks(): Collection
+    public function getSkillRanks(): array
     {
         return $this->psychicalSkillRanks;
     }
@@ -102,25 +74,16 @@ abstract class PsychicalSkill extends Skill
         return [PropertyCode::INTELLIGENCE, PropertyCode::WILL];
     }
 
-    /**
-     * @return bool
-     */
     public function isPsychical(): bool
     {
         return true;
     }
 
-    /**
-     * @return bool
-     */
     public function isPhysical(): bool
     {
         return false;
     }
 
-    /**
-     * @return bool
-     */
     public function isCombined(): bool
     {
         return false;

@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace DrdPlus\Tests\Skills\Combined;
 
-use DrdPlus\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
-use DrdPlus\Properties\Base\Knack;
+use Granam\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
+use DrdPlus\BaseProperties\Knack;
 use DrdPlus\Skills\Combined\Handwork;
 use DrdPlus\Skills\Combined\RollsOnQuality\HandworkQuality;
 use DrdPlus\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess\HandworkRollOnSuccess;

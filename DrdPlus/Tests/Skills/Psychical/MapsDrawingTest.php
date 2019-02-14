@@ -3,9 +3,9 @@ declare(strict_types = 1);
 
 namespace DrdPlus\Tests\Skills\Psychical;
 
-use DrdPlus\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
-use DrdPlus\Properties\Base\Intelligence;
-use DrdPlus\Properties\Base\Knack;
+use Granam\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
+use DrdPlus\BaseProperties\Intelligence;
+use DrdPlus\BaseProperties\Knack;
 use DrdPlus\Skills\Psychical\MapsDrawing;
 use DrdPlus\Skills\Psychical\RollsOn\MapQuality;
 use DrdPlus\Skills\Psychical\RollsOn\RollOnMapUsage;

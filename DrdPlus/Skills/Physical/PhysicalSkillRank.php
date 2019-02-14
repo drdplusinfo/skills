@@ -8,19 +8,14 @@ use DrdPlus\Skills\SkillPoint;
 use DrdPlus\Skills\SkillRank;
 use Granam\Integer\PositiveInteger;
 
-/**
- * @Doctrine\ORM\Mapping\Entity
- */
 class PhysicalSkillRank extends SkillRank
 {
     /**
      * @var PhysicalSkill
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="PhysicalSkill", inversedBy="physicalSkillRanks", cascade={"persist"})
      */
     private $physicalSkill;
     /**
      * @var PhysicalSkillPoint
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="PhysicalSkillPoint", cascade={"persist"})
      */
     private $physicalSkillPoint;
 

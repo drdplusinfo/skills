@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Skills\Psychical;
 
@@ -8,19 +8,14 @@ use DrdPlus\Skills\SkillPoint;
 use DrdPlus\Skills\SkillRank;
 use Granam\Integer\PositiveInteger;
 
-/**
- * @Doctrine\ORM\Mapping\Entity
- */
 class PsychicalSkillRank extends SkillRank
 {
     /**
      * @var PsychicalSkill
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="PsychicalSkill", inversedBy="psychicalSkillRanks", cascade={"persist"})
      */
     private $psychicalSkill;
     /**
      * @var PsychicalSkillPoint
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="PsychicalSkillPoint", cascade={"persist"})
      */
     private $psychicalSkillPoint;
 

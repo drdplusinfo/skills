@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Tests\Skills;
 
@@ -27,7 +27,7 @@ abstract class WithBonusTest extends TestWithMockery
     public function It_has_expected_interface()
     {
         self::assertTrue(
-            is_a(self::getSutClass(), $this->getExpectedInterface(), true),
+            \is_a(self::getSutClass(), $this->getExpectedInterface(), true),
             self::getSutClass() . ' should implement ' . $this->getExpectedInterface()
         );
     }
@@ -85,16 +85,12 @@ abstract class WithBonusTest extends TestWithMockery
         return 'getBonus';
     }
 
-    /**
-     * @param int $skillRankValue
-     * @return int
-     */
     abstract protected function getExpectedBonusFromSkill(int $skillRankValue): int;
 
     /**
      * @return \Mockery\MockInterface|ProfessionFirstLevel
      */
-    protected function createProfessionLevel()
+    protected function createProfessionLevel(): ProfessionFirstLevel
     {
         return $this->mockery(ProfessionFirstLevel::class);
     }

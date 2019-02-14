@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Tests\Skills\Physical;
 
@@ -26,7 +26,7 @@ class PhysicalSkillRankTest extends SkillRankTest
         return $physicalSkillPoint;
     }
 
-    protected function createOwningSkill()
+    protected function createOwningSkill(): \DrdPlus\Skills\Skill
     {
         return new Flying($this->createProfessionFirstLevel());
     }

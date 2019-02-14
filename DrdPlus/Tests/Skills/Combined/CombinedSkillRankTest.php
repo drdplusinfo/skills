@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Tests\Skills\Combined;
 
@@ -26,7 +26,7 @@ class CombinedSkillRankTest extends SkillRankTest
         return $combinedSkillPoint;
     }
 
-    protected function createOwningSkill()
+    protected function createOwningSkill(): \DrdPlus\Skills\Skill
     {
         return new Cooking($this->createProfessionFirstLevel());
     }

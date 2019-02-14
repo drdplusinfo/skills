@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess;
 
@@ -9,10 +9,6 @@ class HandworkSimpleRollOnModerateSuccess extends HandworkSimpleRollOnSuccess
 {
     public const HANDY = 'handy';
 
-    /**
-     * @param HandworkQuality $handworkQuality
-     * @param int $difficultyModification
-     */
     public function __construct(HandworkQuality $handworkQuality, int $difficultyModification)
     {
         parent::__construct(

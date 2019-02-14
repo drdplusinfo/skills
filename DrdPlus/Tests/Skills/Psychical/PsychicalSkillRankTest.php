@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Tests\Skills\Psychical;
 
@@ -26,7 +26,7 @@ class PsychicalSkillRankTest extends SkillRankTest
         return $psychicalSkillPoint;
     }
 
-    protected function createOwningSkill()
+    protected function createOwningSkill(): \DrdPlus\Skills\Skill
     {
         return new Botany($this->createProfessionFirstLevel());
     }

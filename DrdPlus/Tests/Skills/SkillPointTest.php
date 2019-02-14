@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Tests\Skills;
 
@@ -15,8 +15,8 @@ use DrdPlus\Skills\SkillPoint;
 use DrdPlus\Skills\Physical\PhysicalSkillPoint;
 use DrdPlus\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Professions\Profession;
-use DrdPlus\Properties\Base\Agility;
-use DrdPlus\Properties\Base\Strength;
+use DrdPlus\BaseProperties\Agility;
+use DrdPlus\BaseProperties\Strength;
 use DrdPlus\Tables\Tables;
 use Granam\Tests\Tools\TestWithMockery;
 
@@ -33,7 +33,6 @@ abstract class SkillPointTest extends TestWithMockery
     {
         $skillPointAndLevel = $this->I_can_create_skill_point_by_first_level_background_skills();
 
-        $this->I_got_null_as_ID_of_non_persisted_skill_point($skillPointAndLevel[0]);
         $this->I_got_always_number_one_on_to_string_conversion($skillPointAndLevel[0]);
         $this->I_can_get_profession_level($skillPointAndLevel[0], $skillPointAndLevel[1]);
         $this->I_can_detect_way_of_payment($skillPointAndLevel[0]);
@@ -43,11 +42,6 @@ abstract class SkillPointTest extends TestWithMockery
      * @return array [SkillPoint, PersonLevel]
      */
     abstract protected function I_can_create_skill_point_by_first_level_background_skills();
-
-    protected function I_got_null_as_ID_of_non_persisted_skill_point(SkillPoint $skillPoint)
-    {
-        self::assertNull($skillPoint->getId());
-    }
 
     protected function I_got_always_number_one_on_to_string_conversion(SkillPoint $skillPoint)
     {
@@ -91,7 +85,6 @@ abstract class SkillPointTest extends TestWithMockery
         $skillPointsAndLevels = $this->I_can_create_skill_point_by_cross_type_skill_points();
 
         foreach ($skillPointsAndLevels as $skillPointAndLevel) {
-            $this->I_got_null_as_ID_of_non_persisted_skill_point($skillPointAndLevel[0]);
             $this->I_got_always_number_one_on_to_string_conversion($skillPointAndLevel[0]);
             $this->I_can_get_profession_level($skillPointAndLevel[0], $skillPointAndLevel[1]);
             $this->I_can_detect_way_of_payment($skillPointAndLevel[0]);
@@ -111,7 +104,6 @@ abstract class SkillPointTest extends TestWithMockery
         $skillPointsAndLevels = $this->I_can_create_skill_point_by_related_property_increase();
 
         foreach ($skillPointsAndLevels as $skillPointsAndLevel) {
-            $this->I_got_null_as_ID_of_non_persisted_skill_point($skillPointsAndLevel[0]);
             $this->I_got_always_number_one_on_to_string_conversion($skillPointsAndLevel[0]);
             $this->I_can_get_profession_level($skillPointsAndLevel[0], $skillPointsAndLevel[1]);
             $this->I_can_detect_way_of_payment($skillPointsAndLevel[0]);
@@ -244,13 +236,15 @@ abstract class SkillPointTest extends TestWithMockery
     }
 
     /**
-     * @param $firstPropertyClass
-     * @param bool $secondPropertyClass
+     * @param string $firstPropertyClass
+     * @param string $secondPropertyClass
      * @param bool $withPropertyIncrement
      * @return \Mockery\MockInterface|ProfessionNextLevel
      */
     protected function createProfessionNextLevel(
-        $firstPropertyClass, $secondPropertyClass, $withPropertyIncrement = true
+        string $firstPropertyClass,
+        string $secondPropertyClass,
+        bool $withPropertyIncrement = true
     )
     {
         $professionLevel = $this->mockery(ProfessionNextLevel::class);
@@ -274,9 +268,9 @@ abstract class SkillPointTest extends TestWithMockery
         return $professionLevel;
     }
 
-    private function parsePropertyName($propertyClass)
+    private function parsePropertyName(string $propertyClass): string
     {
-        return basename(str_replace('\\', '/', $propertyClass));
+        return \basename(\str_replace('\\', '/', $propertyClass));
     }
 
     /**
@@ -311,7 +305,7 @@ abstract class SkillPointTest extends TestWithMockery
         );
     }
 
-    public function provideInvalidPayment()
+    public function provideInvalidPayment(): array
     {
         return [
             [true, false],
@@ -354,6 +348,7 @@ abstract class SkillPointTest extends TestWithMockery
     /**
      * @test
      * @expectedException \DrdPlus\Skills\Exceptions\UnknownPaymentForSkillPoint
+     * @throws \ReflectionException
      */
     public function I_had_to_provide_some_skill_points_payment_to_create_a_point()
     {
@@ -370,6 +365,7 @@ abstract class SkillPointTest extends TestWithMockery
      * @test
      * @expectedException \DrdPlus\Skills\Exceptions\UnexpectedSkillPointValue
      * @expectedExceptionMessageRegExp ~2~
+     * @throws \ReflectionException
      */
     public function I_can_not_create_skill_point_with_higher_value_than_one()
     {
@@ -386,6 +382,7 @@ abstract class SkillPointTest extends TestWithMockery
      * @test
      * @expectedException \DrdPlus\Skills\Exceptions\UnexpectedSkillPointValue
      * @expectedExceptionMessageRegExp ~-1~
+     * @throws \ReflectionException
      */
     public function I_can_not_create_skill_point_with_lesser_value_than_zero()
     {
@@ -401,6 +398,7 @@ abstract class SkillPointTest extends TestWithMockery
     /**
      * @test
      * @expectedException \DrdPlus\Skills\Exceptions\InvalidRelatedProfessionLevel
+     * @throws \ReflectionException
      */
     public function I_can_not_create_non_zero_skill_point_with_profession_zero_level()
     {
@@ -416,6 +414,7 @@ abstract class SkillPointTest extends TestWithMockery
     /**
      * @test
      * @expectedException \DrdPlus\Skills\Exceptions\UnknownProfessionLevelGroup
+     * @throws \ReflectionException
      */
     public function I_can_not_create_skill_point_by_new_type_of_level()
     {

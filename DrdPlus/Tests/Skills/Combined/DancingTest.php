@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace DrdPlus\Tests\Skills\Combined;
 
-use DrdPlus\DiceRolls\Templates\Rollers\Roller2d6DrdPlus;
-use DrdPlus\Properties\Base\Agility;
+use Granam\DiceRolls\Templates\Rollers\Roller2d6DrdPlus;
+use DrdPlus\BaseProperties\Agility;
 use DrdPlus\Skills\Combined\Dancing;
 use DrdPlus\Skills\Combined\RollsOnQuality\DanceQuality;
 

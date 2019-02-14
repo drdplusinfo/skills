@@ -1,61 +1,34 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Skills;
 
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use Granam\Strict\Object\StrictObject;
 
-/**
- * @Doctrine\ORM\Mapping\MappedSuperclass()
- */
 abstract class SameTypeSkills extends StrictObject implements \IteratorAggregate, \Countable
 {
-    /**
-     * @var integer
-     * @Doctrine\ORM\Mapping\Column(type="integer") @Doctrine\ORM\Mapping\Id @Doctrine\ORM\Mapping\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @param ProfessionLevel $professionLevel
-     */
     public function __construct(ProfessionLevel $professionLevel)
     {
         $this->populateAllSkills($professionLevel);
     }
 
-    /**
-     * @param ProfessionLevel $professionLevel
-     */
     abstract protected function populateAllSkills(ProfessionLevel $professionLevel);
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * @return \Traversable|\ArrayIterator|Skill[]
      */
     abstract public function getIterator(): \Traversable;
 
-    /**
-     * @return int
-     */
     public function getFirstLevelSkillRankSummary(): int
     {
-        $firstLevelSkillRankValues = array_map(
+        $firstLevelSkillRankValues = \array_map(
             function (SkillRank $skillRank) {
                 return $skillRank->getValue();
             },
             $this->getFirstLevelSkillRanks()
         );
-
-        return (int)array_sum($firstLevelSkillRankValues);
+        return (int)\array_sum($firstLevelSkillRankValues);
     }
 
     /**
@@ -63,7 +36,7 @@ abstract class SameTypeSkills extends StrictObject implements \IteratorAggregate
      */
     protected function getFirstLevelSkillRanks(): array
     {
-        return array_filter(
+        return \array_filter(
             $this->getSkillRanks(),
             function (SkillRank $skillRank) {
                 return $skillRank->getProfessionLevel()->isFirstLevel();
@@ -71,13 +44,10 @@ abstract class SameTypeSkills extends StrictObject implements \IteratorAggregate
         );
     }
 
-    /**
-     * @return int
-     */
     public function getNextLevelsSkillRankSummary(): int
     {
-        return (int)array_sum(
-            array_map(
+        return (int)\array_sum(
+            \array_map(
                 function (SkillRank $skillRank) {
                     return $skillRank->getValue();
                 },
@@ -91,7 +61,7 @@ abstract class SameTypeSkills extends StrictObject implements \IteratorAggregate
      */
     protected function getNextLevelSkillRanks(): array
     {
-        return array_filter(
+        return \array_filter(
             $this->getSkillRanks(),
             function (SkillRank $skillRank) {
                 return $skillRank->getProfessionLevel()->isNextLevel();
@@ -118,7 +88,7 @@ abstract class SameTypeSkills extends StrictObject implements \IteratorAggregate
      * @param int $firstLevelPropertiesSum as a potential of skill points
      * @return int
      */
-    protected function getUnusedFirstLevelSkillPointsValue($firstLevelPropertiesSum): int
+    protected function getUnusedFirstLevelSkillPointsValue(int $firstLevelPropertiesSum): int
     {
         return $firstLevelPropertiesSum - $this->getFirstLevelSkillRankSummary();
     }
@@ -127,14 +97,11 @@ abstract class SameTypeSkills extends StrictObject implements \IteratorAggregate
      * @param int $nextLevelsPropertiesSum as a potential of skill points
      * @return int
      */
-    protected function getUnusedNextLevelsSkillPointsValue($nextLevelsPropertiesSum): int
+    protected function getUnusedNextLevelsSkillPointsValue(int $nextLevelsPropertiesSum): int
     {
         return $nextLevelsPropertiesSum - $this->getNextLevelsSkillRankSummary();
     }
 
-    /**
-     * @return int
-     */
     public function count(): int
     {
         return $this->getIterator()->count();

@@ -1,9 +1,8 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Skills;
 
-use Doctrineum\Entity\Entity;
 use DrdPlus\Codes\Properties\PropertyCode;
 use DrdPlus\Background\BackgroundParts\SkillPointsFromBackground;
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
@@ -18,56 +17,37 @@ use Granam\Integer\Tools\ToInteger;
 use Granam\Strict\Object\StrictObject;
 use Granam\Tools\ValueDescriber;
 
-/**
- * @Doctrine\ORM\Mapping\MappedSuperclass()
- */
-abstract class SkillPoint extends StrictObject implements PositiveInteger, Entity
+abstract class SkillPoint extends StrictObject implements PositiveInteger
 {
-
-    /**
-     * @var integer|null
-     * @Doctrine\ORM\Mapping\Id @Doctrine\ORM\Mapping\Column(type="integer") @Doctrine\ORM\Mapping\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
     /**
      * @var integer
-     * @Doctrine\ORM\Mapping\Column(type="integer", length=1)
      */
     private $value;
     /**
      * @var ProfessionZeroLevel|null
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="\DrdPlus\Person\ProfessionLevels\ProfessionZeroLevel", cascade={"persist"})
      */
     private $professionZeroLevel;
     /**
      * @var ProfessionFirstLevel|null
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="\DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel", cascade={"persist"})
      */
     private $professionFirstLevel;
     /**
      * @var ProfessionNextLevel|null
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="\DrdPlus\Person\ProfessionLevels\ProfessionNextLevel", cascade={"persist"})
      */
     private $professionNextLevel;
     /**
      * @var SkillPointsFromBackground|null
-     * @Doctrine\ORM\Mapping\Column(type="skill_points_from_background", nullable=true)
      */
     private $skillsFromBackground;
     /**
      * @var SkillPoint|null
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="SkillPoint", cascade={"persist"})
      */
     private $firstPaidOtherSkillPoint;
     /**
      * @var SkillPoint|null
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="SkillPoint", cascade={"persist"})
      */
     private $secondPaidOtherSkillPoint;
 
-    /**
-     * @return string
-     */
     abstract public function getTypeName(): string;
 
     /**
@@ -184,9 +164,9 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
         }
         if ($professionLevel instanceof ProfessionZeroLevel) {
             $this->professionZeroLevel = $professionLevel;
-        } else if ($professionLevel instanceof ProfessionFirstLevel) {
+        } elseif ($professionLevel instanceof ProfessionFirstLevel) {
             $this->professionFirstLevel = $professionLevel;
-        } else if ($professionLevel instanceof ProfessionNextLevel) {
+        } elseif ($professionLevel instanceof ProfessionNextLevel) {
             $this->professionNextLevel = $professionLevel;
         } else {
             throw new Exceptions\UnknownProfessionLevelGroup(
@@ -241,7 +221,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
                     $firstPaidOtherSkillPoint,
                     $secondPaidOtherSkillPoint
                 );
-            } else if ($professionLevel instanceof ProfessionNextLevel) {
+            } elseif ($professionLevel instanceof ProfessionNextLevel) {
                 $this->checkNextLevelPaymentByPropertyIncrement($professionLevel);
             } else {
                 throw new Exceptions\InvalidRelatedProfessionLevel(
@@ -249,7 +229,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
                     . $professionLevel->getProfession() . ' of level ' . $professionLevel->getLevelRank()
                 );
             }
-        } else if ($skillPointValue === 0) {
+        } elseif ($skillPointValue === 0) {
             return; // ok
         } else {
             throw new Exceptions\UnexpectedSkillPointValue(
@@ -404,28 +384,13 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
         }
     }
 
-    /**
-     * @param array $array
-     * @return array
-     */
     private function sortAlphabetically(array $array): array
     {
-        sort($array);
+        \sort($array);
 
         return $array;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return int
-     */
     public function getValue(): int
     {
         return $this->value;
@@ -439,26 +404,17 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
         return (string)$this->getValue();
     }
 
-    /**
-     * @return ProfessionZeroLevel|null
-     */
-    public function getProfessionZeroLevel()
+    public function getProfessionZeroLevel(): ?ProfessionZeroLevel
     {
         return $this->professionZeroLevel;
     }
 
-    /**
-     * @return ProfessionFirstLevel|null
-     */
-    public function getProfessionFirstLevel()
+    public function getProfessionFirstLevel(): ?ProfessionFirstLevel
     {
         return $this->professionFirstLevel;
     }
 
-    /**
-     * @return ProfessionNextLevel|null
-     */
-    public function getProfessionNextLevel()
+    public function getProfessionNextLevel(): ?ProfessionNextLevel
     {
         return $this->professionNextLevel;
     }
@@ -479,49 +435,31 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger, Entit
         return $this->getProfessionNextLevel();
     }
 
-    /**
-     * @return SkillPointsFromBackground|null
-     */
-    public function getSkillPointsFromBackground()
+    public function getSkillPointsFromBackground(): ?SkillPointsFromBackground
     {
         return $this->skillsFromBackground;
     }
 
-    /**
-     * @return SkillPoint|null
-     */
-    public function getFirstPaidOtherSkillPoint()
+    public function getFirstPaidOtherSkillPoint(): ?SkillPoint
     {
         return $this->firstPaidOtherSkillPoint;
     }
 
-    /**
-     * @return SkillPoint|null
-     */
-    public function getSecondPaidOtherSkillPoint()
+    public function getSecondPaidOtherSkillPoint(): ?SkillPoint
     {
         return $this->secondPaidOtherSkillPoint;
     }
 
-    /**
-     * @return bool
-     */
     public function isPaidByFirstLevelSkillPointsFromBackground(): bool
     {
         return $this->getSkillPointsFromBackground() !== null;
     }
 
-    /**
-     * @return bool
-     */
     public function isPaidByOtherSkillPoints(): bool
     {
         return $this->getFirstPaidOtherSkillPoint() && $this->getSecondPaidOtherSkillPoint();
     }
 
-    /**
-     * @return bool
-     */
     public function isPaidByNextLevelPropertyIncrease(): bool
     {
         return !$this->isPaidByFirstLevelSkillPointsFromBackground()

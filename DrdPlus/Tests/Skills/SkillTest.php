@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Tests\Skills;
 
@@ -40,13 +40,13 @@ abstract class SkillTest extends TestWithMockery
             'Skill class ' . $sutClass . ' should has link to rules'
         );
         self::assertCount(1, $sut->getSkillRanks());
-        $implicitSkillRanks = $sut->getSkillRanks()->toArray();
+        $implicitSkillRanks = $sut->getSkillRanks();
         self::assertSame([0], array_keys($implicitSkillRanks));
         self::assertInstanceOf($this->getSkillRankClass($sutClass), $implicitSkillRanks[0]);
 
         $sut->increaseSkillRank($skillPoint = $this->createSkillPoint());
         self::assertCount(2, $sut->getSkillRanks());
-        self::assertSame([0, 1], $sut->getSkillRanks()->getKeys());
+        self::assertSame([0, 1], \array_keys($sut->getSkillRanks()));
         $expectedSkillRank = 0;
         $lastSkillRank = null;
         foreach ($sut->getSkillRanks() as $skillRankValue => $lastSkillRank) {
@@ -59,7 +59,6 @@ abstract class SkillTest extends TestWithMockery
             }
         }
         self::assertSame($lastSkillRank, $sut->getCurrentSkillRank());
-        self::assertNull($sut->getId());
 
         $this->I_can_get_its_name($sut);
 
@@ -310,13 +309,13 @@ abstract class SkillTest extends TestWithMockery
         $sut->increaseSkillRank($skillPoint = $this->createSkillPoint());
         $oneSkillRank = $sut->getCurrentSkillRank();
         self::assertSame($skillPoint, $oneSkillRank->getSkillPoint());
-        self::assertSame([0 => $zeroSkillRank, 1 => $oneSkillRank], $sut->getSkillRanks()->toArray());
+        self::assertSame([0 => $zeroSkillRank, 1 => $oneSkillRank], $sut->getSkillRanks());
 
         $sut->increaseSkillRank($skillPoint = $this->createSkillPoint());
         $twoSkillRank = $sut->getCurrentSkillRank();
         self::assertSame(
             [0 => $zeroSkillRank, 1 => $oneSkillRank, 2 => $twoSkillRank],
-            $sut->getSkillRanks()->toArray()
+            $sut->getSkillRanks()
         );
         self::assertSame($twoSkillRank, $sut->getCurrentSkillRank());
 
@@ -390,7 +389,7 @@ class CheatingSkill extends CombinedSkill
         CombinedSkill $rankRelatedSkill = null
     ): void
     {
-        parent::addTypeVerifiedSkillRank(
+        $this->addTypeVerifiedSkillRank(
             new CombinedSkillRank(
                 $rankRelatedSkill
                     ?: $this,

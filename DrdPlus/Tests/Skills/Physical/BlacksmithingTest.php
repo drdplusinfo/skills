@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace DrdPlus\Tests\Skills\Physical;
 
-use DrdPlus\DiceRolls\Templates\Rollers\Roller2d6DrdPlus;
-use DrdPlus\Properties\Base\Knack;
+use Granam\DiceRolls\Templates\Rollers\Roller2d6DrdPlus;
+use DrdPlus\BaseProperties\Knack;
 use DrdPlus\Skills\Physical\Blacksmithing;
 use DrdPlus\Skills\Physical\RollsOnQuality\BlacksmithingQuality;
 use DrdPlus\Skills\Physical\RollsOnQuality\RollsOnSuccess\BlacksmithingRollOnSuccess;

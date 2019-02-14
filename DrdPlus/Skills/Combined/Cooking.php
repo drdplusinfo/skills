@@ -3,23 +3,19 @@ declare(strict_types = 1);
 
 namespace DrdPlus\Skills\Combined;
 
-use DrdPlus\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
+use Granam\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
 use DrdPlus\Codes\Skills\CombinedSkillCode;
 use DrdPlus\HuntingAndFishing\CatchProcessingQuality;
-use DrdPlus\Properties\Base\Knack;
+use DrdPlus\BaseProperties\Knack;
 use DrdPlus\Skills\WithBonus;
 
 /**
  * @link https://pph.drdplus.info/#vareni
- * @Doctrine\ORM\Mapping\Entity()
  */
 class Cooking extends CombinedSkill implements WithBonus, \DrdPlus\HuntingAndFishing\Cooking
 {
     public const COOKING = CombinedSkillCode::COOKING;
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return self::COOKING;

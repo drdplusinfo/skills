@@ -3,32 +3,25 @@ declare(strict_types = 1);
 
 namespace DrdPlus\Skills\Physical;
 
-use DrdPlus\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
+use Granam\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
 use DrdPlus\Codes\Skills\PhysicalSkillCode;
-use DrdPlus\Properties\Base\Knack;
+use DrdPlus\BaseProperties\Knack;
 use DrdPlus\Skills\Physical\RollsOnQuality\BlacksmithingQuality;
 use DrdPlus\Skills\Physical\RollsOnQuality\RollsOnSuccess\BlacksmithingRollOnSuccess;
 use DrdPlus\Skills\WithBonusToKnack;
 
 /**
  * @link https://pph.drdplus.info/#kovarstvi
- * @Doctrine\ORM\Mapping\Entity()
  */
 class Blacksmithing extends PhysicalSkill implements WithBonusToKnack
 {
     public const BLACKSMITHING = PhysicalSkillCode::BLACKSMITHING;
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return self::BLACKSMITHING;
     }
 
-    /**
-     * @return int
-     */
     public function getBonusToKnack(): int
     {
         return $this->getCurrentSkillRank()->getValue() * 2;

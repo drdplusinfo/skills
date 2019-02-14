@@ -1,33 +1,26 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Skills\Combined;
 
-use DrdPlus\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
+use Granam\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
 use DrdPlus\Codes\Skills\CombinedSkillCode;
-use DrdPlus\Properties\Base\Knack;
+use DrdPlus\BaseProperties\Knack;
 use DrdPlus\Skills\Combined\RollsOnQuality\PlayingOnMusicInstrumentGameQuality;
 use DrdPlus\Skills\WithBonus;
 
 /**
  * @link https://pph.drdplus.info/#hra_na_hudebni_nastroj
- * @Doctrine\ORM\Mapping\Entity()
  */
 class PlayingOnMusicInstrument extends CombinedSkill implements WithBonus
 {
     public const PLAYING_ON_MUSIC_INSTRUMENT = CombinedSkillCode::PLAYING_ON_MUSIC_INSTRUMENT;
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return self::PLAYING_ON_MUSIC_INSTRUMENT;
     }
 
-    /**
-     * @return int
-     */
     public function getBonus(): int
     {
         return 3 * $this->getCurrentSkillRank()->getValue();

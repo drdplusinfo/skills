@@ -1,9 +1,8 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Skills;
 
-use Doctrineum\Entity\Entity;
 use DrdPlus\Armourer\Armourer;
 use DrdPlus\Codes\Armaments\ProtectiveArmamentCode;
 use DrdPlus\Codes\Armaments\WeaponCode;
@@ -24,38 +23,24 @@ use DrdPlus\Skills\Psychical\PsychicalSkills;
 use DrdPlus\Tables\Tables;
 use Granam\Strict\Object\StrictObject;
 
-/**
- * @Doctrine\ORM\Mapping\Entity()
- */
-class Skills extends StrictObject implements \IteratorAggregate, \Countable, Entity
+class Skills extends StrictObject implements \IteratorAggregate, \Countable
 {
     public const PHYSICAL = PhysicalSkills::PHYSICAL;
     public const PSYCHICAL = PsychicalSkills::PSYCHICAL;
     public const COMBINED = CombinedSkills::COMBINED;
 
     /**
-     * @var integer|null
-     * @Doctrine\ORM\Mapping\Column(type="integer")
-     * @Doctrine\ORM\Mapping\Id
-     * @Doctrine\ORM\Mapping\GeneratedValue()
-     */
-    private $id;
-
-    /**
      * @var PhysicalSkills
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="DrdPlus\Skills\Physical\PhysicalSkills", cascade={"persist"})
      */
     private $physicalSkills;
 
     /**
      * @var PsychicalSkills
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="DrdPlus\Skills\Psychical\PsychicalSkills", cascade={"persist"})
      */
     private $psychicalSkills;
 
     /**
      * @var CombinedSkills
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="DrdPlus\Skills\Combined\CombinedSkills", cascade={"persist"})
      */
     private $combinedSkills;
 
@@ -151,9 +136,6 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         return $propertyPayments;
     }
 
-    /**
-     * @return array
-     */
     private static function getPaymentsSkeleton(): array
     {
         return [
@@ -498,33 +480,16 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         $this->combinedSkills = $combinedSkills;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return PhysicalSkills
-     */
     public function getPhysicalSkills(): PhysicalSkills
     {
         return $this->physicalSkills;
     }
 
-    /**
-     * @return PsychicalSkills
-     */
     public function getPsychicalSkills(): PsychicalSkills
     {
         return $this->psychicalSkills;
     }
 
-    /**
-     * @return CombinedSkills
-     */
     public function getCombinedSkills(): CombinedSkills
     {
         return $this->combinedSkills;
@@ -535,7 +500,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      */
     public function getSkills(): array
     {
-        return array_merge(
+        return \array_merge(
             $this->getPhysicalSkills()->getIterator()->getArrayCopy(),
             $this->getPsychicalSkills()->getIterator()->getArrayCopy(),
             $this->getCombinedSkills()->getIterator()->getArrayCopy()
@@ -547,7 +512,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
      */
     public function getCodesOfAllSkills(): array
     {
-        return array_merge(
+        return \array_merge(
             PhysicalSkillCode::getPossibleValues(),
             PsychicalSkillCode::getPossibleValues(),
             CombinedSkillCode::getPossibleValues()
@@ -563,7 +528,6 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         foreach ($this->getSkills() as $skill) {
             $codesOfKnownSkills[] = $skill->getName();
         }
-
         return $codesOfKnownSkills;
     }
 
@@ -576,8 +540,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         foreach ($this->getSkills() as $skill) {
             $namesOfKnownSkills[] = $skill->getName();
         }
-
-        return array_diff($this->getCodesOfAllSkills(), $namesOfKnownSkills);
+        return \array_diff($this->getCodesOfAllSkills(), $namesOfKnownSkills);
     }
 
     /**
@@ -588,9 +551,6 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         return new \ArrayIterator($this->getSkills());
     }
 
-    /**
-     * @return int
-     */
     public function count(): int
     {
         return \count($this->getSkills());
@@ -743,49 +703,31 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable, Ent
         throw new Exceptions\UnknownTypeOfWeapon($weaponlikeCode);
     }
 
-    /**
-     * @return int
-     */
     public function getMalusToFightNumberWhenRiding(): int
     {
         return $this->getPhysicalSkills()->getMalusToFightNumberWhenRiding();
     }
 
-    /**
-     * @return int
-     */
     public function getMalusToAttackNumberWhenRiding(): int
     {
         return $this->getPhysicalSkills()->getMalusToAttackNumberWhenRiding();
     }
 
-    /**
-     * @return int
-     */
     public function getMalusToDefenseNumberWhenRiding(): int
     {
         return $this->getPhysicalSkills()->getMalusToDefenseNumberWhenRiding();
     }
 
-    /**
-     * @return int
-     */
     public function getBonusToAttackNumberAgainstFreeWillAnimal(): int
     {
         return $this->getPsychicalSkills()->getBonusToAttackNumberAgainstFreeWillAnimal();
     }
 
-    /**
-     * @return int
-     */
     public function getBonusToCoverAgainstFreeWillAnimal(): int
     {
         return $this->getPsychicalSkills()->getBonusToCoverAgainstFreeWillAnimal();
     }
 
-    /**
-     * @return int
-     */
     public function getBonusToBaseOfWoundsAgainstFreeWillAnimal(): int
     {
         return $this->getPsychicalSkills()->getBonusToBaseOfWoundsAgainstFreeWillAnimal();

@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Skills;
 
@@ -10,25 +10,16 @@ use DrdPlus\Calculations\SumAndRound;
  */
 trait FightWithWeaponsMissingSkillMalusesTrait
 {
-    /**
-     * @return int
-     */
     public function getMalusToFightNumber(): int
     {
         return $this->getCurrentSkillRank()->getValue() - 3;
     }
 
-    /**
-     * @return int
-     */
     public function getMalusToAttackNumber(): int
     {
         return $this->getCurrentSkillRank()->getValue() - 3;
     }
 
-    /**
-     * @return int
-     */
     public function getMalusToCover(): int
     {
         /*
@@ -40,9 +31,6 @@ trait FightWithWeaponsMissingSkillMalusesTrait
         return SumAndRound::ceiledHalf($this->getCurrentSkillRank()->getValue() + 2) - 3;
     }
 
-    /**
-     * @return int
-     */
     public function getMalusToBaseOfWounds(): int
     {
         /*

@@ -7,17 +7,11 @@ use DrdPlus\Codes\Properties\PropertyCode;
 use DrdPlus\Codes\Skills\SkillTypeCode;
 use DrdPlus\Skills\SkillPoint;
 
-/**
- * @Doctrine\ORM\Mapping\Entity()
- */
 class PhysicalSkillPoint extends SkillPoint
 {
 
     public const PHYSICAL = SkillTypeCode::PHYSICAL;
 
-    /**
-     * return @string
-     */
     public function getTypeName(): string
     {
         return static::PHYSICAL;

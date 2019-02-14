@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Tests\Skills;
 
@@ -57,9 +57,5 @@ trait WithBonusToSensesTrait
         self::assertSame($this->getExpectedBonusToSenses(3), $sut->getBonusToSenses());
     }
 
-    /**
-     * @param int $currentSkillRankValue
-     * @return int
-     */
     abstract protected function getExpectedBonusToSenses(int $currentSkillRankValue): int;
 }

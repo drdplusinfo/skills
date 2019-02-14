@@ -5,8 +5,8 @@ namespace DrdPlus\Skills\Physical;
 
 use DrdPlus\Codes\ProfessionCode;
 use DrdPlus\Codes\Properties\PropertyCode;
-use DrdPlus\Properties\Base\Agility;
-use DrdPlus\Properties\Base\Strength;
+use DrdPlus\BaseProperties\Agility;
+use DrdPlus\BaseProperties\Strength;
 use DrdPlus\Tables\Tables;
 use DrdPlus\Tests\Skills\SkillPointTest;
 

@@ -3,9 +3,9 @@ declare(strict_types = 1);
 
 namespace DrdPlus\Tests\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess;
 
-use DrdPlus\DiceRolls\Templates\Rollers\Roller2d6DrdPlus;
+use Granam\DiceRolls\Templates\Rollers\Roller2d6DrdPlus;
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
-use DrdPlus\Properties\Base\Knack;
+use DrdPlus\BaseProperties\Knack;
 use DrdPlus\RollsOn\QualityAndSuccess\ExtendedRollOnSuccess;
 use DrdPlus\Skills\Combined\Handwork;
 use DrdPlus\Skills\Combined\RollsOnQuality\HandworkQuality;

@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace DrdPlus\Tests\Skills\Combined;
 
-use DrdPlus\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
-use DrdPlus\Properties\Base\Charisma;
+use Granam\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
+use DrdPlus\BaseProperties\Charisma;
 use DrdPlus\Skills\Combined\RollsOnQuality\ShowmanshipGameQuality;
 use DrdPlus\Skills\Combined\Showmanship;
 

@@ -1,33 +1,19 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Skills;
 
-use Doctrine\Common\Collections\Collection;
-use Doctrineum\Entity\Entity;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use Granam\Strict\Object\StrictObject;
 
-/**
- * @Doctrine\ORM\Mapping\MappedSuperclass()
- */
-abstract class Skill extends StrictObject implements Entity
+abstract class Skill extends StrictObject
 {
-    /**
-     * @var int
-     * @Doctrine\ORM\Mapping\Id
-     * @Doctrine\ORM\Mapping\Column(type="integer")
-     * @Doctrine\ORM\Mapping\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @param ProfessionLevel $professionLevel
-     */
-    protected function __construct(ProfessionLevel $professionLevel)
+    public function __construct(ProfessionLevel $professionLevel)
     {
-        $this->getInnerSkillRanks()->add($this->createZeroSkillRank($professionLevel));
+        $this->setSkillRank($this->createZeroSkillRank($professionLevel));
     }
+
+    abstract protected function setSkillRank(SkillRank $skillRank);
 
     /**
      * @param SkillRank $skillRank
@@ -38,7 +24,7 @@ abstract class Skill extends StrictObject implements Entity
     {
         $this->guardSkillRankSequence($skillRank);
         $this->guardRelatedSkillOfRank($skillRank);
-        $this->getInnerSkillRanks()->offsetSet($skillRank->getValue(), $skillRank);
+        $this->setSkillRank($skillRank);
     }
 
     /**
@@ -72,54 +58,26 @@ abstract class Skill extends StrictObject implements Entity
         }
     }
 
-    /**
-     * @return int
-     */
     private function getMaxSkillRankValue(): int
     {
         return $this->getCurrentSkillRank()->getValue();
     }
 
     /**
-     * @return int|null
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * Gives cloned original skill ranks
      *
-     * @return SkillRank[]|Collection
+     * @return SkillRank[]|array
      */
-    public function getSkillRanks(): Collection
-    {
-        return clone $this->getInnerSkillRanks();
-    }
+    abstract public function getSkillRanks(): array;
 
-    /**
-     * @return SkillRank[]|Collection
-     */
-    abstract protected function getInnerSkillRanks(): Collection;
-
-    /**
-     * @return SkillRank
-     */
     public function getCurrentSkillRank(): SkillRank
     {
-        return $this->getSkillRanks()->last();
+        $skillRanks = $this->getSkillRanks();
+        return \end($skillRanks);
     }
 
-    /**
-     * @param ProfessionLevel $professionLevel
-     * @return SkillRank
-     */
     abstract protected function createZeroSkillRank(ProfessionLevel $professionLevel): SkillRank;
 
-    /**
-     * @return string
-     */
     abstract public function getName(): string;
 
     /**
@@ -127,19 +85,10 @@ abstract class Skill extends StrictObject implements Entity
      */
     abstract public function getRelatedPropertyCodes(): array;
 
-    /**
-     * @return bool
-     */
     abstract public function isPhysical(): bool;
 
-    /**
-     * @return bool
-     */
     abstract public function isPsychical(): bool;
 
-    /**
-     * @return bool
-     */
     abstract public function isCombined(): bool;
 
 }

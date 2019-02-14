@@ -1,9 +1,8 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Skills;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use DrdPlus\Codes\Armaments\ShieldCode;
 use DrdPlus\Codes\Armaments\WeaponCode;
 use DrdPlus\Codes\Skills\CombinedSkillCode;
@@ -22,12 +21,12 @@ use DrdPlus\Person\ProfessionLevels\ProfessionNextLevel;
 use DrdPlus\Person\ProfessionLevels\ProfessionZeroLevel;
 use DrdPlus\Professions\Commoner;
 use DrdPlus\Professions\Fighter;
-use DrdPlus\Properties\Base\Agility;
-use DrdPlus\Properties\Base\Charisma;
-use DrdPlus\Properties\Base\Intelligence;
-use DrdPlus\Properties\Base\Knack;
-use DrdPlus\Properties\Base\Strength;
-use DrdPlus\Properties\Base\Will;
+use DrdPlus\BaseProperties\Agility;
+use DrdPlus\BaseProperties\Charisma;
+use DrdPlus\BaseProperties\Intelligence;
+use DrdPlus\BaseProperties\Knack;
+use DrdPlus\BaseProperties\Strength;
+use DrdPlus\BaseProperties\Will;
 use DrdPlus\Skills\Combined\BigHandwork;
 use DrdPlus\Skills\Combined\CombinedSkillPoint;
 use DrdPlus\Skills\Combined\Cooking;
@@ -81,7 +80,6 @@ class SkillsTest extends TestWithMockery
             Tables::getIt()
         );
 
-        self::assertNull($skills->getId());
         self::assertSame($physicalSkills, $skills->getPhysicalSkills());
         self::assertSame($psychicalSkills, $skills->getPsychicalSkills());
         self::assertSame($combinedSkills, $skills->getCombinedSkills());
@@ -94,7 +92,7 @@ class SkillsTest extends TestWithMockery
             $this->getSortedGivenSkills($skills)
         );
         self::assertSame(
-            array_merge(
+            \array_merge(
                 PhysicalSkillCode::getPossibleValues(),
                 PsychicalSkillCode::getPossibleValues(),
                 CombinedSkillCode::getPossibleValues()
@@ -102,9 +100,9 @@ class SkillsTest extends TestWithMockery
             $skills->getCodesOfAllSkills()
         );
         $learnedSkills = $skills->getCodesOfLearnedSkills();
-        sort($learnedSkills);
+        \sort($learnedSkills);
         self::assertEquals(
-            $expectedCodesOfLearnedSkills = array_map(
+            $expectedCodesOfLearnedSkills = \array_map(
                 function (Skill $skill) {
                     return $skill->getName();
                 },
@@ -114,12 +112,12 @@ class SkillsTest extends TestWithMockery
         );
         self::assertNotEmpty($expectedCodesOfLearnedSkills);
         self::assertEquals(
-            array_diff($this->getAllSkillCodes(), $expectedCodesOfLearnedSkills),
+            \array_diff($this->getAllSkillCodes(), $expectedCodesOfLearnedSkills),
             $skills->getCodesOfNotLearnedSkills()
         );
         self::assertEquals(
             $skills->getIterator()->getArrayCopy(),
-            array_merge(
+            \array_merge(
                 $physicalSkills->getIterator()->getArrayCopy(),
                 $psychicalSkills->getIterator()->getArrayCopy(),
                 $combinedSkills->getIterator()->getArrayCopy()
@@ -133,7 +131,7 @@ class SkillsTest extends TestWithMockery
      */
     private function getAllSkillCodes(): array
     {
-        return array_merge(
+        return \array_merge(
             PhysicalSkillCode::getPossibleValues(),
             PsychicalSkillCode::getPossibleValues(),
             CombinedSkillCode::getPossibleValues()
@@ -145,7 +143,8 @@ class SkillsTest extends TestWithMockery
         $professionLevels = $this->createProfessionLevels();
         $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
         $firstLevel = $professionLevels->getFirstLevel();
-        $nextLevel = $professionLevels->getProfessionNextLevels()->last();
+        $nextLevels = $professionLevels->getProfessionNextLevels();
+        $nextLevel = \end($nextLevels);
 
         return [
             [
@@ -246,7 +245,7 @@ class SkillsTest extends TestWithMockery
         $firstSkill->shouldReceive('getName')
             ->andReturn($this->parseSkillName($firstSkillClass));
         $firstSkill->shouldReceive('getSkillRanks')
-            ->andReturn(new ArrayCollection([$firstSkillRank = $this->mockery(SkillRank::class)]));
+            ->andReturn([$firstSkillRank = $this->mockery(SkillRank::class)]);
         $firstSkillRank->shouldReceive('getProfessionLevel')
             ->andReturn($firstLevel);
         $firstSkillRank->shouldReceive('getSkillPoint')
@@ -378,7 +377,7 @@ class SkillsTest extends TestWithMockery
         $firstSkill->shouldReceive('getName')
             ->andReturn($this->parseSkillName($firstSkillClass));
         $firstSkill->shouldReceive('getSkillRanks')
-            ->andReturn(new ArrayCollection([$firstSkillRank = $this->mockery(SkillRank::class)]));
+            ->andReturn([$firstSkillRank = $this->mockery(SkillRank::class)]);
         $firstSkillRank->shouldReceive('getProfessionLevel')
             ->andReturn($firstLevel);
         $firstSkillRank->shouldReceive('getSkillPoint')
@@ -477,7 +476,7 @@ class SkillsTest extends TestWithMockery
         $firstSkill->shouldReceive('getName')
             ->andReturn($this->parseSkillName($skillClass));
         $firstSkill->shouldReceive('getSkillRanks')
-            ->andReturn(new ArrayCollection([$nextLevelSkillRank = $this->mockery(SkillRank::class)]));
+            ->andReturn([$nextLevelSkillRank = $this->mockery(SkillRank::class)]);
         $nextLevelSkillRank->shouldReceive('getProfessionLevel')
             ->andReturn($nextLevel);
         $nextLevelSkillRank->shouldReceive('getSkillPoint')
@@ -544,7 +543,7 @@ class SkillsTest extends TestWithMockery
         $profession->shouldReceive('getValue')
             ->andReturn($professionCode);
         $professionLevels->shouldReceive('getProfessionNextLevels')
-            ->andReturn(new ArrayCollection([$nextLevel = $this->mockery(ProfessionLevel::class)]));
+            ->andReturn([$nextLevel = $this->mockery(ProfessionLevel::class)]);
         $nextLevel->shouldReceive('isFirstLevel')
             ->andReturn(false);
         $nextLevel->shouldReceive('isNextLevel')
@@ -674,7 +673,7 @@ class SkillsTest extends TestWithMockery
         $firstSkill->shouldReceive('getName')
             ->andReturn($this->parseSkillName($firstSkillClass));
         $firstSkill->shouldReceive('getSkillRanks')
-            ->andReturn(new ArrayCollection([$firstSkillRank = $this->mockery(SkillRank::class)]));
+            ->andReturn([$firstSkillRank = $this->mockery(SkillRank::class)]);
         $firstSkillRank->shouldReceive('getProfessionLevel')
             ->andReturn($firstLevel);
         $firstSkillRank->shouldReceive('getSkillPoint')
@@ -740,7 +739,7 @@ class SkillsTest extends TestWithMockery
         $firstSkill->shouldReceive('getName')
             ->andReturn($this->parseSkillName($firstSkillClass));
         $firstSkill->shouldReceive('getSkillRanks')
-            ->andReturn(new ArrayCollection([$firstSkillRank = $this->mockery(SkillRank::class)]));
+            ->andReturn([$firstSkillRank = $this->mockery(SkillRank::class)]);
         $firstSkillRank->shouldReceive('getProfessionLevel')
             ->andReturn($firstLevel);
         $firstSkillRank->shouldReceive('getSkillPoint')
@@ -856,7 +855,10 @@ class SkillsTest extends TestWithMockery
      * @return \Mockery\MockInterface|PhysicalSkills
      */
     private function createSkillsWithTooHighFirstLevelPayment(
-        SkillPointsFromBackground $skillsFromBackground, ProfessionLevel $firstLevel, $firstSkillClass, $secondSkillClass
+        SkillPointsFromBackground $skillsFromBackground,
+        ProfessionLevel $firstLevel,
+        string $firstSkillClass,
+        string $secondSkillClass
     )
     {
         $skillsClass = $this->determineSkillsClass($firstSkillClass);
@@ -869,7 +871,7 @@ class SkillsTest extends TestWithMockery
         $firstSkill->shouldReceive('getName')
             ->andReturn($this->parseSkillName($firstSkillClass));
         $firstSkill->shouldReceive('getSkillRanks')
-            ->andReturn(new ArrayCollection([$firstSkillRank = $this->mockery(SkillRank::class)]));
+            ->andReturn([$firstSkillRank = $this->mockery(SkillRank::class)]);
         $firstSkillRank->shouldReceive('getProfessionLevel')
             ->andReturn($firstLevel);
         $firstSkillRank->shouldReceive('getSkillPoint')
@@ -885,7 +887,7 @@ class SkillsTest extends TestWithMockery
         $secondSkill->shouldReceive('getName')
             ->andReturn($this->parseSkillName($secondSkillClass));
         $secondSkill->shouldReceive('getSkillRanks')
-            ->andReturn(new ArrayCollection([$secondSkillRank = $this->mockery(SkillRank::class)]));
+            ->andReturn([$secondSkillRank = $this->mockery(SkillRank::class)]);
         $secondSkillRank->shouldReceive('getProfessionLevel')
             ->andReturn($firstLevel);
         $secondSkillRank->shouldReceive('getSkillPoint')
@@ -912,7 +914,8 @@ class SkillsTest extends TestWithMockery
         ProfessionLevels $professionLevels
     )
     {
-        $nextLevel = $professionLevels->getProfessionNextLevels()->last();
+        $nextLevels = $professionLevels->getProfessionNextLevels();
+        $nextLevel = \end($nextLevels);
         $physicalSkills = $this->createPhysicalSkillsByNextLevelPropertyIncrease($nextLevel);
         $psychicalSkills = $this->createPsychicalSkillsByNextLevelPropertyIncrease($nextLevel);
         $combinedSkills = $this->createCombinedSkillsByNextLevelPropertyIncrease($nextLevel);
@@ -944,10 +947,8 @@ class SkillsTest extends TestWithMockery
     public function I_can_not_increase_same_skill_more_than_once_per_next_level()
     {
         $professionLevels = $this->createProfessionLevels('foo', 2);
-        $physicalSkills = $this->createPhysicalSkillsWithTooHighSkillIncrementPerNextLevel(
-            $professionLevels->getProfessionNextLevels()->last(),
-            Swimming::class
-        );
+        $nextLevels = $professionLevels->getProfessionNextLevels();
+        $physicalSkills = $this->createPhysicalSkillsWithTooHighSkillIncrementPerNextLevel(\end($nextLevels), Swimming::class);
         $psychicalSkills = $this->createPsychicalSkillsByNextLevelPropertyIncrease($professionLevels->getFirstLevel());
         $combinedSkills = $this->createCombinedSkillsByNextLevelPropertyIncrease($professionLevels->getFirstLevel());
         $skillsFromBackground = $this->createSkillPointsFromBackground($professionLevels->getFirstLevel()->getProfession());
@@ -967,7 +968,7 @@ class SkillsTest extends TestWithMockery
      * @param string $skillClass
      * @return PhysicalSkills|\Mockery\MockInterface
      */
-    private function createPhysicalSkillsWithTooHighSkillIncrementPerNextLevel(ProfessionLevel $nextLevel, $skillClass)
+    private function createPhysicalSkillsWithTooHighSkillIncrementPerNextLevel(ProfessionLevel $nextLevel, string $skillClass)
     {
         $kills = $this->mockery($this->determineSkillsClass($skillClass));
         $kills->shouldReceive('getIterator')
@@ -977,10 +978,10 @@ class SkillsTest extends TestWithMockery
         $firstSkill->shouldReceive('getName')
             ->andReturn($this->parseSkillName($skillClass));
         $firstSkill->shouldReceive('getSkillRanks')
-            ->andReturn(new ArrayCollection([
+            ->andReturn([
                 $skillFirstRank = $this->mockery(SkillRank::class),
                 $skillSecondRank = $this->mockery(SkillRank::class),
-            ]));
+            ]);
         $skillFirstRank->shouldReceive('getProfessionLevel')
             ->andReturn($nextLevel);
         $skillFirstRank->shouldReceive('getValue')
@@ -1507,7 +1508,7 @@ class SkillsTest extends TestWithMockery
         $skills = Skills::createSkills(
             $professionLevels,
             $skillsFromBackground,
-            $physicalSkills =$this->createPhysicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
+            $physicalSkills = $this->createPhysicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
             $this->createPsychicalSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
             $this->createCombinedSkillsPaidByFirstLevelBackground($skillsFromBackground, $firstLevel),
             Tables::getIt()

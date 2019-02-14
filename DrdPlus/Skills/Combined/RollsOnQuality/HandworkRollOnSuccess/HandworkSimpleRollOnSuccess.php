@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess;
 
@@ -13,13 +13,6 @@ abstract class HandworkSimpleRollOnSuccess extends SimpleRollOnSuccess
      */
     private $difficultyModification;
 
-    /**
-     * @param int $baseDifficulty
-     * @param int $difficultyModification
-     * @param HandworkQuality $handworkQuality
-     * @param string $successValue
-     * @param string $failureValue
-     */
     public function __construct(
         int $baseDifficulty,
         int $difficultyModification,
@@ -32,9 +25,6 @@ abstract class HandworkSimpleRollOnSuccess extends SimpleRollOnSuccess
         $this->difficultyModification = $difficultyModification;
     }
 
-    /**
-     * @return int
-     */
     public function getDifficultyModification(): int
     {
         return $this->difficultyModification;

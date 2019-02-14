@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace DrdPlus\Skills\Combined\RollsOnQuality;
 
-use DrdPlus\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
-use DrdPlus\Properties\Base\Charisma;
+use Granam\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
+use DrdPlus\BaseProperties\Charisma;
 use DrdPlus\RollsOn\QualityAndSuccess\RollOnQuality;
 use DrdPlus\Skills\Combined\Showmanship;
 

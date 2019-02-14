@@ -1,10 +1,10 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace DrdPlus\Skills\Physical\RollsOnQuality;
 
-use DrdPlus\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
-use DrdPlus\Properties\Base\Knack;
+use Granam\DiceRolls\Templates\Rolls\Roll2d6DrdPlus;
+use DrdPlus\BaseProperties\Knack;
 use DrdPlus\RollsOn\QualityAndSuccess\RollOnQuality;
 use DrdPlus\Skills\Physical\Blacksmithing;
 
@@ -14,11 +14,6 @@ use DrdPlus\Skills\Physical\Blacksmithing;
  */
 class BlacksmithingQuality extends RollOnQuality
 {
-    /**
-     * @param Knack $knack
-     * @param Blacksmithing $blacksmithing
-     * @param Roll2d6DrdPlus $roll2D6DrdPlus
-     */
     public function __construct(Knack $knack, Blacksmithing $blacksmithing, Roll2d6DrdPlus $roll2D6DrdPlus)
     {
         parent::__construct($knack->getValue() + $blacksmithing->getBonusToKnack(), $roll2D6DrdPlus);
