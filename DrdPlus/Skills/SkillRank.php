@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace DrdPlus\Skills;
 
-use Doctrineum\Entity\Entity;
 use DrdPlus\Person\ProfessionLevels\ProfessionLevel;
 use Granam\Integer\PositiveInteger;
 use Granam\Strict\Object\StrictObject;
