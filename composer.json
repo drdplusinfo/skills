@@ -5,7 +5,12 @@
   "description": "Skills for Drd+",
   "autoload": {
     "psr-4": {
-      "DrdPlus\\": "DrdPlus/"
+      "DrdPlus\\Skills\\": "Skills"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "DrdPlus\\Tests\\": "tests"
     }
   },
   "require": {
@@ -22,5 +27,8 @@
     "mockery/mockery": "~1.2",
     "granam/exceptions-hierarchy": "~5.0",
     "granam/test-with-mockery": "^2.0"
+  },
+  "config": {
+    "sort-packages": true
   }
 }
