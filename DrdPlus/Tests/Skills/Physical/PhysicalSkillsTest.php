@@ -107,7 +107,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     public function I_can_not_increase_rank_by_zero_skill_point(): void
     {
         $this->expectException(\DrdPlus\Skills\Exceptions\CanNotUseZeroSkillPointForNonZeroSkillRank::class);
-        $this->expectExceptionMessageRegExp('~0~');
+        $this->expectExceptionMessageMatches('~0~');
         $skills = new PhysicalSkills($professionZeroLevel = ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $skills->getAthletics()->increaseSkillRank(PhysicalSkillPoint::createZeroSkillPoint($professionZeroLevel));
     }
@@ -519,7 +519,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     public function I_can_not_get_malus_for_melee_weapon_of_unknown_category(): void
     {
         $this->expectException(\DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon::class);
-        $this->expectExceptionMessageRegExp('~plank~');
+        $this->expectExceptionMessageMatches('~plank~');
         $physicalSkills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $physicalSkills->getMalusToFightNumberWithWeaponlike(
             $this->createWeaponlikeCode('plank', true /* is melee */, false /* not throwing */, false /* not a shield */),
@@ -534,7 +534,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     public function I_can_not_get_malus_for_non_shield_non_melee_non_throwing_weapon(): void
     {
         $this->expectException(\DrdPlus\Skills\Physical\Exceptions\PhysicalSkillsDoNotKnowHowToUseThatWeapon::class);
-        $this->expectExceptionMessageRegExp('~artillery~');
+        $this->expectExceptionMessageMatches('~artillery~');
         $physicalSkills = new PhysicalSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $physicalSkills->getMalusToFightNumberWithWeaponlike(
             $this->createWeaponlikeCode('artillery', false /* not melee */, false /* not throwing */, false /* not a shield */),

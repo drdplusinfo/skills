@@ -7,7 +7,7 @@ namespace DrdPlus\Tests\Skills\Physical;
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Skills\Physical\CartDriving;
 use DrdPlus\Skills\Physical\PhysicalSkillPoint;
-use Granam\Tests\Tools\TestWithMockery;
+use Granam\TestWithMockery\TestWithMockery;
 
 class CartDrivingTest extends TestWithMockery
 {

@@ -6,7 +6,7 @@ namespace DrdPlus\Tests\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess;
 
 use DrdPlus\Skills\Combined\RollsOnQuality\HandworkQuality;
 use DrdPlus\Skills\Combined\RollsOnQuality\HandworkRollOnSuccess\HandworkSimpleRollOnSuccess;
-use Granam\Tests\Tools\TestWithMockery;
+use Granam\TestWithMockery\TestWithMockery;
 
 abstract class HandworkSimpleRollOnSuccessTest extends TestWithMockery
 {

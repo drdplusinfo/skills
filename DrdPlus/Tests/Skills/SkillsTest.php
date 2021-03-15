@@ -47,7 +47,7 @@ use DrdPlus\Tables\Armaments\Shields\ShieldUsageSkillTable;
 use DrdPlus\Tables\Armaments\Weapons\MissingWeaponSkillTable;
 use DrdPlus\Tables\Tables;
 use Granam\Integer\PositiveIntegerObject;
-use Granam\Tests\Tools\TestWithMockery;
+use Granam\TestWithMockery\TestWithMockery;
 use Mockery\MockInterface;
 
 class SkillsTest extends TestWithMockery

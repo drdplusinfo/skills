@@ -17,7 +17,7 @@ use DrdPlus\Skills\Psychical\PsychicalSkill;
 use DrdPlus\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Skills\Psychical\PsychicalSkillRank;
 use Granam\Integer\PositiveIntegerObject;
-use Granam\Tests\Tools\TestWithMockery;
+use Granam\TestWithMockery\TestWithMockery;
 
 abstract class SkillTest extends TestWithMockery
 {
@@ -349,7 +349,7 @@ abstract class SkillTest extends TestWithMockery
     public function I_can_not_add_skill_rank_from_another_skill(): void
     {
         $this->expectException(\DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill::class);
-        $this->expectExceptionMessageRegExp('~Cooking~');
+        $this->expectExceptionMessageMatches('~Cooking~');
         $cheatingSkill = new CheatingSkill($this->createProfessionFirstLevel());
         /** @var CombinedSkillPoint|\Mockery\MockInterface $skillPoint */
         $skillPoint = $this->mockery(CombinedSkillPoint::class);
@@ -364,7 +364,7 @@ abstract class SkillTest extends TestWithMockery
     public function I_can_not_add_skill_rank_from_same_skill_but_different_instance(): void
     {
         $this->expectException(\DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill::class);
-        $this->expectExceptionMessageRegExp('~instance~');
+        $this->expectExceptionMessageMatches('~instance~');
         $cheatingSkill = new CheatingSkill($this->createProfessionFirstLevel());
         /** @var CombinedSkillPoint|\Mockery\MockInterface $skillPoint */
         $skillPoint = $this->mockery(CombinedSkillPoint::class);

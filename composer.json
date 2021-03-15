@@ -9,7 +9,7 @@
     }
   },
   "require": {
-    "php": ">=7.1",
+    "php": ">=7.3",
     "drdplus/background": "~2.0",
     "drdplus/lighting": "~2.0",
     "drdplus/hunting-and-fishing": "~2.0",
@@ -18,8 +18,9 @@
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
-    "phpunit/phpunit": "^8.3",
-    "mockery/mockery": "^1.2",
-    "granam/exceptions-hierarchy": "^5.0"
+    "phpunit/phpunit": "~9.0",
+    "mockery/mockery": "~1.2",
+    "granam/exceptions-hierarchy": "~5.0",
+    "granam/test-with-mockery": "^2.0"
   }
 }

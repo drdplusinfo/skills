@@ -7,7 +7,7 @@ namespace DrdPlus\Tests\Skills\Psychical;
 use DrdPlus\Person\ProfessionLevels\ProfessionFirstLevel;
 use DrdPlus\Skills\Psychical\PsychicalSkillPoint;
 use DrdPlus\Skills\Psychical\ReadingAndWriting;
-use Granam\Tests\Tools\TestWithMockery;
+use Granam\TestWithMockery\TestWithMockery;
 
 class ReadingAndWritingTest extends TestWithMockery
 {

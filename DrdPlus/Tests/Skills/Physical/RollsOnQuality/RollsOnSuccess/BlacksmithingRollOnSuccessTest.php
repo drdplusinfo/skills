@@ -6,7 +6,7 @@ namespace DrdPlus\Tests\Skills\Physical\RollsOnQuality\RollsOnSuccess;
 
 use DrdPlus\Skills\Physical\RollsOnQuality\BlacksmithingQuality;
 use DrdPlus\Skills\Physical\RollsOnQuality\RollsOnSuccess\BlacksmithingRollOnSuccess;
-use Granam\Tests\Tools\TestWithMockery;
+use Granam\TestWithMockery\TestWithMockery;
 
 class BlacksmithingRollOnSuccessTest extends TestWithMockery
 {

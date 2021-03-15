@@ -16,7 +16,7 @@ use DrdPlus\Skills\Skill;
 use DrdPlus\Skills\SkillPoint;
 use DrdPlus\Skills\Physical\PhysicalSkillPoint;
 use DrdPlus\Skills\Psychical\PsychicalSkillPoint;
-use Granam\Tests\Tools\TestWithMockery;
+use Granam\TestWithMockery\TestWithMockery;
 
 abstract class SameTypeSkillsTest extends TestWithMockery
 {

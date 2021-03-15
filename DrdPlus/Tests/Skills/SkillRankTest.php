@@ -9,7 +9,7 @@ use DrdPlus\Skills\SkillPoint;
 use DrdPlus\Skills\SkillRank;
 use Granam\Integer\PositiveInteger;
 use Mockery\MockInterface;
-use Granam\Tests\Tools\TestWithMockery;
+use Granam\TestWithMockery\TestWithMockery;
 
 abstract class SkillRankTest extends TestWithMockery
 {

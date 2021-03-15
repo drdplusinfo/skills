@@ -16,7 +16,7 @@ use DrdPlus\Skills\WithBonusToIntelligence;
 use DrdPlus\Skills\WithBonusToKnack;
 use DrdPlus\Skills\WithBonusToSenses;
 use DrdPlus\Skills\WithBonusToMovementSpeed;
-use Granam\Tests\Tools\TestWithMockery;
+use Granam\TestWithMockery\TestWithMockery;
 
 abstract class WithBonusTest extends TestWithMockery
 {
@@ -26,7 +26,7 @@ abstract class WithBonusTest extends TestWithMockery
     public function It_has_expected_interface()
     {
         self::assertTrue(
-            \is_a(self::getSutClass(), $this->getExpectedInterface(), true),
+            is_a(self::getSutClass(), $this->getExpectedInterface(), true),
             self::getSutClass() . ' should implement ' . $this->getExpectedInterface()
         );
     }
@@ -65,19 +65,19 @@ abstract class WithBonusTest extends TestWithMockery
 
     protected function getBonusGetterName(): string
     {
-        if (\is_a($this->getExpectedInterface(), WithBonusToMovementSpeed::class, true)) {
+        if (is_a($this->getExpectedInterface(), WithBonusToMovementSpeed::class, true)) {
             return 'getBonusToMovementSpeed';
         }
-        if (\is_a($this->getExpectedInterface(), WithBonusToCharisma::class, true)) {
+        if (is_a($this->getExpectedInterface(), WithBonusToCharisma::class, true)) {
             return 'getBonusToCharisma';
         }
-        if (\is_a($this->getExpectedInterface(), WithBonusToIntelligence::class, true)) {
+        if (is_a($this->getExpectedInterface(), WithBonusToIntelligence::class, true)) {
             return 'getBonusToIntelligence';
         }
-        if (\is_a($this->getExpectedInterface(), WithBonusToKnack::class, true)) {
+        if (is_a($this->getExpectedInterface(), WithBonusToKnack::class, true)) {
             return 'getBonusToKnack';
         }
-        if (\is_a($this->getExpectedInterface(), WithBonusToSenses::class, true)) {
+        if (is_a($this->getExpectedInterface(), WithBonusToSenses::class, true)) {
             return 'getBonusToSenses';
         }
 

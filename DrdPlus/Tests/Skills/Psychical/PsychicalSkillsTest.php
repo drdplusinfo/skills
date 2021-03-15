@@ -70,7 +70,7 @@ class PsychicalSkillsTest extends SameTypeSkillsTest
     public function I_can_not_increase_rank_by_zero_skill_point()
     {
         $this->expectException(\DrdPlus\Skills\Exceptions\CanNotUseZeroSkillPointForNonZeroSkillRank::class);
-        $this->expectExceptionMessageRegExp('~0~');
+        $this->expectExceptionMessageMatches('~0~');
         $skills = new PsychicalSkills($professionZeroLevel = ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $skills->getEtiquetteOfGangland()->increaseSkillRank(PsychicalSkillPoint::createZeroSkillPoint($professionZeroLevel));
     }

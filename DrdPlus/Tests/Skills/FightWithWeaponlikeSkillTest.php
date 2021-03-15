@@ -3,7 +3,7 @@
 namespace DrdPlus\Tests\Skills;
 
 use DrdPlus\Skills\FightWithWeaponlikeSkill;
-use Granam\Tests\Tools\TestWithMockery;
+use Granam\TestWithMockery\TestWithMockery;
 
 class FightWithWeaponlikeSkillTest extends TestWithMockery
 {

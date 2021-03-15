@@ -17,7 +17,7 @@ use DrdPlus\Professions\Profession;
 use DrdPlus\BaseProperties\Agility;
 use DrdPlus\BaseProperties\Strength;
 use DrdPlus\Tables\Tables;
-use Granam\Tests\Tools\TestWithMockery;
+use Granam\TestWithMockery\TestWithMockery;
 
 abstract class SkillPointTest extends TestWithMockery
 {
@@ -367,7 +367,7 @@ abstract class SkillPointTest extends TestWithMockery
     public function I_can_not_create_skill_point_with_higher_value_than_one()
     {
         $this->expectException(\DrdPlus\Skills\Exceptions\UnexpectedSkillPointValue::class);
-        $this->expectExceptionMessageRegExp('~2~');
+        $this->expectExceptionMessageMatches('~2~');
         $combinedSkillPoint = new \ReflectionClass(CombinedSkillPoint::class);
         $constructor = $combinedSkillPoint->getConstructor();
         $constructor->setAccessible(true);
@@ -384,7 +384,7 @@ abstract class SkillPointTest extends TestWithMockery
     public function I_can_not_create_skill_point_with_lesser_value_than_zero()
     {
         $this->expectException(\DrdPlus\Skills\Exceptions\UnexpectedSkillPointValue::class);
-        $this->expectExceptionMessageRegExp('~-1~');
+        $this->expectExceptionMessageMatches('~-1~');
         $combinedSkillPoint = new \ReflectionClass(CombinedSkillPoint::class);
         $constructor = $combinedSkillPoint->getConstructor();
         $constructor->setAccessible(true);

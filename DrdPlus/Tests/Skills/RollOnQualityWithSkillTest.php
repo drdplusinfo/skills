@@ -8,7 +8,7 @@ use DrdPlus\RollsOn\QualityAndSuccess\RollOnQuality;
 use DrdPlus\Skills\Psychical\RollsOn\MapQuality;
 use DrdPlus\Skills\Psychical\RollsOn\RollOnMapUsage;
 use DrdPlus\Skills\Skill;
-use Granam\Tests\Tools\TestWithMockery;
+use Granam\TestWithMockery\TestWithMockery;
 
 abstract class RollOnQualityWithSkillTest extends TestWithMockery
 {
@@ -65,7 +65,7 @@ abstract class RollOnQualityWithSkillTest extends TestWithMockery
         $constructor = $reflection->getMethod('__construct');
         $firstParameter = $constructor->getParameters()[$parameterPosition];
 
-        return $firstParameter->getClass()->getName();
+        return $firstParameter->getType()->getName();
     }
 
     /**
@@ -107,7 +107,7 @@ abstract class RollOnQualityWithSkillTest extends TestWithMockery
 COMMENT
             , $reflection->getDocComment()
         );
-        self::assertRegExp(<<<'REGEXP'
+        self::assertMatchesRegularExpression(<<<'REGEXP'
 ~\* See PPH page \d+ (left( column)?( (top|bottom))?|right( column)?( (top|bottom))?)?, @link https://pph\.drdplus\.info/#[a-z_]+~
 REGEXP
             , $reflection->getDocComment(),

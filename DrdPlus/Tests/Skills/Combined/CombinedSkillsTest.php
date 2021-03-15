@@ -81,7 +81,7 @@ class CombinedSkillsTest extends SameTypeSkillsTest
     public function I_can_not_increase_rank_by_zero_skill_point(): void
     {
         $this->expectException(\DrdPlus\Skills\Exceptions\CanNotUseZeroSkillPointForNonZeroSkillRank::class);
-        $this->expectExceptionMessageRegExp('~0~');
+        $this->expectExceptionMessageMatches('~0~');
         $skills = new CombinedSkills($professionZeroLevel = ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $skills->getCooking()->increaseSkillRank(CombinedSkillPoint::createZeroSkillPoint($professionZeroLevel));
     }
@@ -222,7 +222,7 @@ class CombinedSkillsTest extends SameTypeSkillsTest
     public function I_can_not_get_malus_for_weapon_not_affected_by_combined_skill(): void
     {
         $this->expectException(\DrdPlus\Skills\Combined\Exceptions\CombinedSkillsDoNotHowToUseThatWeapon::class);
-        $this->expectExceptionMessageRegExp('~notBowNorCrossbowYouKnow~');
+        $this->expectExceptionMessageMatches('~notBowNorCrossbowYouKnow~');
         $combinedSkills = new CombinedSkills(ProfessionZeroLevel::createZeroLevel(Commoner::getIt()));
         $combinedSkills->getMalusToFightNumberWithShootingWeapon(
             $this->createRangeWeaponCode('notBowNorCrossbowYouKnow'),

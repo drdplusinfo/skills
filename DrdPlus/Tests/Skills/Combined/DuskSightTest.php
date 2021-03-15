@@ -7,7 +7,7 @@ namespace DrdPlus\Skills\Combined;
 use DrdPlus\Lighting\Partials\WithInsufficientLightingBonus;
 use DrdPlus\Person\ProfessionLevels\ProfessionZeroLevel;
 use DrdPlus\Professions\Commoner;
-use Granam\Tests\Tools\TestWithMockery;
+use Granam\TestWithMockery\TestWithMockery;
 
 class DuskSightTest extends TestWithMockery
 {
