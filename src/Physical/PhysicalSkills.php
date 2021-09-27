@@ -18,114 +18,33 @@ class PhysicalSkills extends SameTypeSkills
 {
     public const PHYSICAL = SkillTypeCode::PHYSICAL;
 
-    /**
-     * @var ArmorWearing
-     */
-    private $armorWearing;
-    /**
-     * @var Athletics
-     */
-    private $athletics;
-    /**
-     * @var Blacksmithing
-     */
-    private $blacksmithing;
-    /**
-     * @var BoatDriving
-     */
-    private $boatDriving;
-    /**
-     * @var CartDriving
-     */
-    private $cartDriving;
-    /**
-     * @var CityMoving
-     */
-    private $cityMoving;
-    /**
-     * @var ClimbingAndHillwalking
-     */
-    private $climbingAndHillwalking;
-    /**
-     * @var FastMarsh
-     */
-    private $fastMarsh;
-    /**
-     * @var FightUnarmed
-     */
-    private $fightUnarmed;
-    /**
-     * @var FightWithAxes
-     */
-    private $fightWithAxes;
-    /**
-     * @var FightWithKnivesAndDaggers
-     */
-    private $fightWithKnivesAndDaggers;
-    /**
-     * @var FightWithMacesAndClubs
-     */
-    private $fightWithMacesAndClubs;
-    /**
-     * @var FightWithMorningstarsAndMorgensterns
-     */
-    private $fightWithMorningstarsAndMorgensterns;
-    /**
-     * @var FightWithSabersAndBowieKnives
-     */
-    private $fightWithSabersAndBowieKnives;
-    /**
-     * @var FightWithStaffsAndSpears
-     */
-    private $fightWithStaffsAndSpears;
-    /**
-     * @var FightWithShields
-     */
-    private $fightWithShields;
-    /**
-     * @var FightWithSwords
-     */
-    private $fightWithSwords;
-    /**
-     * @var FightWithThrowingWeapons
-     */
-    private $fightWithThrowingWeapons;
-    /**
-     * @var FightWithTwoWeapons
-     */
-    private $fightWithTwoWeapons;
-    /**
-     * @var FightWithVoulgesAndTridents
-     */
-    private $fightWithVoulgesAndTridents;
-    /**
-     * @var Flying
-     */
-    private $flying;
-    /**
-     * @var ForestMoving
-     */
-    private $forestMoving;
-    /**
-     * @var MovingInMountains
-     */
-    private $movingInMountains;
-    /**
-     * @var Riding
-     */
-    private $riding;
-    /**
-     * @var Sailing
-     */
-    private $sailing;
-    /**
-     * @var ShieldUsage
-     */
-    private $shieldUsage;
-    /**
-     * @var Swimming
-     */
-    private $swimming;
+    private ?\DrdPlus\Skills\Physical\ArmorWearing $armorWearing = null;
+    private ?\DrdPlus\Skills\Physical\Athletics $athletics = null;
+    private ?\DrdPlus\Skills\Physical\Blacksmithing $blacksmithing = null;
+    private ?\DrdPlus\Skills\Physical\BoatDriving $boatDriving = null;
+    private ?\DrdPlus\Skills\Physical\CartDriving $cartDriving = null;
+    private ?\DrdPlus\Skills\Physical\CityMoving $cityMoving = null;
+    private ?\DrdPlus\Skills\Physical\ClimbingAndHillwalking $climbingAndHillwalking = null;
+    private ?\DrdPlus\Skills\Physical\FastMarsh $fastMarsh = null;
+    private ?\DrdPlus\Skills\Physical\FightUnarmed $fightUnarmed = null;
+    private ?\DrdPlus\Skills\Physical\FightWithAxes $fightWithAxes = null;
+    private ?\DrdPlus\Skills\Physical\FightWithKnivesAndDaggers $fightWithKnivesAndDaggers = null;
+    private ?\DrdPlus\Skills\Physical\FightWithMacesAndClubs $fightWithMacesAndClubs = null;
+    private ?\DrdPlus\Skills\Physical\FightWithMorningstarsAndMorgensterns $fightWithMorningstarsAndMorgensterns = null;
+    private ?\DrdPlus\Skills\Physical\FightWithSabersAndBowieKnives $fightWithSabersAndBowieKnives = null;
+    private ?\DrdPlus\Skills\Physical\FightWithStaffsAndSpears $fightWithStaffsAndSpears = null;
+    private ?\DrdPlus\Skills\Physical\FightWithShields $fightWithShields = null;
+    private ?\DrdPlus\Skills\Physical\FightWithSwords $fightWithSwords = null;
+    private ?\DrdPlus\Skills\Physical\FightWithThrowingWeapons $fightWithThrowingWeapons = null;
+    private ?\DrdPlus\Skills\Physical\FightWithTwoWeapons $fightWithTwoWeapons = null;
+    private ?\DrdPlus\Skills\Physical\FightWithVoulgesAndTridents $fightWithVoulgesAndTridents = null;
+    private ?\DrdPlus\Skills\Physical\Flying $flying = null;
+    private ?\DrdPlus\Skills\Physical\ForestMoving $forestMoving = null;
+    private ?\DrdPlus\Skills\Physical\MovingInMountains $movingInMountains = null;
+    private ?\DrdPlus\Skills\Physical\Riding $riding = null;
+    private ?\DrdPlus\Skills\Physical\Sailing $sailing = null;
+    private ?\DrdPlus\Skills\Physical\ShieldUsage $shieldUsage = null;
+    private ?\DrdPlus\Skills\Physical\Swimming $swimming = null;
 
     protected function populateAllSkills(ProfessionLevel $professionLevel)
     {

@@ -320,9 +320,7 @@ class PhysicalSkillsTest extends SameTypeSkillsTest
     {
         return \array_merge(
             \array_map(
-                function (string $meleeWeaponCategoryValue) {
-                    return [$meleeWeaponCategoryValue, true /* is melee */, false /*  not throwing */, false /* not a shield */];
-                },
+                fn(string $meleeWeaponCategoryValue) => [$meleeWeaponCategoryValue, true /* is melee */, false /*  not throwing */, false /* not a shield */],
                 WeaponCategoryCode::getMeleeWeaponCategoryValues()
             ),
             [

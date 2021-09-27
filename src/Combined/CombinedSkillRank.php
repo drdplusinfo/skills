@@ -1,26 +1,20 @@
 <?php declare(strict_types=1);
 
-namespace DrdPlus\Skills\Psychical;
+namespace DrdPlus\Skills\Combined;
 
 use DrdPlus\Skills\Skill;
 use DrdPlus\Skills\SkillPoint;
 use DrdPlus\Skills\SkillRank;
 use Granam\Integer\PositiveInteger;
 
-class PsychicalSkillRank extends SkillRank
+class CombinedSkillRank extends SkillRank
 {
-    /**
-     * @var PsychicalSkill
-     */
-    private $psychicalSkill;
-    /**
-     * @var PsychicalSkillPoint
-     */
-    private $psychicalSkillPoint;
+    private \DrdPlus\Skills\Skill $combinedSkill;
+    private \DrdPlus\Skills\SkillPoint $combinedSkillPoint;
 
     /**
-     * @param PsychicalSkill $psychicalSkill
-     * @param PsychicalSkillPoint $psychicalSkillPoint
+     * @param CombinedSkill $combinedSkill
+     * @param CombinedSkillPoint $combinedSkillPoint
      * @param PositiveInteger $requiredRankValue
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyOwningSkill
      * @throws \DrdPlus\Skills\Exceptions\CanNotVerifyPaidSkillPoint
@@ -29,29 +23,30 @@ class PsychicalSkillRank extends SkillRank
      * @throws \DrdPlus\Skills\Exceptions\UnexpectedRankValue
      */
     public function __construct(
-        PsychicalSkill $psychicalSkill,
-        PsychicalSkillPoint $psychicalSkillPoint,
+        CombinedSkill $combinedSkill,
+        CombinedSkillPoint $combinedSkillPoint,
         PositiveInteger $requiredRankValue
     )
     {
-        $this->psychicalSkill = $psychicalSkill;
-        $this->psychicalSkillPoint = $psychicalSkillPoint;
-        parent::__construct($psychicalSkill, $psychicalSkillPoint, $requiredRankValue);
+        $this->combinedSkill = $combinedSkill;
+        $this->combinedSkillPoint = $combinedSkillPoint;
+        parent::__construct($combinedSkill, $combinedSkillPoint, $requiredRankValue);
     }
 
     /**
-     * @return Skill|PsychicalSkill
+     * @return Skill|CombinedSkill
      */
     public function getSkill(): Skill
     {
-        return $this->psychicalSkill;
+        return $this->combinedSkill;
     }
 
     /**
-     * @return SkillPoint|PsychicalSkillPoint
+     * @return SkillPoint|CombinedSkillPoint
      */
     public function getSkillPoint(): SkillPoint
     {
-        return $this->psychicalSkillPoint;
+        return $this->combinedSkillPoint;
     }
+
 }

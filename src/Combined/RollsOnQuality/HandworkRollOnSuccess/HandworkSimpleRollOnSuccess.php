@@ -7,10 +7,7 @@ use DrdPlus\Skills\Combined\RollsOnQuality\HandworkQuality;
 
 abstract class HandworkSimpleRollOnSuccess extends SimpleRollOnSuccess
 {
-    /**
-     * @var int
-     */
-    private $difficultyModification;
+    private int $difficultyModification;
 
     public function __construct(
         int $baseDifficulty,

@@ -8,24 +8,14 @@ use Granam\Tests\ExceptionsHierarchy\Exceptions\AbstractExceptionsHierarchyTest;
 
 class CombinedSkillsExceptionsHierarchyTest extends AbstractExceptionsHierarchyTest
 {
-    /**
-     * @return string
-     */
-    protected function getTestedNamespace()
+    protected function getTestedNamespace(): string
     {
-        $combinedSkills = new \ReflectionClass(CombinedSkills::class);
-
-        return $combinedSkills->getNamespaceName();
+        return (new \ReflectionClass(CombinedSkills::class))->getNamespaceName();
     }
 
-    /**
-     * @return string
-     */
-    protected function getRootNamespace()
+    protected function getRootNamespace(): string
     {
-        $skills = new \ReflectionClass(Skills::class);
-
-        return $skills->getNamespaceName();
+        return (new \ReflectionClass(Skills::class))->getNamespaceName();
     }
 
 }

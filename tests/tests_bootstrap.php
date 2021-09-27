@@ -2,8 +2,8 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-\error_reporting(-1);
-\ini_set('display_errors', '1');
-\ini_set('xdebug.max_nesting_level', '100');
+error_reporting(-1);
+ini_set('display_errors', '1');
+ini_set('xdebug.max_nesting_level', '100');
 
-define('PROJECT_ROOT_DIR', __DIR__ . '/..');
+const PROJECT_ROOT_DIR = __DIR__ . '/..';

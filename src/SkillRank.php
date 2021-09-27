@@ -10,12 +10,7 @@ abstract class SkillRank extends StrictObject implements PositiveInteger
 {
 
     public const MIN_RANK_VALUE = 0; // heard about it
-    public const MAX_RANK_VALUE = 3; // great knowledge
-
-    /**
-     * @var integer
-     */
-    private $value;
+    public const MAX_RANK_VALUE = 3; private int $value;
 
     /**
      * @param Skill $owningSkill

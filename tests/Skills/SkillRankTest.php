@@ -178,7 +178,7 @@ class BrokenBecauseOfSkillNotSetInConstructor extends SkillRank
 
 class BrokenBecauseOfSkillPointNotSetInConstructor extends SkillRank
 {
-    private $skill;
+    private \DrdPlus\Skills\Skill $skill;
 
     public function __construct(
         Skill $owningSkill,

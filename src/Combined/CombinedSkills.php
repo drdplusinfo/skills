@@ -13,90 +13,27 @@ class CombinedSkills extends SameTypeSkills
 {
     public const COMBINED = SkillTypeCode::COMBINED;
 
-    /**
-     * @var BigHandwork
-     */
-    private $bigHandwork;
-    /**
-     * @var Cooking
-     */
-    private $cooking;
-    /**
-     * @var Dancing
-     */
-    private $dancing;
-    /**
-     * @var DuskSight
-     */
-    private $duskSight;
-    /**
-     * @var FightWithBows
-     */
-    private $fightWithBows;
-    /**
-     * @var FightWithCrossbows
-     */
-    private $fightWithCrossbows;
-    /**
-     * @var FirstAid
-     */
-    private $firstAid;
-    /**
-     * @var HandlingWithAnimals
-     */
-    private $handlingWithAnimals;
-    /**
-     * @var Handwork
-     */
-    private $handwork;
-    /**
-     * @var Gambling
-     */
-    private $gambling;
-    /**
-     * @var Herbalism
-     */
-    private $herbalism;
-    /**
-     * @var HuntingAndFishing
-     */
-    private $huntingAndFishing;
-    /**
-     * @var Knotting
-     */
-    private $knotting;
-    /**
-     * @var Painting
-     */
-    private $painting;
-    /**
-     * @var Pedagogy
-     */
-    private $pedagogy;
-    /**
-     * @var PlayingOnMusicInstrument
-     */
-    private $playingOnMusicInstrument;
-    /**
-     * @var Seduction
-     */
-    private $seduction;
-    /**
-     * @var Showmanship
-     */
-    private $showmanship;
-    /**
-     * @var Singing
-     */
-    private $singing;
-    /**
-     * @var Statuary
-     */
-    private $statuary;
-    /**
-     * @var Teaching
-     */
-    private $teaching;
+    private ?\DrdPlus\Skills\Combined\BigHandwork $bigHandwork = null;
+    private ?\DrdPlus\Skills\Combined\Cooking $cooking = null;
+    private ?\DrdPlus\Skills\Combined\Dancing $dancing = null;
+    private ?\DrdPlus\Skills\Combined\DuskSight $duskSight = null;
+    private ?\DrdPlus\Skills\Combined\FightWithBows $fightWithBows = null;
+    private ?\DrdPlus\Skills\Combined\FightWithCrossbows $fightWithCrossbows = null;
+    private ?\DrdPlus\Skills\Combined\FirstAid $firstAid = null;
+    private ?\DrdPlus\Skills\Combined\HandlingWithAnimals $handlingWithAnimals = null;
+    private ?\DrdPlus\Skills\Combined\Handwork $handwork = null;
+    private ?\DrdPlus\Skills\Combined\Gambling $gambling = null;
+    private ?\DrdPlus\Skills\Combined\Herbalism $herbalism = null;
+    private ?\DrdPlus\Skills\Combined\HuntingAndFishing $huntingAndFishing = null;
+    private ?\DrdPlus\Skills\Combined\Knotting $knotting = null;
+    private ?\DrdPlus\Skills\Combined\Painting $painting = null;
+    private ?\DrdPlus\Skills\Combined\Pedagogy $pedagogy = null;
+    private ?\DrdPlus\Skills\Combined\PlayingOnMusicInstrument $playingOnMusicInstrument = null;
+    private ?\DrdPlus\Skills\Combined\Seduction $seduction = null;
+    private ?\DrdPlus\Skills\Combined\Showmanship $showmanship = null;
+    private ?\DrdPlus\Skills\Combined\Singing $singing = null;
+    private ?\DrdPlus\Skills\Combined\Statuary $statuary = null;
+    private ?\DrdPlus\Skills\Combined\Teaching $teaching = null;
 
     protected function populateAllSkills(ProfessionLevel $professionLevel)
     {

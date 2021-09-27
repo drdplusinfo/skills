@@ -9,14 +9,8 @@ use Granam\Integer\PositiveInteger;
 
 class PhysicalSkillRank extends SkillRank
 {
-    /**
-     * @var PhysicalSkill
-     */
-    private $physicalSkill;
-    /**
-     * @var PhysicalSkillPoint
-     */
-    private $physicalSkillPoint;
+    private \DrdPlus\Skills\Skill $physicalSkill;
+    private \DrdPlus\Skills\SkillPoint $physicalSkillPoint;
 
     /**
      * @param PhysicalSkill $physicalSkill

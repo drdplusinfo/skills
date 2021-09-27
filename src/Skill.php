@@ -47,7 +47,7 @@ abstract class Skill extends StrictObject
     private function guardRelatedSkillOfRank(SkillRank $skillRank)
     {
         if ($this !== $skillRank->getSkill()) {
-            if (static::class !== \get_class($skillRank->getSkill())) {
+            if (!$skillRank->getSkill() instanceof static) {
                 $message = 'New skill rank belongs to different skill class. Expecting ' . static::class . ', got '
                     . \get_class($skillRank->getSkill());
             } else {

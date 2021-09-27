@@ -117,13 +117,12 @@ abstract class SkillTest extends TestWithMockery
     {
         $baseClass = SkillRank::class;
         $typeName = preg_quote(ucfirst($this->getTypeName($sutClass)), '~');
-        $class = preg_replace(
+
+        return preg_replace(
             '~[\\\]SkillRank$~',
             '\\' . $typeName . '\\' . $typeName . 'SkillRank',
             $baseClass
         );
-
-        return $class;
     }
 
     private function getTypeName(string $sutClass)
@@ -154,13 +153,12 @@ abstract class SkillTest extends TestWithMockery
     {
         $baseClass = SkillPoint::class;
         $typeName = preg_quote(ucfirst($this->getExpectedSkillsTypeName()), '~');
-        $class = preg_replace(
+
+        return preg_replace(
             '~[\\\]SkillPoint$~',
             '\\' . $typeName . '\\' . $typeName . 'SkillPoint',
             $baseClass
         );
-
-        return $class;
     }
 
     /**

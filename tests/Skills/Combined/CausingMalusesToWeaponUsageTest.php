@@ -14,8 +14,7 @@ abstract class CausingMalusesToWeaponUsageTest extends SkillTest
      */
     public function I_can_get_malus_to_fight_number(): void
     {
-        $sutClasses = self::getSutClasses();
-        foreach ($sutClasses as $sutClass) {
+        foreach (self::getSutClasses() as $sutClass) {
             /** @var CausingMalusesToWeaponUsage|PhysicalSkill $sut */
             $sut = new $sutClass($this->createProfessionFirstLevel());
             self::assertSame(-3, $sut->getMalusToFightNumber());

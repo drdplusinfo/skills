@@ -105,9 +105,7 @@ class SkillsTest extends TestWithMockery
         \sort($learnedSkills);
         self::assertEquals(
             $expectedCodesOfLearnedSkills = \array_map(
-                static function (Skill $skill) {
-                    return $skill->getName();
-                },
+                static fn(Skill $skill) => $skill->getName(),
                 $sortedExpectedSkills
             ),
             $learnedSkills
@@ -183,11 +181,9 @@ class SkillsTest extends TestWithMockery
         ProfessionLevel $firstLevel
     )
     {
-        $physicalSkills = $this->createSkillsPaidByFirstLevelBackground(
+        return $this->createSkillsPaidByFirstLevelBackground(
             $skillsFromBackground, $firstLevel, Swimming::class
         );
-
-        return $physicalSkills;
     }
 
     /**
@@ -200,11 +196,9 @@ class SkillsTest extends TestWithMockery
         ProfessionLevel $firstLevel
     )
     {
-        $psychicalSkills = $this->createSkillsPaidByFirstLevelBackground(
+        return $this->createSkillsPaidByFirstLevelBackground(
             $skillsFromBackground, $firstLevel, ReadingAndWriting::class
         );
-
-        return $psychicalSkills;
     }
 
     /**
@@ -217,13 +211,11 @@ class SkillsTest extends TestWithMockery
         ProfessionLevel $firstLevel
     )
     {
-        $combinedSkills = $this->createSkillsPaidByFirstLevelBackground(
+        return $this->createSkillsPaidByFirstLevelBackground(
             $skillsFromBackground,
             $firstLevel,
             Cooking::class
         );
-
-        return $combinedSkills;
     }
 
     /**
@@ -320,11 +312,9 @@ class SkillsTest extends TestWithMockery
      */
     private function createPhysicalSkillsPaidByOtherSkillPoints(SkillPointsFromBackground $skillsFromBackground, ProfessionLevel $firstLevel)
     {
-        $psychicalSkills = $this->createSkillsPaidByOtherSkillPoints(
+        return $this->createSkillsPaidByOtherSkillPoints(
             $skillsFromBackground, $firstLevel, Athletics::class, Cooking::class, ReadingAndWriting::class
         );
-
-        return $psychicalSkills;
     }
 
     /**
@@ -334,11 +324,9 @@ class SkillsTest extends TestWithMockery
      */
     private function createPsychicalSkillsPaidByOtherSkillPoints(SkillPointsFromBackground $skillsFromBackground, ProfessionLevel $firstLevel)
     {
-        $psychicalSkills = $this->createSkillsPaidByOtherSkillPoints(
+        return $this->createSkillsPaidByOtherSkillPoints(
             $skillsFromBackground, $firstLevel, ReadingAndWriting::class, Cooking::class, Athletics::class
         );
-
-        return $psychicalSkills;
     }
 
     /**
@@ -348,11 +336,9 @@ class SkillsTest extends TestWithMockery
      */
     private function createCombinedSkillsPaidByOtherSkillPoints(SkillPointsFromBackground $skillsFromBackground, ProfessionLevel $firstLevel)
     {
-        $psychicalSkills = $this->createSkillsPaidByOtherSkillPoints(
+        return $this->createSkillsPaidByOtherSkillPoints(
             $skillsFromBackground, $firstLevel, Cooking::class, ReadingAndWriting::class, Athletics::class
         );
-
-        return $psychicalSkills;
     }
 
     /**
@@ -436,9 +422,7 @@ class SkillsTest extends TestWithMockery
      */
     private function createPhysicalSkillsByNextLevelPropertyIncrease(ProfessionLevel $nextLevel): PhysicalSkills
     {
-        $physicalSkillPoints = $this->createSkillsByNextLevelPropertyIncrease($nextLevel, Athletics::class);
-
-        return $physicalSkillPoints;
+        return $this->createSkillsByNextLevelPropertyIncrease($nextLevel, Athletics::class);
     }
 
     /**
@@ -447,9 +431,7 @@ class SkillsTest extends TestWithMockery
      */
     private function createPsychicalSkillsByNextLevelPropertyIncrease(ProfessionLevel $nextLevel): PsychicalSkills
     {
-        $psychicalSkillPoints = $this->createSkillsByNextLevelPropertyIncrease($nextLevel, ReadingAndWriting::class);
-
-        return $psychicalSkillPoints;
+        return $this->createSkillsByNextLevelPropertyIncrease($nextLevel, ReadingAndWriting::class);
     }
 
     /**
@@ -458,9 +440,7 @@ class SkillsTest extends TestWithMockery
      */
     private function createCombinedSkillsByNextLevelPropertyIncrease(ProfessionLevel $nextLevel): CombinedSkills
     {
-        $combinedSkills = $this->createSkillsByNextLevelPropertyIncrease($nextLevel, Cooking::class);
-
-        return $combinedSkills;
+        return $this->createSkillsByNextLevelPropertyIncrease($nextLevel, Cooking::class);
     }
 
     /**
@@ -589,7 +569,7 @@ class SkillsTest extends TestWithMockery
     )
     {
         $skillsFromBackground = $this->mockery(SkillPointsFromBackground::class);
-        if ($profession) {
+        if ($profession !== null) {
             $skillsFromBackground->shouldReceive('getPhysicalSkillPoints')
                 ->zeroOrMoreTimes()
                 ->with($profession, Tables::getIt())
@@ -618,9 +598,7 @@ class SkillsTest extends TestWithMockery
     private function getSortedExpectedSkills(array $physical, array $psychical, array $combined): array
     {
         $expectedSkills = array_merge($physical, $psychical, $combined);
-        usort($expectedSkills, function (Skill $firstSkill, Skill $secondSkill) {
-            return strcmp($firstSkill->getName(), $secondSkill->getName());
-        });
+        usort($expectedSkills, fn(Skill $firstSkill, Skill $secondSkill) => strcmp($firstSkill->getName(), $secondSkill->getName()));
 
         return $expectedSkills;
     }
@@ -628,9 +606,7 @@ class SkillsTest extends TestWithMockery
     private function getSortedGivenSkills(Skills $skills): array
     {
         $givenSkills = $skills->getSkills();
-        usort($givenSkills, function (Skill $firstSkill, Skill $secondSkill) {
-            return strcmp($firstSkill->getName(), $secondSkill->getName());
-        });
+        usort($givenSkills, fn(Skill $firstSkill, Skill $secondSkill) => strcmp($firstSkill->getName(), $secondSkill->getName()));
 
         return $givenSkills;
     }
@@ -1043,11 +1019,7 @@ class SkillsTest extends TestWithMockery
             Tables::getIt()
         );
 
-        if ($malusTo === 'cover') {
-            $meleeWeaponCode = $this->createWeaponCode(true /* is melee */);
-        } else {
-            $meleeWeaponCode = $this->createWeaponlikeCode(true /* is melee */);
-        }
+        $meleeWeaponCode = $malusTo === 'cover' ? $this->createWeaponCode(true /* is melee */) : $this->createWeaponlikeCode(true /* is melee */);
         $tables = $this->createTablesWithMissingWeaponSkillTable();
         /**
          * @see \DrdPlus\Skills\Skills::getMalusToFightNumberWithWeaponlike

@@ -6,7 +6,7 @@
          processIsolation="false" backupGlobals="false" colors="true">
     <coverage includeUncoveredFiles="true" processUncoveredFiles="false">
         <include>
-            <directory>./DrdPlus</directory>
+            <directory>./src</directory>
         </include>
     </coverage>
     <testsuites>

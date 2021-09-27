@@ -12,17 +12,17 @@ trait FileBaseNamesTrait
     protected function getFileBaseNames(string $namespace): array
     {
         $sutNamespaceToDirRelativePath = str_replace('\\', DIRECTORY_SEPARATOR, $namespace);
-        $sutNamespaceToDirRelativePath = preg_replace('~^DrdPlus~', '', $sutNamespaceToDirRelativePath);
+        $sutNamespaceToDirRelativePath = preg_replace('~^DrdPlus/Skills/~', 'src/', $sutNamespaceToDirRelativePath);
+
         $sutDir = rtrim($this->getProjectRootDir(), DIRECTORY_SEPARATOR)
             . DIRECTORY_SEPARATOR
             . rtrim($sutNamespaceToDirRelativePath, DIRECTORY_SEPARATOR);
-        self::assertDirectoryExists($sutDir);
-        $files = scandir($sutDir, SCANDIR_SORT_NONE);
-        $sutFiles = array_filter($files, static function ($filename) {
-            return $filename !== '.' && $filename !== '..';
-        });
 
-        return $sutFiles;
+        self::assertDirectoryExists($sutDir);
+
+        $files = scandir($sutDir, SCANDIR_SORT_NONE);
+
+        return array_filter($files, static fn($filename) => $filename !== '.' && $filename !== '..');
     }
 
     private function getProjectRootDir(): string

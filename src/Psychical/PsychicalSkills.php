@@ -12,70 +12,22 @@ class PsychicalSkills extends SameTypeSkills
 
     public const PSYCHICAL = SkillTypeCode::PSYCHICAL;
 
-    /**
-     * @var Astronomy
-     */
-    private $astronomy;
-    /**
-     * @var Botany
-     */
-    private $botany;
-    /**
-     * @var EtiquetteOfGangland
-     */
-    private $etiquetteOfGangland;
-    /**
-     * @var ForeignLanguage
-     */
-    private $foreignLanguage;
-    /**
-     * @var GeographyOfACountry
-     */
-    private $geographyOfACountry;
-    /**
-     * @var HandlingWithMagicalItems
-     */
-    private $handlingWithMagicalItems;
-    /**
-     * @var Historiography
-     */
-    private $historiography;
-    /**
-     * @var KnowledgeOfACity
-     */
-    private $knowledgeOfACity;
-    /**
-     * @var KnowledgeOfWorld
-     */
-    private $knowledgeOfWorld;
-    /**
-     * @var MapsDrawing
-     */
-    private $mapsDrawing;
-    /**
-     * @var Mythology
-     */
-    private $mythology;
-    /**
-     * @var ReadingAndWriting
-     */
-    private $readingAndWriting;
-    /**
-     * @var SocialEtiquette
-     */
-    private $socialEtiquette;
-    /**
-     * @var Technology
-     */
-    private $technology;
-    /**
-     * @var Theology
-     */
-    private $theology;
-    /**
-     * @var Zoology
-     */
-    private $zoology;
+    private ?\DrdPlus\Skills\Psychical\Astronomy $astronomy = null;
+    private ?\DrdPlus\Skills\Psychical\Botany $botany = null;
+    private ?\DrdPlus\Skills\Psychical\EtiquetteOfGangland $etiquetteOfGangland = null;
+    private ?\DrdPlus\Skills\Psychical\ForeignLanguage $foreignLanguage = null;
+    private ?\DrdPlus\Skills\Psychical\GeographyOfACountry $geographyOfACountry = null;
+    private ?\DrdPlus\Skills\Psychical\HandlingWithMagicalItems $handlingWithMagicalItems = null;
+    private ?\DrdPlus\Skills\Psychical\Historiography $historiography = null;
+    private ?\DrdPlus\Skills\Psychical\KnowledgeOfACity $knowledgeOfACity = null;
+    private ?\DrdPlus\Skills\Psychical\KnowledgeOfWorld $knowledgeOfWorld = null;
+    private ?\DrdPlus\Skills\Psychical\MapsDrawing $mapsDrawing = null;
+    private ?\DrdPlus\Skills\Psychical\Mythology $mythology = null;
+    private ?\DrdPlus\Skills\Psychical\ReadingAndWriting $readingAndWriting = null;
+    private ?\DrdPlus\Skills\Psychical\SocialEtiquette $socialEtiquette = null;
+    private ?\DrdPlus\Skills\Psychical\Technology $technology = null;
+    private ?\DrdPlus\Skills\Psychical\Theology $theology = null;
+    private ?\DrdPlus\Skills\Psychical\Zoology $zoology = null;
 
     protected function populateAllSkills(ProfessionLevel $professionLevel)
     {

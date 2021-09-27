@@ -39,9 +39,7 @@ class BlacksmithingRollOnSuccessTest extends TestWithMockery
     public function provideDifficulty(): array
     {
         return array_map(
-            function (int $value) {
-                return [$value];
-            },
+            fn(int $value) => [$value],
             range(-5, 5, 1)
         );
     }

@@ -18,10 +18,7 @@ use Granam\Tools\ValueDescriber;
 
 abstract class SkillPoint extends StrictObject implements PositiveInteger
 {
-    /**
-     * @var integer
-     */
-    private $value;
+    private int $value;
     /**
      * @var ProfessionZeroLevel|null
      */
@@ -34,18 +31,9 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger
      * @var ProfessionNextLevel|null
      */
     private $professionNextLevel;
-    /**
-     * @var SkillPointsFromBackground|null
-     */
-    private $skillsFromBackground;
-    /**
-     * @var SkillPoint|null
-     */
-    private $firstPaidOtherSkillPoint;
-    /**
-     * @var SkillPoint|null
-     */
-    private $secondPaidOtherSkillPoint;
+    private ?\DrdPlus\Background\BackgroundParts\SkillPointsFromBackground $skillsFromBackground;
+    private ?\DrdPlus\Skills\SkillPoint $firstPaidOtherSkillPoint;
+    private ?\DrdPlus\Skills\SkillPoint $secondPaidOtherSkillPoint;
 
     abstract public function getTypeName(): string;
 
@@ -257,7 +245,7 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger
         SkillPoint $secondPaidSkillPoint = null
     ): bool
     {
-        if ($skillsFromBackground) {
+        if ($skillsFromBackground !== null) {
             return $this->checkPayByFirstLevelSkillPointsFromBackground($professionFirstLevel, $tables, $skillsFromBackground);
         }
         if ($firstPaidSkillPoint && $secondPaidSkillPoint) {
@@ -423,10 +411,10 @@ abstract class SkillPoint extends StrictObject implements PositiveInteger
      */
     public function getProfessionLevel(): ProfessionLevel
     {
-        if ($this->getProfessionZeroLevel()) {
+        if ($this->getProfessionZeroLevel() !== null) {
             return $this->getProfessionZeroLevel();
         }
-        if ($this->getProfessionFirstLevel()) {
+        if ($this->getProfessionFirstLevel() !== null) {
             return $this->getProfessionFirstLevel();
         }
         assert($this->getProfessionNextLevel() !== null);

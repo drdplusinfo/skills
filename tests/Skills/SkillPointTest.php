@@ -126,7 +126,7 @@ abstract class SkillPointTest extends TestWithMockery
             ->andReturn($levelRank = $this->mockery(LevelRank::class));
         $levelRank->shouldReceive('getValue')
             ->andReturn(1);
-        if ($professionName) {
+        if ($professionName !== '' && $professionName !== '0') {
             $professionLevel->shouldReceive('getProfession')
                 ->andReturn($profession = $this->mockery(Profession::class));
             $profession->shouldReceive('getValue')

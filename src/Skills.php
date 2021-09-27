@@ -28,20 +28,11 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable
     public const PSYCHICAL = PsychicalSkills::PSYCHICAL;
     public const COMBINED = CombinedSkills::COMBINED;
 
-    /**
-     * @var PhysicalSkills
-     */
-    private $physicalSkills;
+    private \DrdPlus\Skills\Physical\PhysicalSkills $physicalSkills;
 
-    /**
-     * @var PsychicalSkills
-     */
-    private $psychicalSkills;
+    private \DrdPlus\Skills\Psychical\PsychicalSkills $psychicalSkills;
 
-    /**
-     * @var CombinedSkills
-     */
-    private $combinedSkills;
+    private \DrdPlus\Skills\Combined\CombinedSkills $combinedSkills;
 
     /**
      * @param ProfessionLevels $professionLevels
@@ -422,7 +413,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable
                 }
             }
         }
-        if ($tooHighRankAdjustments) {
+        if ($tooHighRankAdjustments !== []) {
             throw new Exceptions\TooHighSingleSkillIncrementPerNextLevel(
                 'Only on first level can be skill ranks increased more then '
                 . (self::MAX_SKILL_RANK_INCREASE_PER_NEXT_LEVEL === 1 ? 'once' : self::MAX_SKILL_RANK_INCREASE_PER_NEXT_LEVEL) . '.'
@@ -447,9 +438,7 @@ class Skills extends StrictObject implements \IteratorAggregate, \Countable
                 $levelDescription = "level $levelValue to ranks "
                     . implode(
                         ' and ',
-                        array_map(function (SkillRank $rank) {
-                            return $rank->getValue();
-                        }, $skillRanks)
+                        array_map(fn(SkillRank $rank) => $rank->getValue(), $skillRanks)
                     );
                 $levelsDescriptions[] = $levelDescription;
             }

@@ -147,9 +147,7 @@ abstract class SameTypeSkillsTest extends TestWithMockery
 
         return array_filter(
             $sutClassNames,
-            static function ($sutClassName) {
-                return $sutClassName !== false;
-            }
+            static fn($sutClassName) => $sutClassName !== false
         );
     }
 
@@ -175,13 +173,12 @@ abstract class SameTypeSkillsTest extends TestWithMockery
     {
         $baseClass = SkillPoint::class;
         $typeName = preg_quote(ucfirst($this->getExpectedSkillsTypeName()), '~');
-        $class = preg_replace(
+
+        return preg_replace(
             '~[\\\]SkillPoint$~',
             '\\' . $typeName . '\\' . $typeName . 'SkillPoint',
             $baseClass
         );
-
-        return $class;
     }
 
     /**
